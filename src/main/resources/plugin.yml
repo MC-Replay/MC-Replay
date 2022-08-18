@@ -1,0 +1,9 @@
+main: mc.replay.MCReplay
+name: MCReplay
+version: ${project.version}
+authors:
+  -  ItzCodex
+  -  Itz_KiwiSap_
+api-version: 1.16
+commands:
+  replaytest:
