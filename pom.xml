@@ -6,7 +6,16 @@
 
     <groupId>mc.replay</groupId>
     <artifactId>MCReplay</artifactId>
+    <packaging>pom</packaging>
     <version>Dev-1.0</version>
+    <modules>
+        <module>API</module>
+        <module>NMS</module>
+        <module>Common</module>
+        <module>Recording</module>
+        <module>Replay</module>
+        <module>Plugin</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -23,13 +32,11 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot -->
         <dependency>
-            <groupId>some.local.jar</groupId>
+            <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/spigot-1.16.5.jar</systemPath>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JetBrains Annotations -->
