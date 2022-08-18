@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Server information (please complete the following information):**
  - Server version: [e.g. 1.16.5]
  - Online mode [e.g. yes/no]
- - Plugin list [e.g. chrome, safari]
+ - Plugin list [e.g. screenshot of plugin list]
 
 **Additional context**
 Add any other context about the problem here.
