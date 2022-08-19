@@ -1,6 +1,6 @@
 package mc.replay.recordables.particle;
 
-import mc.replay.recordables.Recordable;
+import mc.replay.api.recordable.Recordable;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

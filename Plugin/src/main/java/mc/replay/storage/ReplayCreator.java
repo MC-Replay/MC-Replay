@@ -1,7 +1,7 @@
 package mc.replay.storage;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.recordables.Recordable;
+import mc.replay.api.recordable.Recordable;
 import mc.replay.recordables.entity.movement.RecEntityRelMoveLook;
 import mc.replay.replay.Replay;
 import net.minecraft.server.v1_16_R3.ChunkRegionLoader;

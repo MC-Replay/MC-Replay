@@ -2,7 +2,7 @@ package mc.replay.storage;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import mc.replay.recordables.Recordable;
+import mc.replay.api.recordable.Recordable;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;

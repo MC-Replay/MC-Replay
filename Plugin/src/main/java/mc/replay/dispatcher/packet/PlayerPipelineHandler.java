@@ -10,7 +10,7 @@ import lombok.Setter;
 import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.packet.converters.ReplayPacketInConverter;
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.recordables.Recordable;
+import mc.replay.api.recordable.Recordable;
 import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
