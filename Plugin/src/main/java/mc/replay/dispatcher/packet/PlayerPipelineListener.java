@@ -6,7 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import mc.replay.MCReplayPlugin;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
@@ -15,20 +14,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Map;
 
+@AllArgsConstructor
+@Getter
 public final class PlayerPipelineListener implements Listener {
 
-    @Getter
-    @Setter
-    private boolean active = false;
-
-    public PlayerPipelineListener(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
+    private final ReplayPacketDispatcher dispatcher;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -36,13 +30,13 @@ public final class PlayerPipelineListener implements Listener {
         Channel channel = MinecraftPlayerNMS.getPacketChannel(player);
 
         if (channel != null) {
-            PacketDispatcherPipelineListener pipelineListener = new PacketDispatcherPipelineListener(this, player);
-            channel.pipeline().addBefore("packet_handler", "MC-replay", pipelineListener);
+            PacketDispatcherPipeline pipeline = new PacketDispatcherPipeline(this, player);
+            channel.pipeline().addBefore("packet_handler", "MC-replay", pipeline);
         }
     }
 
     @AllArgsConstructor
-    public static class PacketDispatcherPipelineListener extends ChannelDuplexHandler {
+    public static class PacketDispatcherPipeline extends ChannelDuplexHandler {
 
         private PlayerPipelineListener handler;
         private Player player;
@@ -69,10 +63,10 @@ public final class PlayerPipelineListener implements Listener {
 
         @Override
         public void write(ChannelHandlerContext ctx, Object packetObject, ChannelPromise promise) throws Exception {
-            boolean logAction = this.handler.isActive() && this.player != null && this.player.isOnline();
+            boolean logAction = this.handler.getDispatcher().isActive() && this.player != null && this.player.isOnline();
 
             if (logAction) try {
-                for (Map.Entry<String, DispatcherPacketOut<?>> entry : MCReplayPlugin.getInstance().getPacketDispatcher().getPacketOutConverters().entrySet()) {
+                for (Map.Entry<String, DispatcherPacketOut<?>> entry : this.handler.getDispatcher().getPacketOutConverters().entrySet()) {
 
                     if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
                         List<Recordable> recordables = entry.getValue().getRecordable(packetObject);

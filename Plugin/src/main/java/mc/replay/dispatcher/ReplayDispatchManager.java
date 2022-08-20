@@ -1,32 +1,37 @@
 package mc.replay.dispatcher;
 
+import lombok.Getter;
 import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.event.ReplayEventDispatcher;
 import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
 import mc.replay.dispatcher.tick.ReplayTickDispatcher;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
+@Getter
 public class ReplayDispatchManager {
 
     private final MCReplayPlugin plugin;
-    private final Collection<ReplayDispatcher> dispatchers;
+
+    private final ReplayEventDispatcher replayEventDispatcher;
+    private final ReplayPacketDispatcher replayPacketDispatcher;
+    private final ReplayTickDispatcher replayTickDispatcher;
 
     public ReplayDispatchManager(MCReplayPlugin plugin) {
         this.plugin = plugin;
-        this.dispatchers = new ArrayList<>();
 
-        this.dispatchers.add(new ReplayEventDispatcher(plugin));
-        this.dispatchers.add(new ReplayPacketDispatcher(plugin));
-        this.dispatchers.add(new ReplayTickDispatcher(plugin));
+        this.replayEventDispatcher = new ReplayEventDispatcher(plugin);
+        this.replayPacketDispatcher = new ReplayPacketDispatcher(plugin);
+        this.replayTickDispatcher = new ReplayTickDispatcher(plugin);
     }
 
     public void start() {
-        dispatchers.forEach(ReplayDispatcher::start);
+        this.replayEventDispatcher.start();
+        this.replayPacketDispatcher.start();
+        this.replayTickDispatcher.start();
     }
 
     public void stop() {
-        dispatchers.forEach(ReplayDispatcher::stop);
+        this.replayEventDispatcher.stop();
+        this.replayPacketDispatcher.stop();
+        this.replayTickDispatcher.stop();
     }
 }

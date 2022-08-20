@@ -16,7 +16,7 @@ import mc.replay.nms.v1_16_5.dispatcher.packet.sound.EntitySoundPacketOutConvert
 import mc.replay.nms.v1_16_5.dispatcher.packet.sound.NamedSoundEffectPacketOutConverter;
 import mc.replay.nms.v1_16_5.dispatcher.packet.sound.StopSoundPacketOutConverter;
 import mc.replay.nms.v1_16_5.dispatcher.packet.world.WorldEventPacketOutConverter;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ import java.util.Map;
 @Getter
 public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
-    private final PlayerPipelineListener playerPipelineHandler;
+    private boolean active;
 
     private final Map<String, DispatcherPacketIn<?>> packetInConverters = new HashMap<>();
     private final Map<String, DispatcherPacketOut<?>> packetOutConverters = new HashMap<>();
@@ -32,7 +32,7 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
     public ReplayPacketDispatcher(MCReplayPlugin plugin) {
         super(plugin);
 
-        this.playerPipelineHandler = new PlayerPipelineListener(plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerPipelineListener(this), plugin);
 
         this.registerInConverters();
         this.registerOutConverters();
@@ -70,11 +70,11 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
     @Override
     public void start() {
-        this.playerPipelineHandler.setActive(true);
+        this.active = true;
     }
 
     @Override
     public void stop() {
-        this.playerPipelineHandler.setActive(false);
+        this.active = false;
     }
 }

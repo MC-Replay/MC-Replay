@@ -11,6 +11,10 @@ public abstract class ReplayDispatcher {
         this.plugin = plugin;
     }
 
+    public MCReplayPlugin getPlugin() {
+        return this.plugin;
+    }
+
     public abstract void start();
 
     public abstract void stop();
