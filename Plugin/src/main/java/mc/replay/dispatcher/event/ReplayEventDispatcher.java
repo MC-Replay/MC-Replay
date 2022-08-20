@@ -12,6 +12,7 @@ import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerJoinEventListen
 import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerQuitEventListener;
 import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerToggleSneakEventListener;
 import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerToggleSprintEventListener;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -25,8 +26,8 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
 
     private final Collection<DispatcherEvent<?>> eventListeners = new HashSet<>();
 
-    public ReplayEventDispatcher(JavaPlugin javaPlugin) {
-        super(javaPlugin);
+    public ReplayEventDispatcher(MCReplayPlugin plugin) {
+        super(plugin);
 
         this.registerListener(new ReplayEntityDeathEventListener());
         this.registerListener(new ReplayEntitySpawnEventListener());
@@ -57,7 +58,7 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
 
     @SuppressWarnings("rawtypes, unchecked")
     private void registerReplayEventListener(DispatcherEvent eventListener) {
-        this.javaPlugin.getServer().getPluginManager().registerEvent(
+        Bukkit.getServer().getPluginManager().registerEvent(
                 eventListener.getInputClass(),
                 this,
                 eventListener.getPriority(),
@@ -69,7 +70,7 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
                         MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
                     }
                 },
-                this.javaPlugin,
+                this.plugin,
                 eventListener.ignoreCancelled()
         );
     }

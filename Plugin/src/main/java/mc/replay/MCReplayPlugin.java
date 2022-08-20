@@ -5,15 +5,13 @@ import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.CommonInstance;
-import mc.replay.dispatcher.event.ReplayEventDispatcher;
-import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
-import mc.replay.dispatcher.tick.ReplayTickDispatcher;
+import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.listener.PlayerInteractListener;
 import mc.replay.replay.Replay;
 import mc.replay.replay.session.ReplaySession;
 import mc.replay.storage.ReplayCreator;
 import mc.replay.storage.ReplayStorage;
-import mc.replay.common.utils.reflection.JavaReflections;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,9 +28,7 @@ public final class MCReplayPlugin extends JavaPlugin {
     private ReplayStorage replayStorage;
     private ReplayCreator replayCreator;
 
-    private ReplayEventDispatcher eventDispatcher;
-    private ReplayPacketDispatcher packetDispatcher;
-    private ReplayTickDispatcher tickDispatcher;
+    private ReplayDispatchManager dispatchManager;
 
     private Map<Player, ReplaySession> sessions;
 
@@ -54,24 +50,18 @@ public final class MCReplayPlugin extends JavaPlugin {
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
 
-        this.eventDispatcher = new ReplayEventDispatcher(this);
-        this.packetDispatcher = new ReplayPacketDispatcher(this);
-        this.tickDispatcher = new ReplayTickDispatcher(this);
+        this.dispatchManager = new ReplayDispatchManager(this);
 
         this.sessions = new HashMap<>();
         this.enable();
     }
 
     public void enable() {
-        this.eventDispatcher.start();
-        this.packetDispatcher.start();
-        this.tickDispatcher.start();
+        this.dispatchManager.start();
     }
 
     public void disable() {
-        this.eventDispatcher.stop();
-        this.packetDispatcher.stop();
-        this.tickDispatcher.stop();
+        this.dispatchManager.stop();
     }
 
     public Replay createReplay(Player player) {

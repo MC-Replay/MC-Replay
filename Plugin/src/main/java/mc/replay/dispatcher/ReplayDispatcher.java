@@ -1,14 +1,14 @@
 package mc.replay.dispatcher;
 
+import mc.replay.MCReplayPlugin;
 import mc.replay.common.utils.reflection.nms.MinecraftNMS;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class ReplayDispatcher {
 
-    protected final JavaPlugin javaPlugin;
+    protected final MCReplayPlugin plugin;
 
-    public ReplayDispatcher(JavaPlugin javaPlugin) {
-        this.javaPlugin = javaPlugin;
+    public ReplayDispatcher(MCReplayPlugin plugin) {
+        this.plugin = plugin;
     }
 
     public abstract void start();

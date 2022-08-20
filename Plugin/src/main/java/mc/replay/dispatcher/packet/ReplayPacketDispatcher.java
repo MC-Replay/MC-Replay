@@ -1,6 +1,7 @@
 package mc.replay.dispatcher.packet;
 
 import lombok.Getter;
+import mc.replay.MCReplayPlugin;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.dispatcher.ReplayDispatcher;
@@ -28,10 +29,10 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
     private final Map<String, DispatcherPacketIn<?>> packetInConverters = new HashMap<>();
     private final Map<String, DispatcherPacketOut<?>> packetOutConverters = new HashMap<>();
 
-    public ReplayPacketDispatcher(JavaPlugin javaPlugin) {
-        super(javaPlugin);
+    public ReplayPacketDispatcher(MCReplayPlugin plugin) {
+        super(plugin);
 
-        this.playerPipelineHandler = new PlayerPipelineListener(javaPlugin);
+        this.playerPipelineHandler = new PlayerPipelineListener(plugin);
 
         this.registerInConverters();
         this.registerOutConverters();

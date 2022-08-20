@@ -7,7 +7,6 @@ import mc.replay.dispatcher.ReplayDispatcher;
 import mc.replay.nms.v1_16_5.dispatcher.tick.EntityEquipmentTickHandler;
 import mc.replay.nms.v1_16_5.dispatcher.tick.EntityLocationTickHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Collection;
@@ -19,8 +18,8 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
     private BukkitTask task;
     private final Collection<DispatcherTick> tickHandlers = new HashSet<>();
 
-    public ReplayTickDispatcher(JavaPlugin javaPlugin) {
-        super(javaPlugin);
+    public ReplayTickDispatcher(MCReplayPlugin plugin) {
+        super(plugin);
 
         this.registerTickHandler(new EntityEquipmentTickHandler());
         this.registerTickHandler(new EntityLocationTickHandler());
