@@ -1,24 +1,21 @@
-package mc.replay.dispatcher.packet.converters.out.block;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.block;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.block.RecBlockBreak;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.nms.v1_16_5.recordable.block.RecBlockBreak;
+import net.minecraft.server.v1_16_R3.PacketPlayOutBlockBreak;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class BlockBreakPacketOutConverter implements ReplayPacketOutConverter<RecBlockBreak> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutBlockBreak";
-    }
+public class BlockBreakPacketOutConverter implements DispatcherPacket<PacketPlayOutBlockBreak> {
 
     @Override
-    public @Nullable RecBlockBreak recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutBlockBreak packet) {
         try {
             Field positionField = packet.getClass().getDeclaredField("c");
             positionField.setAccessible(true);
@@ -43,7 +40,7 @@ public class BlockBreakPacketOutConverter implements ReplayPacketOutConverter<Re
             String digTypeName = (String) digType.getClass().getMethod("name").invoke(digType);
             boolean instaBreak = JavaReflections.getField(packet.getClass(), "e", boolean.class).get(packet);
 
-            return RecBlockBreak.of(blockPosition, craftBlockData, digTypeName, instaBreak);
+            return List.of(RecBlockBreak.of(blockPosition, craftBlockData, digTypeName, instaBreak));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

@@ -1,7 +1,7 @@
-package mc.replay.dispatcher.tick.handlers;
+package mc.replay.nms.v1_16_5.dispatcher.tick;
 
-import mc.replay.MCReplayPlugin;
-import mc.replay.dispatcher.tick.ReplayTickHandler;
+import mc.replay.common.dispatcher.DispatcherTick;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
 import mc.replay.nms.v1_16_5.recordable.entity.miscellaneous.RecEntityEquipment;
 import org.bukkit.Bukkit;
@@ -12,15 +12,19 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public final class EntityEquipmentTickHandler implements ReplayTickHandler {
+public final class EntityEquipmentTickHandler implements DispatcherTick {
 
     private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
 
     @Override
-    public void handle(int currentTick) {
+    public List<Recordable> getRecordable(Integer currentTick) {
+        List<Recordable> recordables = new ArrayList<>();
+
         this.lastEquipment.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
 
         for (World world : Bukkit.getWorlds()) {
@@ -43,13 +47,14 @@ public final class EntityEquipmentTickHandler implements ReplayTickHandler {
                         if (lastItem == null && currentItem.getType().isAir()) continue;
 
                         if (lastItem == null || !lastItem.isSimilar(currentItem)) {
-                            RecEntityEquipment recEntityEquipment = RecEntityEquipment.of(entityId, equipmentSlot, currentItem);
-                            MCReplayPlugin.getInstance().getReplayStorage().addRecordable(currentTick, recEntityEquipment);
+                            recordables.add(RecEntityEquipment.of(entityId, equipmentSlot, currentItem));
                         }
                     } catch (Exception ignored) {
                     }
                 }
             }
         }
+
+        return recordables;
     }
 }

@@ -3,10 +3,12 @@ package mc.replay.nms.v1_16_5.dispatcher.event.player;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
-import mc.replay.recordables.entity.action.RecEntitySprinting;
+import mc.replay.nms.v1_16_5.recordable.entity.action.RecEntitySprinting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
+
+import java.util.List;
 
 public class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<PlayerToggleSprintEvent> {
 
@@ -21,10 +23,10 @@ public class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<Pl
     }
 
     @Override
-    public Recordable getRecordable(PlayerToggleSprintEvent event) {
+    public List<Recordable> getRecordable(PlayerToggleSprintEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return RecEntitySprinting.of(entityId, event.isSprinting());
+        return List.of(RecEntitySprinting.of(entityId, event.isSprinting()));
     }
 }

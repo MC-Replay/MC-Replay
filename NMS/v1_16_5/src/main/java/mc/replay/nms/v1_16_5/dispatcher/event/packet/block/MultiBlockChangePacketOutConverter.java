@@ -1,24 +1,21 @@
-package mc.replay.dispatcher.packet.converters.out.block;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.block;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.block.RecMultiBlockChange;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.nms.v1_16_5.recordable.block.RecMultiBlockChange;
+import net.minecraft.server.v1_16_R3.PacketPlayOutMultiBlockChange;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class MultiBlockChangePacketOutConverter implements ReplayPacketOutConverter<RecMultiBlockChange> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutMultiBlockChange";
-    }
+public class MultiBlockChangePacketOutConverter implements DispatcherPacket<PacketPlayOutMultiBlockChange> {
 
     @Override
-    public @Nullable RecMultiBlockChange recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutMultiBlockChange packet) {
         try {
             Field positionField = packet.getClass().getDeclaredField("a");
             positionField.setAccessible(true);
@@ -44,7 +41,7 @@ public class MultiBlockChangePacketOutConverter implements ReplayPacketOutConver
 
             boolean flag = JavaReflections.getField(packet.getClass(), "d", boolean.class).get(packet);
 
-            return RecMultiBlockChange.of(blockPosition, blockIndexes, blockData, flag);
+            return List.of(RecMultiBlockChange.of(blockPosition, blockIndexes, blockData, flag));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

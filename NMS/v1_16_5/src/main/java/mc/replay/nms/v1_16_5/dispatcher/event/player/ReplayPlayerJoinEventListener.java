@@ -4,12 +4,14 @@ import com.mojang.authlib.properties.Property;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
-import mc.replay.recordables.entity.connection.RecPlayerJoin;
+import mc.replay.nms.v1_16_5.recordable.entity.connection.RecPlayerJoin;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.List;
 
 public class ReplayPlayerJoinEventListener implements DispatcherEvent<PlayerJoinEvent> {
 
@@ -24,13 +26,13 @@ public class ReplayPlayerJoinEventListener implements DispatcherEvent<PlayerJoin
     }
 
     @Override
-    public Recordable getRecordable(PlayerJoinEvent event) {
+    public List<Recordable> getRecordable(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         Property skinTexture = entityPlayer.getProfile().getProperties().get("textures").stream().findFirst().orElse(null);
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return RecPlayerJoin.of(entityId, player.getName(), skinTexture, player.getLocation());
+        return List.of(RecPlayerJoin.of(entityId, player.getName(), skinTexture, player.getLocation()));
     }
 }

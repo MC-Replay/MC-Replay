@@ -1,10 +1,9 @@
 package mc.replay.dispatcher.tick;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.api.MCReplay;
 import mc.replay.dispatcher.ReplayDispatcher;
-import mc.replay.dispatcher.tick.handlers.EntityEquipmentTickHandler;
-import mc.replay.dispatcher.tick.handlers.EntityLocationTickHandler;
+import mc.replay.nms.v1_16_5.dispatcher.tick.EntityEquipmentTickHandler;
+import mc.replay.nms.v1_16_5.dispatcher.tick.EntityLocationTickHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;

@@ -1,23 +1,20 @@
-package mc.replay.dispatcher.packet.converters.out.sound;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.sound;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.sound.RecCustomSoundEffect;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.nms.v1_16_5.recordable.sound.RecCustomSoundEffect;
+import net.minecraft.server.v1_16_R3.PacketPlayOutCustomSoundEffect;
 import org.bukkit.NamespacedKey;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class CustomSoundEffectPacketOutConverter implements ReplayPacketOutConverter<RecCustomSoundEffect> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutCustomSoundEffect";
-    }
+public class CustomSoundEffectPacketOutConverter implements DispatcherPacket<PacketPlayOutCustomSoundEffect> {
 
     @Override
-    public @Nullable RecCustomSoundEffect recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutCustomSoundEffect packet) {
         try {
             Field effectField = packet.getClass().getDeclaredField("a");
             effectField.setAccessible(true);
@@ -44,7 +41,7 @@ public class CustomSoundEffectPacketOutConverter implements ReplayPacketOutConve
             float volume = JavaReflections.getField(packet.getClass(), "f", float.class).get(packet);
             float pitch = JavaReflections.getField(packet.getClass(), "g", float.class).get(packet);
 
-            return RecCustomSoundEffect.of(namespacedKey, categoryName, x, y, z, volume, pitch);
+            return List.of(RecCustomSoundEffect.of(namespacedKey, categoryName, x, y, z, volume, pitch));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

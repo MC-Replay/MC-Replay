@@ -1,23 +1,19 @@
-package mc.replay.dispatcher.packet.converters.out.sound;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.sound;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.sound.RecEntitySound;
-import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
+import mc.replay.nms.v1_16_5.recordable.sound.RecStopSound;
+import net.minecraft.server.v1_16_R3.PacketPlayOutStopSound;
 import org.bukkit.NamespacedKey;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class EntitySoundPacketOutConverter implements ReplayPacketOutConverter<RecEntitySound> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutEntitySound";
-    }
+public class StopSoundPacketOutConverter implements DispatcherPacket<PacketPlayOutStopSound> {
 
     @Override
-    public @Nullable RecEntitySound recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutStopSound packet) {
         try {
             Field effectField = packet.getClass().getDeclaredField("a");
             effectField.setAccessible(true);
@@ -38,12 +34,7 @@ public class EntitySoundPacketOutConverter implements ReplayPacketOutConverter<R
             Object category = categoryField.get(packet);
             String categoryName = (String) category.getClass().getMethod("name").invoke(category);
 
-            int entityId = JavaReflections.getField(packet.getClass(), "c", int.class).get(packet);
-
-            float volume = JavaReflections.getField(packet.getClass(), "d", float.class).get(packet);
-            float pitch = JavaReflections.getField(packet.getClass(), "e", float.class).get(packet);
-
-            return RecEntitySound.of(namespacedKey, categoryName, entityId, volume, pitch);
+            return List.of(RecStopSound.of(namespacedKey, categoryName));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

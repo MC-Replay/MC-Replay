@@ -1,24 +1,21 @@
-package mc.replay.dispatcher.packet.converters.out.block;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.block;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.block.RecBlockChange;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.nms.v1_16_5.recordable.block.RecBlockChange;
+import net.minecraft.server.v1_16_R3.PacketPlayOutBlockChange;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class BlockChangePacketOutConverter implements ReplayPacketOutConverter<RecBlockChange> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutBlockChange";
-    }
+public class BlockChangePacketOutConverter implements DispatcherPacket<PacketPlayOutBlockChange> {
 
     @Override
-    public @Nullable RecBlockChange recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutBlockChange packet) {
         try {
             Field positionField = packet.getClass().getDeclaredField("a");
             positionField.setAccessible(true);
@@ -33,7 +30,7 @@ public class BlockChangePacketOutConverter implements ReplayPacketOutConverter<R
             Object blockDataObject = packet.getClass().getField("block").get(packet);
             BlockData craftBlockData = (BlockData) blockDataObject.getClass().getMethod("createCraftBlockData").invoke(blockDataObject);
 
-            return RecBlockChange.of(blockPosition, craftBlockData);
+            return List.of(RecBlockChange.of(blockPosition, craftBlockData));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

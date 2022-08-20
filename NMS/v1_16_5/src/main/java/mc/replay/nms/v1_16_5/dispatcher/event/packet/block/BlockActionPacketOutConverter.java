@@ -1,24 +1,21 @@
-package mc.replay.dispatcher.packet.converters.out.block;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.block;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.block.RecBlockAction;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.common.utils.reflection.MinecraftReflections;
+import mc.replay.nms.v1_16_5.recordable.block.RecBlockAction;
+import net.minecraft.server.v1_16_R3.PacketPlayOutBlockAction;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class BlockActionPacketOutConverter implements ReplayPacketOutConverter<RecBlockAction> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutBlockAction";
-    }
+public class BlockActionPacketOutConverter implements DispatcherPacket<PacketPlayOutBlockAction> {
 
     @Override
-    public @Nullable RecBlockAction recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutBlockAction packet) {
         try {
             Field positionField = packet.getClass().getDeclaredField("a");
             positionField.setAccessible(true);
@@ -41,7 +38,7 @@ public class BlockActionPacketOutConverter implements ReplayPacketOutConverter<R
             Object blockRegistry = registryClass.getField("BLOCK").get(null);
             int blockId = (int) blockRegistry.getClass().getMethod("a", Object.class).invoke(blockRegistry, blockObject);
 
-            return RecBlockAction.of(blockPosition, blockId, actionId, actionParam);
+            return List.of(RecBlockAction.of(blockPosition, blockId, actionId, actionParam));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

@@ -1,23 +1,20 @@
-package mc.replay.dispatcher.packet.converters.out.world;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.world;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.world.RecWorldEvent;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.nms.v1_16_5.recordable.world.RecWorldEvent;
+import net.minecraft.server.v1_16_R3.PacketPlayOutWorldEvent;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class WorldEventPacketOutConverter implements ReplayPacketOutConverter<RecWorldEvent> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutWorldEvent";
-    }
+public class WorldEventPacketOutConverter implements DispatcherPacket<PacketPlayOutWorldEvent> {
 
     @Override
-    public @Nullable RecWorldEvent recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutWorldEvent packet) {
         try {
             int effectId = JavaReflections.getField(packet.getClass(), "a", int.class).get(packet);
 
@@ -34,7 +31,7 @@ public class WorldEventPacketOutConverter implements ReplayPacketOutConverter<Re
             int data = JavaReflections.getField(packet.getClass(), "c", int.class).get(packet);
             boolean disableRelativeVolume = JavaReflections.getField(packet.getClass(), "d", boolean.class).get(packet);
 
-            return RecWorldEvent.of(effectId, position, data, disableRelativeVolume);
+            return List.of(RecWorldEvent.of(effectId, position, data, disableRelativeVolume));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

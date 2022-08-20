@@ -1,22 +1,19 @@
-package mc.replay.dispatcher.packet.converters.out.particles;
+package mc.replay.nms.v1_16_5.dispatcher.event.packet.particles;
 
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.recordable.particle.RecWorldParticles;
+import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
-import org.jetbrains.annotations.NotNull;
+import mc.replay.nms.v1_16_5.recordable.particle.RecWorldParticles;
+import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class WorldParticlesPacketOutConverter implements ReplayPacketOutConverter<RecWorldParticles> {
-
-    @Override
-    public @NotNull String packetClassName() {
-        return "PacketPlayOutWorldParticles";
-    }
+public class WorldParticlesPacketOutConverter implements DispatcherPacket<PacketPlayOutWorldParticles> {
 
     @Override
-    public @Nullable RecWorldParticles recordableFromPacket(Object packet) {
+    public @Nullable List<Recordable> getRecordable(PacketPlayOutWorldParticles packet) {
         try {
             Field particleParamField = packet.getClass().getDeclaredField("j");
             particleParamField.setAccessible(true);
@@ -35,7 +32,7 @@ public class WorldParticlesPacketOutConverter implements ReplayPacketOutConverte
 
             boolean longDistance = JavaReflections.getField(packet.getClass(), "i", boolean.class).get(packet);
 
-            return RecWorldParticles.of(
+            return List.of(RecWorldParticles.of(
                     particleParam,
                     longDistance,
                     x,
@@ -46,7 +43,7 @@ public class WorldParticlesPacketOutConverter implements ReplayPacketOutConverte
                     offsetZ,
                     particleData,
                     particleCount
-            );
+            ));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
