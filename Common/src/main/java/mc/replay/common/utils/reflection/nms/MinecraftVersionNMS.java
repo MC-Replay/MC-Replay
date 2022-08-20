@@ -51,22 +51,4 @@ public final class MinecraftVersionNMS {
 
         return null;
     }
-
-    public static ProtocolVersion getPlayerProtocolVersion(Player player) {
-        try {
-            Class<?> viaClass = Class.forName("us.myles.ViaVersion.api.Via");
-            Object viaAPI = viaClass.getMethod("getAPI").invoke(viaClass);
-
-            Object version = viaAPI.getClass().getMethod("getPlayerVersion", UUID.class).invoke(viaAPI, player.getUniqueId());
-
-            return ProtocolVersion.getVersion((int) version);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            return ProtocolVersion.UNKNOWN;
-        }
-    }
-
-    public static MinecraftVersion getPlayerMinecraftVersion(Player player) {
-        return getPlayerProtocolVersion(player).getMinecraftVersion();
-    }
 }
