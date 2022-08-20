@@ -1,6 +1,6 @@
 package mc.replay.recordables.block;
 
-import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.Block;
 import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.IRegistry;

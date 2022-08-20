@@ -2,9 +2,9 @@ package mc.replay.recordables.entity.miscellaneous;
 
 import mc.replay.recordables.entity.EntityId;
 import mc.replay.recordables.entity.EntityRecordable;
-import mc.replay.replay.entity.ReplayEntity;
-import mc.replay.utils.reflection.JavaReflections;
-import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.replay.ReplayEntity;
+import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.PacketPlayOutAnimation;
 import org.bukkit.entity.Player;
 

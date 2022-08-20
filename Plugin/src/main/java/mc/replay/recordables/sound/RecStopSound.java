@@ -1,6 +1,6 @@
 package mc.replay.recordables.sound;
 
-import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.MinecraftKey;
 import net.minecraft.server.v1_16_R3.PacketPlayOutStopSound;
 import net.minecraft.server.v1_16_R3.SoundCategory;

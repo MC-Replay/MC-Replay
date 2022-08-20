@@ -2,7 +2,7 @@ package mc.replay.dispatcher.packet.converters.out.sound;
 
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
 import mc.replay.recordables.sound.RecNamedSoundEffect;
-import mc.replay.utils.reflection.JavaReflections;
+import mc.replay.common.utils.reflection.JavaReflections;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

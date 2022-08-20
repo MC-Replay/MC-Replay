@@ -2,8 +2,8 @@ package mc.replay.recordables.entity.spawn;
 
 import mc.replay.recordables.entity.EntityId;
 import mc.replay.recordables.entity.EntityRecordable;
-import mc.replay.replay.entity.ReplayEntity;
-import mc.replay.replay.entity.ReplayMob;
+import mc.replay.common.replay.ReplayEntity;
+import mc.replay.common.replay.ReplayMob;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

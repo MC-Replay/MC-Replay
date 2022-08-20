@@ -1,8 +1,8 @@
 package mc.replay.replay.session;
 
 import lombok.Getter;
-import mc.replay.utils.item.ItemBuilder;
-import mc.replay.utils.item.skull.SkullBuilder;
+import mc.replay.common.utils.item.ItemBuilder;
+import mc.replay.common.utils.item.skull.SkullBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

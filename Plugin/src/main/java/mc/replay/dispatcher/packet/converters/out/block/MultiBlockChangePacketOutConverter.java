@@ -2,7 +2,7 @@ package mc.replay.dispatcher.packet.converters.out.block;
 
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
 import mc.replay.recordables.block.RecMultiBlockChange;
-import mc.replay.utils.reflection.JavaReflections;
+import mc.replay.common.utils.reflection.JavaReflections;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

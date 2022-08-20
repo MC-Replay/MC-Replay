@@ -2,8 +2,8 @@ package mc.replay.dispatcher.packet.converters.out.block;
 
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
 import mc.replay.recordables.block.RecBlockAction;
-import mc.replay.utils.reflection.JavaReflections;
-import mc.replay.utils.reflection.MinecraftReflections;
+import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.common.utils.reflection.MinecraftReflections;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

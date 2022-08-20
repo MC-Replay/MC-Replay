@@ -11,7 +11,7 @@ import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.packet.converters.ReplayPacketInConverter;
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
 import mc.replay.common.recordables.Recordable;
-import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,6 +1,6 @@
 package mc.replay.recordables.particle;
 
-import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_16_R3.ParticleParam;
 import org.bukkit.entity.Player;

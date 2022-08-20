@@ -1,6 +1,6 @@
 package mc.replay.dispatcher;
 
-import mc.replay.utils.reflection.nms.MinecraftNMS;
+import mc.replay.common.utils.reflection.nms.MinecraftNMS;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class ReplayDispatcher {

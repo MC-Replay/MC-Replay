@@ -4,7 +4,7 @@ import mc.replay.MCReplayPlugin;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.recordables.entity.EntityRecordable;
 import mc.replay.replay.session.ReplaySession;
-import mc.replay.utils.color.Text;
+import mc.replay.common.utils.color.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

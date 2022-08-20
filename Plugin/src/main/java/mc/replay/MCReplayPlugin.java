@@ -4,6 +4,7 @@ import lombok.Getter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.commands.ReplayTestCommand;
+import mc.replay.common.CommonInstance;
 import mc.replay.dispatcher.event.ReplayEventDispatcher;
 import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
 import mc.replay.dispatcher.tick.ReplayTickDispatcher;
@@ -12,7 +13,7 @@ import mc.replay.replay.Replay;
 import mc.replay.replay.session.ReplaySession;
 import mc.replay.storage.ReplayCreator;
 import mc.replay.storage.ReplayStorage;
-import mc.replay.utils.reflection.JavaReflections;
+import mc.replay.common.utils.reflection.JavaReflections;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +42,8 @@ public final class MCReplayPlugin extends JavaPlugin {
 
         JavaReflections.getField(MCReplayAPI.class, MCReplay.class, "mcReplay").set(null, this);
         JavaReflections.getField(MCReplayAPI.class, JavaPlugin.class, "javaPlugin").set(null, this);
+
+        CommonInstance.plugin = this;
     }
 
     @Override

@@ -2,8 +2,8 @@ package mc.replay.recordables.entity.connection;
 
 import mc.replay.recordables.entity.EntityId;
 import mc.replay.recordables.entity.EntityRecordable;
-import mc.replay.replay.entity.ReplayEntity;
-import mc.replay.replay.entity.ReplayNPC;
+import mc.replay.common.replay.ReplayEntity;
+import mc.replay.common.replay.ReplayNPC;
 import org.bukkit.entity.Player;
 
 public record RecPlayerQuit(EntityId entityId) implements EntityRecordable {

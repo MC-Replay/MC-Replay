@@ -2,8 +2,8 @@ package mc.replay.recordables.entity.action;
 
 import mc.replay.recordables.entity.EntityId;
 import mc.replay.recordables.entity.EntityRecordable;
-import mc.replay.replay.entity.ReplayEntity;
-import mc.replay.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.replay.ReplayEntity;
+import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.DataWatcherRegistry;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import net.minecraft.server.v1_16_R3.EntityPose;
