@@ -2,7 +2,7 @@ package mc.replay.dispatcher.event.listeners.player;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.event.ReplayEventListener;
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.connection.RecPlayerQuit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;

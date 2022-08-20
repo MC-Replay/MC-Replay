@@ -3,7 +3,7 @@ package mc.replay.dispatcher.event.listeners.player;
 import com.mojang.authlib.properties.Property;
 import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.event.ReplayEventListener;
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.connection.RecPlayerJoin;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;

@@ -1,6 +1,7 @@
 package mc.replay.recordables.entity;
 
 import mc.replay.common.recordables.Recordable;
+import mc.replay.common.replay.EntityId;
 import mc.replay.common.replay.ReplayEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

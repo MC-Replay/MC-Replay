@@ -1,6 +1,6 @@
 package mc.replay.recordables.entity.action;
 
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.EntityRecordable;
 import mc.replay.common.replay.ReplayEntity;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;

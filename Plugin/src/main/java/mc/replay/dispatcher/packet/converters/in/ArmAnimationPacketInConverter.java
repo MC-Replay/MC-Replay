@@ -1,7 +1,7 @@
 package mc.replay.dispatcher.packet.converters.in;
 
 import mc.replay.dispatcher.packet.converters.ReplayPacketInConverter;
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.miscellaneous.RecEntitySwingHandAnimation;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;

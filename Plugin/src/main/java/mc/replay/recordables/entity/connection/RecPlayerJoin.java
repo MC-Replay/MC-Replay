@@ -1,7 +1,7 @@
 package mc.replay.recordables.entity.connection;
 
 import com.mojang.authlib.properties.Property;
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.EntityRecordable;
 import mc.replay.common.replay.ReplayEntity;
 import mc.replay.common.replay.ReplayNPC;

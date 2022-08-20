@@ -2,7 +2,7 @@ package mc.replay.dispatcher.tick.handlers;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.tick.ReplayTickHandler;
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.miscellaneous.RecEntityEquipment;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

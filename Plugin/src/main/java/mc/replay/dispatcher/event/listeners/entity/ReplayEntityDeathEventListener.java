@@ -2,7 +2,7 @@ package mc.replay.dispatcher.event.listeners.entity;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.dispatcher.event.ReplayEventListener;
-import mc.replay.recordables.entity.EntityId;
+import mc.replay.common.replay.EntityId;
 import mc.replay.recordables.entity.spawn.RecEntityDeath;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.NPC;
