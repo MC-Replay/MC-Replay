@@ -20,13 +20,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.Map;
 
-public final class PlayerPipelineHandler implements Listener {
+public final class PlayerPipelineListener implements Listener {
 
     @Getter
     @Setter
     private boolean active = false;
 
-    public PlayerPipelineHandler(JavaPlugin plugin) {
+    public PlayerPipelineListener(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -44,7 +44,7 @@ public final class PlayerPipelineHandler implements Listener {
     @AllArgsConstructor
     public static class PacketDispatcherPipelineListener extends ChannelDuplexHandler {
 
-        private PlayerPipelineHandler handler;
+        private PlayerPipelineListener handler;
         private Player player;
 
 //        @Override

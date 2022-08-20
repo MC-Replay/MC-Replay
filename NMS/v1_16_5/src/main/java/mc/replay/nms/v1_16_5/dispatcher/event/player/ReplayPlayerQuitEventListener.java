@@ -18,11 +18,6 @@ public class ReplayPlayerQuitEventListener implements DispatcherEvent<PlayerQuit
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         PlayerQuitEvent event = (PlayerQuitEvent) eventClass;
         Player player = event.getPlayer();

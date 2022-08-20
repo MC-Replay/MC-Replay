@@ -19,11 +19,6 @@ public class ReplayEntityToggleSwimEventListener implements DispatcherEvent<Enti
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         EntityToggleSwimEvent event = (EntityToggleSwimEvent) eventClass;
         Entity entity = event.getEntity();

@@ -19,10 +19,6 @@ public class ReplayEntityToggleGlideEventListener implements DispatcherEvent<Ent
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         EntityToggleGlideEvent event = (EntityToggleGlideEvent) eventClass;
         Entity entity = event.getEntity();

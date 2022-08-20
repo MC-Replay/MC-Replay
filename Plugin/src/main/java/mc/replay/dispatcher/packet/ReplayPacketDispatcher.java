@@ -23,7 +23,7 @@ import java.util.Map;
 @Getter
 public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
-    private final PlayerPipelineHandler playerPipelineHandler;
+    private final PlayerPipelineListener playerPipelineHandler;
 
     private final Map<String, DispatcherPacketIn<?>> packetInConverters = new HashMap<>();
     private final Map<String, DispatcherPacketOut<?>> packetOutConverters = new HashMap<>();
@@ -31,7 +31,7 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
     public ReplayPacketDispatcher(JavaPlugin javaPlugin) {
         super(javaPlugin);
 
-        this.playerPipelineHandler = new PlayerPipelineHandler(javaPlugin);
+        this.playerPipelineHandler = new PlayerPipelineListener(javaPlugin);
 
         this.registerInConverters();
         this.registerOutConverters();
