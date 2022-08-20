@@ -1,4 +1,4 @@
-main: mc.replay.MCReplay
+main: mc.replay.MCReplayPlugin
 name: MCReplay
 version: ${project.version}
 authors:
