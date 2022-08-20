@@ -1,7 +1,7 @@
 package mc.replay.dispatcher.packet.converters.out.sound;
 
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.recordables.sound.RecStopSound;
+import mc.replay.nms.v1_16_5.recordable.sound.RecStopSound;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

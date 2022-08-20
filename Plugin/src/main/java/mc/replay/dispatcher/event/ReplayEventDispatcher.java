@@ -1,14 +1,14 @@
 package mc.replay.dispatcher.event;
 
 import mc.replay.dispatcher.ReplayDispatcher;
-import mc.replay.dispatcher.event.listeners.entity.ReplayEntityDeathEventListener;
-import mc.replay.dispatcher.event.listeners.entity.ReplayEntitySpawnEventListener;
-import mc.replay.dispatcher.event.listeners.entity.ReplayEntityToggleGlideEventListener;
-import mc.replay.dispatcher.event.listeners.entity.ReplayEntityToggleSwimEventListener;
-import mc.replay.dispatcher.event.listeners.player.ReplayPlayerJoinEventListener;
-import mc.replay.dispatcher.event.listeners.player.ReplayPlayerQuitEventListener;
-import mc.replay.dispatcher.event.listeners.player.ReplayPlayerToggleSneakEventListener;
-import mc.replay.dispatcher.event.listeners.player.ReplayPlayerToggleSprintEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.entity.ReplayEntityDeathEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.entity.ReplayEntitySpawnEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.entity.ReplayEntityToggleGlideEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.entity.ReplayEntityToggleSwimEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerJoinEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerQuitEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerToggleSneakEventListener;
+import mc.replay.nms.v1_16_5.dispatcher.event.player.ReplayPlayerToggleSprintEventListener;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;

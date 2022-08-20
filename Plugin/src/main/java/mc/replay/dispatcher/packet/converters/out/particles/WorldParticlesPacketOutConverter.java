@@ -1,7 +1,7 @@
 package mc.replay.dispatcher.packet.converters.out.particles;
 
 import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.recordables.particle.RecWorldParticles;
+import mc.replay.nms.v1_16_5.recordable.particle.RecWorldParticles;
 import mc.replay.common.utils.reflection.JavaReflections;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

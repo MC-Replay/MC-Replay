@@ -2,7 +2,7 @@ package mc.replay.storage;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.common.recordables.Recordable;
-import mc.replay.recordables.entity.movement.RecEntityRelMoveLook;
+import mc.replay.nms.v1_16_5.recordable.entity.movement.RecEntityRelMoveLook;
 import mc.replay.replay.Replay;
 import net.minecraft.server.v1_16_R3.ChunkRegionLoader;
 import net.minecraft.server.v1_16_R3.NBTTagCompound;
