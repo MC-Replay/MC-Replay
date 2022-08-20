@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-public interface BlockRecordable extends Recordable {
+public interface RecordableBlock extends Recordable {
 
     Vector blockPosition();
 

@@ -4,7 +4,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public interface SoundRecordable extends Recordable {
+public interface RecordableSound extends Recordable {
 
     NamespacedKey soundKey();
 

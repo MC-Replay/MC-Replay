@@ -1,4 +1,4 @@
-package mc.replay.recordables.entity;
+package mc.replay.common.replay;
 
 import java.util.UUID;
 

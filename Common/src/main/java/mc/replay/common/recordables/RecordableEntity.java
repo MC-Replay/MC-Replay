@@ -1,12 +1,13 @@
 package mc.replay.common.recordables;
 
-import mc.replay.common.EntityId;
+import mc.replay.common.replay.EntityId;
+import mc.replay.common.replay.ReplayEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public interface EntityRecordable extends Recordable {
+public interface RecordableEntity extends Recordable {
 
     EntityId entityId();
 

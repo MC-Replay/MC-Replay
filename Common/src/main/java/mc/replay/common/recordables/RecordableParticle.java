@@ -3,14 +3,14 @@ package mc.replay.common.recordables;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public interface WorldEventRecordable extends Recordable {
+public interface RecordableParticle extends Recordable {
 
-    int effectId();
+    Object particleParam();
 
     void play(Player viewer);
 
     @Override
     default boolean match(@NotNull Object object) {
-        return object instanceof Integer integer && this.effectId() == integer;
+        return this.particleParam().equals(object);
     }
 }
