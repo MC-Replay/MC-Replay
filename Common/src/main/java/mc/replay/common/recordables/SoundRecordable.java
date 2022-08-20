@@ -1,6 +1,5 @@
-package mc.replay.recordables.sound;
+package mc.replay.common.recordables;
 
-import mc.replay.common.recordables.Recordable;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

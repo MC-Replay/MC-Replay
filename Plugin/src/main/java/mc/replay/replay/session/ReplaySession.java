@@ -3,7 +3,7 @@ package mc.replay.replay.session;
 import lombok.Getter;
 import lombok.Setter;
 import mc.replay.MCReplayPlugin;
-import mc.replay.api.recordable.Recordable;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.recordables.block.BlockRecordable;
 import mc.replay.recordables.entity.EntityRecordable;
 import mc.replay.recordables.entity.connection.RecPlayerJoin;

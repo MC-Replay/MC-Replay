@@ -1,6 +1,6 @@
 package mc.replay.common.dispatcher.test;
 
-import mc.replay.api.recordable.Recordable;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacket;
 import net.minecraft.server.v1_16_R3.PacketPlayInAbilities;
 

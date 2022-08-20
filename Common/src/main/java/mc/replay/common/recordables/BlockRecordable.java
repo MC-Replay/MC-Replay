@@ -1,6 +1,5 @@
-package mc.replay.recordables.block;
+package mc.replay.common.recordables;
 
-import mc.replay.common.recordables.Recordable;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;

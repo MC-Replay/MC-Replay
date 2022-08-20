@@ -2,7 +2,7 @@ package mc.replay.replay;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import mc.replay.api.recordable.Recordable;
+import mc.replay.common.recordables.Recordable;
 
 import java.util.*;
 

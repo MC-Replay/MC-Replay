@@ -16,7 +16,7 @@ import mc.replay.dispatcher.packet.converters.out.sound.EntitySoundPacketOutConv
 import mc.replay.dispatcher.packet.converters.out.sound.NamedSoundEffectPacketOutConverter;
 import mc.replay.dispatcher.packet.converters.out.sound.StopSoundPacketOutConverter;
 import mc.replay.dispatcher.packet.converters.out.world.WorldEventPacketOutConverter;
-import mc.replay.api.recordable.Recordable;
+import mc.replay.common.recordables.Recordable;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;

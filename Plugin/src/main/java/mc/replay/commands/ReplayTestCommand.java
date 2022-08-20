@@ -1,7 +1,7 @@
 package mc.replay.commands;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.api.recordable.Recordable;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.recordables.entity.EntityRecordable;
 import mc.replay.replay.session.ReplaySession;
 import mc.replay.utils.color.Text;

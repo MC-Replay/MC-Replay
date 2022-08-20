@@ -1,6 +1,6 @@
 package mc.replay.dispatcher.packet.converters;
 
-import mc.replay.api.recordable.Recordable;
+import mc.replay.common.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
