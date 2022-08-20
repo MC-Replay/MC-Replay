@@ -1,6 +1,8 @@
 package mc.replay.dispatcher.tick;
 
 import mc.replay.MCReplayPlugin;
+import mc.replay.common.dispatcher.DispatcherTick;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.dispatcher.ReplayDispatcher;
 import mc.replay.nms.v1_16_5.dispatcher.tick.EntityEquipmentTickHandler;
 import mc.replay.nms.v1_16_5.dispatcher.tick.EntityLocationTickHandler;
@@ -10,11 +12,12 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public final class ReplayTickDispatcher extends ReplayDispatcher {
 
     private BukkitTask task;
-    private final Collection<ReplayTickHandler> tickHandlers = new HashSet<>();
+    private final Collection<DispatcherTick> tickHandlers = new HashSet<>();
 
     public ReplayTickDispatcher(JavaPlugin javaPlugin) {
         super(javaPlugin);
@@ -23,7 +26,7 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
         this.registerTickHandler(new EntityLocationTickHandler());
     }
 
-    public void registerTickHandler(ReplayTickHandler tickHandler) {
+    public void registerTickHandler(DispatcherTick tickHandler) {
         this.tickHandlers.add(tickHandler);
     }
 
@@ -32,13 +35,18 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
         this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(MCReplayPlugin.getInstance(), () -> {
             long start = System.currentTimeMillis();
 
-            for (ReplayTickHandler tickHandler : this.tickHandlers) {
+            for (DispatcherTick tickHandler : this.tickHandlers) {
                 if (System.currentTimeMillis() - start >= 50) {
                     // Don't handle tick handlers when using more than 50 milliseconds
                     break;
                 }
 
-                tickHandler.handle(this.getCurrentTick());
+                List<Recordable> recordables = tickHandler.getRecordable(this.getCurrentTick());
+                if (recordables == null || recordables.isEmpty()) continue;
+
+                for (Recordable recordable : recordables) {
+                    MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
+                }
             }
         }, 0, 1);
     }

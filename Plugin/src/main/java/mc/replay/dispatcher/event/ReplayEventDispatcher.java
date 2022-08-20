@@ -1,5 +1,8 @@
 package mc.replay.dispatcher.event;
 
+import mc.replay.MCReplayPlugin;
+import mc.replay.common.dispatcher.DispatcherEvent;
+import mc.replay.common.recordables.Recordable;
 import mc.replay.dispatcher.ReplayDispatcher;
 import mc.replay.nms.v1_16_5.dispatcher.event.entity.ReplayEntityDeathEventListener;
 import mc.replay.nms.v1_16_5.dispatcher.event.entity.ReplayEntitySpawnEventListener;
@@ -16,10 +19,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public final class ReplayEventDispatcher extends ReplayDispatcher implements Listener {
 
-    private final Collection<ReplayEventListener<?>> eventListeners = new HashSet<>();
+    private final Collection<DispatcherEvent<?>> eventListeners = new HashSet<>();
 
     public ReplayEventDispatcher(JavaPlugin javaPlugin) {
         super(javaPlugin);
@@ -35,13 +39,13 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
         this.registerListener(new ReplayPlayerToggleSprintEventListener());
     }
 
-    public <T extends Event> void registerListener(ReplayEventListener<T> eventListener) {
+    public <T extends Event> void registerListener(DispatcherEvent<T> eventListener) {
         this.eventListeners.add(eventListener);
     }
 
     @Override
     public void start() {
-        for (ReplayEventListener<?> eventListener : this.eventListeners) {
+        for (DispatcherEvent<?> eventListener : this.eventListeners) {
             this.registerReplayEventListener(eventListener);
         }
     }
@@ -52,12 +56,19 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
     }
 
     @SuppressWarnings("rawtypes, unchecked")
-    private void registerReplayEventListener(ReplayEventListener eventListener) {
+    private void registerReplayEventListener(DispatcherEvent eventListener) {
         this.javaPlugin.getServer().getPluginManager().registerEvent(
-                eventListener.eventClass(),
+                eventListener.getInputClass(),
                 this,
                 eventListener.getPriority(),
-                ($, event) -> eventListener.listen((Event) eventListener.eventClass().cast(event)),
+                ($, event) -> {
+                    List<Recordable> recordables = eventListener.getRecordable(event);
+                    if (recordables == null || recordables.isEmpty()) return;
+
+                    for (Recordable recordable : recordables) {
+                        MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
+                    }
+                },
                 this.javaPlugin,
                 eventListener.ignoreCancelled()
         );

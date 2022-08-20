@@ -1,22 +1,20 @@
 package mc.replay.dispatcher.packet;
 
 import lombok.Getter;
+import mc.replay.common.dispatcher.DispatcherPacketIn;
+import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.dispatcher.ReplayDispatcher;
-import mc.replay.dispatcher.packet.converters.ReplayPacketInConverter;
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.ArmAnimationPacketInConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.animation.AnimationPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.block.BlockActionPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.block.BlockBreakPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.block.BlockChangePacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.block.MultiBlockChangePacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.particles.WorldParticlesPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.sound.CustomSoundEffectPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.sound.EntitySoundPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.sound.NamedSoundEffectPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.sound.StopSoundPacketOutConverter;
-import mc.replay.nms.v1_16_5.dispatcher.event.packet.world.WorldEventPacketOutConverter;
-import mc.replay.common.recordables.Recordable;
+import mc.replay.nms.v1_16_5.dispatcher.packet.animation.AnimationPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.block.BlockActionPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.block.BlockBreakPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.block.BlockChangePacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.block.MultiBlockChangePacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.particles.WorldParticlesPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.sound.CustomSoundEffectPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.sound.EntitySoundPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.sound.NamedSoundEffectPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.sound.StopSoundPacketOutConverter;
+import mc.replay.nms.v1_16_5.dispatcher.packet.world.WorldEventPacketOutConverter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -27,8 +25,8 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
     private final PlayerPipelineHandler playerPipelineHandler;
 
-    private final Map<String, ReplayPacketInConverter<? extends Recordable>> packetInConverters = new HashMap<>();
-    private final Map<String, ReplayPacketOutConverter<? extends Recordable>> packetOutConverters = new HashMap<>();
+    private final Map<String, DispatcherPacketIn<?>> packetInConverters = new HashMap<>();
+    private final Map<String, DispatcherPacketOut<?>> packetOutConverters = new HashMap<>();
 
     public ReplayPacketDispatcher(JavaPlugin javaPlugin) {
         super(javaPlugin);
@@ -40,7 +38,7 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
     }
 
     private void registerInConverters() {
-        this.registerPacketInConverter(new ArmAnimationPacketInConverter());
+//        this.registerPacketInConverter(new ArmAnimationPacketInConverter());
     }
 
     private void registerOutConverters() {
@@ -61,12 +59,12 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
         this.registerPacketOutConverter(new WorldEventPacketOutConverter());
     }
 
-    public <R extends Recordable> void registerPacketInConverter(ReplayPacketInConverter<R> converter) {
-        this.packetInConverters.put(converter.packetClassName().toLowerCase(), converter);
+    public void registerPacketInConverter(DispatcherPacketIn<?> converter) {
+        this.packetInConverters.put(converter.getInputClass().getSimpleName().toLowerCase(), converter);
     }
 
-    public <R extends Recordable> void registerPacketOutConverter(ReplayPacketOutConverter<R> converter) {
-        this.packetOutConverters.put(converter.packetClassName(), converter);
+    void registerPacketOutConverter(DispatcherPacketOut<?> converter) {
+        this.packetOutConverters.put(converter.getInputClass().getSimpleName().toLowerCase(), converter);
     }
 
     @Override

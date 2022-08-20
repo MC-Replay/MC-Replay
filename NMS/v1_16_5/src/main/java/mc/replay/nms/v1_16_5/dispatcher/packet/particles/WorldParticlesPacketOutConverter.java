@@ -1,19 +1,22 @@
-package mc.replay.nms.v1_16_5.dispatcher.event.packet.particles;
+package mc.replay.nms.v1_16_5.dispatcher.packet.particles;
 
-import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.nms.v1_16_5.recordable.particle.RecWorldParticles;
+import net.minecraft.server.v1_16_R3.PacketPlayOutAnimation;
 import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class WorldParticlesPacketOutConverter implements DispatcherPacket<PacketPlayOutWorldParticles> {
+public class WorldParticlesPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldParticles> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(PacketPlayOutWorldParticles packet) {
+    public @Nullable List<Recordable> getRecordable(Object packetClass) {
+        PacketPlayOutWorldParticles packet = (PacketPlayOutWorldParticles) packetClass;
+
         try {
             Field particleParamField = packet.getClass().getDeclaredField("j");
             particleParamField.setAccessible(true);

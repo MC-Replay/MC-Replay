@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Dispatcher<T> {
 
-    List<Recordable> getRecordable(T obj);
+    List<Recordable> getRecordable(Object obj);
 
     default Class<?> getInputClass() {
         return (Class<?>) ((ParameterizedType) this.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];

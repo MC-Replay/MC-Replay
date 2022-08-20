@@ -6,6 +6,7 @@ import mc.replay.common.replay.EntityId;
 import mc.replay.nms.v1_16_5.recordable.entity.action.RecEntitySwimming;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class ReplayEntityToggleSwimEventListener implements DispatcherEvent<Enti
     }
 
     @Override
-    public List<Recordable> getRecordable(EntityToggleSwimEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        EntityToggleSwimEvent event = (EntityToggleSwimEvent) eventClass;
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

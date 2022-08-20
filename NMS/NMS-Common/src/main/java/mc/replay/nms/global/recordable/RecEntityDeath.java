@@ -1,4 +1,4 @@
-package mc.replay.nms.v1_16_5.recordable.entity.spawn;
+package mc.replay.nms.global.recordable;
 
 import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.common.replay.EntityId;

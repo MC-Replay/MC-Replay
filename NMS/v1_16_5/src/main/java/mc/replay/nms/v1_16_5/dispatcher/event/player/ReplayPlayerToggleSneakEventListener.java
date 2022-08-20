@@ -23,7 +23,8 @@ public class ReplayPlayerToggleSneakEventListener implements DispatcherEvent<Pla
     }
 
     @Override
-    public List<Recordable> getRecordable(PlayerToggleSneakEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        PlayerToggleSneakEvent event = (PlayerToggleSneakEvent) eventClass;
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

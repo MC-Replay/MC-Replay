@@ -6,6 +6,7 @@ import mc.replay.common.replay.EntityId;
 import mc.replay.nms.v1_16_5.recordable.entity.action.RecEntityGliding;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class ReplayEntityToggleGlideEventListener implements DispatcherEvent<Ent
         return true;
     }
     @Override
-    public List<Recordable> getRecordable(EntityToggleGlideEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        EntityToggleGlideEvent event = (EntityToggleGlideEvent) eventClass;
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

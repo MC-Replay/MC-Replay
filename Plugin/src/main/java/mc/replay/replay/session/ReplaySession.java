@@ -3,18 +3,13 @@ package mc.replay.replay.session;
 import lombok.Getter;
 import lombok.Setter;
 import mc.replay.MCReplayPlugin;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.nms.v1_16_5.recordable.block.BlockRecordable;
-import mc.replay.nms.v1_16_5.recordable.entity.EntityRecordable;
-import mc.replay.nms.v1_16_5.recordable.entity.connection.RecPlayerJoin;
-import mc.replay.nms.v1_16_5.recordable.entity.spawn.RecEntitySpawn;
-import mc.replay.nms.v1_16_5.recordable.particle.ParticleRecordable;
-import mc.replay.nms.v1_16_5.recordable.sound.SoundRecordable;
-import mc.replay.nms.v1_16_5.recordable.world.WorldEventRecordable;
+import mc.replay.common.recordables.*;
 import mc.replay.common.replay.ReplayEntity;
 import mc.replay.common.utils.EntityPacketUtils;
 import mc.replay.common.utils.color.Text;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.nms.global.recordable.RecPlayerJoin;
+import mc.replay.nms.global.recordable.RecEntitySpawn;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -83,7 +78,7 @@ public final class ReplaySession {
             }
 
             for (Recordable recordable : records) {
-                if (recordable instanceof EntityRecordable entityRecordable) {
+                if (recordable instanceof RecordableEntity entityRecordable) {
                     if (entityRecordable instanceof RecPlayerJoin || entityRecordable instanceof RecEntitySpawn) {
                         ReplayEntity<?> replayEntityPlayer = entityRecordable.play(null, null, null, -1);
                         replayEntityPlayer.addViewers(this.getTargets());
@@ -109,25 +104,25 @@ public final class ReplaySession {
 
                         return false;
                     });
-                } else if (recordable instanceof BlockRecordable blockRecordable) {
+                } else if (recordable instanceof RecordableBlock blockRecordable) {
                     for (Player target : this.getTargets()) {
                         if (target == null || !target.isOnline()) continue;
 
                         blockRecordable.play(target);
                     }
-                } else if (recordable instanceof SoundRecordable soundRecordable) {
+                } else if (recordable instanceof RecordableSound soundRecordable) {
                     for (Player target : this.getTargets()) {
                         if (target == null || !target.isOnline()) continue;
 
                         soundRecordable.play(target);
                     }
-                } else if (recordable instanceof ParticleRecordable particleRecordable) {
+                } else if (recordable instanceof RecordableParticle particleRecordable) {
                     for (Player target : this.getTargets()) {
                         if (target == null || !target.isOnline()) continue;
 
                         particleRecordable.play(target);
                     }
-                } else if (recordable instanceof WorldEventRecordable worldEventRecordable) {
+                } else if (recordable instanceof RecordableWorldEvent worldEventRecordable) {
                     for (Player target : this.getTargets()) {
                         if (target == null || !target.isOnline()) continue;
 
@@ -209,7 +204,7 @@ public final class ReplaySession {
 
         for (List<Recordable> value : records.values()) {
             for (Recordable recordable : value) {
-                if (recordable instanceof EntityRecordable entityRecordable && (entityRecordable instanceof RecPlayerJoin || entityRecordable instanceof RecEntitySpawn)) {
+                if (recordable instanceof RecordableEntity entityRecordable && (entityRecordable instanceof RecPlayerJoin || entityRecordable instanceof RecEntitySpawn)) {
                     ReplayEntity<?> replayEntityPlayer = entityRecordable.play(null, null, null, -1);
                     replayEntityPlayer.addViewers(this.getTargets());
 
@@ -219,7 +214,7 @@ public final class ReplaySession {
         }
 
         this.entities.removeIf((entity) -> {
-            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, EntityRecordable.class, entity.getOriginalEntityId());
+            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, RecordableEntity.class, entity.getOriginalEntityId());
             Collection<String> finishedRecordables = new HashSet<>();
 
             Long lastIndex = recordables.lastKey();
@@ -235,7 +230,7 @@ public final class ReplaySession {
 
                             finishedRecordables.add(recordable.getClass().getSimpleName());
 
-                            if (((EntityRecordable) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, true) == null) {
+                            if (((RecordableEntity) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, true) == null) {
                                 return true;
                             }
                         }
@@ -263,7 +258,7 @@ public final class ReplaySession {
         }
 
         this.entities.removeIf((entity) -> {
-            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, EntityRecordable.class, entity.getOriginalEntityId());
+            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, RecordableEntity.class, entity.getOriginalEntityId());
             Collection<String> finishedRecordables = new HashSet<>();
 
             Long firstIndex = recordables.firstKey();
@@ -279,7 +274,7 @@ public final class ReplaySession {
 
                             finishedRecordables.add(recordable.getClass().getSimpleName());
 
-                            if (((EntityRecordable) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, false) == null) {
+                            if (((RecordableEntity) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, false) == null) {
                                 return true;
                             }
                         }

@@ -18,11 +18,5 @@
             <artifactId>API</artifactId>
             <version>Dev-1.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>mc.replay.nms</groupId>
-            <artifactId>NMS-Common</artifactId>
-            <version>Dev-1.0</version>
-        </dependency>
     </dependencies>
 </project>

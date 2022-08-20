@@ -1,9 +1,10 @@
-package mc.replay.nms.v1_16_5.dispatcher.event.packet.block;
+package mc.replay.nms.v1_16_5.dispatcher.packet.block;
 
-import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.nms.v1_16_5.recordable.block.RecMultiBlockChange;
+import net.minecraft.server.v1_16_R3.PacketPlayOutAnimation;
 import net.minecraft.server.v1_16_R3.PacketPlayOutMultiBlockChange;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
@@ -12,10 +13,12 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class MultiBlockChangePacketOutConverter implements DispatcherPacket<PacketPlayOutMultiBlockChange> {
+public class MultiBlockChangePacketOutConverter implements DispatcherPacketOut<PacketPlayOutMultiBlockChange> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(PacketPlayOutMultiBlockChange packet) {
+    public @Nullable List<Recordable> getRecordable(Object packetClass) {
+        PacketPlayOutMultiBlockChange packet = (PacketPlayOutMultiBlockChange) packetClass;
+
         try {
             Field positionField = packet.getClass().getDeclaredField("a");
             positionField.setAccessible(true);

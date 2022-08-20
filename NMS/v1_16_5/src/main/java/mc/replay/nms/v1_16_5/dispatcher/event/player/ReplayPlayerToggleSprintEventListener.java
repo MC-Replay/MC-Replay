@@ -23,7 +23,8 @@ public class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<Pl
     }
 
     @Override
-    public List<Recordable> getRecordable(PlayerToggleSprintEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        PlayerToggleSprintEvent event = (PlayerToggleSprintEvent) eventClass;
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

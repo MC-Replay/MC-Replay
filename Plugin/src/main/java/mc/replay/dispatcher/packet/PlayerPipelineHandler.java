@@ -8,8 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import mc.replay.MCReplayPlugin;
-import mc.replay.dispatcher.packet.converters.ReplayPacketInConverter;
-import mc.replay.dispatcher.packet.converters.ReplayPacketOutConverter;
+import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import org.bukkit.entity.Player;
@@ -18,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.Map;
 
 public final class PlayerPipelineHandler implements Listener {
@@ -47,37 +47,40 @@ public final class PlayerPipelineHandler implements Listener {
         private PlayerPipelineHandler handler;
         private Player player;
 
-        @Override
-        public void channelRead(ChannelHandlerContext ctx, Object packetObject) throws Exception {
-            boolean logAction = this.handler.isActive() && this.player != null && this.player.isOnline();
-
-            if (logAction) try {
-                for (Map.Entry<String, ReplayPacketInConverter<? extends Recordable>> entry : MCReplayPlugin.getInstance().getPacketDispatcher().getPacketInConverters().entrySet()) {
-                    if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
-                        Recordable recordable = entry.getValue().recordableFromPacket(player, packetObject);
-                        if (recordable == null) continue;
-
-                        MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
-                    }
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-
-            super.channelRead(ctx, packetObject);
-        }
+//        @Override
+//        public void channelRead(ChannelHandlerContext ctx, Object packetObject) throws Exception {
+//            boolean logAction = this.handler.isActive() && this.player != null && this.player.isOnline();
+//
+//            if (logAction) try {
+//                for (Map.Entry<String, ReplayPacketInConverter<? extends Recordable>> entry : MCReplayPlugin.getInstance().getPacketDispatcher().getPacketInConverters().entrySet()) {
+//                    if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
+//                        Recordable recordable = entry.getValue().recordableFromPacket(player, packetObject);
+//                        if (recordable == null) continue;
+//
+//                        MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
+//                    }
+//                }
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//
+//            super.channelRead(ctx, packetObject);
+//        }
 
         @Override
         public void write(ChannelHandlerContext ctx, Object packetObject, ChannelPromise promise) throws Exception {
             boolean logAction = this.handler.isActive() && this.player != null && this.player.isOnline();
 
             if (logAction) try {
-                for (Map.Entry<String, ReplayPacketOutConverter<? extends Recordable>> entry : MCReplayPlugin.getInstance().getPacketDispatcher().getPacketOutConverters().entrySet()) {
-                    if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
-                        Recordable recordable = entry.getValue().recordableFromPacket(packetObject);
-                        if (recordable == null) continue;
+                for (Map.Entry<String, DispatcherPacketOut<?>> entry : MCReplayPlugin.getInstance().getPacketDispatcher().getPacketOutConverters().entrySet()) {
 
-                        MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
+                    if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
+                        List<Recordable> recordables = entry.getValue().getRecordable(packetObject);
+                        if (recordables == null || recordables.isEmpty()) continue;
+
+                        for (Recordable recordable : recordables) {
+                            MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
+                        }
                     }
                 }
             } catch (Exception exception) {

@@ -1,4 +1,4 @@
-package mc.replay.nms.v1_16_5.recordable.entity.connection;
+package mc.replay.nms.global.recordable;
 
 import com.mojang.authlib.properties.Property;
 import mc.replay.common.recordables.RecordableEntity;

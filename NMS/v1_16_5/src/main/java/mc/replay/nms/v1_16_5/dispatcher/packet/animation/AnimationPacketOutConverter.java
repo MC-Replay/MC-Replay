@@ -1,6 +1,6 @@
-package mc.replay.nms.v1_16_5.dispatcher.event.packet.animation;
+package mc.replay.nms.v1_16_5.dispatcher.packet.animation;
 
-import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
 import mc.replay.common.utils.reflection.JavaReflections;
@@ -9,10 +9,12 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutAnimation;
 
 import java.util.List;
 
-public class AnimationPacketOutConverter implements DispatcherPacket<PacketPlayOutAnimation> {
+public class AnimationPacketOutConverter implements DispatcherPacketOut<PacketPlayOutAnimation> {
 
     @Override
-    public List<Recordable> getRecordable(PacketPlayOutAnimation packet) {
+    public List<Recordable> getRecordable(Object packetClass) {
+        PacketPlayOutAnimation packet = (PacketPlayOutAnimation) packetClass;
+
         try {
             int entityId = JavaReflections.getField(packet.getClass(), "a", int.class).get(packet);
             int animation = JavaReflections.getField(packet.getClass(), "b", int.class).get(packet);

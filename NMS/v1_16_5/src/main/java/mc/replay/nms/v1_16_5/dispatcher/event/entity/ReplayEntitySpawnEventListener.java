@@ -3,7 +3,7 @@ package mc.replay.nms.v1_16_5.dispatcher.event.entity;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
-import mc.replay.nms.v1_16_5.recordable.entity.spawn.RecEntitySpawn;
+import mc.replay.nms.global.recordable.RecEntitySpawn;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
@@ -25,7 +25,9 @@ public class ReplayEntitySpawnEventListener implements DispatcherEvent<EntitySpa
     }
 
     @Override
-    public List<Recordable> getRecordable(EntitySpawnEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        EntitySpawnEvent event = (EntitySpawnEvent) eventClass;
+
         Entity entity = event.getEntity();
         if (entity instanceof Player || entity instanceof NPC) return null;
 

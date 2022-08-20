@@ -4,7 +4,7 @@ import com.mojang.authlib.properties.Property;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
-import mc.replay.nms.v1_16_5.recordable.entity.connection.RecPlayerJoin;
+import mc.replay.nms.global.recordable.RecPlayerJoin;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -26,7 +26,8 @@ public class ReplayPlayerJoinEventListener implements DispatcherEvent<PlayerJoin
     }
 
     @Override
-    public List<Recordable> getRecordable(PlayerJoinEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        PlayerJoinEvent event = (PlayerJoinEvent) eventClass;
         Player player = event.getPlayer();
 
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();

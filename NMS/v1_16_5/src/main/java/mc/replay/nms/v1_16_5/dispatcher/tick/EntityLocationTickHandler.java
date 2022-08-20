@@ -22,8 +22,10 @@ public final class EntityLocationTickHandler implements DispatcherTick {
     private final Map<LivingEntity, Location> lastLocations = new HashMap<>();
 
     @Override
-    public List<Recordable> getRecordable(Integer currentTick) {
+    public List<Recordable> getRecordable(Object tickClass) {
+        Integer currentTick = (Integer) tickClass;
         List<Recordable> recordables = new ArrayList<>();
+
         this.lastLocations.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
 
         for (World world : Bukkit.getWorlds()) {

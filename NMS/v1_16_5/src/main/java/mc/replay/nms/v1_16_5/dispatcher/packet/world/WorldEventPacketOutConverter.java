@@ -1,9 +1,10 @@
-package mc.replay.nms.v1_16_5.dispatcher.event.packet.world;
+package mc.replay.nms.v1_16_5.dispatcher.packet.world;
 
-import mc.replay.common.dispatcher.DispatcherPacket;
+import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.nms.v1_16_5.recordable.world.RecWorldEvent;
+import net.minecraft.server.v1_16_R3.PacketPlayOutAnimation;
 import net.minecraft.server.v1_16_R3.PacketPlayOutWorldEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
@@ -11,10 +12,12 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class WorldEventPacketOutConverter implements DispatcherPacket<PacketPlayOutWorldEvent> {
+public class WorldEventPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldEvent> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(PacketPlayOutWorldEvent packet) {
+    public @Nullable List<Recordable> getRecordable(Object packetClass) {
+        PacketPlayOutWorldEvent packet = (PacketPlayOutWorldEvent) packetClass;
+
         try {
             int effectId = JavaReflections.getField(packet.getClass(), "a", int.class).get(packet);
 

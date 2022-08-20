@@ -3,7 +3,7 @@ package mc.replay.nms.v1_16_5.dispatcher.event.player;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.replay.EntityId;
-import mc.replay.nms.v1_16_5.recordable.entity.connection.RecPlayerQuit;
+import mc.replay.nms.global.recordable.RecPlayerQuit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -23,7 +23,8 @@ public class ReplayPlayerQuitEventListener implements DispatcherEvent<PlayerQuit
     }
 
     @Override
-    public List<Recordable> getRecordable(PlayerQuitEvent event) {
+    public List<Recordable> getRecordable(Object eventClass) {
+        PlayerQuitEvent event = (PlayerQuitEvent) eventClass;
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

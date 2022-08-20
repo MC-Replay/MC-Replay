@@ -2,7 +2,7 @@ package mc.replay.commands;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.common.recordables.Recordable;
-import mc.replay.nms.v1_16_5.recordable.entity.EntityRecordable;
+import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.replay.session.ReplaySession;
 import mc.replay.common.utils.color.Text;
 import org.bukkit.Bukkit;
@@ -42,7 +42,7 @@ public class ReplayTestCommand implements CommandExecutor {
 
             NavigableMap<Long, List<Recordable>> recordables;
             recordables = MCReplayPlugin.getInstance().getReplayStorage()
-                    .getTypeRecordables(EntityRecordable.class, target.getUniqueId());
+                    .getTypeRecordables(RecordableEntity.class, target.getUniqueId());
 
             MCReplayPlugin.getInstance().getSessions().put(player, new ReplaySession(recordables, List.of(player)));
 
