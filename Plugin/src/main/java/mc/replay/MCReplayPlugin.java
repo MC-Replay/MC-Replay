@@ -42,12 +42,12 @@ public final class MCReplayPlugin extends JavaPlugin {
 
         JavaReflections.getField(MCReplayAPI.class, MCReplay.class, "mcReplay").set(null, this);
         JavaReflections.getField(MCReplayAPI.class, JavaPlugin.class, "javaPlugin").set(null, this);
-
-        CommonInstance.plugin = this;
     }
 
     @Override
     public void onEnable() {
+        CommonInstance.plugin = this;
+
         this.replayStorage = new ReplayStorage(this);
         this.replayCreator = new ReplayCreator(this);
 
