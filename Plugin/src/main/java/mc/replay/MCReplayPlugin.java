@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public final class MCReplayPlugin extends JavaPlugin {
+public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     @Getter
     private static MCReplayPlugin instance;
