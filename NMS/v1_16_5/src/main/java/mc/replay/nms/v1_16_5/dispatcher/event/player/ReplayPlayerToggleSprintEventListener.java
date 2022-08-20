@@ -18,11 +18,6 @@ public class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<Pl
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         PlayerToggleSprintEvent event = (PlayerToggleSprintEvent) eventClass;
         Player player = event.getPlayer();

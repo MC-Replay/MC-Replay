@@ -21,11 +21,6 @@ public class ReplayPlayerJoinEventListener implements DispatcherEvent<PlayerJoin
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         PlayerJoinEvent event = (PlayerJoinEvent) eventClass;
         Player player = event.getPlayer();

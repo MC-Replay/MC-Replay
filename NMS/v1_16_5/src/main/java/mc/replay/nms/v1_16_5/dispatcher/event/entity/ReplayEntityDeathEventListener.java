@@ -20,11 +20,6 @@ public class ReplayEntityDeathEventListener implements DispatcherEvent<EntityDea
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         EntityDeathEvent event = (EntityDeathEvent) eventClass;
 

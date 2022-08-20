@@ -18,11 +18,6 @@ public class ReplayPlayerToggleSneakEventListener implements DispatcherEvent<Pla
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         PlayerToggleSneakEvent event = (PlayerToggleSneakEvent) eventClass;
         Player player = event.getPlayer();

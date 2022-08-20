@@ -20,11 +20,6 @@ public class ReplayEntitySpawnEventListener implements DispatcherEvent<EntitySpa
     }
 
     @Override
-    public boolean ignoreCancelled() {
-        return true;
-    }
-
-    @Override
     public List<Recordable> getRecordable(Object eventClass) {
         EntitySpawnEvent event = (EntitySpawnEvent) eventClass;
 
