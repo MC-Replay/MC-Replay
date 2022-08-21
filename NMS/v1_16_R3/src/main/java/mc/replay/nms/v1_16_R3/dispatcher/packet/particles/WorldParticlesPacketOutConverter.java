@@ -2,51 +2,45 @@ package mc.replay.nms.v1_16_R3.dispatcher.packet.particles;
 
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
-import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.common.utils.PacketConverter;
 import mc.replay.nms.v1_16_R3.recordable.particle.RecWorldParticles;
 import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.server.v1_16_R3.ParticleParam;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 public final class WorldParticlesPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldParticles> {
 
     @Override
-    public @Nullable List<Recordable> getRecordables(PacketPlayOutWorldParticles packet) {
-        try {
-            Field particleParamField = packet.getClass().getDeclaredField("j");
-            particleParamField.setAccessible(true);
-            Object particleParam = particleParamField.get(packet);
+    public List<Recordable> getRecordables(PacketPlayOutWorldParticles packet) {
+        PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
-            double x = JavaReflections.getField(packet.getClass(), "a", double.class).get(packet);
-            double y = JavaReflections.getField(packet.getClass(), "b", double.class).get(packet);
-            double z = JavaReflections.getField(packet.getClass(), "c", double.class).get(packet);
+        ParticleParam particleParam = convertedPacket.get("j", ParticleParam.class);
 
-            float offsetX = JavaReflections.getField(packet.getClass(), "d", float.class).get(packet);
-            float offsetY = JavaReflections.getField(packet.getClass(), "e", float.class).get(packet);
-            float offsetZ = JavaReflections.getField(packet.getClass(), "f", float.class).get(packet);
+        double x = convertedPacket.get("a", Double.class);
+        double y = convertedPacket.get("b", Double.class);
+        double z = convertedPacket.get("c", Double.class);
 
-            float particleData = JavaReflections.getField(packet.getClass(), "g", float.class).get(packet);
-            int particleCount = JavaReflections.getField(packet.getClass(), "h", int.class).get(packet);
+        float offsetX = convertedPacket.get("d", Float.class);
+        float offsetY = convertedPacket.get("e", Float.class);
+        float offsetZ = convertedPacket.get("f", Float.class);
 
-            boolean longDistance = JavaReflections.getField(packet.getClass(), "i", boolean.class).get(packet);
+        float particleData = convertedPacket.get("g", Float.class);
+        int particleCount = convertedPacket.get("h", Integer.class);
 
-            return List.of(RecWorldParticles.of(
-                    particleParam,
-                    longDistance,
-                    x,
-                    y,
-                    z,
-                    offsetX,
-                    offsetY,
-                    offsetZ,
-                    particleData,
-                    particleCount
-            ));
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return null;
-        }
+        boolean longDistance = convertedPacket.get("i", Boolean.class);
+
+        return List.of(RecWorldParticles.of(
+                particleParam,
+                longDistance,
+                x,
+                y,
+                z,
+                offsetX,
+                offsetY,
+                offsetZ,
+                particleData,
+                particleCount
+        ));
     }
 }

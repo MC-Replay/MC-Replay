@@ -19,16 +19,18 @@ public final class CustomSoundEffectPacketOutConverter implements DispatcherPack
 
         MinecraftKey minecraftKey = convertedPacket.get("a", MinecraftKey.class);
         NamespacedKey namespacedKey = new NamespacedKey(minecraftKey.getNamespace(), minecraftKey.getKey());
-        SoundCategory category = convertedPacket.get("b", SoundCategory.class);
+        SoundCategory soundCategory = convertedPacket.get("b", SoundCategory.class);
+
         int x = convertedPacket.get("c", int.class);
         int y = convertedPacket.get("d", int.class);
         int z = convertedPacket.get("e", int.class);
+
         float volume = convertedPacket.get("f", float.class);
         float pitch = convertedPacket.get("g", float.class);
 
         return List.of(RecCustomSoundEffect.of(
                 namespacedKey,
-                category.name(),
+                soundCategory.name(),
                 x,
                 y,
                 z,
