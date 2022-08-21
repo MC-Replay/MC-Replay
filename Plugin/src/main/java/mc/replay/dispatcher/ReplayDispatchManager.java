@@ -51,7 +51,7 @@ public class ReplayDispatchManager {
     }
 
     private void loadDispatchers(String version) throws Exception {
-        for (Class<?> c : ReplayNMSLoader.getNMSClasses(this.plugin, "mc.replay.nms")) {
+        for (Class<?> c : ReplayNMSLoader.getNMSClasses(this.plugin, "mc.replay.nms." + version)) {
             if (DispatcherEvent.class.isAssignableFrom(c)) {
                 this.eventDispatcher.registerListener((DispatcherEvent<?>) c.getDeclaredConstructor().newInstance());
                 continue;
