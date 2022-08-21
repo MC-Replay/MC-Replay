@@ -40,11 +40,7 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
                 }
 
                 List<Recordable> recordables = tickHandler.getRecordables(this.getCurrentTick());
-                if (recordables == null || recordables.isEmpty()) continue;
-
-                for (Recordable recordable : recordables) {
-                    MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
-                }
+                MCReplayPlugin.getInstance().getReplayStorage().addRecordables(recordables);
             }
         }, 0, 1);
     }

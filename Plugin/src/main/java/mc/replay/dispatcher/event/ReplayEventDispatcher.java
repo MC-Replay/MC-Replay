@@ -49,11 +49,8 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
                 eventListener.getPriority(),
                 ($, event) -> {
                     List<Recordable> recordables = eventListener.getRecordables(event);
-                    if (recordables == null || recordables.isEmpty()) return;
 
-                    for (Recordable recordable : recordables) {
-                        MCReplayPlugin.getInstance().getReplayStorage().addRecordable(recordable);
-                    }
+                    MCReplayPlugin.getInstance().getReplayStorage().addRecordables(recordables);
                 },
                 this.plugin,
                 eventListener.ignoreCancelled()

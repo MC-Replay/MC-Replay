@@ -31,26 +31,29 @@ public final class ReplayStorage {
         Bukkit.getScheduler().runTaskTimerAsynchronously(javaPlugin, this.recordableCache::cleanUp, CLEANUP_TIME, CLEANUP_TIME);
     }
 
-    public void addRecordable(long millis, Recordable... recordables) {
+    public void addRecordables(long millis, List<Recordable> recordables) {
+        if(recordables == null || recordables.isEmpty()) return;
         if (this.startTime == -1) return;
 
         long time = millis - this.startTime;
         List<Recordable> list = this.recordableCache.getIfPresent(time);
         if (list == null) list = new ArrayList<>();
 
-        list.addAll(Arrays.asList(recordables));
+        list.addAll(recordables);
         this.recordableCache.put(time, list);
     }
 
-    public void addRecordable(int tick, Recordable... recordables) {
+    public void addRecordables(int tick, List<Recordable> recordables) {
+        if(recordables == null || recordables.isEmpty()) return;
         if (this.startTime == -1) return;
 
         long time = this.startTime + tick * 50L;
-        this.addRecordable(time, recordables);
+        this.addRecordables(time, recordables);
     }
 
-    public void addRecordable(Recordable... recordables) {
-        this.addRecordable(System.currentTimeMillis(), recordables);
+    public void addRecordables(List<Recordable> recordables) {
+        if(recordables == null || recordables.isEmpty()) return;
+        this.addRecordables(System.currentTimeMillis(), recordables);
     }
 
     public <T extends Recordable> NavigableMap<Long, List<Recordable>> getTypeRecordables(Map<Long, List<Recordable>> recordables, Class<T> clazz, @Nullable Object matcher) {
