@@ -42,7 +42,7 @@ public class ReplayTestCommand implements CommandExecutor {
 
             NavigableMap<Long, List<Recordable>> recordables;
             recordables = MCReplayPlugin.getInstance().getReplayStorage()
-                    .getTypeRecordables(RecordableEntity.class, target.getUniqueId());
+                    .getTypeRecordables(Recordable.class, target.getUniqueId());
 
             MCReplayPlugin.getInstance().getSessions().put(player, new ReplaySession(recordables, List.of(player)));
 

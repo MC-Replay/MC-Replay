@@ -104,6 +104,12 @@ public final class ReplaySession {
 
                         return false;
                     });
+                } else if (recordable instanceof RecordablePlayerAction playerActionRecordable) {
+                    for (Player target : this.getTargets()) {
+                        if (target == null || !target.isOnline()) continue;
+
+                        playerActionRecordable.play(target);
+                    }
                 } else if (recordable instanceof RecordableBlock blockRecordable) {
                     for (Player target : this.getTargets()) {
                         if (target == null || !target.isOnline()) continue;
