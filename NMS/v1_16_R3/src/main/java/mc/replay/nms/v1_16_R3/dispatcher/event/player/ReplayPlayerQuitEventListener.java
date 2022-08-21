@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
 
-public class ReplayPlayerQuitEventListener implements DispatcherEvent<PlayerQuitEvent> {
+public final class ReplayPlayerQuitEventListener implements DispatcherEvent<PlayerQuitEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -18,8 +18,7 @@ public class ReplayPlayerQuitEventListener implements DispatcherEvent<PlayerQuit
     }
 
     @Override
-    public List<Recordable> getRecordable(Object eventClass) {
-        PlayerQuitEvent event = (PlayerQuitEvent) eventClass;
+    public List<Recordable> getRecordables(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

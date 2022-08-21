@@ -1,9 +1,11 @@
 package mc.replay.nms.v1_16_R3.recordable.sound;
 
 import mc.replay.common.recordables.RecordableSound;
-import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
-import net.minecraft.server.v1_16_R3.*;
+import net.minecraft.server.v1_16_R3.MinecraftKey;
+import net.minecraft.server.v1_16_R3.PacketPlayOutCustomSoundEffect;
+import net.minecraft.server.v1_16_R3.SoundCategory;
+import net.minecraft.server.v1_16_R3.Vec3D;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -25,29 +27,19 @@ public record RecCustomSoundEffect(NamespacedKey soundKey, String category, int 
     @Override
     public void play(Player viewer) {
         Object packet = this.createPacket();
-        if (packet == null) return;
-
         MinecraftPlayerNMS.sendPacket(viewer, packet);
     }
 
     private Object createPacket() {
-        SoundEffect effect = IRegistry.SOUND_EVENT.get(new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey()));
-        if (effect == null) return null;
-
+        MinecraftKey effectKey = new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey());
         SoundCategory category = SoundCategory.valueOf(this.category);
 
-        PacketPlayOutCustomSoundEffect packet = new PacketPlayOutCustomSoundEffect();
-
-        JavaReflections.getField(packet.getClass(), "a", SoundEffect.class).set(packet, effect);
-        JavaReflections.getField(packet.getClass(), "b", SoundCategory.class).set(packet, category);
-
-        JavaReflections.getField(packet.getClass(), "c", int.class).set(packet, this.x);
-        JavaReflections.getField(packet.getClass(), "d", int.class).set(packet, this.y);
-        JavaReflections.getField(packet.getClass(), "e", int.class).set(packet, this.z);
-
-        JavaReflections.getField(packet.getClass(), "f", float.class).set(packet, this.volume);
-        JavaReflections.getField(packet.getClass(), "g", float.class).set(packet, this.pitch);
-
-        return packet;
+        return new PacketPlayOutCustomSoundEffect(
+                effectKey,
+                category,
+                new Vec3D(this.x, this.y, this.z),
+                this.volume,
+                this.pitch
+        );
     }
 }

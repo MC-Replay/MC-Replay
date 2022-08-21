@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.List;
 
-public class ReplayEntityDeathEventListener implements DispatcherEvent<EntityDeathEvent> {
+public final class ReplayEntityDeathEventListener implements DispatcherEvent<EntityDeathEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -20,9 +20,7 @@ public class ReplayEntityDeathEventListener implements DispatcherEvent<EntityDea
     }
 
     @Override
-    public List<Recordable> getRecordable(Object eventClass) {
-        EntityDeathEvent event = (EntityDeathEvent) eventClass;
-
+    public List<Recordable> getRecordables(EntityDeathEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof Player || entity instanceof NPC) return null;
 

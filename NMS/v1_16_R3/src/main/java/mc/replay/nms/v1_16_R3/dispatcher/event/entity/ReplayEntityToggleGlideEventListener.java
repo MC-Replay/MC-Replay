@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 
 import java.util.List;
 
-public class ReplayEntityToggleGlideEventListener implements DispatcherEvent<EntityToggleGlideEvent> {
+public final class ReplayEntityToggleGlideEventListener implements DispatcherEvent<EntityToggleGlideEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -18,8 +18,7 @@ public class ReplayEntityToggleGlideEventListener implements DispatcherEvent<Ent
     }
 
     @Override
-    public List<Recordable> getRecordable(Object eventClass) {
-        EntityToggleGlideEvent event = (EntityToggleGlideEvent) eventClass;
+    public List<Recordable> getRecordables(EntityToggleGlideEvent event) {
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

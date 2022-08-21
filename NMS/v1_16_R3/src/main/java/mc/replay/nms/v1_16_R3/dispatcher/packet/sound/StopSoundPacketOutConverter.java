@@ -3,40 +3,31 @@ package mc.replay.nms.v1_16_R3.dispatcher.packet.sound;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.nms.v1_16_R3.recordable.sound.RecStopSound;
+import net.minecraft.server.v1_16_R3.MinecraftKey;
 import net.minecraft.server.v1_16_R3.PacketPlayOutStopSound;
 import org.bukkit.NamespacedKey;
-import org.jetbrains.annotations.Nullable;
+import org.bukkit.SoundCategory;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class StopSoundPacketOutConverter implements DispatcherPacketOut<PacketPlayOutStopSound> {
+public final class StopSoundPacketOutConverter implements DispatcherPacketOut<PacketPlayOutStopSound> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(Object packetClass) {
-        PacketPlayOutStopSound packet = (PacketPlayOutStopSound) packetClass;
-
+    public List<Recordable> getRecordables(PacketPlayOutStopSound packet) {
         try {
             Field effectField = packet.getClass().getDeclaredField("a");
             effectField.setAccessible(true);
 
-            Object soundEffect = effectField.get(packet);
-
-            Field minecraftKeyField = soundEffect.getClass().getDeclaredField("b");
-            minecraftKeyField.setAccessible(true);
-
-            Object minecraftKey = minecraftKeyField.get(soundEffect);
-            String namespace = (String) minecraftKey.getClass().getMethod("getNamespace").invoke(minecraftKey);
-            String key = (String) minecraftKey.getClass().getMethod("getKey").invoke(minecraftKey);
-            NamespacedKey namespacedKey = new NamespacedKey(namespace, key);
+            MinecraftKey effectKey = (MinecraftKey) effectField.get(packet);
+            NamespacedKey namespacedKey = new NamespacedKey(effectKey.getNamespace(), effectKey.getKey());
 
             Field categoryField = packet.getClass().getDeclaredField("b");
             categoryField.setAccessible(true);
 
-            Object category = categoryField.get(packet);
-            String categoryName = (String) category.getClass().getMethod("name").invoke(category);
+            SoundCategory category = (SoundCategory) categoryField.get(packet);
 
-            return List.of(RecStopSound.of(namespacedKey, categoryName));
+            return List.of(RecStopSound.of(namespacedKey, category.name()));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

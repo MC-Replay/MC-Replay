@@ -10,12 +10,10 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class WorldParticlesPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldParticles> {
+public final class WorldParticlesPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldParticles> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(Object packetClass) {
-        PacketPlayOutWorldParticles packet = (PacketPlayOutWorldParticles) packetClass;
-
+    public @Nullable List<Recordable> getRecordables(PacketPlayOutWorldParticles packet) {
         try {
             Field particleParamField = packet.getClass().getDeclaredField("j");
             particleParamField.setAccessible(true);

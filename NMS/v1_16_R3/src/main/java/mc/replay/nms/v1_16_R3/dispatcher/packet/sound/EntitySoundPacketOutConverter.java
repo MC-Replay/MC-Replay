@@ -6,17 +6,14 @@ import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.nms.v1_16_R3.recordable.sound.RecEntitySound;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntitySound;
 import org.bukkit.NamespacedKey;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class EntitySoundPacketOutConverter implements DispatcherPacketOut<PacketPlayOutEntitySound> {
+public final class EntitySoundPacketOutConverter implements DispatcherPacketOut<PacketPlayOutEntitySound> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(Object packetClass) {
-        PacketPlayOutEntitySound packet = (PacketPlayOutEntitySound) packetClass;
-
+    public List<Recordable> getRecordables(PacketPlayOutEntitySound packet) {
         try {
             Field effectField = packet.getClass().getDeclaredField("a");
             effectField.setAccessible(true);

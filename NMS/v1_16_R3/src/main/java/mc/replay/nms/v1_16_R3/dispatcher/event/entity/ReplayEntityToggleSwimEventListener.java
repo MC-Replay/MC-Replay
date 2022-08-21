@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityToggleSwimEvent;
 
 import java.util.List;
 
-public class ReplayEntityToggleSwimEventListener implements DispatcherEvent<EntityToggleSwimEvent> {
+public final class ReplayEntityToggleSwimEventListener implements DispatcherEvent<EntityToggleSwimEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -18,8 +18,7 @@ public class ReplayEntityToggleSwimEventListener implements DispatcherEvent<Enti
     }
 
     @Override
-    public List<Recordable> getRecordable(Object eventClass) {
-        EntityToggleSwimEvent event = (EntityToggleSwimEvent) eventClass;
+    public List<Recordable> getRecordables(EntityToggleSwimEvent event) {
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

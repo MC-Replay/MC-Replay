@@ -10,6 +10,7 @@ import mc.replay.MCReplayPlugin;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
+import net.minecraft.server.v1_16_R3.Packet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -66,10 +67,9 @@ public final class PlayerPipelineListener implements Listener {
             boolean logAction = this.handler.getDispatcher().isActive() && this.player != null && this.player.isOnline();
 
             if (logAction) try {
-                for (Map.Entry<String, DispatcherPacketOut<?>> entry : this.handler.getDispatcher().getPacketOutConverters().entrySet()) {
-
+                for (Map.Entry<String, DispatcherPacketOut<Object>> entry : this.handler.getDispatcher().getPacketOutConverters().entrySet()) {
                     if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
-                        List<Recordable> recordables = entry.getValue().getRecordable(packetObject);
+                        List<Recordable> recordables = entry.getValue().getRecordables(packetObject);
                         if (recordables == null || recordables.isEmpty()) continue;
 
                         for (Recordable recordable : recordables) {

@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import java.util.List;
 
-public class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<PlayerToggleSprintEvent> {
+public final class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<PlayerToggleSprintEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -18,8 +18,7 @@ public class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<Pl
     }
 
     @Override
-    public List<Recordable> getRecordable(Object eventClass) {
-        PlayerToggleSprintEvent event = (PlayerToggleSprintEvent) eventClass;
+    public List<Recordable> getRecordables(PlayerToggleSprintEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

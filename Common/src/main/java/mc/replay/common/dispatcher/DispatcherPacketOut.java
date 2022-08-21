@@ -1,5 +1,10 @@
 package mc.replay.common.dispatcher;
 
-import net.minecraft.server.v1_16_R3.Packet;
+import mc.replay.common.utils.PacketConverter;
 
-public interface DispatcherPacketOut<T extends Packet> extends Dispatcher<T> {}
+public interface DispatcherPacketOut<T> extends Dispatcher<T> {
+
+    default PacketConverter.ConvertedPacket convert(T packet) {
+        return PacketConverter.convert(packet);
+    }
+}

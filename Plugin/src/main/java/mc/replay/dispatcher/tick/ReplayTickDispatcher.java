@@ -39,7 +39,7 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
                     break;
                 }
 
-                List<Recordable> recordables = tickHandler.getRecordable(this.getCurrentTick());
+                List<Recordable> recordables = tickHandler.getRecordables(this.getCurrentTick());
                 if (recordables == null || recordables.isEmpty()) continue;
 
                 for (Recordable recordable : recordables) {

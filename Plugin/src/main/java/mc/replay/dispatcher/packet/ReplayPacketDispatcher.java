@@ -15,8 +15,8 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
     private boolean active;
 
-    private final Map<String, DispatcherPacketIn<?>> packetInConverters = new HashMap<>();
-    private final Map<String, DispatcherPacketOut<?>> packetOutConverters = new HashMap<>();
+    private final Map<String, DispatcherPacketIn<Object>> packetInConverters = new HashMap<>();
+    private final Map<String, DispatcherPacketOut<Object>> packetOutConverters = new HashMap<>();
 
     public ReplayPacketDispatcher(MCReplayPlugin plugin) {
         super(plugin);
@@ -24,11 +24,11 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerPipelineListener(this), plugin);
     }
 
-    public void registerPacketInConverter(DispatcherPacketIn<?> converter) {
+    public void registerPacketInConverter(DispatcherPacketIn<Object> converter) {
         this.packetInConverters.put(converter.getInputClass().getSimpleName().toLowerCase(), converter);
     }
 
-    public void registerPacketOutConverter(DispatcherPacketOut<?> converter) {
+    public void registerPacketOutConverter(DispatcherPacketOut<Object> converter) {
         this.packetOutConverters.put(converter.getInputClass().getSimpleName().toLowerCase(), converter);
     }
 

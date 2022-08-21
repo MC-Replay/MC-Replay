@@ -2,35 +2,34 @@ package mc.replay.nms.v1_16_R3.dispatcher.packet.block;
 
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.Recordable;
-import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.nms.v1_16_R3.recordable.block.RecBlockChange;
+import net.minecraft.server.v1_16_R3.BlockPosition;
+import net.minecraft.server.v1_16_R3.IBlockData;
 import net.minecraft.server.v1_16_R3.PacketPlayOutBlockChange;
-import org.bukkit.block.data.BlockData;
+import org.bukkit.craftbukkit.v1_16_R3.block.data.CraftBlockData;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class BlockChangePacketOutConverter implements DispatcherPacketOut<PacketPlayOutBlockChange> {
+public final class BlockChangePacketOutConverter implements DispatcherPacketOut<PacketPlayOutBlockChange> {
 
     @Override
-    public @Nullable List<Recordable> getRecordable(Object packetClass) {
-        PacketPlayOutBlockChange packet = (PacketPlayOutBlockChange) packetClass;
-
+    public @Nullable List<Recordable> getRecordables(PacketPlayOutBlockChange packet) {
         try {
             Field positionField = packet.getClass().getDeclaredField("a");
             positionField.setAccessible(true);
 
-            Object position = positionField.get(packet);
-            int x = (int) JavaReflections.getMethod(position.getClass(), "getX").invoke(position);
-            int y = (int) JavaReflections.getMethod(position.getClass(), "getY").invoke(position);
-            int z = (int) JavaReflections.getMethod(position.getClass(), "getZ").invoke(position);
+            BlockPosition position = (BlockPosition) positionField.get(packet);
+            Vector blockPosition = new Vector(
+                    position.getX(),
+                    position.getY(),
+                    position.getZ()
+            );
 
-            Vector blockPosition = new Vector(x, y, z);
-
-            Object blockDataObject = packet.getClass().getField("block").get(packet);
-            BlockData craftBlockData = (BlockData) blockDataObject.getClass().getMethod("createCraftBlockData").invoke(blockDataObject);
+            IBlockData blockData = packet.block;
+            CraftBlockData craftBlockData = CraftBlockData.fromData(blockData);
 
             return List.of(RecBlockChange.of(blockPosition, craftBlockData));
         } catch (Exception exception) {

@@ -48,7 +48,7 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
                 this,
                 eventListener.getPriority(),
                 ($, event) -> {
-                    List<Recordable> recordables = eventListener.getRecordable(event);
+                    List<Recordable> recordables = eventListener.getRecordables(event);
                     if (recordables == null || recordables.isEmpty()) return;
 
                     for (Recordable recordable : recordables) {

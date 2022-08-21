@@ -70,11 +70,6 @@ public final class SkullBuilder {
         return getSkullByPlayerBuilder(offlinePlayer).build();
     }
 
-    @Deprecated(forRemoval = true, since = "1.15.5")
-    public static ItemStack getSkullByPlayerName(@NotNull String playerName) {
-        return getSkullByPlayer(playerName);
-    }
-
     public static ItemStack getSkullMaterial() {
         try {
             return new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
@@ -111,15 +106,5 @@ public final class SkullBuilder {
         SkullMeta skullMeta = (SkullMeta) meta;
         skullMeta.setOwner(playerName);
         return skullMeta;
-    }
-
-    @Deprecated(forRemoval = true)
-    public static ItemStack getCustomSkull(String url) {
-        return getSkullByURL(url);
-    }
-
-    @Deprecated(forRemoval = true)
-    public static ItemStack getPlayerSkull(String name) {
-        return getSkullByPlayerName(name);
     }
 }

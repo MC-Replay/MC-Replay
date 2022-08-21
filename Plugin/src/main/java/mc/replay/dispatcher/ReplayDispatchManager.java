@@ -50,6 +50,7 @@ public class ReplayDispatchManager {
         this.tickDispatcher.stop();
     }
 
+    @SuppressWarnings("unchecked")
     private void loadDispatchers(String version) throws Exception {
         for (Class<?> c : ReplayNMSLoader.getNMSClasses(this.plugin, "mc.replay.nms." + version)) {
             if (DispatcherEvent.class.isAssignableFrom(c)) {
@@ -58,12 +59,12 @@ public class ReplayDispatchManager {
             }
 
             if (DispatcherPacketIn.class.isAssignableFrom(c)) {
-                this.packetDispatcher.registerPacketInConverter((DispatcherPacketIn<?>) c.getDeclaredConstructor().newInstance());
+                this.packetDispatcher.registerPacketInConverter((DispatcherPacketIn<Object>) c.getDeclaredConstructor().newInstance());
                 continue;
             }
 
             if (DispatcherPacketOut.class.isAssignableFrom(c)) {
-                this.packetDispatcher.registerPacketOutConverter((DispatcherPacketOut<?>) c.getDeclaredConstructor().newInstance());
+                this.packetDispatcher.registerPacketOutConverter((DispatcherPacketOut<Object>) c.getDeclaredConstructor().newInstance());
                 continue;
             }
 

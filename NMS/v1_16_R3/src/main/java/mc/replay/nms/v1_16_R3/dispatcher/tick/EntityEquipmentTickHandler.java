@@ -22,8 +22,7 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
     private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
 
     @Override
-    public List<Recordable> getRecordable(Object tickClass) {
-        Integer currentTick = (Integer) tickClass;
+    public List<Recordable> getRecordables(Integer currentTick) {
         List<Recordable> recordables = new ArrayList<>();
 
         this.lastEquipment.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
