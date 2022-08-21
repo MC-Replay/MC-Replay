@@ -35,12 +35,12 @@
         </dependency>
         <dependency>
             <groupId>mc.replay.nms</groupId>
-            <artifactId>v1_16_5</artifactId>
+            <artifactId>v1_16_R3</artifactId>
             <version>Dev-1.0</version>
         </dependency>
         <dependency>
             <groupId>mc.replay.nms</groupId>
-            <artifactId>v1_18_2</artifactId>
+            <artifactId>v1_18_R2</artifactId>
             <version>Dev-1.0</version>
         </dependency>
     </dependencies>

@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>mc.replay.nms</groupId>
-    <artifactId>v1_16_5</artifactId>
+    <artifactId>v1_18_R2</artifactId>
 
     <dependencies>
         <dependency>
@@ -25,6 +25,13 @@
             <groupId>mc.replay</groupId>
             <artifactId>Common</artifactId>
             <version>Dev-1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
