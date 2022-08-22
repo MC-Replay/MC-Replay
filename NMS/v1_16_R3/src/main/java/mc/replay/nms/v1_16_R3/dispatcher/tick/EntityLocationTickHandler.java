@@ -1,8 +1,8 @@
 package mc.replay.nms.v1_16_R3.dispatcher.tick;
 
 import mc.replay.common.dispatcher.DispatcherTick;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityHeadRotation;
 import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityRelMoveLook;
 import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityTeleport;

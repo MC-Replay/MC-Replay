@@ -1,9 +1,11 @@
 package mc.replay.dispatcher.tick;
 
 import mc.replay.MCReplayPlugin;
+import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherTick;
-import mc.replay.common.recordables.Recordable;
 import mc.replay.dispatcher.ReplayDispatcher;
+import mc.replay.recording.RecordingSessionImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -31,6 +33,8 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
     @Override
     public void start() {
         this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(MCReplayPlugin.getInstance(), () -> {
+            if (!this.shouldRecord()) return;
+
             long start = System.currentTimeMillis();
 
             for (DispatcherTick tickHandler : this.tickHandlers) {
@@ -40,7 +44,11 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
                 }
 
                 List<Recordable> recordables = tickHandler.getRecordables(this.getCurrentTick());
-                MCReplayPlugin.getInstance().getReplayStorage().addRecordables(recordables);
+
+                for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
+                        .values()) {
+                    ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                }
             }
         }, 0, 1);
     }

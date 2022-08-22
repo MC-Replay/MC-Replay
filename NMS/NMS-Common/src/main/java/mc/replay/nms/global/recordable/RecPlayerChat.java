@@ -1,7 +1,7 @@
 package mc.replay.nms.global.recordable;
 
 import mc.replay.common.recordables.RecordablePlayerAction;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

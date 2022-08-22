@@ -1,8 +1,8 @@
 package mc.replay.nms.v1_16_R3.dispatcher.event.player;
 
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.nms.v1_16_R3.recordable.entity.action.RecEntitySneaking;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;

@@ -1,7 +1,7 @@
 package mc.replay.nms.global.recordable;
 
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.replay.ReplayEntity;
 import mc.replay.common.replay.ReplayMob;
 import org.bukkit.entity.Player;

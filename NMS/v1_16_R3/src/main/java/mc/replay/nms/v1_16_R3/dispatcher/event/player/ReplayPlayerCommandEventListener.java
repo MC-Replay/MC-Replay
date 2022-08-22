@@ -1,15 +1,12 @@
 package mc.replay.nms.v1_16_R3.dispatcher.event.player;
 
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.common.replay.EntityId;
-import mc.replay.nms.global.recordable.RecPlayerChat;
+import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.nms.global.recordable.RecPlayerCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
 
 import java.util.List;
 

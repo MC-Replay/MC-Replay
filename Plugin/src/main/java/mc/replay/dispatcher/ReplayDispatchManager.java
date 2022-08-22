@@ -13,7 +13,7 @@ import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
 import mc.replay.dispatcher.tick.ReplayTickDispatcher;
 
 @Getter
-public class ReplayDispatchManager {
+public final class ReplayDispatchManager {
 
     private final MCReplayPlugin plugin;
 
@@ -52,24 +52,24 @@ public class ReplayDispatchManager {
 
     @SuppressWarnings("unchecked")
     private void loadDispatchers(String version) throws Exception {
-        for (Class<?> c : ReplayNMSLoader.getNMSClasses(this.plugin, "mc.replay.nms." + version)) {
-            if (DispatcherEvent.class.isAssignableFrom(c)) {
-                this.eventDispatcher.registerListener((DispatcherEvent<?>) c.getDeclaredConstructor().newInstance());
+        for (Class<?> clazz : ReplayNMSLoader.getNMSClasses(this.plugin, "mc.replay.nms." + version)) {
+            if (DispatcherEvent.class.isAssignableFrom(clazz)) {
+                this.eventDispatcher.registerListener((DispatcherEvent<?>) clazz.getDeclaredConstructor().newInstance());
                 continue;
             }
 
-            if (DispatcherPacketIn.class.isAssignableFrom(c)) {
-                this.packetDispatcher.registerPacketInConverter((DispatcherPacketIn<Object>) c.getDeclaredConstructor().newInstance());
+            if (DispatcherPacketIn.class.isAssignableFrom(clazz)) {
+                this.packetDispatcher.registerPacketInConverter((DispatcherPacketIn<Object>) clazz.getDeclaredConstructor().newInstance());
                 continue;
             }
 
-            if (DispatcherPacketOut.class.isAssignableFrom(c)) {
-                this.packetDispatcher.registerPacketOutConverter((DispatcherPacketOut<Object>) c.getDeclaredConstructor().newInstance());
+            if (DispatcherPacketOut.class.isAssignableFrom(clazz)) {
+                this.packetDispatcher.registerPacketOutConverter((DispatcherPacketOut<Object>) clazz.getDeclaredConstructor().newInstance());
                 continue;
             }
 
-            if (DispatcherTick.class.isAssignableFrom(c)) {
-                this.tickDispatcher.registerTickHandler((DispatcherTick) c.getDeclaredConstructor().newInstance());
+            if (DispatcherTick.class.isAssignableFrom(clazz)) {
+                this.tickDispatcher.registerTickHandler((DispatcherTick) clazz.getDeclaredConstructor().newInstance());
             }
         }
     }

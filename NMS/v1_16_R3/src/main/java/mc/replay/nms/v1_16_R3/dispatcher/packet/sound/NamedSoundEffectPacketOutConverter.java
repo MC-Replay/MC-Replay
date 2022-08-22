@@ -1,7 +1,7 @@
 package mc.replay.nms.v1_16_R3.dispatcher.packet.sound;
 
 import mc.replay.common.dispatcher.DispatcherPacketOut;
-import mc.replay.common.recordables.Recordable;
+import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.utils.PacketConverter;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.nms.v1_16_R3.recordable.sound.RecNamedSoundEffect;

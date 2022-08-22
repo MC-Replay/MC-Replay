@@ -3,13 +3,14 @@ package mc.replay.replay.session;
 import lombok.Getter;
 import lombok.Setter;
 import mc.replay.MCReplayPlugin;
+import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.recordables.*;
 import mc.replay.common.replay.ReplayEntity;
 import mc.replay.common.utils.EntityPacketUtils;
 import mc.replay.common.utils.color.Text;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
-import mc.replay.nms.global.recordable.RecPlayerJoin;
 import mc.replay.nms.global.recordable.RecEntitySpawn;
+import mc.replay.nms.global.recordable.RecPlayerJoin;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public final class ReplaySession {
@@ -192,105 +192,105 @@ public final class ReplaySession {
     }
 
     public void jumpForwards(int seconds) {
-        long endMillis = this.currentTime + TimeUnit.SECONDS.toMillis(seconds);
-        if (endMillis >= this.endTime) {
-            this.currentTime = this.endTime;
-            return;
-        }
-
-        Map<Long, List<Recordable>> records = new HashMap<>();
-
-        for (long i = this.currentTime; i < endMillis; i++) {
-            List<Recordable> recordables = this.recordables.getOrDefault(i, new ArrayList<>());
-
-            if (recordables != null && !recordables.isEmpty()) {
-                records.put(i, recordables);
-            }
-        }
-
-        for (List<Recordable> value : records.values()) {
-            for (Recordable recordable : value) {
-                if (recordable instanceof RecordableEntity entityRecordable && (entityRecordable instanceof RecPlayerJoin || entityRecordable instanceof RecEntitySpawn)) {
-                    ReplayEntity<?> replayEntityPlayer = entityRecordable.play(null, null, null, -1);
-                    replayEntityPlayer.addViewers(this.getTargets());
-
-                    this.entities.add(replayEntityPlayer.spawn());
-                }
-            }
-        }
-
-        this.entities.removeIf((entity) -> {
-            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, RecordableEntity.class, entity.getOriginalEntityId());
-            Collection<String> finishedRecordables = new HashSet<>();
-
-            Long lastIndex = recordables.lastKey();
-            for (long i = (lastIndex == null) ? -1 : lastIndex; i >= 0; i--) {
-                for (Recordable recordable : recordables.getOrDefault(i, new ArrayList<>())) {
-                    if (!finishedRecordables.contains(recordable.getClass().getSimpleName())) {
-                        for (Map.Entry<Player, Object> entry : entity.getViewers().entrySet()) {
-                            Object entityPlayer = entry.getValue();
-                            if (entityPlayer == null) continue;
-
-                            int entityId = EntityPacketUtils.getEntityId(entityPlayer);
-                            if (entityId == -1) continue;
-
-                            finishedRecordables.add(recordable.getClass().getSimpleName());
-
-                            if (((RecordableEntity) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, true) == null) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        });
-
-        this.currentTime += endMillis - this.currentTime;
+        //        long endMillis = this.currentTime + TimeUnit.SECONDS.toMillis(seconds);
+        //        if (endMillis >= this.endTime) {
+        //            this.currentTime = this.endTime;
+        //            return;
+        //        }
+        //
+        //        Map<Long, List<Recordable>> records = new HashMap<>();
+        //
+        //        for (long i = this.currentTime; i < endMillis; i++) {
+        //            List<Recordable> recordables = this.recordables.getOrDefault(i, new ArrayList<>());
+        //
+        //            if (recordables != null && !recordables.isEmpty()) {
+        //                records.put(i, recordables);
+        //            }
+        //        }
+        //
+        //        for (List<Recordable> value : records.values()) {
+        //            for (Recordable recordable : value) {
+        //                if (recordable instanceof RecordableEntity entityRecordable && (entityRecordable instanceof RecPlayerJoin || entityRecordable instanceof RecEntitySpawn)) {
+        //                    ReplayEntity<?> replayEntityPlayer = entityRecordable.play(null, null, null, -1);
+        //                    replayEntityPlayer.addViewers(this.getTargets());
+        //
+        //                    this.entities.add(replayEntityPlayer.spawn());
+        //                }
+        //            }
+        //        }
+        //
+        //        this.entities.removeIf((entity) -> {
+        //            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, RecordableEntity.class, entity.getOriginalEntityId());
+        //            Collection<String> finishedRecordables = new HashSet<>();
+        //
+        //            Long lastIndex = recordables.lastKey();
+        //            for (long i = (lastIndex == null) ? -1 : lastIndex; i >= 0; i--) {
+        //                for (Recordable recordable : recordables.getOrDefault(i, new ArrayList<>())) {
+        //                    if (!finishedRecordables.contains(recordable.getClass().getSimpleName())) {
+        //                        for (Map.Entry<Player, Object> entry : entity.getViewers().entrySet()) {
+        //                            Object entityPlayer = entry.getValue();
+        //                            if (entityPlayer == null) continue;
+        //
+        //                            int entityId = EntityPacketUtils.getEntityId(entityPlayer);
+        //                            if (entityId == -1) continue;
+        //
+        //                            finishedRecordables.add(recordable.getClass().getSimpleName());
+        //
+        //                            if (((RecordableEntity) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, true) == null) {
+        //                                return true;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //
+        //            return false;
+        //        });
+        //
+        //        this.currentTime += endMillis - this.currentTime;
     }
 
     public void jumpBackwards(int seconds) {
-        long startMillis = Math.max(this.currentTime - TimeUnit.SECONDS.toMillis(seconds), this.startTime);
-
-        Map<Long, List<Recordable>> records = new HashMap<>();
-
-        for (long i = startMillis; i < this.currentTime; i++) {
-            List<Recordable> recordables = this.recordables.getOrDefault(i, new ArrayList<>());
-
-            if (recordables != null && !recordables.isEmpty()) {
-                records.put(i, recordables);
-            }
-        }
-
-        this.entities.removeIf((entity) -> {
-            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, RecordableEntity.class, entity.getOriginalEntityId());
-            Collection<String> finishedRecordables = new HashSet<>();
-
-            Long firstIndex = recordables.firstKey();
-            for (long i = 0; i <= ((firstIndex == null) ? -1 : firstIndex); i++) {
-                for (Recordable recordable : recordables.getOrDefault(i, new ArrayList<>())) {
-                    if (!finishedRecordables.contains(recordable.getClass().getSimpleName())) {
-                        for (Map.Entry<Player, Object> entry : entity.getViewers().entrySet()) {
-                            Object entityPlayer = entry.getValue();
-                            if (entityPlayer == null) continue;
-
-                            int entityId = EntityPacketUtils.getEntityId(entityPlayer);
-                            if (entityId == -1) continue;
-
-                            finishedRecordables.add(recordable.getClass().getSimpleName());
-
-                            if (((RecordableEntity) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, false) == null) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        });
-
-        this.currentTime = startMillis;
+        //        long startMillis = Math.max(this.currentTime - TimeUnit.SECONDS.toMillis(seconds), this.startTime);
+        //
+        //        Map<Long, List<Recordable>> records = new HashMap<>();
+        //
+        //        for (long i = startMillis; i < this.currentTime; i++) {
+        //            List<Recordable> recordables = this.recordables.getOrDefault(i, new ArrayList<>());
+        //
+        //            if (recordables != null && !recordables.isEmpty()) {
+        //                records.put(i, recordables);
+        //            }
+        //        }
+        //
+        //        this.entities.removeIf((entity) -> {
+        //            NavigableMap<Long, List<Recordable>> recordables = MCReplayPlugin.getInstance().getReplayStorage().getTypeRecordables(records, RecordableEntity.class, entity.getOriginalEntityId());
+        //            Collection<String> finishedRecordables = new HashSet<>();
+        //
+        //            Long firstIndex = recordables.firstKey();
+        //            for (long i = 0; i <= ((firstIndex == null) ? -1 : firstIndex); i++) {
+        //                for (Recordable recordable : recordables.getOrDefault(i, new ArrayList<>())) {
+        //                    if (!finishedRecordables.contains(recordable.getClass().getSimpleName())) {
+        //                        for (Map.Entry<Player, Object> entry : entity.getViewers().entrySet()) {
+        //                            Object entityPlayer = entry.getValue();
+        //                            if (entityPlayer == null) continue;
+        //
+        //                            int entityId = EntityPacketUtils.getEntityId(entityPlayer);
+        //                            if (entityId == -1) continue;
+        //
+        //                            finishedRecordables.add(recordable.getClass().getSimpleName());
+        //
+        //                            if (((RecordableEntity) recordable).jumpInTime(entry.getKey(), entity, entityPlayer, entityId, false) == null) {
+        //                                return true;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //
+        //            return false;
+        //        });
+        //
+        //        this.currentTime = startMillis;
     }
 }

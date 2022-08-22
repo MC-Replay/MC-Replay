@@ -2,8 +2,8 @@ package mc.replay.nms.v1_16_R3.dispatcher.event.player;
 
 import com.mojang.authlib.properties.Property;
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.nms.global.recordable.RecPlayerJoin;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;

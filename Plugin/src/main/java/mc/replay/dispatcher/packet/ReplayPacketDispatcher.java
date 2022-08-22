@@ -13,8 +13,6 @@ import java.util.Map;
 @Getter
 public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
-    private boolean active;
-
     private final Map<String, DispatcherPacketIn<Object>> packetInConverters = new HashMap<>();
     private final Map<String, DispatcherPacketOut<Object>> packetOutConverters = new HashMap<>();
 
@@ -34,15 +32,5 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
     public int getDispatcherCount() {
         return this.packetInConverters.size() + this.packetOutConverters.size();
-    }
-
-    @Override
-    public void start() {
-        this.active = true;
-    }
-
-    @Override
-    public void stop() {
-        this.active = false;
     }
 }

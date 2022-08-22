@@ -1,11 +1,11 @@
 package mc.replay.commands;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.replay.session.ReplaySession;
+import mc.replay.api.MCReplayAPI;
+import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.common.utils.color.Text;
-import org.bukkit.Bukkit;
+import mc.replay.replay.session.ReplaySession;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,9 +14,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.NavigableMap;
+import java.util.TreeMap;
 
 public class ReplayTestCommand implements CommandExecutor {
+
+    private RecordingSession session;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -27,58 +29,56 @@ public class ReplayTestCommand implements CommandExecutor {
             return false;
         }
 
-        if (args.length < 2) {
+        if (args.length < 1) {
             player.sendMessage(ChatColor.RED + "Please use: /replaytest <start/stop> <player>");
             return false;
         }
 
         if (args[0].equalsIgnoreCase("start")) {
-            Player target = Bukkit.getPlayer(args[1]);
-
-            if (target == null) {
-                player.sendMessage(ChatColor.RED + "No player found with name " + args[1]);
+            if (this.session != null) {
+                player.sendMessage(ChatColor.RED + "A recording session is already running!");
                 return false;
             }
 
-            NavigableMap<Long, List<Recordable>> recordables;
-            recordables = MCReplayPlugin.getInstance().getReplayStorage()
-                    .getTypeRecordables(Recordable.class, target.getUniqueId());
+            this.session = MCReplayAPI.getRecordingHandler().startRecording(RecordingContestant.everything());
 
-            MCReplayPlugin.getInstance().getSessions().put(player, new ReplaySession(recordables, List.of(player)));
-
-            player.sendMessage(ChatColor.GREEN + "Replay started for player " + target.getName());
+            player.sendMessage(ChatColor.GREEN + "Recording started for everything.");
             return true;
         }
 
         if (args[0].equalsIgnoreCase("stop")) {
-            Player target = Bukkit.getPlayer(args[1]);
-
-            if (target == null) {
-                player.sendMessage(ChatColor.RED + "No player found with name " + args[1]);
+            if (this.session == null) {
+                player.sendMessage(ChatColor.RED + "No recording session is running!");
                 return false;
             }
 
+            this.session.stopRecording();
+            player.sendMessage(ChatColor.GREEN + "Recording stopped.");
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("play")) {
+            if (this.session == null) {
+                player.sendMessage(ChatColor.RED + "No recording found!");
+                return false;
+            }
+
+            ReplaySession replaySession = new ReplaySession(new TreeMap<>(this.session.getRecordables()), List.of(player));
+            MCReplayPlugin.getInstance().getSessions().put(player, replaySession);
+            player.sendMessage(ChatColor.GREEN + "Replay session started.");
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("quit")) {
             ReplaySession replaySession = MCReplayPlugin.getInstance().getSessions().get(player);
             if (replaySession != null) {
                 replaySession.stop();
-                player.sendMessage(ChatColor.GREEN + "Replay stopped for player " + target.getName());
+                this.session = null;
+                player.sendMessage(ChatColor.GREEN + "Replay stopped.");
                 return true;
             }
 
-            player.sendMessage(Text.color("&cNo active replay found for player " + target.getName()));
-            return false;
-        }
-
-        if (args[0].equalsIgnoreCase("save")) {
-            Player target = Bukkit.getPlayer(args[1]);
-
-            if (target == null) {
-                player.sendMessage(ChatColor.RED + "No player found with name " + args[1]);
-                return false;
-            }
-
-            MCReplayPlugin.getInstance().createReplay(player);
-            player.sendMessage(ChatColor.GREEN + "Replay saved for player " + target.getName());
+            player.sendMessage(Text.color("&cNo active replay found."));
             return true;
         }
 

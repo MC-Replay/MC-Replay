@@ -1,8 +1,8 @@
 package mc.replay.nms.v1_16_R3.dispatcher.packet;
 
 import mc.replay.common.dispatcher.DispatcherPacketIn;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.utils.PacketConverter;
 import mc.replay.nms.v1_16_R3.recordable.entity.miscellaneous.RecEntitySwingHandAnimation;
 import net.minecraft.server.v1_16_R3.EnumHand;

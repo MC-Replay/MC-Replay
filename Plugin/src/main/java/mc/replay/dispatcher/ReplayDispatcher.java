@@ -15,11 +15,17 @@ public abstract class ReplayDispatcher {
         return this.plugin;
     }
 
-    public abstract void start();
+    public void start() {
+    }
 
-    public abstract void stop();
+    public void stop() {
+    }
 
     public int getCurrentTick() {
         return MinecraftNMS.getCurrentServerTick();
+    }
+
+    public boolean shouldRecord() {
+        return MCReplayPlugin.getInstance().getRecordingHandler().shouldRecord();
     }
 }

@@ -1,13 +1,10 @@
 package mc.replay.storage;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.common.recordables.Recordable;
-import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityRelMoveLook;
 import mc.replay.replay.Replay;
 import net.minecraft.server.v1_16_R3.ChunkRegionLoader;
 import net.minecraft.server.v1_16_R3.NBTTagCompound;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.CraftChunk;
 import org.bukkit.entity.Player;
@@ -18,8 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.NavigableMap;
 
 public record ReplayCreator(MCReplayPlugin mcReplay) {
 
@@ -51,21 +46,21 @@ public record ReplayCreator(MCReplayPlugin mcReplay) {
         World world = player.getWorld();
         Collection<Chunk> chunks = new HashSet<>();
 
-        NavigableMap<Long, List<Recordable>> recordables = this.mcReplay.getReplayStorage().getTypeRecordables(RecEntityRelMoveLook.class, player.getUniqueId());
-
-        for (List<Recordable> recordableList : recordables.values()) {
-            for (Recordable recordable : recordableList) {
-                if (!(recordable instanceof RecEntityRelMoveLook entityRelMoveLook)) continue;
-
-                Location current = entityRelMoveLook.current();
-                if (current.getWorld() == null || !current.getWorld().equals(world)) continue;
-
-                Chunk chunk = current.getChunk();
-                if (!chunks.contains(chunk)) {
-                    chunks.add(chunk);
-                }
-            }
-        }
+        //        NavigableMap<Long, List<Recordable>> recordables = this.mcReplay.getReplayStorage().getTypeRecordables(RecEntityRelMoveLook.class, player.getUniqueId());
+        //
+        //        for (List<Recordable> recordableList : recordables.values()) {
+        //            for (Recordable recordable : recordableList) {
+        //                if (!(recordable instanceof RecEntityRelMoveLook entityRelMoveLook)) continue;
+        //
+        //                Location current = entityRelMoveLook.current();
+        //                if (current.getWorld() == null || !current.getWorld().equals(world)) continue;
+        //
+        //                Chunk chunk = current.getChunk();
+        //                if (!chunks.contains(chunk)) {
+        //                    chunks.add(chunk);
+        //                }
+        //            }
+        //        }
 
         return chunks;
     }

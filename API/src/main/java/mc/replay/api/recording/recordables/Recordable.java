@@ -1,4 +1,4 @@
-package mc.replay.common.recordables;
+package mc.replay.api.recording.recordables;
 
 import org.jetbrains.annotations.NotNull;
 

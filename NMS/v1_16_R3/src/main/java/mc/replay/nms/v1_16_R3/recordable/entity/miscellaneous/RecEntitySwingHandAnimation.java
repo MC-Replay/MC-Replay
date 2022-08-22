@@ -1,7 +1,7 @@
 package mc.replay.nms.v1_16_R3.recordable.entity.miscellaneous;
 
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.common.replay.EntityId;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.replay.ReplayEntity;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;

@@ -1,6 +1,6 @@
 package mc.replay.common.dispatcher;
 
-import mc.replay.common.recordables.Recordable;
+import mc.replay.api.recording.recordables.Recordable;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
