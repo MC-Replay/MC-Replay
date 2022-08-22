@@ -25,7 +25,7 @@ public final class RecordingSessionImpl implements RecordingSession {
 
     @Override
     public void stopRecording() {
-        MCReplayAPI.getRecordingHandler().getRecordingSessionHandler().stopSession(this.sessionUuid);
+        MCReplayAPI.getRecordingHandler().stopRecording(this.sessionUuid);
     }
 
     public void addRecordables(List<Recordable> newRecordables) {

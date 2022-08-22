@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 public final class RecordingHandler implements IRecordingHandler {
 
-    private final Map<UUID, RecordingSessionImpl> recordingSessions = new HashMap<>();
+    private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
 
     @Override
     public @NotNull RecordingSession startRecording(@NotNull RecordingContestant contestant) {
