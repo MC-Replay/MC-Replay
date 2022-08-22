@@ -10,6 +10,7 @@ import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.listener.PlayerInteractListener;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.Replay;
+import mc.replay.replay.ReplayHandler;
 import mc.replay.replay.session.ReplaySession;
 import mc.replay.storage.ReplayCreator;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     private static MCReplayPlugin instance;
 
     private RecordingHandler recordingHandler;
+    private ReplayHandler replayHandler;
 
     private ReplayCreator replayCreator;
 
@@ -46,6 +48,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         CommonInstance.plugin = this;
 
         this.recordingHandler = new RecordingHandler();
+        this.replayHandler = new ReplayHandler(this);
 
         this.replayCreator = new ReplayCreator(this);
 
