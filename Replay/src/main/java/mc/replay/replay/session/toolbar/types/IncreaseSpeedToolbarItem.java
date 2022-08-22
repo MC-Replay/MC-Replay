@@ -19,7 +19,7 @@ public final class IncreaseSpeedToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            // TODO increase speed
+            player.replaySession().increaseSpeed();
         };
     }
 }

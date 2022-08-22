@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 @Getter
@@ -30,7 +31,7 @@ public final class RecordingHandler implements IRecordingHandler {
             throw new IllegalStateException("No recording session found for session uuid '" + sessionUuid + "'");
         }
 
-        return new RecordingImpl(recordingSession.getStartTime(), recordingSession.getRecordables());
+        return new RecordingImpl(recordingSession.getStartTime(), new TreeMap<>(recordingSession.getRecordables()));
     }
 
     @Override

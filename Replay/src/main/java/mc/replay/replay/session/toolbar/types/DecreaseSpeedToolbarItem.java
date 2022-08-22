@@ -19,7 +19,7 @@ public final class DecreaseSpeedToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            // TODO decrease speed
+            player.replaySession().decreaseSpeed();
         };
     }
 }

@@ -5,7 +5,7 @@ import mc.replay.api.recording.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
+import java.util.NavigableMap;
 import java.util.UUID;
 
 public interface RecordingSession {
@@ -16,7 +16,7 @@ public interface RecordingSession {
 
     long getStartTime();
 
-    @NotNull Map<Long, List<Recordable>> getRecordables();
+    @NotNull NavigableMap<Long, List<Recordable>> getRecordables();
 
     void stopRecording();
 }

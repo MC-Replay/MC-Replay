@@ -1,11 +1,18 @@
 package mc.replay.replay;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
+import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.task.ReplaySessionInformTask;
+import mc.replay.replay.session.task.ReplaySessionPlayTask;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -21,6 +28,18 @@ public final class ReplaySessionImpl implements ReplaySession {
     private final Collection<ReplayPlayer> watchers;
     private final Recording recording;
 
+    @Setter
+    private boolean paused = true;
+    private double speed = 1.0;
+
+    private final ReplaySessionPlayTask playTask;
+    private final ReplaySessionInformTask informTask;
+
+    @Getter(AccessLevel.NONE)
+    private final BukkitTask playTaskHandle;
+    @Getter(AccessLevel.NONE)
+    private final BukkitTask informTaskHandle;
+
     private boolean invalid = false;
 
     ReplaySessionImpl(Player navigator, Collection<Player> watchers, Recording recording) {
@@ -32,10 +51,19 @@ public final class ReplaySessionImpl implements ReplaySession {
         for (Player watcher : watchers) {
             this.watchers.add(new ReplayPlayerImpl(watcher, this));
         }
+
+        this.playTask = new ReplaySessionPlayTask(this);
+        this.informTask = new ReplaySessionInformTask(this);
+
+        this.playTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.playTask, 0L, 1L);
+        this.informTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.informTask, 0L, 20L);
     }
 
     @Override
     public void stop() {
+        this.playTaskHandle.cancel();
+        this.informTaskHandle.cancel();
+
         this.invalid = true;
     }
 
@@ -44,5 +72,17 @@ public final class ReplaySessionImpl implements ReplaySession {
         Set<ReplayPlayer> allPlayers = new HashSet<>(this.watchers);
         allPlayers.add(this.navigator);
         return allPlayers;
+    }
+
+    @Override
+    public void decreaseSpeed() {
+        if (this.speed <= 0.25) return;
+        this.speed = (this.speed <= 1) ? this.speed - 0.25 : this.speed - 1;
+    }
+
+    @Override
+    public void increaseSpeed() {
+        if (this.speed >= 4.0) return;
+        this.speed = (this.speed < 1) ? this.speed + 0.25 : this.speed + 1;
     }
 }

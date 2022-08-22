@@ -11,7 +11,7 @@ public final class PauseResumeToolbarItem extends ToolbarItem {
                 "pause_resume",
                 inventorySlot,
                 (player) -> {
-                    boolean paused = true;
+                    boolean paused = player.replaySession().isPaused();
 
                     return new ItemBuilder((paused) ? Material.WHITE_DYE : Material.LIME_DYE)
                             .displayName((paused) ? "&aResume" : "&aPause")
@@ -30,7 +30,7 @@ public final class PauseResumeToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            // TODO pause/resume
+            player.replaySession().setPaused(!player.replaySession().isPaused());
             this.give(player);
         };
     }

@@ -63,7 +63,7 @@ public class ReplayTestCommand implements CommandExecutor {
                 return false;
             }
 
-            ReplaySession replaySession = new ReplaySession(new TreeMap<>(this.session.getRecordables()), List.of(player));
+            ReplaySession replaySession = new ReplaySession(this.session.getRecordables(), List.of(player));
             MCReplayPlugin.getInstance().getSessions().put(player, replaySession);
             player.sendMessage(ChatColor.GREEN + "Replay session started.");
             return true;

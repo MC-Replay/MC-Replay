@@ -22,4 +22,14 @@ public interface ReplaySession {
     @NotNull Collection<ReplayPlayer> getAllPlayers();
 
     boolean isInvalid();
+
+    boolean isPaused();
+
+    void setPaused(boolean paused);
+
+    double getSpeed();
+
+    void decreaseSpeed();
+
+    void increaseSpeed();
 }

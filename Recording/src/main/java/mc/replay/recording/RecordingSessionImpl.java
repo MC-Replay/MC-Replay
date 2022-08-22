@@ -14,13 +14,13 @@ public final class RecordingSessionImpl implements RecordingSession {
     private final UUID sessionUuid;
     private final RecordingContestant contestant;
     private final long startTime;
-    private final Map<Long, List<Recordable>> recordables;
+    private final NavigableMap<Long, List<Recordable>> recordables;
 
     RecordingSessionImpl(RecordingContestant contestant) {
         this.sessionUuid = UUID.randomUUID();
         this.contestant = contestant;
         this.startTime = System.currentTimeMillis();
-        this.recordables = new HashMap<>();
+        this.recordables = new TreeMap<>();
     }
 
     @Override
