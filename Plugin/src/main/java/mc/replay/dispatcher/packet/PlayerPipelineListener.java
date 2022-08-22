@@ -48,9 +48,9 @@ public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implemen
                     if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
                         List<Recordable> recordables = entry.getValue().getRecordables(this.player, packetObject);
 
-                        for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
+                        for (RecordingSessionImpl recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
                                 .values()) {
-                            ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                            recordingSession.addRecordables(recordables);
                         }
                     }
                 }
@@ -70,9 +70,9 @@ public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implemen
                     if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
                         List<Recordable> recordables = entry.getValue().getRecordables(packetObject);
 
-                        for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
+                        for (RecordingSessionImpl recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
                                 .values()) {
-                            ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                            recordingSession.addRecordables(recordables);
                         }
                     }
                 }

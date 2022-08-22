@@ -54,9 +54,9 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
 
                     List<Recordable> recordables = eventListener.getRecordables(event);
 
-                    for (RecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
+                    for (RecordingSessionImpl recordingSession : this.plugin.getRecordingHandler().getRecordingSessionHandler().getRecordingSessions()
                             .values()) {
-                        ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                        recordingSession.addRecordables(recordables);
                     }
                 },
                 this.plugin,

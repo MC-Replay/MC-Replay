@@ -13,12 +13,12 @@ import java.util.UUID;
 @Getter
 public final class RecordingSessionHandler implements IRecordingSessionHandler {
 
-    private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
+    private final Map<UUID, RecordingSessionImpl> recordingSessions = new HashMap<>();
 
     @Override
     public @NotNull Recording stopSession(@NotNull UUID sessionUuid) {
         RecordingSession recordingSession = this.recordingSessions.remove(sessionUuid);
-        if(recordingSession == null) {
+        if (recordingSession == null) {
             throw new IllegalStateException("No recording session found for session uuid '" + sessionUuid + "'");
         }
 
@@ -30,7 +30,7 @@ public final class RecordingSessionHandler implements IRecordingSessionHandler {
         return this.recordingSessions.remove(sessionUuid) != null;
     }
 
-    RecordingSession addSession(RecordingSession session) {
+    RecordingSession addSession(RecordingSessionImpl session) {
         this.recordingSessions.put(session.getSessionUuid(), session);
         return session;
     }
