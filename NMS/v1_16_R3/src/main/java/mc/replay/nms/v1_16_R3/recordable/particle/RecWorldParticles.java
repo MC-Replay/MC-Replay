@@ -1,10 +1,12 @@
 package mc.replay.nms.v1_16_R3.recordable.particle;
 
 import mc.replay.common.recordables.RecordableParticle;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_16_R3.ParticleParam;
-import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Function;
 
 public record RecWorldParticles(Object particleParam, boolean longDistance, double x, double y, double z, float offsetX,
                                 float offsetY, float offsetZ, float particleData,
@@ -27,12 +29,8 @@ public record RecWorldParticles(Object particleParam, boolean longDistance, doub
     }
 
     @Override
-    public void play(Player viewer) {
-        MinecraftPlayerNMS.sendPacket(viewer, this.createPacket());
-    }
-
-    private Object createPacket() {
-        return new PacketPlayOutWorldParticles(
+    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+        return List.of(new PacketPlayOutWorldParticles(
                 (ParticleParam) this.particleParam,
                 this.longDistance,
                 this.x,
@@ -43,6 +41,6 @@ public record RecWorldParticles(Object particleParam, boolean longDistance, doub
                 this.offsetZ,
                 this.particleData,
                 this.particleCount
-        );
+        ));
     }
 }

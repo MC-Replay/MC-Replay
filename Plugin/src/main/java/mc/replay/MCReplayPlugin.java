@@ -7,18 +7,12 @@ import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.dispatcher.ReplayDispatchManager;
-import mc.replay.listener.PlayerInteractListener;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.Replay;
 import mc.replay.replay.ReplayHandler;
-import mc.replay.replay.session.ReplaySession;
 import mc.replay.storage.ReplayCreator;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
@@ -32,8 +26,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     private ReplayCreator replayCreator;
 
     private ReplayDispatchManager dispatchManager;
-
-    private Map<Player, ReplaySession> sessions;
 
     @Override
     public void onLoad() {
@@ -53,11 +45,9 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         this.replayCreator = new ReplayCreator(this);
 
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());
-        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
 
         this.dispatchManager = new ReplayDispatchManager(this);
 
-        this.sessions = new HashMap<>();
         this.enable();
     }
 

@@ -12,11 +12,12 @@ import net.minecraft.server.v1_16_R3.SoundEffect;
 import org.bukkit.NamespacedKey;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class EntitySoundPacketOutConverter implements DispatcherPacketOut<PacketPlayOutEntitySound> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutEntitySound packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutEntitySound packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         SoundEffect soundEffect = convertedPacket.get("a", SoundEffect.class);

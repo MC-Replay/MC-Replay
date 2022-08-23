@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ReplayPlayerChatEventListener implements DispatcherEvent<AsyncPlayerChatEvent> {
 
@@ -18,7 +19,7 @@ public final class ReplayPlayerChatEventListener implements DispatcherEvent<Asyn
     }
 
     @Override
-    public List<Recordable> getRecordables(AsyncPlayerChatEvent event) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

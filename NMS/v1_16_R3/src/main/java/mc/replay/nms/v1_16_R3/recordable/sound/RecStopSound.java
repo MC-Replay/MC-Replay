@@ -1,12 +1,14 @@
 package mc.replay.nms.v1_16_R3.recordable.sound;
 
 import mc.replay.common.recordables.RecordableSound;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.MinecraftKey;
 import net.minecraft.server.v1_16_R3.PacketPlayOutStopSound;
 import net.minecraft.server.v1_16_R3.SoundCategory;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Function;
 
 public record RecStopSound(NamespacedKey soundKey, String category) implements RecordableSound {
 
@@ -18,13 +20,9 @@ public record RecStopSound(NamespacedKey soundKey, String category) implements R
     }
 
     @Override
-    public void play(Player viewer) {
-        MinecraftPlayerNMS.sendPacket(viewer, this.createPacket());
-    }
-
-    private Object createPacket() {
+    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
         MinecraftKey minecraftKey = new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey());
         SoundCategory category = SoundCategory.valueOf(this.category);
-        return new PacketPlayOutStopSound(minecraftKey, category);
+        return List.of(new PacketPlayOutStopSound(minecraftKey, category));
     }
 }

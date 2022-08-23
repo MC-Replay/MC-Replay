@@ -1,18 +1,8 @@
 package mc.replay.common.recordables;
 
 import mc.replay.api.recording.recordables.Recordable;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-public interface RecordableSound extends Recordable {
+import java.util.function.Function;
 
-    NamespacedKey soundKey();
-
-    void play(Player viewer);
-
-    @Override
-    default boolean match(@NotNull Object object) {
-        return object instanceof String string && this.soundKey().getKey().equalsIgnoreCase(string);
-    }
+public interface RecordableSound extends Recordable<Function<Void, Void>> {
 }

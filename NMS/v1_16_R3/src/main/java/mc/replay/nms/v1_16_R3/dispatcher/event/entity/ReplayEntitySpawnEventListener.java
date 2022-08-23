@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ReplayEntitySpawnEventListener implements DispatcherEvent<EntitySpawnEvent> {
 
@@ -20,7 +21,7 @@ public final class ReplayEntitySpawnEventListener implements DispatcherEvent<Ent
     }
 
     @Override
-    public List<Recordable> getRecordables(EntitySpawnEvent event) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof Player || entity instanceof NPC) return null;
 

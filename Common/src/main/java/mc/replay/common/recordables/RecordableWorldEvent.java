@@ -1,17 +1,8 @@
 package mc.replay.common.recordables;
 
 import mc.replay.api.recording.recordables.Recordable;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-public interface RecordableWorldEvent extends Recordable {
+import java.util.function.Function;
 
-    int effectId();
-
-    void play(Player viewer);
-
-    @Override
-    default boolean match(@NotNull Object object) {
-        return object instanceof Integer integer && this.effectId() == integer;
-    }
+public interface RecordableWorldEvent extends Recordable<Function<Void, Void>> {
 }

@@ -8,11 +8,12 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_16_R3.ParticleParam;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class WorldParticlesPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldParticles> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutWorldParticles packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutWorldParticles packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         ParticleParam particleParam = convertedPacket.get("j", ParticleParam.class);

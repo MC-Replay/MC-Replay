@@ -11,11 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ArmAnimationPacketInConverter implements DispatcherPacketIn<PacketPlayInArmAnimation> {
 
     @Override
-    public List<Recordable> getRecordables(Player player, PacketPlayInArmAnimation packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(Player player, PacketPlayInArmAnimation packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         EnumHand enumHand = convertedPacket.get("a", EnumHand.class);

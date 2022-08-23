@@ -12,11 +12,12 @@ import org.bukkit.craftbukkit.v1_16_R3.block.data.CraftBlockData;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class MultiBlockChangePacketOutConverter implements DispatcherPacketOut<PacketPlayOutMultiBlockChange> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutMultiBlockChange packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutMultiBlockChange packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         SectionPosition position = convertedPacket.get("a", SectionPosition.class);

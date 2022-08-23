@@ -9,11 +9,12 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutWorldEvent;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class WorldEventPacketOutConverter implements DispatcherPacketOut<PacketPlayOutWorldEvent> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutWorldEvent packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutWorldEvent packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         int effectId = convertedPacket.get("a", Integer.class);

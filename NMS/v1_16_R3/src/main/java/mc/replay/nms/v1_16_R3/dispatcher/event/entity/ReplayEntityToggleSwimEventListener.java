@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ReplayEntityToggleSwimEventListener implements DispatcherEvent<EntityToggleSwimEvent> {
 
@@ -18,7 +19,7 @@ public final class ReplayEntityToggleSwimEventListener implements DispatcherEven
     }
 
     @Override
-    public List<Recordable> getRecordables(EntityToggleSwimEvent event) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(EntityToggleSwimEvent event) {
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

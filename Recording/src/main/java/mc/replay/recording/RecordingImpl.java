@@ -1,7 +1,7 @@
 package mc.replay.recording;
 
 import mc.replay.api.recording.Recording;
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recording.recordables.CachedRecordable;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -10,9 +10,9 @@ import java.util.NavigableMap;
 import java.util.UUID;
 
 record RecordingImpl(String id, Duration duration, long startedAt, long endedAt,
-                     NavigableMap<Long, List<Recordable>> recordables) implements Recording {
+                     NavigableMap<Long, List<CachedRecordable>> recordables) implements Recording {
 
-    RecordingImpl(long startedAt, NavigableMap<Long, List<Recordable>> recordables) {
+    RecordingImpl(long startedAt, NavigableMap<Long, List<CachedRecordable>> recordables) {
         this(null, null, startedAt, 0L, recordables);
     }
 

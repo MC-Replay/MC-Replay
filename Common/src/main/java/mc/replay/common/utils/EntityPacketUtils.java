@@ -2,6 +2,7 @@ package mc.replay.common.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.utils.reflection.MinecraftReflections;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
@@ -39,8 +40,8 @@ public class EntityPacketUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static Object spawnNPC(Player viewer, Location location, String name, Property skinTexture) {
-        if (location == null || location.getWorld() == null || viewer == null) return null;
+    public static Object spawnNPC(Collection<ReplayPlayer> viewers, Location location, String name, Property skinTexture) {
+        if (location == null || location.getWorld() == null || viewers == null) return null;
 
         try {
             GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
@@ -72,12 +73,16 @@ public class EntityPacketUtils {
             Object packetPlayOutEntityMetadata = PACKET_PLAY_OUT_ENTITY_METADATA_CONSTRUCTOR.newInstance(entityId, dataWatcher, true);
             Object packetPlayOutScoreboardTeam = createScoreboardTeamPacket(teamObject);
 
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutPlayerInfoAdd);
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutNamedEntitySpawn);
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutScoreboardTeam);
+            for (ReplayPlayer viewerReplayPlayer : viewers) {
+                Player viewer = viewerReplayPlayer.player();
 
-            updateRotation(viewer, location.getYaw(), location.getPitch(), entityPlayer, true);
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutPlayerInfoAdd);
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutNamedEntitySpawn);
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutScoreboardTeam);
+
+                updateRotation(viewer, location.getYaw(), location.getPitch(), entityPlayer, true);
+            }
 
             new BukkitRunnable() {
                 @Override
@@ -87,7 +92,11 @@ public class EntityPacketUtils {
                         Object packetPlayOutPlayerInfoRemove = PACKET_PLAY_OUT_PLAYER_INFO.getConstructor(ENUM_PLAYER_INFO_ACTION, removeArray.getClass())
                                 .newInstance(ENUM_PLAYER_INFO_ACTION_REMOVE_PLAYER, removeArray);
 
-                        MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutPlayerInfoRemove);
+                        for (ReplayPlayer viewerReplayPlayer : viewers) {
+                            Player viewer = viewerReplayPlayer.player();
+
+                            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutPlayerInfoRemove);
+                        }
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
@@ -156,12 +165,17 @@ public class EntityPacketUtils {
         }
     }
 
-    public static void destroy(Player viewer, Object entityPlayer) {
+    public static void destroy(Collection<ReplayPlayer> viewers, Object entityPlayer) {
         try {
             int entityId = getEntityId(entityPlayer);
 
             Object packetPlayOutEntityDestroy = PACKET_PLAY_OUT_ENTITY_DESTROY_CONSTRUCTOR.newInstance((Object) new int[]{entityId});
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityDestroy);
+
+            for (ReplayPlayer viewerReplayPlayer : viewers) {
+                Player viewer = viewerReplayPlayer.player();
+
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityDestroy);
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }

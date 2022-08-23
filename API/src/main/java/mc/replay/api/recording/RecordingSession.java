@@ -1,6 +1,7 @@
 package mc.replay.api.recording;
 
 import mc.replay.api.recording.contestant.RecordingContestant;
+import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.recording.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public interface RecordingSession {
 
     long getStartTime();
 
-    @NotNull NavigableMap<Long, List<Recordable>> getRecordables();
+    @NotNull NavigableMap<Long, List<CachedRecordable>> getRecordables();
 
-    void stopRecording();
+    @NotNull Recording stopRecording();
 }

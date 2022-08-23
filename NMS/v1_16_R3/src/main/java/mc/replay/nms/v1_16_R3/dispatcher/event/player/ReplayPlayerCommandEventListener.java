@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ReplayPlayerCommandEventListener implements DispatcherEvent<PlayerCommandPreprocessEvent> {
 
@@ -18,7 +19,7 @@ public final class ReplayPlayerCommandEventListener implements DispatcherEvent<P
     }
 
     @Override
-    public List<Recordable> getRecordables(PlayerCommandPreprocessEvent event) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

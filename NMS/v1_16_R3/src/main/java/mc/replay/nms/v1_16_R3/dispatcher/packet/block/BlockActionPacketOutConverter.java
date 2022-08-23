@@ -11,11 +11,12 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutBlockAction;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class BlockActionPacketOutConverter implements DispatcherPacketOut<PacketPlayOutBlockAction> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutBlockAction packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutBlockAction packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         BlockPosition position = convertedPacket.get("a", BlockPosition.class);

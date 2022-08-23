@@ -10,11 +10,12 @@ import net.minecraft.server.v1_16_R3.SoundCategory;
 import org.bukkit.NamespacedKey;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class CustomSoundEffectPacketOutConverter implements DispatcherPacketOut<PacketPlayOutCustomSoundEffect> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutCustomSoundEffect packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutCustomSoundEffect packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         MinecraftKey minecraftKey = convertedPacket.get("a", MinecraftKey.class);

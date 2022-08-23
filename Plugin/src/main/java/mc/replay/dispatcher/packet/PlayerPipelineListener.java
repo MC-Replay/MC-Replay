@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implements Listener {
 
@@ -46,7 +47,7 @@ public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implemen
             if (logAction) try {
                 for (Map.Entry<String, DispatcherPacketIn<Object>> entry : this.handler.dispatcher().getPacketInConverters().entrySet()) {
                     if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
-                        List<Recordable> recordables = entry.getValue().getRecordables(this.player, packetObject);
+                        List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(this.player, packetObject);
 
                         for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
                             ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
@@ -67,7 +68,7 @@ public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implemen
             if (logAction) try {
                 for (Map.Entry<String, DispatcherPacketOut<Object>> entry : this.handler.dispatcher().getPacketOutConverters().entrySet()) {
                     if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
-                        List<Recordable> recordables = entry.getValue().getRecordables(packetObject);
+                        List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packetObject);
 
                         for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
                             ((RecordingSessionImpl) recordingSession).addRecordables(recordables);

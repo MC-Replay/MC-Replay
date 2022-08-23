@@ -1,8 +1,8 @@
 package mc.replay.nms.v1_16_R3.dispatcher.tick;
 
-import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.nms.v1_16_R3.recordable.entity.miscellaneous.RecEntityEquipment;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -16,14 +16,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public final class EntityEquipmentTickHandler implements DispatcherTick {
 
     private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
 
     @Override
-    public List<Recordable> getRecordables(Integer currentTick) {
-        List<Recordable> recordables = new ArrayList<>();
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(Integer currentTick) {
+        List<Recordable<? extends Function<?, ?>>> recordables = new ArrayList<>();
 
         this.lastEquipment.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
 

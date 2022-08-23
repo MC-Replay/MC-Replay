@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ReplayPlayerToggleSneakEventListener implements DispatcherEvent<PlayerToggleSneakEvent> {
 
@@ -18,7 +19,7 @@ public final class ReplayPlayerToggleSneakEventListener implements DispatcherEve
     }
 
     @Override
-    public List<Recordable> getRecordables(PlayerToggleSneakEvent event) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());

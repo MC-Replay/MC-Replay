@@ -8,11 +8,12 @@ import mc.replay.nms.v1_16_R3.recordable.entity.miscellaneous.RecEntityAnimation
 import net.minecraft.server.v1_16_R3.PacketPlayOutAnimation;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class AnimationPacketOutConverter implements DispatcherPacketOut<PacketPlayOutAnimation> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutAnimation packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutAnimation packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         int entityId = convertedPacket.get("a", Integer.class);

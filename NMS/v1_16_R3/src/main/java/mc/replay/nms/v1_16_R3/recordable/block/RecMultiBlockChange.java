@@ -1,16 +1,17 @@
 package mc.replay.nms.v1_16_R3.recordable.block;
 
 import mc.replay.common.recordables.RecordableBlock;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.IBlockData;
 import net.minecraft.server.v1_16_R3.PacketPlayOutMultiBlockChange;
 import net.minecraft.server.v1_16_R3.SectionPosition;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.v1_16_R3.block.data.CraftBlockData;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.function.Function;
 
 public record RecMultiBlockChange(Vector blockPosition, short[] blockIndexes, BlockData[] blockData,
                                   boolean flag) implements RecordableBlock {
@@ -25,11 +26,7 @@ public record RecMultiBlockChange(Vector blockPosition, short[] blockIndexes, Bl
     }
 
     @Override
-    public void play(Player viewer) {
-        MinecraftPlayerNMS.sendPacket(viewer, this.createPacket());
-    }
-
-    private Object createPacket() {
+    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
         SectionPosition position = SectionPosition.a(
                 this.blockPosition.getBlockX(),
                 this.blockPosition.getBlockY(),
@@ -48,7 +45,7 @@ public record RecMultiBlockChange(Vector blockPosition, short[] blockIndexes, Bl
         this.setField(packet, "c", blockData);
         this.setField(packet, "d", this.flag);
 
-        return packet;
+        return List.of(packet);
     }
 
     private void setField(Object object, String name, Object data) {

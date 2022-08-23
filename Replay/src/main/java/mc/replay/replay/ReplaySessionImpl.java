@@ -7,10 +7,12 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.common.utils.color.Text;
 import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +59,15 @@ public final class ReplaySessionImpl implements ReplaySession {
 
         this.playTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.playTask, 0L, 1L);
         this.informTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.informTask, 0L, 20L);
+
+        for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
+            MCReplayAPI.getReplayHandler().getToolbarItemHandler().giveItems(replayPlayer);
+            boolean flying = replayPlayer.player().isFlying();
+            replayPlayer.player().setAllowFlight(true);
+            replayPlayer.player().setFlying(flying);
+
+            replayPlayer.player().sendMessage(Text.color("&aReplay session started."));
+        }
     }
 
     @Override
@@ -65,6 +76,10 @@ public final class ReplaySessionImpl implements ReplaySession {
         this.informTaskHandle.cancel();
 
         this.invalid = true;
+
+        for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
+            replayPlayer.player().sendMessage(Text.color("&aReplay session stopped."));
+        }
     }
 
     @Override
@@ -84,5 +99,9 @@ public final class ReplaySessionImpl implements ReplaySession {
     public void increaseSpeed() {
         if (this.speed >= 4.0) return;
         this.speed = (this.speed < 1) ? this.speed + 0.25 : this.speed + 1;
+    }
+
+    public World getReplayWorld() {
+        return this.navigator.player().getWorld();
     }
 }

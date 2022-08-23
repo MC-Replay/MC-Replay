@@ -3,7 +3,7 @@ package mc.replay.nms.v1_16_R3.dispatcher.event.entity;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.nms.global.recordable.RecEntityDeath;
+import mc.replay.nms.global.recordable.RecEntityDestroy;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class ReplayEntityDeathEventListener implements DispatcherEvent<EntityDeathEvent> {
 
@@ -20,13 +21,13 @@ public final class ReplayEntityDeathEventListener implements DispatcherEvent<Ent
     }
 
     @Override
-    public List<Recordable> getRecordables(EntityDeathEvent event) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(EntityDeathEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof Player || entity instanceof NPC) return null;
 
         // TODO check if entity is replay entity
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
-        return List.of(RecEntityDeath.of(entityId));
+        return List.of(RecEntityDestroy.of(entityId));
     }
 }

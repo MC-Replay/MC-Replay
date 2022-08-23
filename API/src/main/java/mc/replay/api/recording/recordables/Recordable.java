@@ -1,8 +1,12 @@
 package mc.replay.api.recording.recordables;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public interface Recordable {
+import java.util.List;
+import java.util.function.Function;
 
-    boolean match(@NotNull Object object);
+public interface Recordable<F extends Function<?, ?>> {
+
+    @NotNull List<@NotNull Object> createReplayPackets(@Nullable F function);
 }

@@ -1,5 +1,6 @@
 package mc.replay.api.recording;
 
+import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.recording.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,5 +19,5 @@ public interface Recording {
 
     long endedAt();
 
-    @NotNull NavigableMap<Long, List<Recordable>> recordables();
+    @NotNull NavigableMap<Long, List<CachedRecordable>> recordables();
 }

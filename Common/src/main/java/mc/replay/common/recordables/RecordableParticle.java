@@ -1,17 +1,8 @@
 package mc.replay.common.recordables;
 
 import mc.replay.api.recording.recordables.Recordable;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-public interface RecordableParticle extends Recordable {
+import java.util.function.Function;
 
-    Object particleParam();
-
-    void play(Player viewer);
-
-    @Override
-    default boolean match(@NotNull Object object) {
-        return this.particleParam().equals(object);
-    }
+public interface RecordableParticle extends Recordable<Function<Void, Void>> {
 }

@@ -2,10 +2,11 @@ package mc.replay.commands;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.api.MCReplayAPI;
+import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.common.utils.color.Text;
-import mc.replay.replay.session.ReplaySession;
+import mc.replay.api.replay.ReplaySession;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,12 +14,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.TreeMap;
-
 public class ReplayTestCommand implements CommandExecutor {
 
     private RecordingSession session;
+    private Recording recording;
+    private ReplaySession replaySession;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -52,28 +52,27 @@ public class ReplayTestCommand implements CommandExecutor {
                 return false;
             }
 
-            this.session.stopRecording();
+            this.recording = this.session.stopRecording();
             player.sendMessage(ChatColor.GREEN + "Recording stopped.");
             return true;
         }
 
         if (args[0].equalsIgnoreCase("play")) {
-            if (this.session == null) {
+            if (this.recording == null) {
                 player.sendMessage(ChatColor.RED + "No recording found!");
                 return false;
             }
 
-            ReplaySession replaySession = new ReplaySession(this.session.getRecordables(), List.of(player));
-            MCReplayPlugin.getInstance().getSessions().put(player, replaySession);
+            this.replaySession = MCReplayAPI.getReplayHandler().startReplay(this.recording, player);
             player.sendMessage(ChatColor.GREEN + "Replay session started.");
             return true;
         }
 
         if (args[0].equalsIgnoreCase("quit")) {
-            ReplaySession replaySession = MCReplayPlugin.getInstance().getSessions().get(player);
-            if (replaySession != null) {
-                replaySession.stop();
+            if (this.replaySession != null) {
+                this.replaySession.stop();
                 this.session = null;
+                this.recording = null;
                 player.sendMessage(ChatColor.GREEN + "Replay stopped.");
                 return true;
             }

@@ -2,10 +2,12 @@ package mc.replay.nms.v1_16_R3.recordable.sound;
 
 import mc.replay.common.recordables.RecordableSound;
 import mc.replay.common.utils.reflection.JavaReflections;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Function;
 
 public record RecNamedSoundEffect(NamespacedKey soundKey, String category, int x, int y, int z, float volume,
                                   float pitch) implements RecordableSound {
@@ -23,16 +25,9 @@ public record RecNamedSoundEffect(NamespacedKey soundKey, String category, int x
     }
 
     @Override
-    public void play(Player viewer) {
-        Object packet = this.createPacket();
-        if (packet == null) return;
-
-        MinecraftPlayerNMS.sendPacket(viewer, packet);
-    }
-
-    private Object createPacket() {
+    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
         SoundEffect effect = IRegistry.SOUND_EVENT.get(new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey()));
-        if (effect == null) return null;
+        if (effect == null) return List.of();
 
         SoundCategory category = SoundCategory.valueOf(this.category);
 
@@ -50,6 +45,6 @@ public record RecNamedSoundEffect(NamespacedKey soundKey, String category, int x
         JavaReflections.getField(packet.getClass(), "d", int.class).set(packet, this.y);
         JavaReflections.getField(packet.getClass(), "e", int.class).set(packet, this.z);
 
-        return packet;
+        return List.of(packet);
     }
 }

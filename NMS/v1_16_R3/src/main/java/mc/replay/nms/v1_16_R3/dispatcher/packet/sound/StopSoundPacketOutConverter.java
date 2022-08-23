@@ -10,11 +10,12 @@ import net.minecraft.server.v1_16_R3.SoundCategory;
 import org.bukkit.NamespacedKey;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class StopSoundPacketOutConverter implements DispatcherPacketOut<PacketPlayOutStopSound> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutStopSound packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutStopSound packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         MinecraftKey minecraftKey = convertedPacket.get("a", MinecraftKey.class);

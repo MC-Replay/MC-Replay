@@ -12,11 +12,12 @@ import org.bukkit.craftbukkit.v1_16_R3.block.data.CraftBlockData;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class BlockBreakPacketOutConverter implements DispatcherPacketOut<PacketPlayOutBlockBreak> {
 
     @Override
-    public List<Recordable> getRecordables(PacketPlayOutBlockBreak packet) {
+    public List<Recordable<? extends Function<?, ?>>> getRecordables(PacketPlayOutBlockBreak packet) {
         PacketConverter.ConvertedPacket convertedPacket = this.convert(packet);
 
         BlockPosition position = convertedPacket.get("c", BlockPosition.class);

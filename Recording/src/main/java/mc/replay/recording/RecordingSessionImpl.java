@@ -2,11 +2,15 @@ package mc.replay.recording;
 
 import lombok.Getter;
 import mc.replay.api.MCReplayAPI;
+import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.contestant.RecordingContestant;
+import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.recording.recordables.Recordable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Function;
 
 @Getter
 public final class RecordingSessionImpl implements RecordingSession {
@@ -14,7 +18,7 @@ public final class RecordingSessionImpl implements RecordingSession {
     private final UUID sessionUuid;
     private final RecordingContestant contestant;
     private final long startTime;
-    private final NavigableMap<Long, List<Recordable>> recordables;
+    private final NavigableMap<Long, List<CachedRecordable>> recordables;
 
     RecordingSessionImpl(RecordingContestant contestant) {
         this.sessionUuid = UUID.randomUUID();
@@ -24,17 +28,20 @@ public final class RecordingSessionImpl implements RecordingSession {
     }
 
     @Override
-    public void stopRecording() {
-        MCReplayAPI.getRecordingHandler().stopRecording(this.sessionUuid);
+    public @NotNull Recording stopRecording() {
+        return MCReplayAPI.getRecordingHandler().stopRecording(this.sessionUuid);
     }
 
-    public void addRecordables(List<Recordable> newRecordables) {
+    public void addRecordables(List<Recordable<? extends Function<?, ?>>> newRecordables) {
         if (newRecordables == null || newRecordables.isEmpty()) return;
 
         long time = System.currentTimeMillis() - this.startTime;
-        List<Recordable> recordables = this.recordables.getOrDefault(time, new ArrayList<>());
+        List<CachedRecordable> recordables = this.recordables.getOrDefault(time, new ArrayList<>());
 
-        recordables.addAll(newRecordables);
+        for (Recordable<? extends Function<?, ?>> newRecordable : newRecordables) {
+            recordables.add(new CachedRecordable(newRecordable));
+        }
+
         this.recordables.put(time, recordables);
     }
 }

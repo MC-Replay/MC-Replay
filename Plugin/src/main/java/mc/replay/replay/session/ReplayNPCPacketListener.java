@@ -2,8 +2,8 @@ package mc.replay.replay.session;//package mc.replay.replay.session;
 //
 //import io.netty.channel.ChannelHandlerContext;
 //import mc.replay.MCReplay;
-//import mc.replay.common.replay.ReplayEntity;
-//import mc.replay.common.replay.ReplayNPC;
+//import mc.replay.replay.session.entity.ReplayEntity;
+//import mc.replay.replay.session.entity.ReplayNPC;
 //import mc.replay.utils.EntityPacketUtils;
 //import mc.replay.utils.reflection.JavaReflections;
 //import org.bukkit.Bukkit;

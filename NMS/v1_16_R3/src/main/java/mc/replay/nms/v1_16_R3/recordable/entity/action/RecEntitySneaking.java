@@ -1,14 +1,15 @@
 package mc.replay.nms.v1_16_R3.recordable.entity.action;
 
-import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.common.replay.ReplayEntity;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.common.recordables.RecordableEntity;
 import net.minecraft.server.v1_16_R3.DataWatcherRegistry;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import net.minecraft.server.v1_16_R3.EntityPose;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityMetadata;
-import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Function;
 
 public record RecEntitySneaking(EntityId entityId, boolean sneaking) implements RecordableEntity {
 
@@ -17,25 +18,12 @@ public record RecEntitySneaking(EntityId entityId, boolean sneaking) implements 
     }
 
     @Override
-    public ReplayEntity<?> play(Player viewer, ReplayEntity<?> replayEntity, Object entity, int entityId) {
-        Object packet = this.createPacket(entityId, entity);
-        MinecraftPlayerNMS.sendPacket(viewer, packet);
-        return replayEntity;
-    }
+    public @NotNull List<@NotNull Object> createReplayPackets(Function<Integer, RecordableEntityData> function) {
+        RecordableEntityData data = function.apply(this.entityId.entityId());
 
-    @Override
-    public ReplayEntity<?> jumpInTime(Player viewer, ReplayEntity<?> replayEntity, Object entity, int entityId, boolean forward) {
-        return this.play(viewer, replayEntity, entity, entityId);
-    }
-
-    private Object createPacket(int entityId, Object entity) {
-        EntityPlayer entityPlayer = (EntityPlayer) entity;
+        EntityPlayer entityPlayer = (EntityPlayer) data.entityPlayer();
         entityPlayer.getDataWatcher().set(DataWatcherRegistry.s.a(6), this.sneaking ? EntityPose.CROUCHING : EntityPose.STANDING);
 
-        return new PacketPlayOutEntityMetadata(
-                entityId,
-                entityPlayer.getDataWatcher(),
-                true
-        );
+        return List.of(new PacketPlayOutEntityMetadata(data.entityId(), entityPlayer.getDataWatcher(), true));
     }
 }

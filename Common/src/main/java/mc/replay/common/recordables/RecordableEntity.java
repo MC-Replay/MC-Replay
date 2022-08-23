@@ -1,29 +1,11 @@
 package mc.replay.common.recordables;
 
 import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.common.replay.ReplayEntity;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
+import java.util.function.Function;
 
-public interface RecordableEntity extends Recordable {
+public interface RecordableEntity extends Recordable<Function<Integer, RecordableEntity.RecordableEntityData>> {
 
-    EntityId entityId();
-
-    ReplayEntity<?> play(Player viewer, ReplayEntity<?> replayEntity, Object entity, int entityId);
-
-    ReplayEntity<?> jumpInTime(Player viewer, ReplayEntity<?> replayEntity, Object entity, int entityId, boolean forward);
-
-    @Override
-    default boolean match(@NotNull Object object) {
-        if (object instanceof Integer entityId) {
-            return this.entityId().entityId() == entityId;
-        } else if (object instanceof UUID entityUuid) {
-            return entityUuid.equals(this.entityId().entityUuid());
-        }
-
-        return false;
+    record RecordableEntityData(int entityId, Object entityPlayer) {
     }
 }
