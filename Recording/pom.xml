@@ -19,5 +19,11 @@
             <version>Dev-1.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>mc.replay.nms</groupId>
+            <artifactId>NMS-Common</artifactId>
+            <version>Dev-1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

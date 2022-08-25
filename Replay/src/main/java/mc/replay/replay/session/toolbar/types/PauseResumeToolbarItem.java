@@ -32,6 +32,8 @@ public final class PauseResumeToolbarItem extends ToolbarItem {
         this.onClick = (player) -> {
             player.replaySession().setPaused(!player.replaySession().isPaused());
             this.give(player);
+
+            player.replaySession().updateInformationBar();
         };
     }
 }

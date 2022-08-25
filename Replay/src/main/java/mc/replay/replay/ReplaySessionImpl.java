@@ -90,15 +90,24 @@ public final class ReplaySessionImpl implements ReplaySession {
     }
 
     @Override
-    public void decreaseSpeed() {
-        if (this.speed <= 0.25) return;
+    public boolean decreaseSpeed() {
+        if (this.speed <= 0.25) return false;
+
         this.speed = (this.speed <= 1) ? this.speed - 0.25 : this.speed - 1;
+        return true;
     }
 
     @Override
-    public void increaseSpeed() {
-        if (this.speed >= 4.0) return;
+    public boolean increaseSpeed() {
+        if (this.speed >= 4.0) return false;
+
         this.speed = (this.speed < 1) ? this.speed + 0.25 : this.speed + 1;
+        return true;
+    }
+
+    @Override
+    public void updateInformationBar() {
+        this.informTask.run();
     }
 
     public World getReplayWorld() {

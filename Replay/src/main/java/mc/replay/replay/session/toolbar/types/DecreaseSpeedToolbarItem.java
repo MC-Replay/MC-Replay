@@ -19,7 +19,9 @@ public final class DecreaseSpeedToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            player.replaySession().decreaseSpeed();
+            if (player.replaySession().decreaseSpeed()) {
+                player.replaySession().updateInformationBar();
+            }
         };
     }
 }
