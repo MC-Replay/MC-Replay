@@ -45,6 +45,7 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
                 }
 
                 List<Recordable<? extends Function<?, ?>>> recordables = tickHandler.getRecordables(this.getCurrentTick());
+                if (recordables == null) continue;
 
                 for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
                     ((RecordingSessionImpl) recordingSession).addRecordables(recordables);

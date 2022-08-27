@@ -31,6 +31,7 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
             for (Map.Entry<String, DispatcherPacketOut<Object>> entry : this.packetOutConverters.entrySet()) {
                 if (entry.getKey().equalsIgnoreCase(packet.getClass().getSimpleName())) {
                     List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packet);
+                    if (recordables == null) continue;
 
                     for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
                         ((RecordingSessionImpl) recordingSession).addRecordables(recordables);

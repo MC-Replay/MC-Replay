@@ -1,9 +1,11 @@
 package mc.replay.nms.v1_16_R3.dispatcher.event.entity;
 
-import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.nms.global.recordable.RecEntityDestroy;
+import mc.replay.nms.v1_16_R3.player.RecordingFakePlayerImpl;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
@@ -23,7 +25,9 @@ public final class ReplayEntityDeathEventListener implements DispatcherEvent<Ent
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof Player || entity instanceof NPC) return null;
+        net.minecraft.server.v1_16_R3.Entity craftEntity = ((CraftEntity) entity).getHandle();
+        if (entity instanceof Player || entity instanceof NPC || craftEntity instanceof RecordingFakePlayerImpl)
+            return null;
 
         // TODO check if entity is replay entity
 

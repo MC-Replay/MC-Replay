@@ -54,6 +54,7 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
                     if (!this.shouldRecord()) return;
 
                     List<Recordable<? extends Function<?, ?>>> recordables = eventListener.getRecordables(event);
+                    if (recordables == null) return;
 
                     for (RecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessions().values()) {
                         ((RecordingSessionImpl) recordingSession).addRecordables(recordables);

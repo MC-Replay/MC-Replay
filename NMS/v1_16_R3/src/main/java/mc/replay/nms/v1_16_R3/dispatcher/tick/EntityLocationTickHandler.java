@@ -3,12 +3,14 @@ package mc.replay.nms.v1_16_R3.dispatcher.tick;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
+import mc.replay.nms.v1_16_R3.player.RecordingFakePlayerImpl;
 import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityHeadRotation;
 import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityRelMoveLook;
 import mc.replay.nms.v1_16_R3.recordable.entity.movement.RecEntityTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -32,6 +34,8 @@ public final class EntityLocationTickHandler implements DispatcherTick {
             for (Entity entity : world.getEntities()) {
                 if (!(entity instanceof LivingEntity livingEntity) || !world.isChunkLoaded(entity.getLocation().getChunk()))
                     continue;
+
+                if (((CraftEntity) entity).getHandle() instanceof RecordingFakePlayerImpl) continue;
 
                 Location currentLocation = livingEntity.getLocation();
                 Location lastLocation = this.lastLocations.put(livingEntity, currentLocation);
