@@ -1,13 +1,14 @@
 package mc.replay.nms;
 
-import com.mojang.authlib.GameProfile;
-import org.bukkit.World;
+import mc.replay.nms.player.RecordingFakePlayer;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
 
 public interface NMSCore {
 
-    Object getCraftWorld(World world);
+    void setPacketOutDispatcher(@NotNull Consumer<Object> consumer);
 
-    Object getWorldServer(Object craftWorld);
-
-    Object createEntityPlayer(Object worldServer, GameProfile gameProfile);
+    @NotNull RecordingFakePlayer createFakeRecordingPlayer(@NotNull Player target);
 }

@@ -11,6 +11,8 @@ import mc.replay.common.utils.reflection.nms.MinecraftVersionNMS;
 import mc.replay.dispatcher.event.ReplayEventDispatcher;
 import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
 import mc.replay.dispatcher.tick.ReplayTickDispatcher;
+import mc.replay.nms.NMSCore;
+import mc.replay.nms.v1_16_R3.NMSCoreImpl;
 
 @Getter
 public final class ReplayDispatchManager {
@@ -21,11 +23,15 @@ public final class ReplayDispatchManager {
     private final ReplayPacketDispatcher packetDispatcher;
     private final ReplayTickDispatcher tickDispatcher;
 
+    private final NMSCore nmsCore; // TODO
+
     public ReplayDispatchManager(MCReplayPlugin plugin) {
         this.plugin = plugin;
 
+        this.nmsCore = new NMSCoreImpl();
+
         this.eventDispatcher = new ReplayEventDispatcher(plugin);
-        this.packetDispatcher = new ReplayPacketDispatcher(plugin);
+        this.packetDispatcher = new ReplayPacketDispatcher(plugin, this);
         this.tickDispatcher = new ReplayTickDispatcher(plugin);
 
         try {

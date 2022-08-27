@@ -3,13 +3,11 @@ package mc.replay.dispatcher.packet;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelPromise;
 import lombok.AllArgsConstructor;
 import mc.replay.MCReplayPlugin;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
-import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import mc.replay.recording.RecordingSessionImpl;
 import org.bukkit.entity.Player;
@@ -59,27 +57,6 @@ public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implemen
             }
 
             super.channelRead(ctx, packetObject);
-        }
-
-        @Override
-        public void write(ChannelHandlerContext ctx, Object packetObject, ChannelPromise promise) throws Exception {
-            boolean logAction = this.handler.dispatcher().shouldRecord() && this.player != null && this.player.isOnline();
-
-            if (logAction) try {
-                for (Map.Entry<String, DispatcherPacketOut<Object>> entry : this.handler.dispatcher().getPacketOutConverters().entrySet()) {
-                    if (entry.getKey().equalsIgnoreCase(packetObject.getClass().getSimpleName())) {
-                        List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packetObject);
-
-                        for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
-                            ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
-                        }
-                    }
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-
-            super.write(ctx, packetObject, promise);
         }
     }
 }
