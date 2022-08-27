@@ -26,7 +26,7 @@ public record RecEntityEquipment(EntityId entityId, EquipmentSlot slot,
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Integer, RecordableEntityData> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(this.entityId.entityId());
 
         // TODO check if this does not replace current other equipment slots with air

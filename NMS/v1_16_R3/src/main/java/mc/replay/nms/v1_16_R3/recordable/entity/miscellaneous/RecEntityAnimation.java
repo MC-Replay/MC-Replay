@@ -19,7 +19,7 @@ public record RecEntityAnimation(EntityId entityId, int animation) implements Re
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Integer, RecordableEntityData> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(this.entityId.entityId());
 
         PacketPlayOutAnimation packetPlayOutAnimation = new PacketPlayOutAnimation();

@@ -6,7 +6,11 @@ import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.utils.reflection.MinecraftReflections;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
+import net.minecraft.server.v1_16_R3.Entity;
+import net.minecraft.server.v1_16_R3.EntityTypes;
+import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -110,36 +114,38 @@ public class EntityPacketUtils {
         }
     }
 
-    public static Object spawnEntity(Player viewer, Location location, EntityType entityType) {
-        //TODO entity spawn
-        //        if (location == null || location.getWorld() == null || viewer == null || entityType == EntityType.PLAYER)
-        //            return null;
-        //
-        //        try {
-        //            EntityTypes<?> entityTypes = EntityTypes.getByName(entityType.getKey().getKey()).orElse(null);
-        //            if (entityTypes == null) return null;
-        //
-        //            Entity entity = entityTypes.a(((CraftWorld) location.getWorld()).getHandle());
-        //            if (entity == null) return null;
-        //
-        //            SET_ENTITY_POSITION.invoke(entity, location.getX(), location.getY(), location.getZ());
-        //
-        //            Object dataWatcher = GET_DATA_WATCHER.invoke(entity);
-        //
-        //            PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity(entity);
-        //            Object packetPlayOutEntityMetadata = PACKET_PLAY_OUT_ENTITY_METADATA_CONSTRUCTOR.newInstance(entity.getId(), dataWatcher, true);
-        //
-        //            MinecraftPlayerNMS.sendPacket(viewer, packet);
-        //            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
-        //
-        //            updateRotation(viewer, location.getYaw(), location.getPitch(), entity, true);
-        //
-        //            return entity;
-        //        } catch (Exception exception) {
-        //            exception.printStackTrace();
-        //            return null;
-        //        }
-        return null;
+    public static Object spawnEntity(Collection<ReplayPlayer> viewers, Location location, EntityType entityType) {
+        if (location == null || location.getWorld() == null || viewers == null || entityType == EntityType.PLAYER)
+            return null;
+
+        try {
+            EntityTypes<?> entityTypes = EntityTypes.a(entityType.getKey().getKey()).orElse(null);
+            if (entityTypes == null) return null;
+
+            Entity entity = entityTypes.a(((CraftWorld) location.getWorld()).getHandle());
+            if (entity == null) return null;
+
+            SET_ENTITY_POSITION.invoke(entity, location.getX(), location.getY(), location.getZ());
+
+            Object dataWatcher = GET_DATA_WATCHER.invoke(entity);
+
+            PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity(entity);
+            Object packetPlayOutEntityMetadata = PACKET_PLAY_OUT_ENTITY_METADATA_CONSTRUCTOR.newInstance(entity.getId(), dataWatcher, true);
+
+            for (ReplayPlayer viewerReplayPlayer : viewers) {
+                Player viewer = viewerReplayPlayer.player();
+
+                MinecraftPlayerNMS.sendPacket(viewer, packet);
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
+
+                updateRotation(viewer, location.getYaw(), location.getPitch(), entity, true);
+            }
+
+            return entity;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
     }
 
     public static void updateRotation(Player viewer, float yaw, float pitch, Object entityPlayer) {

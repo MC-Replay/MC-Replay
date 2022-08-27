@@ -25,7 +25,7 @@ public record RecNamedSoundEffect(NamespacedKey soundKey, String category, int x
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         SoundEffect effect = IRegistry.SOUND_EVENT.get(new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey()));
         if (effect == null) return List.of();
 

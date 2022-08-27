@@ -21,7 +21,7 @@ public record RecPlayerChat(EntityId entityId, String playerName, String message
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         List<Object> packets = new ArrayList<>();
 
         String message = ChatColor.WHITE + "[Replay-chat] " + this.playerName + ": " + this.message;

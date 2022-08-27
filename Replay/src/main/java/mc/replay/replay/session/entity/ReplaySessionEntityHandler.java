@@ -1,5 +1,6 @@
 package mc.replay.replay.session.entity;
 
+import lombok.RequiredArgsConstructor;
 import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.common.recordables.RecordableOther;
 import mc.replay.nms.global.recordable.RecEntityDestroy;
@@ -12,21 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class ReplaySessionEntityCache {
+@RequiredArgsConstructor
+public final class ReplaySessionEntityHandler {
 
     private final ReplaySessionImpl replaySession;
-    private final Map<Integer, ReplayEntity<?>> entities = new HashMap<>();
-
-    public ReplaySessionEntityCache(ReplaySessionImpl replaySession) {
-        this.replaySession = replaySession;
-    }
+    private final Map<Integer, AbstractReplayEntity<?>> entities = new HashMap<>();
 
     public List<Object> handleEntityRecordable(RecordableEntity recordable) {
         return recordable.createReplayPackets((originalEntityId) -> {
-            ReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
-            if (replayEntity == null) {
-                throw new IllegalStateException("Entity not found with original entity id '" + originalEntityId + "'");
-            }
+            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
+            if (replayEntity == null) return null;
 
             return new RecordableEntity.RecordableEntityData(
                     replayEntity.getReplayEntityId(),
@@ -48,14 +44,25 @@ public final class ReplaySessionEntityCache {
             replayNPC.spawn(this.replaySession.getAllPlayers());
             this.entities.put(replayNPC.getOriginalEntityId(), replayNPC);
         } else if (recordable instanceof RecEntitySpawn recEntitySpawn) {
-            // TODO
+            ReplayEntity replayEntity = new ReplayEntity(
+                    recEntitySpawn.entityId().entityId(),
+                    recEntitySpawn.entityType(),
+                    this.replaySession.getReplayWorld(),
+                    recEntitySpawn.location()
+            );
+
+            replayEntity.spawn(this.replaySession.getAllPlayers());
+            this.entities.put(replayEntity.getOriginalEntityId(), replayEntity);
         } else if (recordable instanceof RecPlayerDestroy recPlayerDestroy) {
-            ReplayEntity<?> entity = this.entities.remove(recPlayerDestroy.entityId().entityId());
+            AbstractReplayEntity<?> entity = this.entities.remove(recPlayerDestroy.entityId().entityId());
             if (entity instanceof ReplayNPC) {
                 entity.destroy(this.replaySession.getAllPlayers());
             }
         } else if (recordable instanceof RecEntityDestroy recEntityDestroy) {
-            // TODO
+            AbstractReplayEntity<?> entity = this.entities.remove(recEntityDestroy.entityId().entityId());
+            if (entity instanceof ReplayEntity) {
+                entity.destroy(this.replaySession.getAllPlayers());
+            }
         }
     }
 }

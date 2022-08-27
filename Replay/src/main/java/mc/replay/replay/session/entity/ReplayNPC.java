@@ -10,7 +10,7 @@ import org.bukkit.World;
 import java.util.Collection;
 
 @Getter
-public final class ReplayNPC extends ReplayEntity<ReplayNPC> {
+public final class ReplayNPC extends AbstractReplayEntity<ReplayNPC> {
 
     private final String name;
     private final Property skinTexture;

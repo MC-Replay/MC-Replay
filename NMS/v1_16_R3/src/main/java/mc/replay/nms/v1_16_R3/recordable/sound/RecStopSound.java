@@ -20,7 +20,7 @@ public record RecStopSound(NamespacedKey soundKey, String category) implements R
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         MinecraftKey minecraftKey = new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey());
         SoundCategory category = SoundCategory.valueOf(this.category);
         return List.of(new PacketPlayOutStopSound(minecraftKey, category));

@@ -23,7 +23,7 @@ public record RecPlayerSpawn(EntityId entityId, String name, Property skinTextur
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         return List.of();
     }
 }

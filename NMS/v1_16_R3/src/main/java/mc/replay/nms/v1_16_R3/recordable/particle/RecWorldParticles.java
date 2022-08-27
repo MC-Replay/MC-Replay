@@ -29,7 +29,7 @@ public record RecWorldParticles(Object particleParam, boolean longDistance, doub
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         return List.of(new PacketPlayOutWorldParticles(
                 (ParticleParam) this.particleParam,
                 this.longDistance,

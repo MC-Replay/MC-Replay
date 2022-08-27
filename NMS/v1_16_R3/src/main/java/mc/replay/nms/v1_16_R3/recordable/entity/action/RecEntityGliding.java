@@ -16,7 +16,7 @@ public record RecEntityGliding(EntityId entityId, boolean gliding) implements Re
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Integer, RecordableEntityData> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(this.entityId.entityId());
 
         EntityPlayer entityPlayer = (EntityPlayer) data.entityPlayer();

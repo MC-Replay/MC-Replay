@@ -27,7 +27,7 @@ public record RecCustomSoundEffect(NamespacedKey soundKey, String category, int 
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         MinecraftKey effectKey = new MinecraftKey(this.soundKey.getNamespace(), this.soundKey.getKey());
         SoundCategory category = SoundCategory.valueOf(this.category);
 

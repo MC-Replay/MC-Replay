@@ -16,7 +16,7 @@ public record RecPlayerDestroy(EntityId entityId) implements RecordableOther {
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         return List.of();
     }
 }

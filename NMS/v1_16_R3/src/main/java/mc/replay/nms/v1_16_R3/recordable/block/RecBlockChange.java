@@ -21,7 +21,7 @@ public record RecBlockChange(Vector blockPosition, BlockData blockData) implemen
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         BlockPosition position = new BlockPosition(
                 this.blockPosition.getBlockX(),
                 this.blockPosition.getBlockY(),

@@ -8,7 +8,7 @@ import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.common.recordables.RecordableOther;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import mc.replay.replay.ReplaySessionImpl;
-import mc.replay.replay.session.entity.ReplaySessionEntityCache;
+import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public final class ReplaySessionPlayTask implements Runnable {
     private final ReplaySessionImpl replaySession;
     private final NavigableMap<Long, List<CachedRecordable>> recordables;
 
-    private final ReplaySessionEntityCache entityCache;
+    private final ReplaySessionEntityHandler entityCache;
 
     private final long startTime, endTime;
 
@@ -30,7 +30,7 @@ public final class ReplaySessionPlayTask implements Runnable {
         this.replaySession = replaySession;
         this.recordables = replaySession.getRecording().recordables();
 
-        this.entityCache = new ReplaySessionEntityCache(this.replaySession);
+        this.entityCache = new ReplaySessionEntityHandler(this.replaySession);
 
         this.startTime = this.currentTime = this.recordables.firstKey();
         this.endTime = this.recordables.lastKey();
@@ -57,7 +57,7 @@ public final class ReplaySessionPlayTask implements Runnable {
                 continue;
             }
 
-            this.sendPackets(recordable.recordable().createReplayPackets(null));
+            this.sendPackets(recordable.recordable().functionlessReplayPackets());
         }
 
         this.currentTime += nextTime - this.currentTime;

@@ -26,7 +26,7 @@ public record RecMultiBlockChange(Vector blockPosition, short[] blockIndexes, Bl
     }
 
     @Override
-    public @NotNull List<@NotNull Object> createReplayPackets(Function<Void, Void> function) {
+    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         SectionPosition position = SectionPosition.a(
                 this.blockPosition.getBlockX(),
                 this.blockPosition.getBlockY(),
