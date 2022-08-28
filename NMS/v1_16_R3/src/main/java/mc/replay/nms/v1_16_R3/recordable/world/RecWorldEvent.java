@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
-public record RecWorldEvent(int effectId, Vector position, int data,
+public record RecWorldEvent(int effectId, Vector blockPosition, int data,
                             boolean disableRelativeVolume) implements RecordableWorldEvent {
 
     public static RecWorldEvent of(int effectId, Vector position, int data, boolean disableRelativeVolume) {
@@ -24,9 +24,9 @@ public record RecWorldEvent(int effectId, Vector position, int data,
     @Override
     public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Void, Void> function) {
         BlockPosition position = new BlockPosition(
-                this.position.getBlockX(),
-                this.position.getBlockY(),
-                this.position.getBlockZ()
+                this.blockPosition.getBlockX(),
+                this.blockPosition.getBlockY(),
+                this.blockPosition.getBlockZ()
         );
 
         return List.of(new PacketPlayOutWorldEvent(

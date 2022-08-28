@@ -1,5 +1,6 @@
 package mc.replay.nms.v1_16_R3.recordable.sound;
 
+import mc.replay.api.recording.RecordingSession;
 import mc.replay.common.recordables.RecordableSound;
 import mc.replay.common.utils.reflection.JavaReflections;
 import net.minecraft.server.v1_16_R3.*;
@@ -22,6 +23,11 @@ public record RecNamedSoundEffect(NamespacedKey soundKey, String category, int x
                 volume,
                 pitch
         );
+    }
+
+    @Override
+    public @NotNull Function<@NotNull RecordingSession, @NotNull Boolean> shouldRecord() {
+        return (session) -> session.isInsideRecordingRange(this.x, this.y, this.z);
     }
 
     @Override

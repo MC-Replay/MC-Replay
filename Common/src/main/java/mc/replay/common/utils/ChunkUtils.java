@@ -20,7 +20,10 @@ public final class ChunkUtils {
 
         for (int x = currentChunkX - radius; x < currentChunkX + radius; x++) {
             for (int z = currentChunkZ - radius; z < currentChunkZ + radius; z++) {
-                chunksAroundPlayer.add(player.getWorld().getChunkAt(x, z));
+                Chunk chunk = player.getWorld().getChunkAt(x, z);
+                if (!chunk.isLoaded()) continue;
+
+                chunksAroundPlayer.add(chunk);
             }
         }
 

@@ -1,12 +1,16 @@
 package mc.replay.api.recording.recordables;
 
+import mc.replay.api.recording.RecordingSession;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
 
-@FunctionalInterface
 public interface Recordable<F extends Function<?, ?>> {
+
+    default @NotNull Function<@NotNull RecordingSession, @NotNull Boolean> shouldRecord() {
+        return (session) -> true;
+    }
 
     @NotNull List<@NotNull Object> createReplayPackets(@NotNull F function);
 

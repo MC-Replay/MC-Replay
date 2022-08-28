@@ -34,7 +34,11 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
                     if (recordables == null) continue;
 
                     for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
-                        ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                        for (Recordable<? extends Function<?, ?>> recordable : recordables) {
+                            if (recordable.shouldRecord().apply(recordingSession)) {
+                                ((RecordingSessionImpl) recordingSession).addRecordable(recordable);
+                            }
+                        }
                     }
                 }
             }

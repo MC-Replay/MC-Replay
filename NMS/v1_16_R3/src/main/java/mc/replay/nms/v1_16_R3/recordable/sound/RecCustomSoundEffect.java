@@ -1,5 +1,6 @@
 package mc.replay.nms.v1_16_R3.recordable.sound;
 
+import mc.replay.api.recording.RecordingSession;
 import mc.replay.common.recordables.RecordableSound;
 import net.minecraft.server.v1_16_R3.MinecraftKey;
 import net.minecraft.server.v1_16_R3.PacketPlayOutCustomSoundEffect;
@@ -24,6 +25,11 @@ public record RecCustomSoundEffect(NamespacedKey soundKey, String category, int 
                 volume,
                 pitch
         );
+    }
+
+    @Override
+    public @NotNull Function<@NotNull RecordingSession, @NotNull Boolean> shouldRecord() {
+        return (session) -> session.isInsideRecordingRange(this.x, this.y, this.z);
     }
 
     @Override

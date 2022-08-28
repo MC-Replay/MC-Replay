@@ -8,6 +8,7 @@ import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.nms.global.recordable.RecPlayerSpawn;
+import mc.replay.recording.chunk.ChunkRecordingHandler;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
@@ -21,10 +22,18 @@ public final class RecordingHandler implements IRecordingHandler {
 
     private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
 
+    private final ChunkRecordingHandler chunkRecordingHandler;
+
+    public RecordingHandler() {
+        this.chunkRecordingHandler = new ChunkRecordingHandler();
+    }
+
     @Override
     public @NotNull RecordingSession startRecording(@NotNull RecordingContestant contestant) {
-        RecordingSessionImpl recordingSession = new RecordingSessionImpl(contestant);
+        RecordingSessionImpl recordingSession = new RecordingSessionImpl(this, contestant);
         this.recordingSessions.put(recordingSession.getSessionUuid(), recordingSession);
+
+        this.chunkRecordingHandler.startTask(recordingSession);
 
         // TODO move somewhere else
         for (Player player : Bukkit.getOnlinePlayers()) {

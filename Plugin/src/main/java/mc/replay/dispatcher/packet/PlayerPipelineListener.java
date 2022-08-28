@@ -48,7 +48,11 @@ public record PlayerPipelineListener(ReplayPacketDispatcher dispatcher) implemen
                         List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(this.player, packetObject);
 
                         for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
-                            ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                            for (Recordable<? extends Function<?, ?>> recordable : recordables) {
+                                if (recordable.shouldRecord().apply(recordingSession)) {
+                                    ((RecordingSessionImpl) recordingSession).addRecordable(recordable);
+                                }
+                            }
                         }
                     }
                 }

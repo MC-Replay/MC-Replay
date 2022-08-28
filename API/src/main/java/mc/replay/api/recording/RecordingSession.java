@@ -20,4 +20,10 @@ public interface RecordingSession {
     @NotNull NavigableMap<Long, List<CachedRecordable>> getRecordables();
 
     @NotNull Recording stopRecording();
+
+    boolean isInsideRecordingRange(int chunkX, int chunkZ);
+
+    boolean isInsideRecordingRange(int blockX, int blockY, int blockZ);
+
+    boolean isInsideRecordingRange(int entityId);
 }

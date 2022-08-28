@@ -3,6 +3,7 @@ package mc.replay.nms.v1_16_R3.recordable.particle;
 import mc.replay.common.recordables.RecordableParticle;
 import net.minecraft.server.v1_16_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_16_R3.ParticleParam;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public record RecWorldParticles(Object particleParam, boolean longDistance, doub
                 particleData,
                 particleCount
         );
+    }
+
+    @Override
+    public @NotNull Vector blockPosition() {
+        return new Vector(this.x, this.y, this.z);
     }
 
     @Override
