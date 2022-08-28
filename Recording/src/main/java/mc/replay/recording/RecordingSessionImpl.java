@@ -4,7 +4,6 @@ import lombok.Getter;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
-import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.recording.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
@@ -16,13 +15,10 @@ import java.util.function.Function;
 public final class RecordingSessionImpl implements RecordingSession {
 
     private final UUID sessionUuid;
-    private final RecordingContestant contestant;
     private final long startTime;
     private final NavigableMap<Long, List<CachedRecordable>> recordables;
 
-    RecordingSessionImpl(RecordingContestant contestant) {
         this.sessionUuid = UUID.randomUUID();
-        this.contestant = contestant;
         this.startTime = System.currentTimeMillis();
         this.recordables = new TreeMap<>();
     }

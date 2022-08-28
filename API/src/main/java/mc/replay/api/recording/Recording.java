@@ -1,12 +1,10 @@
 package mc.replay.api.recording;
 
 import mc.replay.api.recording.recordables.CachedRecordable;
-import mc.replay.api.recording.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Map;
 import java.util.NavigableMap;
 
 public interface Recording {

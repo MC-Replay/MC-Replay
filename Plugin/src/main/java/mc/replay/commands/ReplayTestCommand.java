@@ -4,7 +4,6 @@ import mc.replay.MCReplayPlugin;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
-import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.common.utils.color.Text;
 import mc.replay.nms.player.RecordingFakePlayer;
@@ -41,7 +40,6 @@ public class ReplayTestCommand implements CommandExecutor {
                 return false;
             }
 
-            this.session = MCReplayAPI.getRecordingHandler().startRecording(RecordingContestant.everything());
 
             player.sendMessage(ChatColor.GREEN + "Recording started for everything.");
             return true;
