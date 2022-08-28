@@ -6,6 +6,7 @@ import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.recording.recordables.Recordable;
+import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -15,10 +16,13 @@ import java.util.function.Function;
 public final class RecordingSessionImpl implements RecordingSession {
 
     private final UUID sessionUuid;
+    private final World world;
     private final long startTime;
     private final NavigableMap<Long, List<CachedRecordable>> recordables;
 
+    RecordingSessionImpl(World world) {
         this.sessionUuid = UUID.randomUUID();
+        this.world = world;
         this.startTime = System.currentTimeMillis();
         this.recordables = new TreeMap<>();
     }

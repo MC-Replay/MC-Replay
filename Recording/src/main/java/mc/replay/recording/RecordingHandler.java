@@ -1,20 +1,16 @@
 package mc.replay.recording;
 
-import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import mc.replay.api.recording.IRecordingHandler;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
-import mc.replay.api.recording.contestant.RecordingContestant;
-import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.nms.global.recordable.RecPlayerSpawn;
-import net.minecraft.server.v1_16_R3.EntityPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
+import mc.replay.api.recording.RecordingSessionBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.UUID;
 
 @Getter
 public final class RecordingHandler implements IRecordingHandler {
@@ -22,23 +18,8 @@ public final class RecordingHandler implements IRecordingHandler {
     private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
 
     @Override
-    public @NotNull RecordingSession startRecording(@NotNull RecordingContestant contestant) {
-        RecordingSessionImpl recordingSession = new RecordingSessionImpl(contestant);
-        this.recordingSessions.put(recordingSession.getSessionUuid(), recordingSession);
-
-        // TODO move somewhere else
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            Property skinTexture = entityPlayer.getProfile().getProperties().get("textures").stream()
-                    .findFirst()
-                    .orElse(null);
-
-            EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-
-            recordingSession.addRecordables(List.of(RecPlayerSpawn.of(entityId, player.getName(), skinTexture, player.getLocation())));
-        }
-
-        return recordingSession;
+    public @NotNull RecordingSessionBuilder createRecordingSession() {
+        return new RecordingSessionBuilderImpl(this);
     }
 
     @Override

@@ -9,6 +9,7 @@ public interface IRecordingHandler {
 
     Map<UUID, RecordingSession> getRecordingSessions();
 
+    @NotNull RecordingSessionBuilder createRecordingSession();
 
     @NotNull Recording stopRecording(@NotNull UUID sessionUuid);
 

@@ -40,6 +40,9 @@ public class ReplayTestCommand implements CommandExecutor {
                 return false;
             }
 
+            this.session = MCReplayAPI.getRecordingHandler().createRecordingSession()
+                    .world(player.getWorld())
+                    .startRecording();
 
             player.sendMessage(ChatColor.GREEN + "Recording started for everything.");
             return true;
