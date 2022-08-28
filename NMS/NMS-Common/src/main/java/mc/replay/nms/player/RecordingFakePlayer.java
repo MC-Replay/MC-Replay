@@ -8,4 +8,6 @@ public interface RecordingFakePlayer {
     @NotNull Player target();
 
     void spawn();
+
+    void setRecording(boolean recording);
 }

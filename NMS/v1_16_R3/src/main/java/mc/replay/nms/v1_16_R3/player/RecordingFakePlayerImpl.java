@@ -32,7 +32,7 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
 
         this.target = target;
 
-        this.fakeNetworkManager = new FakePlayerNetworkManager(this);
+        this.fakeNetworkManager = new FakePlayerNetworkManager();
         new PlayerConnection(MinecraftServer.getServer(), this.fakeNetworkManager, this);
     }
 
@@ -56,6 +56,11 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
     @Override
     public @NotNull Player target() {
         return this.target;
+    }
+
+    @Override
+    public void setRecording(boolean recording) {
+        this.fakeNetworkManager.setRecording(recording);
     }
 
     public void setPacketOutDispatcher(@NotNull Consumer<Object> consumer) {

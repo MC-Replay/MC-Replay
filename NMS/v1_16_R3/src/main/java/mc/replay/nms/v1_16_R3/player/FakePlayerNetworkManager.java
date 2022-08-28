@@ -16,8 +16,9 @@ import java.util.function.Consumer;
 public final class FakePlayerNetworkManager extends NetworkManager {
 
     private Consumer<Object> packetOutDispatcher = null;
+    private boolean recording = true;
 
-    public FakePlayerNetworkManager(RecordingFakePlayerImpl recordingPlayer) {
+    public FakePlayerNetworkManager() {
         super(EnumProtocolDirection.SERVERBOUND);
 
         this.socketAddress = new InetSocketAddress(0);
@@ -42,7 +43,7 @@ public final class FakePlayerNetworkManager extends NetworkManager {
 
     @Override
     public void sendPacket(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>> futureListener) {
-        if (this.packetOutDispatcher != null) {
+        if (this.packetOutDispatcher != null && this.recording) {
             this.packetOutDispatcher.accept(packet);
         }
     }
