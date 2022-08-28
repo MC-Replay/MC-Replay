@@ -22,12 +22,12 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
     private final Map<String, DispatcherPacketIn<Object>> packetInConverters = new HashMap<>();
     private final Map<String, DispatcherPacketOut<Object>> packetOutConverters = new HashMap<>();
 
-    public ReplayPacketDispatcher(MCReplayPlugin plugin, ReplayDispatchManager dispatchManager) {
+    public ReplayPacketDispatcher(MCReplayPlugin plugin) {
         super(plugin);
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerPipelineListener(this), plugin);
 
-        dispatchManager.getNmsCore().setPacketOutDispatcher((packet) -> {
+        plugin.getNmsCore().setPacketOutDispatcher((packet) -> {
             for (Map.Entry<String, DispatcherPacketOut<Object>> entry : this.packetOutConverters.entrySet()) {
                 if (entry.getKey().equalsIgnoreCase(packet.getClass().getSimpleName())) {
                     List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packet);

@@ -53,12 +53,15 @@ public final class RecordingSessionImpl implements RecordingSession {
 
     @Override
     public boolean isInsideRecordingRange(int entityId) {
+        Collection<Integer> destroyedEntities = this.recordingHandler.getChunkRecordingHandler().getDestroyedEntities(this);
+        if (destroyedEntities.contains(entityId)) return false;
+
         Collection<Chunk> recordableChunks = this.recordingHandler.getChunkRecordingHandler().getRecordableChunks(this);
         return recordableChunks.stream().anyMatch((chunk) -> Arrays.stream(chunk.getEntities()).anyMatch((entity) -> entity.getEntityId() == entityId));
     }
 
-    public void addRecordables(List<Recordable<? extends Function<?, ?>>> newRecordables) {
-        if (newRecordables == null || newRecordables.isEmpty()) return;
+    public boolean addRecordables(List<Recordable<? extends Function<?, ?>>> newRecordables) {
+        if (newRecordables == null || newRecordables.isEmpty()) return false;
 
         long time = System.currentTimeMillis() - this.startTime;
         List<CachedRecordable> recordables = this.recordables.get(time);
@@ -69,9 +72,12 @@ public final class RecordingSessionImpl implements RecordingSession {
         }
 
         this.recordables.put(time, recordables);
+        return true;
     }
 
-    public void addRecordable(Recordable<? extends Function<?, ?>> newRecordable) {
-        this.addRecordables(List.of(newRecordable));
+    public boolean addRecordable(Recordable<? extends Function<?, ?>> newRecordable) {
+        if (newRecordable == null) return false;
+
+        return this.addRecordables(List.of(newRecordable));
     }
 }

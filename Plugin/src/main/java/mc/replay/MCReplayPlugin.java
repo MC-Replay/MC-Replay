@@ -7,6 +7,8 @@ import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.dispatcher.ReplayDispatchManager;
+import mc.replay.nms.NMSCore;
+import mc.replay.nms.v1_16_R3.NMSCoreImpl;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.Replay;
 import mc.replay.replay.ReplayHandler;
@@ -27,6 +29,8 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     private ReplayDispatchManager dispatchManager;
 
+    private NMSCore nmsCore; // TODO
+
     @Override
     public void onLoad() {
         instance = this;
@@ -39,7 +43,9 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     public void onEnable() {
         CommonInstance.plugin = this;
 
-        this.recordingHandler = new RecordingHandler();
+        this.nmsCore = new NMSCoreImpl();
+
+        this.recordingHandler = new RecordingHandler(this.nmsCore);
         this.replayHandler = new ReplayHandler(this);
 
         this.replayCreator = new ReplayCreator(this);

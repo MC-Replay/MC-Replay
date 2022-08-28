@@ -48,7 +48,7 @@ public class ReplayTestCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("spawn")) {
-            RecordingFakePlayer fakeRecordingPlayer = MCReplayPlugin.getInstance().getDispatchManager().getNmsCore().createFakeRecordingPlayer(player);
+            RecordingFakePlayer fakeRecordingPlayer = MCReplayPlugin.getInstance().getNmsCore().createFakeRecordingPlayer(player);
             fakeRecordingPlayer.spawn();
 
             player.sendMessage(ChatColor.GREEN + "Entity spawned.");

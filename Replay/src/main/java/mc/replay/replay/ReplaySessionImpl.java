@@ -65,8 +65,6 @@ public final class ReplaySessionImpl implements ReplaySession {
             boolean flying = replayPlayer.player().isFlying();
             replayPlayer.player().setAllowFlight(true);
             replayPlayer.player().setFlying(flying);
-
-            replayPlayer.player().sendMessage(Text.color("&aReplay session started."));
         }
     }
 

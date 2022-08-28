@@ -21,6 +21,11 @@ public final class ChunkRecordingHandler {
         return (recordingTask == null) ? Set.of() : recordingTask.getRecordingChunks();
     }
 
+    public Collection<Integer> getDestroyedEntities(RecordingSessionImpl recordingSession) {
+        ChunkRecordingTask recordingTask = this.chunkRecordingTasks.get(recordingSession);
+        return (recordingTask == null) ? Set.of() : recordingTask.getDestroyedEntities();
+    }
+
     public void startTask(RecordingSessionImpl recordingSession) {
         ChunkRecordingTask chunkRecordingTask = new ChunkRecordingTask(
                 this,

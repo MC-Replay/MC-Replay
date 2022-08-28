@@ -23,15 +23,11 @@ public final class ReplayDispatchManager {
     private final ReplayPacketDispatcher packetDispatcher;
     private final ReplayTickDispatcher tickDispatcher;
 
-    private final NMSCore nmsCore; // TODO
-
     public ReplayDispatchManager(MCReplayPlugin plugin) {
         this.plugin = plugin;
 
-        this.nmsCore = new NMSCoreImpl();
-
         this.eventDispatcher = new ReplayEventDispatcher(plugin);
-        this.packetDispatcher = new ReplayPacketDispatcher(plugin, this);
+        this.packetDispatcher = new ReplayPacketDispatcher(plugin);
         this.tickDispatcher = new ReplayTickDispatcher(plugin);
 
         try {

@@ -7,6 +7,7 @@ import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.nms.NMSCore;
 import mc.replay.nms.global.recordable.RecPlayerSpawn;
 import mc.replay.recording.chunk.ChunkRecordingHandler;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
@@ -22,9 +23,11 @@ public final class RecordingHandler implements IRecordingHandler {
 
     private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
 
+    private final NMSCore nmsCore;
     private final ChunkRecordingHandler chunkRecordingHandler;
 
-    public RecordingHandler() {
+    public RecordingHandler(NMSCore nmsCore) {
+        this.nmsCore = nmsCore;
         this.chunkRecordingHandler = new ChunkRecordingHandler();
     }
 
