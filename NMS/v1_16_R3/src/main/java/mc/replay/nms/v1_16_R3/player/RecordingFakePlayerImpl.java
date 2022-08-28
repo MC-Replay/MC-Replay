@@ -2,10 +2,7 @@ package mc.replay.nms.v1_16_R3.player;
 
 import com.mojang.authlib.GameProfile;
 import mc.replay.nms.player.RecordingFakePlayer;
-import net.minecraft.server.v1_16_R3.EntityPlayer;
-import net.minecraft.server.v1_16_R3.MinecraftServer;
-import net.minecraft.server.v1_16_R3.PlayerConnection;
-import net.minecraft.server.v1_16_R3.PlayerInteractManager;
+import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
@@ -13,6 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -36,16 +37,6 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
     }
 
     @Override
-    public void tick() {
-        // TODO only teleport player if they are not in the same location don't use super.tick()
-        super.tick();
-
-        if (this.target == null || !this.target.isOnline() || this.target.isDead()) {
-            this.dead = true;
-        }
-    }
-
-    @Override
     public void spawn() {
         Location location = this.target.getLocation().clone();
         this.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
@@ -53,10 +44,12 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
         this.setSilent(true);
         this.setCustomNameVisible(false);
         this.setInvulnerable(false);
+        this.setOnGround(false);
 
         this.server.getPlayerList().a(this.playerConnection.networkManager, this);
         this.world.addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
 
+        this.playerInteractManager.setGameMode(EnumGamemode.SPECTATOR);
         this.setSpectatorTarget(((CraftPlayer) this.target).getHandle());
     }
 
@@ -67,5 +60,93 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
 
     public void setPacketOutDispatcher(@NotNull Consumer<Object> consumer) {
         this.fakeNetworkManager.setPacketOutDispatcher(consumer);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void tick() {
+        if (!this.valid) return;
+
+        if (this.joining) {
+            this.joining = false;
+        }
+
+        try {
+            Field removeQueueField = EntityPlayer.class.getDeclaredField("removeQueue");
+            removeQueueField.setAccessible(true);
+
+            Object removeQueueObject = removeQueueField.get(this);
+            Deque<Integer> removeQueue = new ArrayDeque<>((Collection<Integer>) removeQueueObject);
+
+            while (!removeQueue.isEmpty()) {
+                int size = removeQueue.size();
+                int[] entityIdsToDestroy = new int[size];
+                int j = 0;
+
+                Integer integer;
+                while (j < size && (integer = removeQueue.poll()) != null) {
+                    entityIdsToDestroy[j++] = integer;
+                }
+
+                this.playerConnection.sendPacket(new PacketPlayOutEntityDestroy(entityIdsToDestroy));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        if (this.target == null || !this.target.isOnline() || this.target.isDead()) {
+            this.getWorldServer().unregisterEntity(this);
+        } else {
+            Location location = this.target.getLocation().clone();
+            this.setLocation(
+                    location.getX(),
+                    location.getY(),
+                    location.getZ(),
+                    location.getYaw(),
+                    location.getPitch()
+            );
+
+            this.getWorldServer().getChunkProvider().movePlayer(this);
+        }
+    }
+
+    @Override
+    public void playerTick() {
+    }
+
+    @Override
+    public void movementTick() {
+    }
+
+    @Override
+    protected void tickPotionEffects() {
+    }
+
+    @Override
+    public void tickWeather() {
+    }
+
+    @Override
+    protected void doPortalTick() {
+    }
+
+    @Override
+    protected void doTick() {
+    }
+
+    @Override
+    public void entityBaseTick() {
+    }
+
+    @Override
+    public void inactiveTick() {
+    }
+
+    @Override
+    public void passengerTick() {
+    }
+
+    @Override
+    public void postTick() {
     }
 }
