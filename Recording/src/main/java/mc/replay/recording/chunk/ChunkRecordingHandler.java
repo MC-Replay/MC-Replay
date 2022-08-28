@@ -29,8 +29,7 @@ public final class ChunkRecordingHandler {
     public void startTask(RecordingSessionImpl recordingSession) {
         ChunkRecordingTask chunkRecordingTask = new ChunkRecordingTask(
                 this,
-                recordingSession,
-                recordingSession.getContestant()
+                recordingSession
         );
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(MCReplayAPI.getJavaPlugin(), (task) -> {

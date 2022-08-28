@@ -7,7 +7,6 @@ import mc.replay.api.recording.contestant.RecordingContestant;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.utils.ChunkUtils;
 import mc.replay.recording.RecordingSessionImpl;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -25,15 +24,13 @@ public final class ChunkRecordingTask implements Runnable {
 
     private final ChunkRecordingHandler chunkRecordingHandler;
     private final RecordingSessionImpl recordingSession;
-    private final RecordingContestant contestant;
-
 
     @Getter
     private final Collection<Integer> destroyedEntities = Sets.newConcurrentHashSet();
     @Getter
     private final Collection<Chunk> recordingChunks = Sets.newConcurrentHashSet();
 
-    public boolean shouldContinue(BukkitTask task) {
+    boolean shouldContinue(BukkitTask task) {
         if (!this.recordingSession.isRecording()) {
             // Cancel this task if the recording is no longer active.
             task.cancel();
@@ -46,11 +43,7 @@ public final class ChunkRecordingTask implements Runnable {
 
     @Override
     public void run() {
-        Collection<@NotNull Player> players = new HashSet<>(this.contestant.players());
-
-        if (players.isEmpty()) {
-            players.addAll(Bukkit.getOnlinePlayers());
-        }
+        Collection<@NotNull Player> players = this.recordingSession.getContestants();
 
         Collection<Chunk> chunks = new HashSet<>();
         for (Player player : players) {
@@ -81,7 +74,8 @@ public final class ChunkRecordingTask implements Runnable {
                 for (Entity entity : recordingChunk.getEntities()) {
                     Recordable<? extends Function<?, ?>> recordable;
                     if (entity instanceof Player player) {
-                        // TODO don't destroy contestants
+                        if (this.recordingSession.getContestants().contains(player)) continue;
+
                         recordable = this.recordingSession.getRecordingHandler().getNmsCore().createDestroyPlayerRecordable(player);
                     } else {
                         recordable = this.recordingSession.getRecordingHandler().getNmsCore().createDestroyEntityRecordable(entity);
@@ -101,7 +95,8 @@ public final class ChunkRecordingTask implements Runnable {
                 for (Entity entity : recordingChunk.getEntities()) {
                     Recordable<? extends Function<?, ?>> recordable;
                     if (entity instanceof Player player) {
-                        // TODO don't spawn contestants
+                        if (this.recordingSession.getContestants().contains(player)) continue;
+
                         recordable = this.recordingSession.getRecordingHandler().getNmsCore().createSpawnPlayerRecordable(player);
                     } else {
                         recordable = this.recordingSession.getRecordingHandler().getNmsCore().createSpawnEntityRecordable(entity);

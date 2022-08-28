@@ -18,11 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public final class EntityEquipmentTickHandler implements DispatcherTick {
 
-    private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
+    private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new ConcurrentHashMap<>();
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(Integer currentTick) {

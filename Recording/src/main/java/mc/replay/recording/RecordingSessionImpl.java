@@ -5,9 +5,12 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.contestant.RecordingContestant;
+import mc.replay.api.recording.contestant.def.EverythingRecordingContestant;
 import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.recording.recordables.Recordable;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -31,6 +34,15 @@ public final class RecordingSessionImpl implements RecordingSession {
         this.contestant = contestant;
         this.startTime = System.currentTimeMillis();
         this.recordables = new TreeMap<>();
+    }
+
+    @Override
+    public @NotNull Collection<@NotNull Player> getContestants() {
+        if (this.contestant instanceof EverythingRecordingContestant) {
+            return new HashSet<>(Bukkit.getOnlinePlayers());
+        }
+
+        return new HashSet<>(this.contestant.players());
     }
 
     @Override
