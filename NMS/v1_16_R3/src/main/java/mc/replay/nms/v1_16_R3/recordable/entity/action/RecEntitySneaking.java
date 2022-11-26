@@ -22,6 +22,7 @@ public record RecEntitySneaking(EntityId entityId, boolean sneaking) implements 
         RecordableEntityData data = function.apply(this.entityId.entityId());
 
         EntityPlayer entityPlayer = (EntityPlayer) data.entityPlayer();
+        entityPlayer.setFlag(1, this.sneaking);
         entityPlayer.getDataWatcher().set(DataWatcherRegistry.s.a(6), this.sneaking ? EntityPose.CROUCHING : EntityPose.STANDING);
 
         return List.of(new PacketPlayOutEntityMetadata(data.entityId(), entityPlayer.getDataWatcher(), true));
