@@ -32,6 +32,6 @@ public final class ReplayEntitySpawnEventListener implements DispatcherEvent<Ent
         // TODO check if entity is replay entity
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
-        return List.of(RecEntitySpawn.of(entityId, entity.getType(), entity.getLocation()));
+        return List.of(RecEntitySpawn.of(entityId, entity.getType(), entity.getLocation(), craftEntity.getDataWatcher(), entity.getVelocity()));
     }
 }

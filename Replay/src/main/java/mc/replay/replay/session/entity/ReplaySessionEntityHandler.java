@@ -48,7 +48,9 @@ public final class ReplaySessionEntityHandler {
                     recEntitySpawn.entityId().entityId(),
                     recEntitySpawn.entityType(),
                     this.replaySession.getReplayWorld(),
-                    recEntitySpawn.location()
+                    recEntitySpawn.location(),
+                    recEntitySpawn.dataWatcher(),
+                    recEntitySpawn.velocity()
             );
 
             replayEntity.spawn(this.replaySession.getAllPlayers());

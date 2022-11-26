@@ -6,14 +6,14 @@ import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.utils.reflection.MinecraftReflections;
 import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
-import net.minecraft.server.v1_16_R3.Entity;
-import net.minecraft.server.v1_16_R3.EntityTypes;
-import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.util.CraftNamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
@@ -114,29 +114,30 @@ public class EntityPacketUtils {
         }
     }
 
-    public static Object spawnEntity(Collection<ReplayPlayer> viewers, Location location, EntityType entityType) {
+    public static Object spawnEntity(Collection<ReplayPlayer> viewers, Location location, EntityType entityType, Object dataWatcher, Vector velocity) {
         if (location == null || location.getWorld() == null || viewers == null || entityType == EntityType.PLAYER)
             return null;
 
         try {
-            EntityTypes<?> entityTypes = EntityTypes.a(entityType.getKey().getKey()).orElse(null);
-            if (entityTypes == null) return null;
+            EntityTypes<?> entityTypes = IRegistry.ENTITY_TYPE.get(CraftNamespacedKey.toMinecraft(entityType.getKey()));
 
             Entity entity = entityTypes.a(((CraftWorld) location.getWorld()).getHandle());
             if (entity == null) return null;
 
+            entity.setMot(velocity.getX(), velocity.getY(), velocity.getZ());
+
             SET_ENTITY_POSITION.invoke(entity, location.getX(), location.getY(), location.getZ());
 
-            Object dataWatcher = GET_DATA_WATCHER.invoke(entity);
-
-            PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity(entity);
+            Object packet = (entityType.isAlive()) ? new PacketPlayOutSpawnEntityLiving((EntityLiving) entity) : new PacketPlayOutSpawnEntity(entity);
             Object packetPlayOutEntityMetadata = PACKET_PLAY_OUT_ENTITY_METADATA_CONSTRUCTOR.newInstance(entity.getId(), dataWatcher, true);
+            Object packetPlayOutVelocity = new PacketPlayOutEntityVelocity(entity);
 
             for (ReplayPlayer viewerReplayPlayer : viewers) {
                 Player viewer = viewerReplayPlayer.player();
 
                 MinecraftPlayerNMS.sendPacket(viewer, packet);
                 MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
+                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutVelocity);
 
                 updateRotation(viewer, location.getYaw(), location.getPitch(), entity, true);
             }
