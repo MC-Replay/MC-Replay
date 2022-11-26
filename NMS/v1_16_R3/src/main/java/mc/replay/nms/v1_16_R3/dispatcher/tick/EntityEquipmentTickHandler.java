@@ -5,12 +5,14 @@ import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.nms.v1_16_R3.player.RecordingFakePlayerImpl;
 import mc.replay.nms.v1_16_R3.recordable.entity.miscellaneous.RecEntityEquipment;
+import net.minecraft.server.v1_16_R3.EntityLiving;
+import net.minecraft.server.v1_16_R3.EnumItemSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,10 +37,8 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
                 if (!(entity instanceof LivingEntity livingEntity) || !world.isChunkLoaded(entity.getLocation().getChunk()))
                     continue;
 
-                if (((CraftEntity) entity).getHandle() instanceof RecordingFakePlayerImpl) continue;
-
-                EntityEquipment entityEquipment = livingEntity.getEquipment();
-                if (entityEquipment == null) break;
+                net.minecraft.server.v1_16_R3.EntityLiving entityLiving = (EntityLiving) ((CraftEntity) livingEntity).getHandle();
+                if (entityLiving instanceof RecordingFakePlayerImpl) continue;
 
                 EntityId entityId = EntityId.of(livingEntity.getUniqueId(), livingEntity.getEntityId());
 
@@ -48,10 +48,11 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
                         if (equipment == null) equipment = new HashMap<>();
 
                         ItemStack lastItem = equipment.get(equipmentSlot);
-                        ItemStack currentItem = entityEquipment.getItem(equipmentSlot);
+                        ItemStack currentItem = CraftItemStack.asBukkitCopy(entityLiving.getEquipment(this.getSlot(equipmentSlot)));
                         if (lastItem == null && currentItem.getType().isAir()) continue;
 
-                        if (lastItem == null || !lastItem.isSimilar(currentItem)) {
+                        if (!currentItem.isSimilar(lastItem)) {
+                            equipment.put(equipmentSlot, currentItem);
                             recordables.add(RecEntityEquipment.of(entityId, equipmentSlot, currentItem));
                         }
                     } catch (Exception ignored) {
@@ -61,5 +62,16 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
         }
 
         return recordables;
+    }
+
+    private EnumItemSlot getSlot(EquipmentSlot slot) {
+        return switch (slot) {
+            case HAND -> EnumItemSlot.MAINHAND;
+            case OFF_HAND -> EnumItemSlot.OFFHAND;
+            case HEAD -> EnumItemSlot.HEAD;
+            case CHEST -> EnumItemSlot.CHEST;
+            case LEGS -> EnumItemSlot.LEGS;
+            case FEET -> EnumItemSlot.FEET;
+        };
     }
 }
