@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.nms.global.recordable.RecPlayerSpawn;
+import mc.replay.common.recordables.entity.RecPlayerSpawn;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

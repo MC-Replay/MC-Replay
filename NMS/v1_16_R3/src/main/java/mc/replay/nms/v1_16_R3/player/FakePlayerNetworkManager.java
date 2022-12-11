@@ -4,18 +4,19 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.Setter;
+import mc.replay.api.MCReplayAPI;
+import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.utils.PacketUtils;
 import net.minecraft.server.v1_16_R3.EnumProtocolDirection;
 import net.minecraft.server.v1_16_R3.NetworkManager;
 import net.minecraft.server.v1_16_R3.Packet;
 
 import javax.annotation.Nullable;
 import java.net.InetSocketAddress;
-import java.util.function.Consumer;
 
 @Setter
 public final class FakePlayerNetworkManager extends NetworkManager {
 
-    private Consumer<Object> packetOutDispatcher = null;
     private boolean recording = true;
 
     public FakePlayerNetworkManager() {
@@ -43,8 +44,11 @@ public final class FakePlayerNetworkManager extends NetworkManager {
 
     @Override
     public void sendPacket(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>> futureListener) {
-        if (this.packetOutDispatcher != null && this.recording) {
-            this.packetOutDispatcher.accept(packet);
+        if (this.recording) {
+            ClientboundPacket clientboundPacket = PacketUtils.readClientboundPacket(packet);
+            if (clientboundPacket != null) {
+                MCReplayAPI.getPacketLib().getPacketListener().publishClientbound(clientboundPacket);
+            }
         }
     }
 }

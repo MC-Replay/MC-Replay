@@ -1,6 +1,7 @@
 package mc.replay.nms.v1_16_R3.player;
 
 import com.mojang.authlib.GameProfile;
+import mc.replay.common.utils.FakePlayerUUID;
 import mc.replay.nms.player.RecordingFakePlayer;
 import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Location;
@@ -15,7 +16,6 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public final class RecordingFakePlayerImpl extends EntityPlayer implements RecordingFakePlayer {
 
@@ -38,6 +38,8 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
 
     @Override
     public void spawn() {
+        FakePlayerUUID.UUIDS.add(super.getUniqueID());
+
         Location location = this.target.getLocation().clone();
         this.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 
@@ -61,10 +63,6 @@ public final class RecordingFakePlayerImpl extends EntityPlayer implements Recor
     @Override
     public void setRecording(boolean recording) {
         this.fakeNetworkManager.setRecording(recording);
-    }
-
-    public void setPacketOutDispatcher(@NotNull Consumer<Object> consumer) {
-        this.fakeNetworkManager.setPacketOutDispatcher(consumer);
     }
 
     @SuppressWarnings("unchecked")

@@ -3,10 +3,11 @@ package mc.replay.replay.session.entity;
 import lombok.RequiredArgsConstructor;
 import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.common.recordables.RecordableOther;
-import mc.replay.nms.global.recordable.RecEntityDestroy;
-import mc.replay.nms.global.recordable.RecEntitySpawn;
-import mc.replay.nms.global.recordable.RecPlayerDestroy;
-import mc.replay.nms.global.recordable.RecPlayerSpawn;
+import mc.replay.common.recordables.entity.RecEntityDestroy;
+import mc.replay.common.recordables.entity.RecEntitySpawn;
+import mc.replay.common.recordables.entity.RecPlayerDestroy;
+import mc.replay.common.recordables.entity.RecPlayerSpawn;
+import mc.replay.packetlib.network.packet.ClientboundPacket;
 import mc.replay.replay.ReplaySessionImpl;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public final class ReplaySessionEntityHandler {
     private final ReplaySessionImpl replaySession;
     private final Map<Integer, AbstractReplayEntity<?>> entities = new HashMap<>();
 
-    public List<Object> handleEntityRecordable(RecordableEntity recordable) {
+    public List<ClientboundPacket> handleEntityRecordable(RecordableEntity recordable) {
         return recordable.createReplayPackets((originalEntityId) -> {
             AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
             if (replayEntity == null) return null;

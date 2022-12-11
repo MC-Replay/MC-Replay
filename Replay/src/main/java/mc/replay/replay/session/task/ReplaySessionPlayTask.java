@@ -2,11 +2,12 @@ package mc.replay.replay.session.task;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.common.recordables.RecordableOther;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
+import mc.replay.packetlib.network.packet.ClientboundPacket;
 import mc.replay.replay.ReplaySessionImpl;
 import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
 
@@ -66,10 +67,10 @@ public final class ReplaySessionPlayTask implements Runnable {
         }
     }
 
-    private void sendPackets(List<Object> packets) {
+    private void sendPackets(List<ClientboundPacket> packets) {
         for (ReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
-            for (Object packet : packets) {
-                MinecraftPlayerNMS.sendPacket(replayPlayer.player(), packet);
+            for (ClientboundPacket packet : packets) {
+                MCReplayAPI.getPacketLib().sendPacket(replayPlayer.player(), packet);
             }
         }
     }

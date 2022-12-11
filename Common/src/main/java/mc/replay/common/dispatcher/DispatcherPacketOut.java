@@ -1,10 +1,6 @@
 package mc.replay.common.dispatcher;
 
-import mc.replay.common.utils.PacketConverter;
+import mc.replay.packetlib.network.packet.ClientboundPacket;
 
-public interface DispatcherPacketOut<T> extends Dispatcher<T> {
-
-    default PacketConverter.ConvertedPacket convert(T packet) {
-        return PacketConverter.convert(packet);
-    }
+public interface DispatcherPacketOut<T extends ClientboundPacket> extends Dispatcher<T> {
 }

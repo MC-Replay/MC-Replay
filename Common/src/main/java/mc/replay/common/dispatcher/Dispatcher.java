@@ -10,7 +10,8 @@ public interface Dispatcher<T> {
 
     List<Recordable<? extends Function<?, ?>>> getRecordables(T obj);
 
-    default Class<?> getInputClass() {
-        return (Class<?>) ((ParameterizedType) this.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
+    @SuppressWarnings("unchecked")
+    default Class<T> getInputClass() {
+        return (Class<T>) ((ParameterizedType) this.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
     }
 }

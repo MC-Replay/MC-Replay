@@ -6,10 +6,10 @@ import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
-import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.dispatcher.ReplayDispatcher;
+import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.network.packet.ServerboundPacket;
 import mc.replay.recording.RecordingSessionImpl;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,34 +19,45 @@ import java.util.function.Function;
 @Getter
 public final class ReplayPacketDispatcher extends ReplayDispatcher {
 
-    private final Map<String, DispatcherPacketIn<Object>> packetInConverters = new HashMap<>();
-    private final Map<String, DispatcherPacketOut<Object>> packetOutConverters = new HashMap<>();
+    private final Map<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> packetInConverters = new HashMap<>();
+    private final Map<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> packetOutConverters = new HashMap<>();
 
-    public ReplayPacketDispatcher(MCReplayPlugin plugin, ReplayDispatchManager dispatchManager) {
+    public ReplayPacketDispatcher(MCReplayPlugin plugin) {
         super(plugin);
 
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerPipelineListener(this), plugin);
+        plugin.getPacketLib().getPacketListener().listenClientbound((packet) -> {
+            for (Map.Entry<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> entry : this.packetOutConverters.entrySet()) {
+                if (!packet.getClass().equals(entry.getKey())) continue;
 
-        dispatchManager.getNmsCore().setPacketOutDispatcher((packet) -> {
-            for (Map.Entry<String, DispatcherPacketOut<Object>> entry : this.packetOutConverters.entrySet()) {
-                if (entry.getKey().equalsIgnoreCase(packet.getClass().getSimpleName())) {
-                    List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packet);
-                    if (recordables == null) continue;
+                List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packet);
+                if (recordables == null) continue;
 
-                    for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
-                        ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
-                    }
+                for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
+                    ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                }
+            }
+        });
+
+        plugin.getPacketLib().getPacketListener().listenServerbound((player, packet) -> {
+            for (Map.Entry<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> entry : this.packetInConverters.entrySet()) {
+                if (!packet.getClass().equals(entry.getKey())) continue;
+
+                List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(player, packet);
+                if (recordables == null) continue;
+
+                for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
+                    ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
                 }
             }
         });
     }
 
-    public void registerPacketInConverter(DispatcherPacketIn<Object> converter) {
-        this.packetInConverters.put(converter.getInputClass().getSimpleName().toLowerCase(), converter);
+    public void registerPacketInConverter(DispatcherPacketIn<ServerboundPacket> converter) {
+        this.packetInConverters.put(converter.getInputClass(), converter);
     }
 
-    public void registerPacketOutConverter(DispatcherPacketOut<Object> converter) {
-        this.packetOutConverters.put(converter.getInputClass().getSimpleName().toLowerCase(), converter);
+    public void registerPacketOutConverter(DispatcherPacketOut<ClientboundPacket> converter) {
+        this.packetOutConverters.put(converter.getInputClass(), converter);
     }
 
     public int getDispatcherCount() {

@@ -10,4 +10,12 @@
     </parent>
 
     <artifactId>API</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>mc.replay</groupId>
+            <artifactId>packetlib</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
