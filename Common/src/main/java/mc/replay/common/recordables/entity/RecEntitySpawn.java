@@ -2,7 +2,7 @@ package mc.replay.common.recordables.entity;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableOther;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.util.Vector;

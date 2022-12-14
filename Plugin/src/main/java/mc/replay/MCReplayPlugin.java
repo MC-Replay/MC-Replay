@@ -42,6 +42,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     public void onEnable() {
         CommonInstance.plugin = this;
 
+
         this.packetLib = new PacketLib();
 
         this.recordingHandler = new RecordingHandler();

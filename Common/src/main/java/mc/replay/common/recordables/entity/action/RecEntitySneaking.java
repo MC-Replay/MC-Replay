@@ -2,10 +2,10 @@
 //
 //import mc.replay.api.recording.recordables.entity.EntityId;
 //import mc.replay.common.recordables.RecordableEntity;
-//import net.minecraft.server.v1_16_R3.DataWatcherRegistry;
-//import net.minecraft.server.v1_16_R3.EntityPlayer;
-//import net.minecraft.server.v1_16_R3.EntityPose;
-//import net.minecraft.server.v1_16_R3.PacketPlayOutEntityMetadata;
+//import mc.replay.packetlib.data.entity.EntityMetadata;
+//import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+//import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
+//import org.bukkit.entity.Pose;
 //import org.jetbrains.annotations.NotNull;
 //
 //import java.util.List;
@@ -18,13 +18,16 @@
 //    }
 //
 //    @Override
-//    public @NotNull List<@NotNull Object> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
+//    public @NotNull List<@NotNull ClientboundPacket> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
 //        RecordableEntityData data = function.apply(this.entityId.entityId());
 //
-//        EntityPlayer entityPlayer = (EntityPlayer) data.entityPlayer();
-//        entityPlayer.setFlag(1, this.sneaking);
-//        entityPlayer.getDataWatcher().set(DataWatcherRegistry.s.a(6), this.sneaking ? EntityPose.CROUCHING : EntityPose.STANDING);
+//        EntityMetadata entityMetadata = new EntityMetadata();
+//        entityMetadata.setSneaking(this.sneaking);
+//        entityMetadata.setPose((this.sneaking) ? Pose.SNEAKING : Pose.STANDING);
 //
-//        return List.of(new PacketPlayOutEntityMetadata(data.entityId(), entityPlayer.getDataWatcher(), true));
+//        return List.of(new ClientboundEntityMetadataPacket(
+//                data.entityId(),
+//                entityMetadata
+//        ));
 //    }
 //}

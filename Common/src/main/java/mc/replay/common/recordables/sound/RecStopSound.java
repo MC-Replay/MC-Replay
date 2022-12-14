@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.sound;
 
 import mc.replay.common.recordables.RecordableSound;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundStopSoundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundStopSoundPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

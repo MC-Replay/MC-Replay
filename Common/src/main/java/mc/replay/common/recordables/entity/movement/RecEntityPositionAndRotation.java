@@ -3,8 +3,8 @@ package mc.replay.common.recordables.entity.movement;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.packetlib.data.Pos;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundEntityPositionAndRotationPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityPositionAndRotationPacket;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 

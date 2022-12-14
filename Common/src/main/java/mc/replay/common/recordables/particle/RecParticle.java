@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.particle;
 
 import mc.replay.common.recordables.RecordableParticle;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundParticlePacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundParticlePacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

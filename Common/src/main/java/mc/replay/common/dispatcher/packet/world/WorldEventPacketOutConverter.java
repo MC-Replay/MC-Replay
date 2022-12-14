@@ -3,7 +3,7 @@ package mc.replay.common.dispatcher.packet.world;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.world.RecWorldEvent;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundWorldEventPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundWorldEventPacket;
 
 import java.util.List;
 import java.util.function.Function;

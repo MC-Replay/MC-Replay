@@ -2,8 +2,8 @@ package mc.replay.common.recordables.entity.movement;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundEntityHeadRotationPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityHeadRotationPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

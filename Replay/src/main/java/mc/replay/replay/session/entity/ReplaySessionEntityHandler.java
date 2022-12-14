@@ -7,7 +7,7 @@ import mc.replay.common.recordables.entity.RecEntityDestroy;
 import mc.replay.common.recordables.entity.RecEntitySpawn;
 import mc.replay.common.recordables.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.entity.RecPlayerSpawn;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.ReplaySessionImpl;
 
 import java.util.HashMap;

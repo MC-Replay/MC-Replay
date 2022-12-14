@@ -2,9 +2,9 @@ package mc.replay.common.recordables.entity.miscellaneous;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.packetlib.data.ItemStackWrapper;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundEntityEquipmentPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityEquipmentPacket;
+import mc.replay.wrapper.inventory.ItemWrapper;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +31,7 @@ public record RecEntityEquipment(EntityId entityId, EquipmentSlot slot,
                 data.entityId(),
                 Map.of(
                         (byte) this.slot.ordinal(),
-                        ItemStackWrapper.of(this.itemStack)
+                        new ItemWrapper(this.itemStack)
                 )
         ));
     }

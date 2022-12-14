@@ -1,13 +1,8 @@
 package mc.replay.common.recordables.block;
 
 import mc.replay.common.recordables.RecordableBlock;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.ServerboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundBlockActionPacket;
-import net.minecraft.server.v1_16_R3.Block;
-import net.minecraft.server.v1_16_R3.BlockPosition;
-import net.minecraft.server.v1_16_R3.IRegistry;
-import net.minecraft.server.v1_16_R3.PacketPlayOutBlockAction;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockActionPacket;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 

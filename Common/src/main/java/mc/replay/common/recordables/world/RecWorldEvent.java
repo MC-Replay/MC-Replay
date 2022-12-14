@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.world;
 
 import mc.replay.common.recordables.RecordableWorldEvent;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundWorldEventPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundWorldEventPacket;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 

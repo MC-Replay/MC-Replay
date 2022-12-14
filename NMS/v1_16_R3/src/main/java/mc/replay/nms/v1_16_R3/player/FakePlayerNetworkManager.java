@@ -5,7 +5,7 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.Setter;
 import mc.replay.api.MCReplayAPI;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.utils.PacketUtils;
 import net.minecraft.server.v1_16_R3.EnumProtocolDirection;
 import net.minecraft.server.v1_16_R3.NetworkManager;

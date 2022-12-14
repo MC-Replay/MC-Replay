@@ -3,7 +3,7 @@
 //import mc.replay.common.dispatcher.DispatcherEvent;
 //import mc.replay.api.recording.recordables.Recordable;
 //import mc.replay.api.recording.recordables.entity.EntityId;
-//import mc.replay.nms.v1_16_R3.recordable.entity.action.RecEntitySprinting;
+//import mc.replay.common.recordables.entity.action.RecEntitySprinting;
 //import org.bukkit.entity.Player;
 //import org.bukkit.event.EventPriority;
 //import org.bukkit.event.player.PlayerToggleSprintEvent;

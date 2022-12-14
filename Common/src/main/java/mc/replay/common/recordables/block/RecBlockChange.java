@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.block;
 
 import mc.replay.common.recordables.RecordableBlock;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundBlockChangePacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockChangePacket;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 

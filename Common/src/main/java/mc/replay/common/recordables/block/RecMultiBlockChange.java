@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.block;
 
 import mc.replay.common.recordables.RecordableBlock;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundMultiBlockChangePacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundMultiBlockChangePacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

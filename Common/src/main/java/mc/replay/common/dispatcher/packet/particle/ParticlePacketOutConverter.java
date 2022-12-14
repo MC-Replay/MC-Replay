@@ -3,7 +3,7 @@ package mc.replay.common.dispatcher.packet.particle;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.particle.RecParticle;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundParticlePacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundParticlePacket;
 
 import java.util.List;
 import java.util.function.Function;

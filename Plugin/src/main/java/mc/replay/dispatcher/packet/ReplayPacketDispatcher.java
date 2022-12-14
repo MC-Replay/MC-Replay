@@ -7,8 +7,8 @@ import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.dispatcher.ReplayDispatcher;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.ServerboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
 import mc.replay.recording.RecordingSessionImpl;
 
 import java.util.HashMap;

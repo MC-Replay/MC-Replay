@@ -7,7 +7,7 @@ import mc.replay.api.recording.recordables.CachedRecordable;
 import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.recordables.RecordableEntity;
 import mc.replay.common.recordables.RecordableOther;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.ReplaySessionImpl;
 import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
 

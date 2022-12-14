@@ -1,6 +1,6 @@
 package mc.replay.api.recording.recordables;
 
-import mc.replay.packetlib.network.packet.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

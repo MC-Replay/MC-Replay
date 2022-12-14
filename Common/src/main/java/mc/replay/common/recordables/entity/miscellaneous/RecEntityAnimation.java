@@ -2,19 +2,20 @@ package mc.replay.common.recordables.entity.miscellaneous;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundEntityAnimationPacket;
+import mc.replay.packetlib.data.entity.EntityAnimation;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityAnimationPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
 
-public record RecEntityAnimation(EntityId entityId, int animationId) implements RecordableEntity {
+public record RecEntityAnimation(EntityId entityId, EntityAnimation animation) implements RecordableEntity {
 
-    public static RecEntityAnimation of(EntityId entityId, int animationId) {
+    public static RecEntityAnimation of(EntityId entityId, EntityAnimation animation) {
         return new RecEntityAnimation(
                 entityId,
-                animationId
+                animation
         );
     }
 
@@ -25,7 +26,7 @@ public record RecEntityAnimation(EntityId entityId, int animationId) implements 
 
         return List.of(new ClientboundEntityAnimationPacket(
                 data.entityId(),
-                this.animationId
+                this.animation
         ));
     }
 }

@@ -2,8 +2,8 @@ package mc.replay.common.recordables.block;
 
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import mc.replay.common.recordables.RecordableBlock;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundBlockEntityDataPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockEntityDataPacket;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 

@@ -3,7 +3,7 @@ package mc.replay.common.dispatcher.packet.block;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.block.RecMultiBlockChange;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundMultiBlockChangePacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundMultiBlockChangePacket;
 
 import java.util.List;
 import java.util.function.Function;

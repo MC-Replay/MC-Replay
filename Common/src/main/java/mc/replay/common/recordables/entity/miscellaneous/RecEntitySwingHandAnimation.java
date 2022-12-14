@@ -2,19 +2,20 @@ package mc.replay.common.recordables.entity.miscellaneous;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundEntityAnimationPacket;
+import mc.replay.packetlib.data.entity.PlayerHand;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityAnimationPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
 
-public record RecEntitySwingHandAnimation(EntityId entityId, int handId) implements RecordableEntity {
+public record RecEntitySwingHandAnimation(EntityId entityId, PlayerHand hand) implements RecordableEntity {
 
-    public static RecEntitySwingHandAnimation of(EntityId entityId, int handId) {
+    public static RecEntitySwingHandAnimation of(EntityId entityId, PlayerHand hand) {
         return new RecEntitySwingHandAnimation(
                 entityId,
-                handId
+                hand
         );
     }
 
@@ -24,7 +25,7 @@ public record RecEntitySwingHandAnimation(EntityId entityId, int handId) impleme
 
         return List.of(new ClientboundEntityAnimationPacket(
                 data.entityId(),
-                this.handId // TODO
+                this.hand.toAnimation()
         ));
     }
 }

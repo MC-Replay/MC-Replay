@@ -12,8 +12,8 @@ import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
 import mc.replay.dispatcher.tick.ReplayTickDispatcher;
 import mc.replay.nms.NMSCore;
 import mc.replay.nms.v1_16_R3.NMSCoreImpl;
-import mc.replay.packetlib.network.packet.ClientboundPacket;
-import mc.replay.packetlib.network.packet.ServerboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
