@@ -10,8 +10,6 @@ import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.dispatcher.event.ReplayEventDispatcher;
 import mc.replay.dispatcher.packet.ReplayPacketDispatcher;
 import mc.replay.dispatcher.tick.ReplayTickDispatcher;
-import mc.replay.nms.NMSCore;
-import mc.replay.nms.v1_16_R3.NMSCoreImpl;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,12 +26,8 @@ public final class ReplayDispatchManager {
     private final ReplayPacketDispatcher packetDispatcher;
     private final ReplayTickDispatcher tickDispatcher;
 
-    private final NMSCore nmsCore;
-
     public ReplayDispatchManager(MCReplayPlugin plugin) {
         this.plugin = plugin;
-
-        this.nmsCore = new NMSCoreImpl();
 
         this.eventDispatcher = new ReplayEventDispatcher(plugin);
         this.packetDispatcher = new ReplayPacketDispatcher(plugin);

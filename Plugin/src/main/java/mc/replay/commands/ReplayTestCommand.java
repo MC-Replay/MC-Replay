@@ -6,7 +6,6 @@ import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.common.utils.color.Text;
-import mc.replay.nms.player.RecordingFakePlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -50,13 +49,13 @@ public class ReplayTestCommand implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("spawn")) {
-            RecordingFakePlayer fakeRecordingPlayer = MCReplayPlugin.getInstance().getDispatchManager().getNmsCore().createFakeRecordingPlayer(player);
-            fakeRecordingPlayer.spawn();
-
-            player.sendMessage(ChatColor.GREEN + "Entity spawned.");
-            return true;
-        }
+//        if (args[0].equalsIgnoreCase("spawn")) {
+//            RecordingFakePlayer fakeRecordingPlayer = MCReplayPlugin.getInstance().getDispatchManager().getNmsCore().createFakeRecordingPlayer(player);
+//            fakeRecordingPlayer.spawn();
+//
+//            player.sendMessage(ChatColor.GREEN + "Entity spawned.");
+//            return true;
+//        }
 
         if (args[0].equalsIgnoreCase("stop")) {
             if (this.session == null) {
