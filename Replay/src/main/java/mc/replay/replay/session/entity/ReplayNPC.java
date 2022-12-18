@@ -1,9 +1,10 @@
 package mc.replay.replay.session.entity;
 
-import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.utils.EntityPacketUtils;
+import mc.replay.packetlib.data.Pos;
+import mc.replay.wrapper.data.SkinTexture;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -13,36 +14,26 @@ import java.util.Collection;
 public final class ReplayNPC extends AbstractReplayEntity<ReplayNPC> {
 
     private final String name;
-    private final Property skinTexture;
+    private final SkinTexture skinTexture;
     private final World replayWorld;
-    private final Location startLocation;
+    private final Pos startPosition;
 
-    public ReplayNPC(int originalEntityId, String name, World replayWorld, Location startLocation, Property skinTexture) {
+    public ReplayNPC(int originalEntityId, String name, World replayWorld, Pos startPosition, SkinTexture skinTexture) {
         super(originalEntityId);
 
         this.name = name;
         this.skinTexture = skinTexture;
         this.replayWorld = replayWorld;
-        this.startLocation = startLocation;
+        this.startPosition = startPosition;
     }
 
-    public ReplayNPC(int originalEntityId, String name, World replayWorld, Location startLocation) {
-        this(originalEntityId, name, replayWorld, startLocation, null);
+    public ReplayNPC(int originalEntityId, String name, World replayWorld, Pos startPosition) {
+        this(originalEntityId, name, replayWorld, startPosition, null);
     }
 
     @Override
     public void spawn(Collection<ReplayPlayer> viewers) {
-        Location spawnLocation = new Location(
-                this.replayWorld,
-                this.startLocation.getX(),
-                this.startLocation.getY(),
-                this.startLocation.getZ(),
-                this.startLocation.getYaw(),
-                this.startLocation.getPitch()
-        );
-
-        this.entity = EntityPacketUtils.spawnNPC(viewers, spawnLocation, "Suspect", this.skinTexture);
-        this.replayEntityId = EntityPacketUtils.getEntityId(this.entity);
+        this.entity = EntityPacketUtils.spawnNPC(viewers, this.startPosition, "Suspect", this.skinTexture);
     }
 
     @Override

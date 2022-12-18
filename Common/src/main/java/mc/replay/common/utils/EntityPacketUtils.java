@@ -1,215 +1,220 @@
 package mc.replay.common.utils;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import mc.replay.api.MCReplayAPI;
 import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.CommonInstance;
-import mc.replay.common.utils.reflection.MinecraftReflections;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
-import net.minecraft.server.v1_16_R3.*;
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R3.util.CraftNamespacedKey;
+import mc.replay.packetlib.data.PlayerProfileProperty;
+import mc.replay.packetlib.data.Pos;
+import mc.replay.packetlib.data.entity.EntityAnimation;
+import mc.replay.packetlib.data.entity.Metadata;
+import mc.replay.packetlib.data.entity.player.PlayerInfoAction;
+import mc.replay.packetlib.data.entity.player.PlayerInfoEntry;
+import mc.replay.packetlib.data.team.CollisionRule;
+import mc.replay.packetlib.data.team.NameTagVisibility;
+import mc.replay.packetlib.data.team.TeamAction;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.*;
+import mc.replay.packetlib.network.packet.clientbound.play.version.ClientboundLivingEntitySpawn754_758Packet;
+import mc.replay.packetlib.utils.ProtocolVersion;
+import mc.replay.packetlib.utils.Reflections;
+import mc.replay.wrapper.data.PlayerProfile;
+import mc.replay.wrapper.data.SkinTexture;
+import mc.replay.wrapper.entity.EntityWrapper;
+import mc.replay.wrapper.entity.LivingEntityWrapper;
+import mc.replay.wrapper.entity.PlayerWrapper;
+import mc.replay.wrapper.entity.metadata.ObjectDataProvider;
+import mc.replay.wrapper.entity.metadata.PlayerMetadata;
+import mc.replay.wrapper.team.TeamWrapper;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
-import static mc.replay.common.utils.reflection.nms.NPCPacketUtils.*;
 
 public class EntityPacketUtils {
 
-    private static Object teamObject;
-    private static Executable INITIALIZE_SCOREBOARD_TEAM;
+    private static final TeamWrapper REPLAY_PLAYERS_TEAM = new TeamWrapper(
+            "ReplayPlayers",
+            Component.empty(),
+            Component.empty(),
+            Component.empty(),
+            NamedTextColor.RED,
+            NameTagVisibility.ALWAYS,
+            CollisionRule.NEVER
+    );
 
-    static {
-        try {
-            teamObject = SCOREBOARD_CREATE_TEAM_METHOD.invoke(SCOREBOARD_INSTANCE, "ReplayPlayers");
+    public static PlayerWrapper spawnNPC(Collection<ReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture) {
+        if (viewers == null || viewers.isEmpty()) return null;
 
-            Object color = GET_ENUM_CHAT_FORMAT_BY_NAME.invoke(null, "RED");
-            SCOREBOARD_SET_COLOR_METHOD.invoke(teamObject, color);
+        PlayerProfile playerProfile = new PlayerProfile(UUID.randomUUID(), name, Map.of(
+                SkinTexture.TEXTURES_KEY, new PlayerProfileProperty(SkinTexture.TEXTURES_KEY, skinTexture.value(), skinTexture.signature())
+        ));
 
-            INITIALIZE_SCOREBOARD_TEAM = (MinecraftReflections.isRepackaged())
-                    ? PACKET_PLAY_OUT_SCOREBOARD_TEAM.getMethod("a", SCOREBOARD_TEAM, boolean.class)
-                    : PACKET_PLAY_OUT_SCOREBOARD_TEAM.getConstructor(SCOREBOARD_TEAM, int.class);
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        PlayerWrapper playerWrapper = new PlayerWrapper(playerProfile);
+        playerWrapper.setPosition(position);
+
+        PlayerMetadata metadata = playerWrapper.getMetadata();
+        if (metadata == null) return null;
+
+        // TODO get wrapper from replayed wrapper this will set the skin layers
+        metadata.setCapeEnabled(true);
+        metadata.setJacketEnabled(true);
+        metadata.setLeftSleeveEnabled(true);
+        metadata.setRightSleeveEnabled(true);
+        metadata.setLeftLegEnabled(true);
+        metadata.setRightLegEnabled(true);
+        metadata.setHatEnabled(true);
+
+        metadata.setHasGlowingEffect(true);
+
+        REPLAY_PLAYERS_TEAM.addEntry(playerWrapper.getUsername());
+
+        PlayerInfoEntry.AddPlayer addPlayer = new PlayerInfoEntry.AddPlayer(
+                playerWrapper.getUniqueId(),
+                playerWrapper.getUsername(),
+                List.copyOf(playerProfile.properties().values()),
+                GameMode.SURVIVAL,
+                0,
+                null
+        );
+
+        TeamAction.CreateTeamAction createTeamAction = new TeamAction.CreateTeamAction(
+                REPLAY_PLAYERS_TEAM.getDisplayName(),
+                (byte) 0,
+                REPLAY_PLAYERS_TEAM.getVisibility(),
+                REPLAY_PLAYERS_TEAM.getCollisionRule(),
+                REPLAY_PLAYERS_TEAM.getColor(),
+                REPLAY_PLAYERS_TEAM.getPrefix(),
+                REPLAY_PLAYERS_TEAM.getSuffix(),
+                REPLAY_PLAYERS_TEAM.getEntries()
+        );
+
+        ClientboundPlayerInfoPacket infoPacket = new ClientboundPlayerInfoPacket(PlayerInfoAction.ADD_PLAYER, addPlayer);
+        ClientboundPlayerSpawnPacket spawnPacket = new ClientboundPlayerSpawnPacket(playerWrapper.getEntityId(), playerWrapper.getUniqueId(), playerWrapper.getPosition());
+        ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(playerWrapper.getEntityId(), metadata.getEntries());
+        ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_PLAYERS_TEAM.getName(), createTeamAction);
+
+        for (ReplayPlayer viewerReplayPlayer : viewers) {
+            Player viewer = viewerReplayPlayer.player();
+
+            MCReplayAPI.getPacketLib().sendPacket(viewer, infoPacket);
+            MCReplayAPI.getPacketLib().sendPacket(viewer, spawnPacket);
+            MCReplayAPI.getPacketLib().sendPacket(viewer, metadataPacket);
+            MCReplayAPI.getPacketLib().sendPacket(viewer, teamsPacket);
+
+            updateRotation(viewer, position.yaw(), position.pitch(), playerWrapper, true);
         }
-    }
 
-    @SuppressWarnings("unchecked")
-    public static Object spawnNPC(Collection<ReplayPlayer> viewers, Location location, String name, Property skinTexture) {
-        if (location == null || location.getWorld() == null || viewers == null) return null;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                PlayerInfoEntry.RemovePlayer removePlayer = new PlayerInfoEntry.RemovePlayer(playerWrapper.getUniqueId());
 
-        try {
-            GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
-            if (skinTexture != null) {
-                gameProfile.getProperties().clear();
-                gameProfile.getProperties().put("textures", skinTexture);
-            }
+                for (ReplayPlayer viewerReplayPlayer : viewers) {
+                    Player viewer = viewerReplayPlayer.player();
 
-            Object craftWorld = CRAFT_WORLD.cast(location.getWorld());
-            Object worldServer = GET_WORLD_SERVER.invoke(craftWorld);
-
-            final Object entityPlayer = createEntityPlayer(worldServer, gameProfile);
-            int entityId = getEntityId(entityPlayer);
-            SET_ENTITY_POSITION.invoke(entityPlayer, location.getX(), location.getY(), location.getZ());
-
-            ((Collection<String>) GET_PLAYER_NAMES_IN_TEAM.invoke(teamObject)).add(name);
-
-            Object dataWatcher = GET_DATA_WATCHER.invoke(entityPlayer);
-            Object skinDataWatcherObject = GET_DATA_WATCHER_OBJECT.invoke(DATA_WATCHER_BYTE_SERIALIZER_INSTANCE, (MinecraftReflections.isRepackaged()) ? 17 : 16);
-            byte overlays = JACKET | LEFT_SLEEVE | RIGHT_SLEEVE | LEFT_PANTS | RIGHT_PANTS | HAT;
-            SET_DATA_WATCHER_OBJECT.invoke(dataWatcher, skinDataWatcherObject, overlays);
-
-            entityPlayer.getClass().getMethod("setFlag", int.class, boolean.class).invoke(entityPlayer, 6, true);
-
-            Object addArray = createSingleEntityPlayerArray(entityPlayer);
-
-            Object packetPlayOutPlayerInfoAdd = PACKET_PLAY_OUT_PLAYER_INFO.getConstructor(ENUM_PLAYER_INFO_ACTION, addArray.getClass()).newInstance(ENUM_PLAYER_INFO_ACTION_ADD_PLAYER, addArray);
-            Object packetPlayOutNamedEntitySpawn = PACKET_PLAY_OUT_NAMED_ENTITY_SPAWN_CONSTRUCTOR.newInstance(entityPlayer);
-            Object packetPlayOutEntityMetadata = PACKET_PLAY_OUT_ENTITY_METADATA_CONSTRUCTOR.newInstance(entityId, dataWatcher, true);
-            Object packetPlayOutScoreboardTeam = createScoreboardTeamPacket(teamObject);
-
-            for (ReplayPlayer viewerReplayPlayer : viewers) {
-                Player viewer = viewerReplayPlayer.player();
-
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutPlayerInfoAdd);
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutNamedEntitySpawn);
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutScoreboardTeam);
-
-                updateRotation(viewer, location.getYaw(), location.getPitch(), entityPlayer, true);
-            }
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    try {
-                        Object removeArray = createSingleEntityPlayerArray(entityPlayer);
-                        Object packetPlayOutPlayerInfoRemove = PACKET_PLAY_OUT_PLAYER_INFO.getConstructor(ENUM_PLAYER_INFO_ACTION, removeArray.getClass())
-                                .newInstance(ENUM_PLAYER_INFO_ACTION_REMOVE_PLAYER, removeArray);
-
-                        for (ReplayPlayer viewerReplayPlayer : viewers) {
-                            Player viewer = viewerReplayPlayer.player();
-
-                            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutPlayerInfoRemove);
-                        }
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
+                    MCReplayAPI.getPacketLib().sendPacket(viewer, new ClientboundPlayerInfoPacket(PlayerInfoAction.REMOVE_PLAYER, removePlayer));
                 }
-            }.runTaskLaterAsynchronously(CommonInstance.plugin, 20L);
+            }
+        }.runTaskLaterAsynchronously(CommonInstance.plugin, 20L);
 
-            return entityPlayer;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return null;
-        }
+        return playerWrapper;
     }
 
-    public static Object spawnEntity(Collection<ReplayPlayer> viewers, Location location, EntityType entityType, Object dataWatcher, Vector velocity) {
-        if (location == null || location.getWorld() == null || viewers == null || entityType == EntityType.PLAYER)
+    public static EntityWrapper spawnEntity(Collection<ReplayPlayer> viewers, Pos position, EntityType entityType, Map<Integer, Metadata.Entry<?>> metadata, Vector velocity) {
+        if (viewers == null || viewers.isEmpty() || entityType == EntityType.PLAYER)
             return null;
 
-        try {
-            EntityTypes<?> entityTypes = IRegistry.ENTITY_TYPE.get(CraftNamespacedKey.toMinecraft(entityType.getKey()));
+        EntityWrapper entityWrapper;
+        if (entityType.isAlive()) {
+            entityWrapper = new LivingEntityWrapper(entityType, UUID.randomUUID());
+        } else {
+            entityWrapper = new EntityWrapper(entityType, UUID.randomUUID());
+        }
 
-            Entity entity = entityTypes.a(((CraftWorld) location.getWorld()).getHandle());
-            if (entity == null) return null;
+        entityWrapper.setPosition(position);
+        entityWrapper.addMetadata(metadata);
 
-            entity.setMot(velocity.getX(), velocity.getY(), velocity.getZ());
+        int data = 0;
+        short velocityX = 0, velocityY = 0, velocityZ = 0;
+        if (entityWrapper.getMetadata() instanceof ObjectDataProvider provider) {
+            data = provider.getObjectData();
+            velocityX = (short) velocity.getX();
+            velocityY = (short) velocity.getY();
+            velocityZ = (short) velocity.getZ();
+        }
 
-            SET_ENTITY_POSITION.invoke(entity, location.getX(), location.getY(), location.getZ());
+        ClientboundPacket spawnPacket;
+        if (Reflections.VERSION.isHigherOrEqual(ProtocolVersion.MINECRAFT_1_19) || !entityType.isAlive()) {
+            spawnPacket = new ClientboundEntitySpawnPacket(
+                    entityWrapper.getEntityId(),
+                    entityWrapper.getUniqueId(),
+                    entityType.ordinal(),
+                    entityWrapper.getPosition(),
+                    entityWrapper.getPosition().yaw(),
+                    data,
+                    velocityX,
+                    velocityY,
+                    velocityZ
+            );
+        } else {
+            spawnPacket = new ClientboundLivingEntitySpawn754_758Packet(
+                    entityWrapper.getEntityId(),
+                    entityWrapper.getUniqueId(),
+                    entityType.ordinal(),
+                    entityWrapper.getPosition(),
+                    entityWrapper.getPosition().yaw(),
+                    velocityX,
+                    velocityY,
+                    velocityZ
+            );
+        }
 
-            Object packet = (entityType.isAlive()) ? new PacketPlayOutSpawnEntityLiving((EntityLiving) entity) : new PacketPlayOutSpawnEntity(entity);
-            Object packetPlayOutEntityMetadata = PACKET_PLAY_OUT_ENTITY_METADATA_CONSTRUCTOR.newInstance(entity.getId(), dataWatcher, true);
-            Object packetPlayOutVelocity = new PacketPlayOutEntityVelocity(entity);
+        ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(entityWrapper.getEntityId(), entityWrapper.getMetadata().getEntries());
 
-            for (ReplayPlayer viewerReplayPlayer : viewers) {
-                Player viewer = viewerReplayPlayer.player();
+        for (ReplayPlayer replayPlayer : viewers) {
+            Player viewer = replayPlayer.player();
 
-                MinecraftPlayerNMS.sendPacket(viewer, packet);
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityMetadata);
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutVelocity);
+            MCReplayAPI.getPacketLib().sendPacket(viewer, spawnPacket);
+            MCReplayAPI.getPacketLib().sendPacket(viewer, metadataPacket);
 
-                updateRotation(viewer, location.getYaw(), location.getPitch(), entity, true);
-            }
+            updateRotation(viewer, position.yaw(), position.pitch(), entityWrapper, true);
+        }
 
-            return entity;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return null;
+        return entityWrapper;
+    }
+
+    public static void updateRotation(Player viewer, float yaw, float pitch, EntityWrapper entityWrapper) {
+        updateRotation(viewer, yaw, pitch, entityWrapper, false);
+    }
+
+    public static void updateRotation(Player viewer, float yaw, float pitch, EntityWrapper entityWrapper, boolean spawn) {
+        ClientboundEntityRotationPacket rotationPacket = new ClientboundEntityRotationPacket(entityWrapper.getEntityId(), yaw, pitch, false);
+        ClientboundEntityHeadRotationPacket headRotationPacket = new ClientboundEntityHeadRotationPacket(entityWrapper.getEntityId(), yaw);
+
+        MCReplayAPI.getPacketLib().sendPacket(viewer, rotationPacket);
+        MCReplayAPI.getPacketLib().sendPacket(viewer, headRotationPacket);
+
+        if (spawn) {
+            ClientboundEntityAnimationPacket animationPacket = new ClientboundEntityAnimationPacket(entityWrapper.getEntityId(), EntityAnimation.SWING_MAIN_ARM);
+            MCReplayAPI.getPacketLib().sendPacket(viewer, animationPacket);
         }
     }
 
-    public static void updateRotation(Player viewer, float yaw, float pitch, Object entityPlayer) {
-        updateRotation(viewer, yaw, pitch, entityPlayer, false);
-    }
+    public static void destroy(Collection<ReplayPlayer> viewers, EntityWrapper entityWrapper) {
+        ClientboundEntityDestroyPacket destroyPacket = new ClientboundEntityDestroyPacket(entityWrapper.getEntityId());
 
-    public static void updateRotation(Player viewer, float yaw, float pitch, Object entityPlayer, boolean spawn) {
-        try {
-            int entityId = getEntityId(entityPlayer);
+        for (ReplayPlayer replayPlayer : viewers) {
+            Player viewer = replayPlayer.player();
 
-            Object packetPlayOutEntityLook = PACKET_PLAY_OUT_ENTITY_LOOK_CONSTRUCTOR.newInstance(entityId, getCompressedAngle(yaw), getCompressedAngle(pitch), true);
-            Object packetPlayOutEntityHeadRotation = PACKET_PLAY_OUT_ENTITY_HEAD_ROTATION_CONSTRUCTOR.newInstance(entityPlayer, getCompressedAngle(yaw));
-
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityLook);
-            MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityHeadRotation);
-
-            if (spawn) {
-                Object packetPlayOutAnimation = PACKET_PLAY_OUT_ANIMATION_CONSTRUCTOR.newInstance(entityPlayer, SWING_ARM_ANIMATION_ID);
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutAnimation);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            MCReplayAPI.getPacketLib().sendPacket(viewer, destroyPacket);
         }
-    }
-
-    public static void destroy(Collection<ReplayPlayer> viewers, Object entityPlayer) {
-        try {
-            int entityId = getEntityId(entityPlayer);
-
-            Object packetPlayOutEntityDestroy = PACKET_PLAY_OUT_ENTITY_DESTROY_CONSTRUCTOR.newInstance((Object) new int[]{entityId});
-
-            for (ReplayPlayer viewerReplayPlayer : viewers) {
-                Player viewer = viewerReplayPlayer.player();
-
-                MinecraftPlayerNMS.sendPacket(viewer, packetPlayOutEntityDestroy);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public static int getEntityId(Object entity) {
-        if (entity == null) return -1;
-
-        try {
-            return (int) GET_ENTITY_ID.invoke(entity);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return -1;
-        }
-    }
-
-    public static byte getCompressedAngle(float value) {
-        return (byte) (value * 256 / 360);
-    }
-
-    private static Object createScoreboardTeamPacket(Object team) throws Exception {
-        if (INITIALIZE_SCOREBOARD_TEAM instanceof Method method) {
-            return method.invoke(null, team, true);
-        } else if (INITIALIZE_SCOREBOARD_TEAM instanceof Constructor<?> constructor) {
-            return constructor.newInstance(team, 0);
-        }
-
-        return null;
     }
 }

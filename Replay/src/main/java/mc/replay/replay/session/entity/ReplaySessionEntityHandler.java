@@ -38,7 +38,7 @@ public final class ReplaySessionEntityHandler {
                     recPlayerSpawn.entityId().entityId(),
                     recPlayerSpawn.name(),
                     this.replaySession.getReplayWorld(),
-                    recPlayerSpawn.location(),
+                    recPlayerSpawn.position(),
                     recPlayerSpawn.skinTexture()
             );
 
@@ -49,8 +49,8 @@ public final class ReplaySessionEntityHandler {
                     recEntitySpawn.entityId().entityId(),
                     recEntitySpawn.entityType(),
                     this.replaySession.getReplayWorld(),
-                    recEntitySpawn.location(),
-                    recEntitySpawn.dataWatcher(),
+                    recEntitySpawn.position(),
+                    recEntitySpawn.metadata(),
                     recEntitySpawn.velocity()
             );
 
