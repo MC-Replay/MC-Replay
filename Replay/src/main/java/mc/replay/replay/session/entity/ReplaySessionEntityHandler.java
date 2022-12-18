@@ -39,7 +39,8 @@ public final class ReplaySessionEntityHandler {
                     recPlayerSpawn.name(),
                     this.replaySession.getReplayWorld(),
                     recPlayerSpawn.position(),
-                    recPlayerSpawn.skinTexture()
+                    recPlayerSpawn.skinTexture(),
+                    recPlayerSpawn.metadata()
             );
 
             replayNPC.spawn(this.replaySession.getAllPlayers());

@@ -40,8 +40,8 @@ import java.util.UUID;
 
 public class EntityPacketUtils {
 
-    private static final TeamWrapper REPLAY_PLAYERS_TEAM = new TeamWrapper(
-            "ReplayPlayers",
+    private static final TeamWrapper REPLAY_SUSPECTS_TEAM = new TeamWrapper(
+            "ReplaySuspects",
             Component.empty(),
             Component.empty(),
             Component.empty(),
@@ -50,7 +50,7 @@ public class EntityPacketUtils {
             CollisionRule.NEVER
     );
 
-    public static PlayerWrapper spawnNPC(Collection<ReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture) {
+    public static PlayerWrapper spawnNPC(Collection<ReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
         if (viewers == null || viewers.isEmpty()) return null;
 
         PlayerProfile playerProfile = new PlayerProfile(UUID.randomUUID(), name, Map.of(
@@ -59,22 +59,13 @@ public class EntityPacketUtils {
 
         PlayerWrapper playerWrapper = new PlayerWrapper(playerProfile);
         playerWrapper.setPosition(position);
+        playerWrapper.addMetadata(originMetadata);
 
         PlayerMetadata metadata = playerWrapper.getMetadata();
-        if (metadata == null) return null;
-
-        // TODO get wrapper from replayed wrapper this will set the skin layers
-        metadata.setCapeEnabled(true);
-        metadata.setJacketEnabled(true);
-        metadata.setLeftSleeveEnabled(true);
-        metadata.setRightSleeveEnabled(true);
-        metadata.setLeftLegEnabled(true);
-        metadata.setRightLegEnabled(true);
-        metadata.setHatEnabled(true);
 
         metadata.setHasGlowingEffect(true);
 
-        REPLAY_PLAYERS_TEAM.addEntry(playerWrapper.getUsername());
+        REPLAY_SUSPECTS_TEAM.addEntry(playerWrapper.getUsername());
 
         PlayerInfoEntry.AddPlayer addPlayer = new PlayerInfoEntry.AddPlayer(
                 playerWrapper.getUniqueId(),
@@ -86,20 +77,20 @@ public class EntityPacketUtils {
         );
 
         TeamAction.CreateTeamAction createTeamAction = new TeamAction.CreateTeamAction(
-                REPLAY_PLAYERS_TEAM.getDisplayName(),
+                REPLAY_SUSPECTS_TEAM.getDisplayName(),
                 (byte) 0,
-                REPLAY_PLAYERS_TEAM.getVisibility(),
-                REPLAY_PLAYERS_TEAM.getCollisionRule(),
-                REPLAY_PLAYERS_TEAM.getColor(),
-                REPLAY_PLAYERS_TEAM.getPrefix(),
-                REPLAY_PLAYERS_TEAM.getSuffix(),
-                REPLAY_PLAYERS_TEAM.getEntries()
+                REPLAY_SUSPECTS_TEAM.getVisibility(),
+                REPLAY_SUSPECTS_TEAM.getCollisionRule(),
+                REPLAY_SUSPECTS_TEAM.getColor(),
+                REPLAY_SUSPECTS_TEAM.getPrefix(),
+                REPLAY_SUSPECTS_TEAM.getSuffix(),
+                REPLAY_SUSPECTS_TEAM.getEntries()
         );
 
         ClientboundPlayerInfoPacket infoPacket = new ClientboundPlayerInfoPacket(PlayerInfoAction.ADD_PLAYER, addPlayer);
         ClientboundPlayerSpawnPacket spawnPacket = new ClientboundPlayerSpawnPacket(playerWrapper.getEntityId(), playerWrapper.getUniqueId(), playerWrapper.getPosition());
         ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(playerWrapper.getEntityId(), metadata.getEntries());
-        ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_PLAYERS_TEAM.getName(), createTeamAction);
+        ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_SUSPECTS_TEAM.getName(), createTeamAction);
 
         for (ReplayPlayer viewerReplayPlayer : viewers) {
             Player viewer = viewerReplayPlayer.player();
