@@ -1,10 +1,11 @@
 package mc.replay.commands;
 
-import mc.replay.MCReplayPlugin;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.replay.ReplaySession;
+import mc.replay.classgenerator.ClassGenerator;
+import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.common.utils.color.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,6 +19,7 @@ public class ReplayTestCommand implements CommandExecutor {
     private RecordingSession session;
     private Recording recording;
     private ReplaySession replaySession;
+    private IRecordingFakePlayer fakePlayer;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -41,6 +43,7 @@ public class ReplayTestCommand implements CommandExecutor {
 
             MCReplayAPI.getPacketLib().inject(player, false);
 
+            this.fakePlayer.setRecording(true);
             this.session = MCReplayAPI.getRecordingHandler().createRecordingSession()
                     .world(player.getWorld())
                     .startRecording();
@@ -49,13 +52,17 @@ public class ReplayTestCommand implements CommandExecutor {
             return true;
         }
 
-//        if (args[0].equalsIgnoreCase("spawn")) {
-//            RecordingFakePlayer fakeRecordingPlayer = MCReplayPlugin.getInstance().getDispatchManager().getNmsCore().createFakeRecordingPlayer(player);
-//            fakeRecordingPlayer.spawn();
-//
-//            player.sendMessage(ChatColor.GREEN + "Entity spawned.");
-//            return true;
-//        }
+        if (args[0].equalsIgnoreCase("spawn")) {
+            try {
+                this.fakePlayer = ClassGenerator.createFakePlayer(player);
+                this.fakePlayer.spawn();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            player.sendMessage(ChatColor.GREEN + "Entity spawned.");
+            return true;
+        }
 
         if (args[0].equalsIgnoreCase("stop")) {
             if (this.session == null) {
@@ -64,6 +71,8 @@ public class ReplayTestCommand implements CommandExecutor {
             }
 
             this.recording = this.session.stopRecording();
+            this.fakePlayer.setRecording(false);
+            this.fakePlayer.remove();
             player.sendMessage(ChatColor.GREEN + "Recording stopped.");
             return true;
         }

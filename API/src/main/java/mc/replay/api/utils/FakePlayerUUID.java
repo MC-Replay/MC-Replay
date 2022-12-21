@@ -1,4 +1,4 @@
-package mc.replay.common.utils;
+package mc.replay.api.utils;
 
 import java.util.Collection;
 import java.util.HashSet;

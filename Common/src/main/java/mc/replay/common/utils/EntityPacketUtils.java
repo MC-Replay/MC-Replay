@@ -10,7 +10,6 @@ import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.data.entity.player.PlayerInfoAction;
 import mc.replay.packetlib.data.entity.player.PlayerInfoEntry;
 import mc.replay.packetlib.data.team.CollisionRule;
-import mc.replay.packetlib.data.team.NameTagVisibility;
 import mc.replay.packetlib.data.team.TeamAction;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.*;
@@ -25,7 +24,6 @@ import mc.replay.wrapper.entity.PlayerWrapper;
 import mc.replay.wrapper.entity.metadata.ObjectDataProvider;
 import mc.replay.wrapper.entity.metadata.PlayerMetadata;
 import mc.replay.wrapper.team.TeamWrapper;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
@@ -40,15 +38,9 @@ import java.util.UUID;
 
 public class EntityPacketUtils {
 
-    private static final TeamWrapper REPLAY_SUSPECTS_TEAM = new TeamWrapper(
-            "ReplaySuspects",
-            Component.empty(),
-            Component.empty(),
-            Component.empty(),
-            NamedTextColor.RED,
-            NameTagVisibility.ALWAYS,
-            CollisionRule.NEVER
-    );
+    private static final TeamWrapper REPLAY_SUSPECTS_TEAM = new TeamWrapper("ReplaySuspects")
+            .withColor(NamedTextColor.RED)
+            .withCollisionRule(CollisionRule.NEVER);
 
     public static PlayerWrapper spawnNPC(Collection<ReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
         if (viewers == null || viewers.isEmpty()) return null;

@@ -3,6 +3,7 @@ package mc.replay;
 import lombok.Getter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
+import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.utils.reflection.JavaReflections;
@@ -53,6 +54,8 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());
 
         this.dispatchManager = new ReplayDispatchManager(this);
+
+        ClassGenerator.generate();
 
         this.enable();
     }

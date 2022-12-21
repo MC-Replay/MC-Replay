@@ -3,26 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <artifactId>MCReplay</artifactId>
         <groupId>mc.replay</groupId>
+        <artifactId>MCReplay</artifactId>
         <version>Dev-1.0</version>
     </parent>
 
-    <artifactId>Common</artifactId>
+    <artifactId>ClassGenerator</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>mc.replay</groupId>
             <artifactId>API</artifactId>
             <version>Dev-1.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>ClassGenerator</artifactId>
-            <version>Dev-1.0</version>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.29.2-GA</version>
         </dependency>
     </dependencies>
 </project>

@@ -4,7 +4,7 @@ import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.entity.miscellaneous.RecEntityEquipment;
-import mc.replay.common.utils.FakePlayerUUID;
+import mc.replay.api.utils.FakePlayerUUID;
 import net.minecraft.server.v1_16_R3.EntityLiving;
 import net.minecraft.server.v1_16_R3.EnumItemSlot;
 import org.bukkit.Bukkit;

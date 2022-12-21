@@ -6,7 +6,7 @@ import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.entity.movement.RecEntityPositionAndRotation;
 import mc.replay.common.recordables.entity.movement.RecEntityTeleport;
-import mc.replay.common.utils.FakePlayerUUID;
+import mc.replay.api.utils.FakePlayerUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

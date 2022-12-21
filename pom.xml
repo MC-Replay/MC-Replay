@@ -15,6 +15,7 @@
         <module>Recording</module>
         <module>Replay</module>
         <module>Plugin</module>
+        <module>ClassGenerator</module>
     </modules>
 
     <properties>
