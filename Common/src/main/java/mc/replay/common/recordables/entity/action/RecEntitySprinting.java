@@ -2,9 +2,9 @@ package mc.replay.common.recordables.entity.action;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
+import mc.replay.wrapper.entity.EntityWrapper;
 import mc.replay.wrapper.entity.metadata.EntityMetadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,12 +21,13 @@ public record RecEntitySprinting(EntityId entityId, boolean sprinting) implement
     public @NotNull List<@NotNull ClientboundPacket> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(this.entityId.entityId());
 
-        EntityMetadata entityMetadata = new EntityMetadata(null, new Metadata());
-        entityMetadata.setSprinting(this.sprinting);
+        EntityWrapper entity = data.entity();
+        EntityMetadata metadata = entity.getMetadata();
+        metadata.setSprinting(this.sprinting);
 
         return List.of(new ClientboundEntityMetadataPacket(
                 data.entityId(),
-                entityMetadata.getEntries()
+                metadata.getEntries()
         ));
     }
 }
