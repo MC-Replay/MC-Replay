@@ -31,10 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class EntityPacketUtils {
 
@@ -45,9 +42,13 @@ public class EntityPacketUtils {
     public static PlayerWrapper spawnNPC(Collection<ReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
         if (viewers == null || viewers.isEmpty()) return null;
 
-        PlayerProfile playerProfile = new PlayerProfile(UUID.randomUUID(), name, Map.of(
-                SkinTexture.TEXTURES_KEY, new PlayerProfileProperty(SkinTexture.TEXTURES_KEY, skinTexture.value(), skinTexture.signature())
-        ));
+        Map<String, PlayerProfileProperty> properties = new HashMap<>();
+        if (skinTexture != null) {
+            properties = Map.of(
+                    SkinTexture.TEXTURES_KEY, new PlayerProfileProperty(SkinTexture.TEXTURES_KEY, skinTexture.value(), skinTexture.signature())
+            );
+        }
+        PlayerProfile playerProfile = new PlayerProfile(UUID.randomUUID(), name, properties);
 
         PlayerWrapper playerWrapper = new PlayerWrapper(playerProfile);
         playerWrapper.setPosition(position);
