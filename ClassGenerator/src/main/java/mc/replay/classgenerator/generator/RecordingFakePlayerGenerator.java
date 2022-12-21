@@ -4,8 +4,8 @@ import javassist.*;
 import mc.replay.api.utils.FakePlayerUUID;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.ClassGeneratorReflections;
-import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.classgenerator.generated.Generated;
+import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.packetlib.utils.Reflections;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -95,13 +95,20 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
         ));
 
         generated.addMethod(CtMethod.make(
+                "public UUID uuid() {\n" +
+                        "   return super.getUniqueID();\n" +
+                        "}",
+                generated
+        ));
+
+        generated.addMethod(CtMethod.make(
                 "public void spawn() {\n" +
                         "   FakePlayerUUID.UUIDS.add(super.getUniqueID());\n" +
                         "\n" +
                         "   Location location = this.target.getLocation().clone();\n" +
                         "   this.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());\n" +
                         "\n" +
-                        "   this.server.getPlayerList().a(this.playerConnection.networkManager, this);\n" +
+                        "   this.server.getPlayerList().players.add(this);\n" +
                         "   this.world.addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);\n" +
                         "\n" +
                         "   this.playerInteractManager.setGameMode(EnumGamemode.SPECTATOR);\n" +
@@ -114,6 +121,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
                 "public void remove() {\n" +
                         "   this.setSpectatorTarget(null);\n" +
                         "   this.getWorldServer().unregisterEntity(this);\n" +
+                        "   this.server.getPlayerList().players.remove(this);\n" +
                         "}",
                 generated
         ));
