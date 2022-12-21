@@ -41,6 +41,11 @@ public class ReplayTestCommand implements CommandExecutor {
                 return false;
             }
 
+            if (this.fakePlayer == null) {
+                player.sendMessage(ChatColor.RED + "Create fakeplayer first.");
+                return false;
+            }
+
             MCReplayAPI.getPacketLib().inject(player, false);
 
             this.fakePlayer.setRecording(true);

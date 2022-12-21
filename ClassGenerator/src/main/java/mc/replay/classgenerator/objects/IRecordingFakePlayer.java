@@ -10,6 +10,8 @@ public interface IRecordingFakePlayer {
 
     UUID uuid();
 
+    String name();
+
     void spawn();
 
     void remove();

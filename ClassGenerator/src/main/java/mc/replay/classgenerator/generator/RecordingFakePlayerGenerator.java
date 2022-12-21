@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
 
@@ -45,6 +46,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
     @Override
     public void importPackages(CtClass generated) {
         this.pool.importPackage(UUID.class.getName());
+        this.pool.importPackage(AtomicInteger.class.getName());
         this.pool.importPackage(Player.class.getName());
         this.pool.importPackage(Location.class.getName());
         this.pool.importPackage(FakePlayerUUID.class.getName());
@@ -63,6 +65,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
 
     @Override
     public void makeFields(CtClass generated) throws Exception {
+        generated.addField(CtField.make("private static final AtomicInteger FAKE_PLAYER_COUNT = new AtomicInteger();", generated));
         generated.addField(CtField.make("private final Player target;", generated));
         generated.addField(CtField.make("private boolean recording = false;", generated));
     }
@@ -74,7 +77,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
                         "   super(\n" +
                         "       MinecraftServer.getServer(),\n" +
                         "       ((CraftWorld) target.getWorld()).getHandle(),\n" +
-                        "       new GameProfile(UUID.randomUUID(), target.getName()),\n" +
+                        "       new GameProfile(UUID.randomUUID(), \"RecFakePlayer\" + FAKE_PLAYER_COUNT.getAndIncrement()),\n" +
                         "       new PlayerInteractManager(((CraftWorld) target.getWorld()).getHandle())\n" +
                         "   );\n" +
                         "\n" +
@@ -97,6 +100,13 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
         generated.addMethod(CtMethod.make(
                 "public UUID uuid() {\n" +
                         "   return super.getUniqueID();\n" +
+                        "}",
+                generated
+        ));
+
+        generated.addMethod(CtMethod.make(
+                "public String name() {\n" +
+                        "   return super.getName();\n" +
                         "}",
                 generated
         ));

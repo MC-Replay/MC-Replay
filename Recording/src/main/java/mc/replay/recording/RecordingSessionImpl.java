@@ -39,6 +39,8 @@ public final class RecordingSessionImpl implements RecordingSession {
         List<CachedRecordable> recordables = this.recordables.getOrDefault(time, new ArrayList<>());
 
         for (Recordable<? extends Function<?, ?>> newRecordable : newRecordables) {
+            if (newRecordable == null) continue;
+
             recordables.add(new CachedRecordable(newRecordable));
         }
 
