@@ -10,10 +10,7 @@ import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.recording.RecordingHandler;
-import mc.replay.replay.Replay;
 import mc.replay.replay.ReplayHandler;
-import mc.replay.storage.ReplayCreator;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -26,8 +23,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     private RecordingHandler recordingHandler;
     private ReplayHandler replayHandler;
-
-    private ReplayCreator replayCreator;
 
     private ReplayDispatchManager dispatchManager;
 
@@ -49,8 +44,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         this.recordingHandler = new RecordingHandler();
         this.replayHandler = new ReplayHandler(this);
 
-        this.replayCreator = new ReplayCreator(this);
-
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());
 
         this.dispatchManager = new ReplayDispatchManager(this);
@@ -66,9 +59,5 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     public void disable() {
         this.dispatchManager.stop();
-    }
-
-    public Replay createReplay(Player player) {
-        return this.replayCreator.createReplay(player);
     }
 }
