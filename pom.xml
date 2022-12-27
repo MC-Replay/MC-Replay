@@ -10,12 +10,12 @@
     <version>Dev-1.0</version>
 
     <modules>
-        <module>API</module>
-        <module>Common</module>
-        <module>Recording</module>
-        <module>Replay</module>
-        <module>Plugin</module>
-        <module>ClassGenerator</module>
+        <module>api</module>
+        <module>common</module>
+        <module>recording</module>
+        <module>replay</module>
+        <module>plugin</module>
+        <module>class-generator</module>
     </modules>
 
     <properties>

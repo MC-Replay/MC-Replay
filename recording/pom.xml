@@ -10,23 +10,14 @@
         <version>Dev-1.0</version>
     </parent>
 
-    <artifactId>Plugin</artifactId>
+    <artifactId>recording</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>mc.replay</groupId>
-            <artifactId>Common</artifactId>
+            <artifactId>common</artifactId>
             <version>Dev-1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>Recording</artifactId>
-            <version>Dev-1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>Replay</artifactId>
-            <version>Dev-1.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
