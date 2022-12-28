@@ -15,6 +15,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
 public class ReplayTestCommand implements CommandExecutor {
 
     private RecordingSession session;
@@ -113,7 +115,7 @@ public class ReplayTestCommand implements CommandExecutor {
                 return true;
             }
 
-            this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(this.recording.file());
+            this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", this.recording.id() + ".mcrr"));
             player.sendMessage(Text.color("&aLoaded recording."));
             return true;
         }

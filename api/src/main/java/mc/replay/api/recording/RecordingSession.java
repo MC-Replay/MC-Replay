@@ -16,7 +16,7 @@ public interface RecordingSession {
 
     long getStartTime();
 
-    @NotNull NavigableMap<Long, List<CachedRecordable>> getRecordables();
+    @NotNull NavigableMap<Integer, List<CachedRecordable>> getRecordables();
 
     @NotNull Recording stopRecording();
 }

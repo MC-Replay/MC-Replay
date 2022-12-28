@@ -8,7 +8,6 @@ import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.recording.file.RecordingFileProcessor;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -38,7 +37,7 @@ public final class RecordingHandler implements IRecordingHandler {
         }
 
         RecordingImpl recording = new RecordingImpl(recordingSession.getStartTime(), new TreeMap<>(recordingSession.getRecordables()));
-        File file = this.fileProcessor.createRecordingFile(recording);
+        this.fileProcessor.createRecordingFile(recording);
         return recording;
     }
 

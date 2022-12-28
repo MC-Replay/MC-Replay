@@ -19,7 +19,7 @@ import java.util.NavigableMap;
 public final class ReplaySessionPlayTask implements Runnable {
 
     private final ReplaySessionImpl replaySession;
-    private final NavigableMap<Long, List<CachedRecordable>> recordables;
+    private final NavigableMap<Integer, List<CachedRecordable>> recordables;
 
     private final ReplaySessionEntityHandler entityCache;
 

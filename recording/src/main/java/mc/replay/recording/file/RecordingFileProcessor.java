@@ -23,7 +23,7 @@ public final class RecordingFileProcessor {
     private final String directory = MCReplayAPI.getJavaPlugin().getDataFolder() + "/recordings/";
 
     public File createRecordingFile(Recording recording) {
-        NavigableMap<Long, List<CachedRecordable>> recordables = recording.recordables();
+        NavigableMap<Integer, List<CachedRecordable>> recordables = recording.recordables();
 
         ReplayByteBuffer writer = new ReplayByteBuffer(ByteBuffer.allocateDirect(0));
 
@@ -34,15 +34,15 @@ public final class RecordingFileProcessor {
         writer.write(LONG, recording.startedAt());
         writer.write(LONG, recording.endedAt());
 
-        for (Map.Entry<Long, List<CachedRecordable>> entry : recordables.entrySet()) {
-            writer.write(LONG, entry.getKey());
+        for (Map.Entry<Integer, List<CachedRecordable>> entry : recordables.entrySet()) {
+            writer.write(INT, entry.getKey());
             writer.writeCollection(entry.getValue(), (writer2, recordable) -> {
                 int recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.recordable().getClass());
                 writer2.write(INT, recordableId);
                 writer2.write(recordable.recordable());
             });
         }
-        writer.write(LONG, (long) 0xFF); // End
+        writer.write(INT, 0xFF); // End
 
         File file = new File(this.getDirectory(), recording.id() + RecordingFormat.FILE_EXTENSION);
         try {
@@ -84,9 +84,9 @@ public final class RecordingFileProcessor {
             long startedAt = reader.read(LONG);
             long endedAt = reader.read(LONG);
 
-            NavigableMap<Long, List<CachedRecordable>> recordables = new TreeMap<>();
-            long time;
-            while ((time = reader.read(LONG)) != 0xFF) {
+            NavigableMap<Integer, List<CachedRecordable>> recordables = new TreeMap<>();
+            int time;
+            while ((time = reader.read(INT)) != 0xFF) {
                 List<CachedRecordable> recordableList = reader.readCollection((reader2) -> {
                     int recordableId = reader.read(INT);
                     return new CachedRecordable(MCReplayAPI.getRecordableRegistry().getRecordable(recordableId, reader2));

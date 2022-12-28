@@ -18,7 +18,7 @@ public final class RecordingSessionImpl implements RecordingSession {
     private final UUID sessionUuid;
     private final World world;
     private final long startTime;
-    private final NavigableMap<Long, List<CachedRecordable>> recordables;
+    private final NavigableMap<Integer, List<CachedRecordable>> recordables;
 
     RecordingSessionImpl(World world) {
         this.sessionUuid = UUID.randomUUID();
@@ -35,7 +35,7 @@ public final class RecordingSessionImpl implements RecordingSession {
     public void addRecordables(List<Recordable<? extends Function<?, ?>>> newRecordables) {
         if (newRecordables == null || newRecordables.isEmpty()) return;
 
-        long time = System.currentTimeMillis() - this.startTime;
+        int time = (int) (System.currentTimeMillis() - this.startTime);
         List<CachedRecordable> recordables = this.recordables.getOrDefault(time, new ArrayList<>());
 
         for (Recordable<? extends Function<?, ?>> newRecordable : newRecordables) {
