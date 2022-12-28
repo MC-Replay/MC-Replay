@@ -1,6 +1,7 @@
 package mc.replay.common.recordables.block;
 
-import mc.replay.common.recordables.RecordableBlock;
+import mc.replay.common.recordables.interfaces.RecordableBlock;
+import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundMultiBlockChangePacket;
 import org.jetbrains.annotations.NotNull;
@@ -8,14 +9,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
+import static mc.replay.packetlib.network.ReplayByteBuffer.*;
+
 public record RecMultiBlockChange(long chunkSectorPosition, boolean suppressLightUpdates,
                                   long[] blocks) implements RecordableBlock {
 
-    public static RecMultiBlockChange of(long chunkSectorPosition, boolean suppressLightUpdates, long[] blocks) {
-        return new RecMultiBlockChange(
-                chunkSectorPosition,
-                suppressLightUpdates,
-                blocks
+    public RecMultiBlockChange(@NotNull ReplayByteBuffer reader) {
+        this(
+                reader.read(LONG),
+                reader.read(BOOLEAN),
+                reader.read(LONG_ARRAY)
         );
     }
 
@@ -26,5 +29,12 @@ public record RecMultiBlockChange(long chunkSectorPosition, boolean suppressLigh
                 this.suppressLightUpdates,
                 this.blocks
         ));
+    }
+
+    @Override
+    public void write(@NotNull ReplayByteBuffer writer) {
+        writer.write(LONG, this.chunkSectorPosition);
+        writer.write(BOOLEAN, this.suppressLightUpdates);
+        writer.write(LONG_ARRAY, this.blocks);
     }
 }

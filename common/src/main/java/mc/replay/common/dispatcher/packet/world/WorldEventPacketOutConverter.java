@@ -12,7 +12,7 @@ public final class WorldEventPacketOutConverter implements DispatcherPacketOut<C
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundWorldEventPacket packet) {
-        return List.of(RecWorldEvent.of(
+        return List.of(new RecWorldEvent(
                 packet.effectId(),
                 packet.position(),
                 packet.data(),

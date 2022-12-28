@@ -12,7 +12,7 @@ public final class BlockEntityDataPacketOutConverter implements DispatcherPacket
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundBlockEntityDataPacket packet) {
-        return List.of(RecBlockEntityData.of(
+        return List.of(new RecBlockEntityData(
                 packet.blockPosition(),
                 packet.action(),
                 packet.data()

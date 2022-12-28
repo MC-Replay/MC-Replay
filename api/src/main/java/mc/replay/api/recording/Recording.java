@@ -3,6 +3,7 @@ package mc.replay.api.recording;
 import mc.replay.api.recording.recordables.CachedRecordable;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.List;
 import java.util.NavigableMap;
@@ -10,6 +11,8 @@ import java.util.NavigableMap;
 public interface Recording {
 
     @NotNull String id();
+
+    @NotNull File file();
 
     @NotNull Duration duration();
 

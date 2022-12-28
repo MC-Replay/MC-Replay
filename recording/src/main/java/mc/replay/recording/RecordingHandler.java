@@ -5,8 +5,10 @@ import mc.replay.api.recording.IRecordingHandler;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
+import mc.replay.recording.file.RecordingFileProcessor;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,6 +18,12 @@ import java.util.UUID;
 public final class RecordingHandler implements IRecordingHandler {
 
     private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
+
+    private final RecordingFileProcessor fileProcessor;
+
+    public RecordingHandler() {
+        this.fileProcessor = new RecordingFileProcessor();
+    }
 
     @Override
     public @NotNull RecordingSessionBuilder createRecordingSession() {
@@ -29,7 +37,9 @@ public final class RecordingHandler implements IRecordingHandler {
             throw new IllegalStateException("No recording session found for session uuid '" + sessionUuid + "'");
         }
 
-        return new RecordingImpl(recordingSession.getStartTime(), new TreeMap<>(recordingSession.getRecordables()));
+        RecordingImpl recording = new RecordingImpl(recordingSession.getStartTime(), new TreeMap<>(recordingSession.getRecordables()));
+        File file = this.fileProcessor.createRecordingFile(recording);
+        return recording;
     }
 
     @Override

@@ -12,7 +12,7 @@ public final class ParticlePacketOutConverter implements DispatcherPacketOut<Cli
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundParticlePacket packet) {
-        return List.of(RecParticle.of(
+        return List.of(new RecParticle(
                 packet.particleId(),
                 packet.longDistance(),
                 packet.x(),

@@ -12,7 +12,7 @@ public final class StopSoundPacketOutConverter implements DispatcherPacketOut<Cl
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundStopSoundPacket packet) {
-        return List.of(RecStopSound.of(
+        return List.of(new RecStopSound(
                 packet.flags(),
                 packet.sourceId(),
                 packet.sound()

@@ -1,8 +1,8 @@
 package mc.replay.common.dispatcher.event.entity;
 
-import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.common.recordables.entity.action.RecEntitySwimming;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventPriority;
@@ -23,6 +23,6 @@ public final class ReplayEntityToggleSwimEventListener implements DispatcherEven
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
-        return List.of(RecEntitySwimming.of(entityId, event.isSwimming()));
+        return List.of(new RecEntitySwimming(entityId, event.isSwimming()));
     }
 }

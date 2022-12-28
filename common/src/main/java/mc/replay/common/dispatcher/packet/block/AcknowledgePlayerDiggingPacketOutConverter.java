@@ -12,7 +12,7 @@ public final class AcknowledgePlayerDiggingPacketOutConverter implements Dispatc
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundAcknowledgePlayerDigging754_758Packet packet) {
-        return List.of(RecAcknowledgePlayerDigging.of(
+        return List.of(new RecAcknowledgePlayerDigging(
                 packet.blockPosition(),
                 packet.blockStateId(),
                 packet.stateId(),

@@ -1,13 +1,13 @@
 package mc.replay.api.recording.recordables;
 
+import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
 
-@FunctionalInterface
-public interface Recordable<F extends Function<?, ?>> {
+public interface Recordable<F extends Function<?, ?>> extends ReplayByteBuffer.Writer {
 
     @NotNull List<@NotNull ClientboundPacket> createReplayPackets(@NotNull F function);
 

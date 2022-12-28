@@ -6,6 +6,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.CommonInstance;
+import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.packetlib.PacketLib;
@@ -22,6 +23,8 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     private PacketLib packetLib;
 
     private RecordingHandler recordingHandler;
+    private RecordableRegistry recordableRegistry;
+
     private ReplayHandler replayHandler;
 
     private ReplayDispatchManager dispatchManager;
@@ -42,6 +45,8 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         this.packetLib = new PacketLib();
 
         this.recordingHandler = new RecordingHandler();
+        this.recordableRegistry = new RecordableRegistry();
+
         this.replayHandler = new ReplayHandler(this);
 
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());

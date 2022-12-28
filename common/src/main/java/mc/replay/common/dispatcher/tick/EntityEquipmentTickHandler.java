@@ -51,7 +51,7 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
 
                         if (!currentItem.isSimilar(lastItem)) {
                             equipment.put(equipmentSlot, currentItem);
-                            recordables.add(RecEntityEquipment.of(entityId, equipmentSlot, currentItem));
+                            recordables.add(new RecEntityEquipment(entityId, equipmentSlot, currentItem));
                         }
                     } catch (Exception ignored) {
                     }

@@ -12,7 +12,7 @@ public final class MultiBlockChangePacketOutConverter implements DispatcherPacke
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundMultiBlockChangePacket packet) {
-        return List.of(RecMultiBlockChange.of(
+        return List.of(new RecMultiBlockChange(
                 packet.chunkSectionPosition(),
                 packet.suppressLightUpdates(),
                 packet.blocks()

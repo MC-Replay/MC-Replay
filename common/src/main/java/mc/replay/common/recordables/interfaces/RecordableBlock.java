@@ -1,4 +1,4 @@
-package mc.replay.common.recordables;
+package mc.replay.common.recordables.interfaces;
 
 import mc.replay.api.recording.recordables.Recordable;
 

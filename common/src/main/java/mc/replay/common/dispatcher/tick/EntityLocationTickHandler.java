@@ -2,11 +2,11 @@ package mc.replay.common.dispatcher.tick;
 
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.api.utils.FakePlayerUUID;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.entity.movement.RecEntityPositionAndRotation;
 import mc.replay.common.recordables.entity.movement.RecEntityTeleport;
-import mc.replay.api.utils.FakePlayerUUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -44,14 +44,14 @@ public final class EntityLocationTickHandler implements DispatcherTick {
 
                 if (!lastLocation.equals(currentLocation)) {
                     if (lastLocation.distanceSquared(currentLocation) > 64) {
-                        recordables.add(RecEntityTeleport.of(entityId, currentLocation, livingEntity.isOnGround()));
+                        recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
                     } else {
-                        recordables.add(RecEntityPositionAndRotation.of(entityId, lastLocation, currentLocation, livingEntity.isOnGround()));
+                        recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, livingEntity.isOnGround()));
                     }
                 }
 
                 if (lastLocation.getYaw() != currentLocation.getYaw()) {
-                    recordables.add(RecEntityHeadRotation.of(entityId, currentLocation.getYaw()));
+                    recordables.add(new RecEntityHeadRotation(entityId, currentLocation.getYaw()));
                 }
             }
         }

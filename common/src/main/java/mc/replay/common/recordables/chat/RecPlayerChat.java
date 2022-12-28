@@ -1,7 +1,7 @@
 //package mc.replay.common.recordables.chat;
 //
 //import mc.replay.api.recording.recordables.entity.EntityId;
-//import mc.replay.common.recordables.RecordablePlayerAction;
+//import mc.replay.common.recordables.interfaces.RecordablePlayerAction;
 //import net.minecraft.server.v1_16_R3.ChatMessageType;
 //import net.minecraft.server.v1_16_R3.IChatBaseComponent;
 //import net.minecraft.server.v1_16_R3.PacketPlayOutChat;

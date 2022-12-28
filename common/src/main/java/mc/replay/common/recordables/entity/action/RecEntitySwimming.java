@@ -1,7 +1,8 @@
 package mc.replay.common.recordables.entity.action;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.common.recordables.RecordableEntity;
+import mc.replay.common.recordables.interfaces.RecordableEntity;
+import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
 import mc.replay.wrapper.entity.EntityWrapper;
@@ -12,10 +13,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
+import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
+
 public record RecEntitySwimming(EntityId entityId, boolean swimming) implements RecordableEntity {
 
-    public static RecEntitySwimming of(EntityId entityId, boolean swimming) {
-        return new RecEntitySwimming(entityId, swimming);
+    public RecEntitySwimming(@NotNull ReplayByteBuffer reader) {
+        this(
+                new EntityId(reader),
+                reader.read(BOOLEAN)
+        );
     }
 
     @Override
@@ -31,5 +37,11 @@ public record RecEntitySwimming(EntityId entityId, boolean swimming) implements 
                 data.entityId(),
                 metadata.getEntries()
         ));
+    }
+
+    @Override
+    public void write(@NotNull ReplayByteBuffer writer) {
+        writer.write(this.entityId);
+        writer.write(BOOLEAN, this.swimming);
     }
 }

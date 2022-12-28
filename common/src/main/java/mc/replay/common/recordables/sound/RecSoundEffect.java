@@ -1,6 +1,7 @@
 package mc.replay.common.recordables.sound;
 
-import mc.replay.common.recordables.RecordableSound;
+import mc.replay.common.recordables.interfaces.RecordableSound;
+import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundSoundEffectPacket;
 import org.jetbrains.annotations.NotNull;
@@ -8,19 +9,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
+import static mc.replay.packetlib.network.ReplayByteBuffer.*;
+
 public record RecSoundEffect(int soundId, int sourceId, int x, int y, int z, float volume,
                              float pitch, long seed) implements RecordableSound {
 
-    public static RecSoundEffect of(int soundId, int sourceId, int x, int y, int z, float volume, float pitch, long seed) {
-        return new RecSoundEffect(
-                soundId,
-                sourceId,
-                x,
-                y,
-                z,
-                volume,
-                pitch,
-                seed
+    public RecSoundEffect(@NotNull ReplayByteBuffer reader) {
+        this(
+                reader.read(INT),
+                reader.read(INT),
+                reader.read(INT),
+                reader.read(INT),
+                reader.read(INT),
+                reader.read(FLOAT),
+                reader.read(FLOAT),
+                reader.read(LONG)
         );
     }
 
@@ -36,5 +39,17 @@ public record RecSoundEffect(int soundId, int sourceId, int x, int y, int z, flo
                 this.pitch,
                 this.seed
         ));
+    }
+
+    @Override
+    public void write(@NotNull ReplayByteBuffer writer) {
+        writer.write(INT, this.soundId);
+        writer.write(INT, this.sourceId);
+        writer.write(INT, this.x);
+        writer.write(INT, this.y);
+        writer.write(INT, this.z);
+        writer.write(FLOAT, this.volume);
+        writer.write(FLOAT, this.pitch);
+        writer.write(LONG, this.seed);
     }
 }

@@ -12,7 +12,7 @@ public final class BlockChangePacketOutConverter implements DispatcherPacketOut<
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundBlockChangePacket packet) {
-        return List.of(RecBlockChange.of(
+        return List.of(new RecBlockChange(
                 packet.blockPosition(),
                 packet.blockStateId()
         ));

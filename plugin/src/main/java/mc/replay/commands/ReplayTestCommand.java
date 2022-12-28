@@ -1,5 +1,6 @@
 package mc.replay.commands;
 
+import mc.replay.MCReplayPlugin;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
@@ -103,6 +104,17 @@ public class ReplayTestCommand implements CommandExecutor {
             }
 
             player.sendMessage(Text.color("&cNo active replay found."));
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("load")) {
+            if (this.recording == null) {
+                player.sendMessage(Text.color("&cNo recording found."));
+                return true;
+            }
+
+            this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(this.recording.file());
+            player.sendMessage(Text.color("&aLoaded recording."));
             return true;
         }
 

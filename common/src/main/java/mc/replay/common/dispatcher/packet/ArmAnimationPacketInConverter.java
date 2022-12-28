@@ -15,7 +15,7 @@ public final class ArmAnimationPacketInConverter implements DispatcherPacketIn<S
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(Player player, ServerboundAnimationPacket packet) {
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(RecEntitySwingHandAnimation.of(
+        return List.of(new RecEntitySwingHandAnimation(
                 entityId,
                 packet.hand()
         ));

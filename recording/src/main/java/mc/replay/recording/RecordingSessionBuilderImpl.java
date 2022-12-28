@@ -49,7 +49,7 @@ final class RecordingSessionBuilderImpl implements RecordingSessionBuilder {
             PlayerWrapper playerWrapper = new PlayerWrapper(player);
             EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
 
-            recordingSession.addRecordables(List.of(RecPlayerSpawn.of(entityId, playerWrapper)));
+            recordingSession.addRecordables(List.of(new RecPlayerSpawn(entityId, playerWrapper)));
         }
 
         return recordingSession;

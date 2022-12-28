@@ -1,8 +1,8 @@
 package mc.replay.replay.session.entity;
 
 import lombok.RequiredArgsConstructor;
-import mc.replay.common.recordables.RecordableEntity;
-import mc.replay.common.recordables.RecordableOther;
+import mc.replay.common.recordables.interfaces.RecordableEntity;
+import mc.replay.common.recordables.interfaces.RecordableOther;
 import mc.replay.common.recordables.entity.RecEntityDestroy;
 import mc.replay.common.recordables.entity.RecEntitySpawn;
 import mc.replay.common.recordables.entity.RecPlayerDestroy;

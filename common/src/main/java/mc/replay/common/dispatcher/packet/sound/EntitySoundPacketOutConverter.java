@@ -12,7 +12,7 @@ public final class EntitySoundPacketOutConverter implements DispatcherPacketOut<
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundEntitySoundEffectPacket packet) {
-        return List.of(RecEntitySound.of(
+        return List.of(new RecEntitySound(
                 packet.soundId(),
                 packet.sourceId(),
                 packet.entityId(),

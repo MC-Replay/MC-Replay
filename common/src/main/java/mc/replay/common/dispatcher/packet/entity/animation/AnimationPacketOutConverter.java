@@ -13,7 +13,7 @@ public final class AnimationPacketOutConverter implements DispatcherPacketOut<Cl
 
     @Override
     public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundEntityAnimationPacket packet) {
-        return List.of(RecEntityAnimation.of(
+        return List.of(new RecEntityAnimation(
                 EntityId.of(packet.entityId()),
                 packet.animation()
         ));

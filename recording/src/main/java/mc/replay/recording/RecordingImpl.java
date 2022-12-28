@@ -1,24 +1,32 @@
 package mc.replay.recording;
 
+import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.recordables.CachedRecordable;
+import mc.replay.recording.file.RecordingFormat;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.UUID;
 
-record RecordingImpl(String id, Duration duration, long startedAt, long endedAt,
-                     NavigableMap<Long, List<CachedRecordable>> recordables) implements Recording {
+public record RecordingImpl(String id, Duration duration, long startedAt, long endedAt,
+                            NavigableMap<Long, List<CachedRecordable>> recordables) implements Recording {
 
-    RecordingImpl(long startedAt, NavigableMap<Long, List<CachedRecordable>> recordables) {
-        this(null, null, startedAt, 0L, recordables);
+    public RecordingImpl(long startedAt, NavigableMap<Long, List<CachedRecordable>> recordables) {
+        this(
+                UUID.randomUUID().toString(),
+                Duration.ofMillis(System.currentTimeMillis() - startedAt),
+                startedAt,
+                System.currentTimeMillis(),
+                recordables
+        );
     }
 
-    RecordingImpl {
-        id = UUID.randomUUID().toString(); // TODO
-        endedAt = System.currentTimeMillis();
-        duration = Duration.between(Instant.ofEpochMilli(startedAt), Instant.ofEpochMilli(endedAt));
+    @Override
+    public @NotNull File file() {
+        return new File(MCReplayAPI.getJavaPlugin().getDataFolder() + "/recordings/" + this.id + RecordingFormat.FILE_EXTENSION);
     }
 }
