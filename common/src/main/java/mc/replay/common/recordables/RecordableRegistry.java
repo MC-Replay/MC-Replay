@@ -33,44 +33,44 @@ import java.util.function.Function;
 
 public final class RecordableRegistry implements IRecordableRegistry {
 
-    private final Map<Integer, RecordableDefinitionImpl<?>> recordableRegistry = new HashMap<>();
+    private final Map<Byte, RecordableDefinitionImpl<?>> recordableRegistry = new HashMap<>();
 
     public RecordableRegistry() {
-        this.registerRecordable(0, RecAcknowledgePlayerDigging.class, RecAcknowledgePlayerDigging::new);
-        this.registerRecordable(1, RecBlockAction.class, RecBlockAction::new);
-        this.registerRecordable(2, RecBlockChange.class, RecBlockChange::new);
-        this.registerRecordable(3, RecBlockEntityData.class, RecBlockEntityData::new);
-        this.registerRecordable(4, RecMultiBlockChange.class, RecMultiBlockChange::new);
+        this.registerRecordable((byte) 0, RecAcknowledgePlayerDigging.class, RecAcknowledgePlayerDigging::new);
+        this.registerRecordable((byte) 1, RecBlockAction.class, RecBlockAction::new);
+        this.registerRecordable((byte) 2, RecBlockChange.class, RecBlockChange::new);
+        this.registerRecordable((byte) 3, RecBlockEntityData.class, RecBlockEntityData::new);
+        this.registerRecordable((byte) 4, RecMultiBlockChange.class, RecMultiBlockChange::new);
 
-        //        this.registerRecordable(5, RecPlayerChat.class, RecPlayerChat::new); // chat
-        //        this.registerRecordable(6, RecPlayerCommand.class, RecPlayerCommand::new); // command
+        //        this.registerRecordable((byte) 5, RecPlayerChat.class, RecPlayerChat::new); // chat
+        //        this.registerRecordable((byte) 6, RecPlayerCommand.class, RecPlayerCommand::new); // command
 
-        this.registerRecordable(7, RecEntityGliding.class, RecEntityGliding::new);
-        this.registerRecordable(8, RecEntitySneaking.class, RecEntitySneaking::new);
-        this.registerRecordable(9, RecEntitySprinting.class, RecEntitySprinting::new);
-        this.registerRecordable(10, RecEntitySwimming.class, RecEntitySwimming::new);
-        this.registerRecordable(11, RecEntityAnimation.class, RecEntityAnimation::new);
-        this.registerRecordable(12, RecEntityEquipment.class, RecEntityEquipment::new);
-        this.registerRecordable(13, RecEntitySwingHandAnimation.class, RecEntitySwingHandAnimation::new);
-        this.registerRecordable(14, RecEntityHeadRotation.class, RecEntityHeadRotation::new);
-        this.registerRecordable(15, RecEntityPositionAndRotation.class, RecEntityPositionAndRotation::new);
-        this.registerRecordable(16, RecEntityTeleport.class, RecEntityTeleport::new);
-        this.registerRecordable(17, RecEntityDestroy.class, RecEntityDestroy::new);
-        this.registerRecordable(18, RecEntitySpawn.class, RecEntitySpawn::new);
-        this.registerRecordable(19, RecPlayerDestroy.class, RecPlayerDestroy::new);
-        this.registerRecordable(20, RecPlayerSpawn.class, RecPlayerSpawn::new);
+        this.registerRecordable((byte) 7, RecEntityGliding.class, RecEntityGliding::new);
+        this.registerRecordable((byte) 8, RecEntitySneaking.class, RecEntitySneaking::new);
+        this.registerRecordable((byte) 9, RecEntitySprinting.class, RecEntitySprinting::new);
+        this.registerRecordable((byte) 10, RecEntitySwimming.class, RecEntitySwimming::new);
+        this.registerRecordable((byte) 11, RecEntityAnimation.class, RecEntityAnimation::new);
+        this.registerRecordable((byte) 12, RecEntityEquipment.class, RecEntityEquipment::new);
+        this.registerRecordable((byte) 13, RecEntitySwingHandAnimation.class, RecEntitySwingHandAnimation::new);
+        this.registerRecordable((byte) 14, RecEntityHeadRotation.class, RecEntityHeadRotation::new);
+        this.registerRecordable((byte) 15, RecEntityPositionAndRotation.class, RecEntityPositionAndRotation::new);
+        this.registerRecordable((byte) 16, RecEntityTeleport.class, RecEntityTeleport::new);
+        this.registerRecordable((byte) 17, RecEntityDestroy.class, RecEntityDestroy::new);
+        this.registerRecordable((byte) 18, RecEntitySpawn.class, RecEntitySpawn::new);
+        this.registerRecordable((byte) 19, RecPlayerDestroy.class, RecPlayerDestroy::new);
+        this.registerRecordable((byte) 20, RecPlayerSpawn.class, RecPlayerSpawn::new);
 
-        this.registerRecordable(21, RecParticle.class, RecParticle::new);
+        this.registerRecordable((byte) 21, RecParticle.class, RecParticle::new);
 
-        this.registerRecordable(22, RecCustomSoundEffect.class, RecCustomSoundEffect::new);
-        this.registerRecordable(23, RecEntitySound.class, RecEntitySound::new);
-        this.registerRecordable(24, RecSoundEffect.class, RecSoundEffect::new);
-        this.registerRecordable(25, RecStopSound.class, RecStopSound::new);
+        this.registerRecordable((byte) 22, RecCustomSoundEffect.class, RecCustomSoundEffect::new);
+        this.registerRecordable((byte) 23, RecEntitySound.class, RecEntitySound::new);
+        this.registerRecordable((byte) 24, RecSoundEffect.class, RecSoundEffect::new);
+        this.registerRecordable((byte) 25, RecStopSound.class, RecStopSound::new);
 
-        this.registerRecordable(26, RecWorldEvent.class, RecWorldEvent::new);
+        this.registerRecordable((byte) 26, RecWorldEvent.class, RecWorldEvent::new);
     }
 
-    public <R extends Recordable<?>> void registerRecordable(int id,
+    public <R extends Recordable<?>> void registerRecordable(byte id,
                                                              @NotNull Class<R> recordableClass,
                                                              @NotNull Function<ReplayByteBuffer, R> recordableConstructor) {
         this.recordableRegistry.putIfAbsent(id, new RecordableDefinitionImpl<>(id, recordableClass, recordableConstructor));
@@ -78,7 +78,7 @@ public final class RecordableRegistry implements IRecordableRegistry {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <R extends Recordable<?>> R getRecordable(int id, @NotNull ReplayByteBuffer buffer) {
+    public <R extends Recordable<?>> R getRecordable(byte id, @NotNull ReplayByteBuffer buffer) {
         RecordableDefinitionImpl<R> recordableDefinition = (RecordableDefinitionImpl<R>) this.recordableRegistry.get(id);
         if (recordableDefinition == null) {
             throw new IllegalArgumentException("Recordable id '" + id + "' is not registered");
@@ -88,8 +88,8 @@ public final class RecordableRegistry implements IRecordableRegistry {
     }
 
     @Override
-    public <R extends Recordable<?>> int getRecordableId(@NotNull Class<R> recordableClass) {
-        for (Map.Entry<Integer, RecordableDefinitionImpl<?>> entry : this.recordableRegistry.entrySet()) {
+    public <R extends Recordable<?>> byte getRecordableId(@NotNull Class<R> recordableClass) {
+        for (Map.Entry<Byte, RecordableDefinitionImpl<?>> entry : this.recordableRegistry.entrySet()) {
             if (entry.getValue().recordableClass().equals(recordableClass)) {
                 return entry.getKey();
             }
@@ -99,7 +99,7 @@ public final class RecordableRegistry implements IRecordableRegistry {
     }
 
     @Override
-    public Map<Integer, RecordableDefinition<?>> getPacketRegistry() {
+    public Map<Byte, RecordableDefinition<?>> getPacketRegistry() {
         return null;
     }
 }

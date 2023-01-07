@@ -1,6 +1,7 @@
 package mc.replay.common.recordables.entity.movement;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.common.recordables.RecordableBufferTypes;
 import mc.replay.common.recordables.interfaces.RecordableEntity;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
@@ -10,14 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
-import static mc.replay.packetlib.network.ReplayByteBuffer.FLOAT;
-
 public record RecEntityHeadRotation(EntityId entityId, float yaw) implements RecordableEntity {
 
     public RecEntityHeadRotation(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                reader.read(FLOAT)
+                reader.read(RecordableBufferTypes.SINGLE_ENTITY_ROTATION)
         );
     }
 
@@ -34,6 +33,6 @@ public record RecEntityHeadRotation(EntityId entityId, float yaw) implements Rec
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(FLOAT, this.yaw);
+        writer.write(RecordableBufferTypes.SINGLE_ENTITY_ROTATION, this.yaw);
     }
 }

@@ -27,8 +27,8 @@ public final class RecordingFileProcessor {
 
         ReplayByteBuffer writer = new ReplayByteBuffer(ByteBuffer.allocateDirect(0));
 
-        writer.write(INT, RecordingFormat.RECORDING_VERSION);
-        writer.write(INT, RecordingFormat.MINECRAFT_PROTOCOL_VERSION);
+        writer.write(BYTE, RecordingFormat.RECORDING_VERSION);
+        writer.write(BYTE, RecordingFormat.MINECRAFT_PROTOCOL_VERSION);
 
         writer.write(STRING, recording.id());
         writer.write(LONG, recording.startedAt());
@@ -37,8 +37,8 @@ public final class RecordingFileProcessor {
         for (Map.Entry<Integer, List<CachedRecordable>> entry : recordables.entrySet()) {
             writer.write(INT, entry.getKey());
             writer.writeCollection(entry.getValue(), (writer2, recordable) -> {
-                int recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.recordable().getClass());
-                writer2.write(INT, recordableId);
+                byte recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.recordable().getClass());
+                writer2.write(BYTE, recordableId);
                 writer2.write(recordable.recordable());
             });
         }
@@ -52,6 +52,8 @@ public final class RecordingFileProcessor {
         } catch (Exception exception) {
             throw new IllegalStateException("There went someting wrong while creating the recording file.", exception);
         }
+
+        writer.nioBuffer().limit(writer.writeIndex());
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             writer.nioBuffer().rewind();
@@ -72,13 +74,13 @@ public final class RecordingFileProcessor {
             byte[] bytes = fileInputStream.readAllBytes();
             ReplayByteBuffer reader = new ReplayByteBuffer(ByteBuffer.wrap(bytes));
 
-            int version = reader.read(INT);
+            byte version = reader.read(BYTE);
             if (version != RecordingFormat.RECORDING_VERSION) {
                 // TODO old version support
                 return null;
             }
 
-            int protocolVersion = reader.read(INT); // Minecraft protocol version
+            int protocolVersion = reader.read(BYTE); // Minecraft protocol version
 
             String id = reader.read(STRING);
             long startedAt = reader.read(LONG);
@@ -88,7 +90,7 @@ public final class RecordingFileProcessor {
             int time;
             while ((time = reader.read(INT)) != 0xFF) {
                 List<CachedRecordable> recordableList = reader.readCollection((reader2) -> {
-                    int recordableId = reader.read(INT);
+                    byte recordableId = reader.read(BYTE);
                     return new CachedRecordable(MCReplayAPI.getRecordableRegistry().getRecordable(recordableId, reader2));
                 });
                 recordables.put(time, recordableList);

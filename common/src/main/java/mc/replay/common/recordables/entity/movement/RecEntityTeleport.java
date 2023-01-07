@@ -1,7 +1,9 @@
 package mc.replay.common.recordables.entity.movement;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.common.recordables.RecordableBufferTypes;
 import mc.replay.common.recordables.interfaces.RecordableEntity;
+import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityTeleportPacket;
@@ -13,17 +15,12 @@ import java.util.function.Function;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
-public record RecEntityTeleport(EntityId entityId, double x, double y, double z, float yaw,
-                                float pitch, boolean onGround) implements RecordableEntity {
+public record RecEntityTeleport(EntityId entityId, Pos pos, boolean onGround) implements RecordableEntity {
 
     public RecEntityTeleport(EntityId entityId, Location to, boolean onGround) {
         this(
                 entityId,
-                to.getX(),
-                to.getY(),
-                to.getZ(),
-                to.getYaw(),
-                to.getPitch(),
+                Pos.from(to),
                 onGround
         );
     }
@@ -31,11 +28,7 @@ public record RecEntityTeleport(EntityId entityId, double x, double y, double z,
     public RecEntityTeleport(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                reader.read(DOUBLE),
-                reader.read(DOUBLE),
-                reader.read(DOUBLE),
-                reader.read(FLOAT),
-                reader.read(FLOAT),
+                reader.read(RecordableBufferTypes.ENTITY_POSITION_WITH_ROTATION),
                 reader.read(BOOLEAN)
         );
     }
@@ -46,11 +39,7 @@ public record RecEntityTeleport(EntityId entityId, double x, double y, double z,
 
         return List.of(new ClientboundEntityTeleportPacket(
                 data.entityId(),
-                this.x,
-                this.y,
-                this.z,
-                this.yaw,
-                this.pitch,
+                this.pos,
                 this.onGround
         ));
     }
@@ -58,11 +47,7 @@ public record RecEntityTeleport(EntityId entityId, double x, double y, double z,
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(DOUBLE, this.x);
-        writer.write(DOUBLE, this.y);
-        writer.write(DOUBLE, this.z);
-        writer.write(FLOAT, this.yaw);
-        writer.write(FLOAT, this.pitch);
+        writer.write(RecordableBufferTypes.ENTITY_POSITION_WITH_ROTATION, this.pos);
         writer.write(BOOLEAN, this.onGround);
     }
 }

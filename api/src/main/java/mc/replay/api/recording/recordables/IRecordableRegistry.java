@@ -9,13 +9,13 @@ import java.util.function.Function;
 
 public interface IRecordableRegistry {
 
-    Map<Integer, RecordableDefinition<?>> getPacketRegistry();
+    Map<Byte, RecordableDefinition<?>> getPacketRegistry();
 
-    <R extends Recordable<?>> void registerRecordable(int id,
+    <R extends Recordable<?>> void registerRecordable(byte id,
                                                       @NotNull Class<R> recordableClass,
                                                       @NotNull Function<ReplayByteBuffer, R> recordableConstructor);
 
-    <R extends Recordable<?>> R getRecordable(int id, @NotNull ReplayByteBuffer buffer);
+    <R extends Recordable<?>> R getRecordable(byte id, @NotNull ReplayByteBuffer buffer);
 
-    <R extends Recordable<?>> int getRecordableId(@NotNull Class<R> recordableClass);
+    <R extends Recordable<?>> byte getRecordableId(@NotNull Class<R> recordableClass);
 }

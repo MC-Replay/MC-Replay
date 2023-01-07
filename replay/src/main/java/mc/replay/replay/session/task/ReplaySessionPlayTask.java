@@ -25,7 +25,7 @@ public final class ReplaySessionPlayTask implements Runnable {
 
     private final long startTime, endTime;
 
-    private long currentTime;
+    private int currentTime;
 
     public ReplaySessionPlayTask(ReplaySessionImpl replaySession) {
         this.replaySession = replaySession;
@@ -42,8 +42,8 @@ public final class ReplaySessionPlayTask implements Runnable {
         if (this.replaySession.isPaused()) return;
 
         List<CachedRecordable> recordables = new ArrayList<>();
-        long nextTime = this.currentTime + ((long) (Math.ceil(this.replaySession.getSpeed() * 50D)));
-        for (long i = this.currentTime; i < nextTime; i++) {
+        int nextTime = this.currentTime + ((int) (Math.ceil(this.replaySession.getSpeed() * 50D)));
+        for (int i = this.currentTime; i < nextTime; i++) {
             recordables.addAll(this.recordables.getOrDefault(i, new ArrayList<>()));
         }
 

@@ -1,6 +1,7 @@
 package mc.replay.common.recordables.entity.movement;
 
 import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.common.recordables.RecordableBufferTypes;
 import mc.replay.common.recordables.interfaces.RecordableEntity;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.ReplayByteBuffer;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
-import static mc.replay.packetlib.network.ReplayByteBuffer.*;
+import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
 public record RecEntityPositionAndRotation(EntityId entityId, Pos deltaPosition,
                                            boolean onGround) implements RecordableEntity {
@@ -28,13 +29,7 @@ public record RecEntityPositionAndRotation(EntityId entityId, Pos deltaPosition,
     public RecEntityPositionAndRotation(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                new Pos(
-                        reader.read(DOUBLE),
-                        reader.read(DOUBLE),
-                        reader.read(DOUBLE),
-                        reader.read(FLOAT),
-                        reader.read(FLOAT)
-                ),
+                reader.read(RecordableBufferTypes.ENTITY_POSITION_WITH_ROTATION),
                 reader.read(BOOLEAN)
         );
     }
@@ -53,11 +48,7 @@ public record RecEntityPositionAndRotation(EntityId entityId, Pos deltaPosition,
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(DOUBLE, this.deltaPosition.x());
-        writer.write(DOUBLE, this.deltaPosition.y());
-        writer.write(DOUBLE, this.deltaPosition.z());
-        writer.write(FLOAT, this.deltaPosition.yaw());
-        writer.write(FLOAT, this.deltaPosition.pitch());
+        writer.write(RecordableBufferTypes.ENTITY_POSITION_WITH_ROTATION, this.deltaPosition);
         writer.write(BOOLEAN, this.onGround);
     }
 }
