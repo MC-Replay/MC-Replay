@@ -13,14 +13,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>packetlib</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.github.MC-Replay</groupId>
+            <artifactId>PacketLib</artifactId>
+            <version>0c1a6460de</version>
         </dependency>
         <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>minecraftobjectwrapper</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.github.MC-Replay</groupId>
+            <artifactId>Minecraft-Object-Wrapper</artifactId>
+            <version>355856abdf</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>mc.replay</groupId>
+                    <artifactId>packetlib</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
