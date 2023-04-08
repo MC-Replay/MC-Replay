@@ -33,7 +33,7 @@ public final class ReplayTickDispatcher extends ReplayDispatcher {
 
     @Override
     public void start() {
-        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(MCReplayPlugin.getInstance(), () -> {
+        this.task = Bukkit.getScheduler().runTaskTimer(MCReplayPlugin.getInstance(), () -> {
             if (!this.shouldRecord()) return;
 
             long start = System.currentTimeMillis();

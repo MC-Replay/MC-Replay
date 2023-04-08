@@ -3,9 +3,9 @@ package mc.replay.classgenerator.generator;
 import io.netty.util.concurrent.GenericFutureListener;
 import javassist.*;
 import mc.replay.api.MCReplayAPI;
+import mc.replay.classgenerator.ClassGeneratorReflections;
 import mc.replay.classgenerator.generated.Generated;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
-import mc.replay.packetlib.utils.PacketUtils;
 import mc.replay.packetlib.utils.Reflections;
 
 public final class RecordingFakePlayerNetworkManagerGenerator implements GeneratorTemplate {
@@ -38,10 +38,10 @@ public final class RecordingFakePlayerNetworkManagerGenerator implements Generat
     public void importPackages(CtClass generated) {
         this.pool.importPackage(MCReplayAPI.class.getName());
         this.pool.importPackage(RecordingFakePlayerGenerator.FAKE_PLAYER_CLASS_NAME);
-        this.pool.importPackage(PacketUtils.class.getName());
         this.pool.importPackage(ClientboundPacket.class.getName());
         this.pool.importPackage(GenericFutureListener.class.getName());
-        this.pool.importPackage(Reflections.PACKET.getName());
+        this.pool.importPackage(ClassGeneratorReflections.class.getName());
+        this.pool.importPackage(ClassGeneratorReflections.PACKET.getName());
     }
 
     @Override
@@ -74,7 +74,7 @@ public final class RecordingFakePlayerNetworkManagerGenerator implements Generat
                 " public void sendPacket(Packet packet, GenericFutureListener futureListener) {\n" +
                         "   if (!this.fakePlayer.isRecording()) return;\n" +
                         "\n" +
-                        "   ClientboundPacket clientboundPacket = PacketUtils.readClientboundPacket(packet);\n" +
+                        "   ClientboundPacket clientboundPacket = ClassGeneratorReflections.readClientboundPacket(packet);\n" +
                         "   if (clientboundPacket != null) {\n" +
                         "       MCReplayAPI.getPacketLib().getPacketListener().publishClientbound(clientboundPacket);\n" +
                         "   }\n" +

@@ -5,7 +5,7 @@ import mc.replay.common.recordables.interfaces.RecordableEntity;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityEquipmentPacket;
-import mc.replay.wrapper.inventory.ItemWrapper;
+import mc.replay.wrapper.item.ItemWrapper;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

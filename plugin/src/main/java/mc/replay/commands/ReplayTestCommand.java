@@ -49,8 +49,6 @@ public class ReplayTestCommand implements CommandExecutor {
                 return false;
             }
 
-            MCReplayAPI.getPacketLib().inject(player, false);
-
             this.fakePlayer.setRecording(true);
             this.session = MCReplayAPI.getRecordingHandler().createRecordingSession()
                     .world(player.getWorld())

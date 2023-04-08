@@ -10,7 +10,6 @@ import mc.replay.common.recordables.entity.movement.RecEntityTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
@@ -30,11 +29,11 @@ public final class EntityLocationTickHandler implements DispatcherTick {
         this.lastLocations.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
 
         for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()) {
-                if (!(entity instanceof LivingEntity livingEntity) || !world.isChunkLoaded(entity.getLocation().getChunk()))
+            for (LivingEntity livingEntity : world.getLivingEntities()) {
+                if (!world.isChunkLoaded(livingEntity.getLocation().getChunk()))
                     continue;
 
-                if (FakePlayerUUID.UUIDS.contains(entity.getUniqueId())) continue;
+                if (FakePlayerUUID.UUIDS.contains(livingEntity.getUniqueId())) continue;
 
                 Location currentLocation = livingEntity.getLocation();
                 Location lastLocation = this.lastLocations.put(livingEntity, currentLocation);
