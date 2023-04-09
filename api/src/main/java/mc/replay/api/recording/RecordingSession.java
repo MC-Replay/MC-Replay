@@ -5,7 +5,7 @@ import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.NavigableMap;
+import java.util.TreeMap;
 import java.util.UUID;
 
 public interface RecordingSession {
@@ -16,7 +16,7 @@ public interface RecordingSession {
 
     long getStartTime();
 
-    @NotNull NavigableMap<Integer, List<CachedRecordable>> getRecordables();
+    @NotNull TreeMap<Integer, List<CachedRecordable>> getRecordables();
 
     @NotNull Recording stopRecording();
 }

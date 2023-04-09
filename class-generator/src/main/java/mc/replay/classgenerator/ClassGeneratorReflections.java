@@ -116,14 +116,12 @@ public final class ClassGeneratorReflections {
     }
 
     private static @NotNull ByteBuffer serializePacket(Object packetObject) throws Exception {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(2_097_152);
-
-        Object packetDataSerializer = WrapperReflections.createPacketDataSerializer(Unpooled.wrappedBuffer(buffer));
+        Object packetDataSerializer = WrapperReflections.createPacketDataSerializer(Unpooled.buffer());
         ((ByteBuf) packetDataSerializer).writerIndex(0);
         ((ByteBuf) packetDataSerializer).readerIndex(0);
         serializePacket(packetObject, packetDataSerializer);
 
-        return buffer;
+        return ByteBuffer.wrap(((ByteBuf) packetDataSerializer).array());
     }
 
     private static void serializePacket(Object minecraftPacket, Object packetDataSerializer) {

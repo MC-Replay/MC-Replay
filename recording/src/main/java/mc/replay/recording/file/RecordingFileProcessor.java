@@ -35,14 +35,14 @@ public final class RecordingFileProcessor {
         writer.write(LONG, recording.endedAt());
 
         for (Map.Entry<Integer, List<CachedRecordable>> entry : recordables.entrySet()) {
-            writer.write(INT, entry.getKey());
+            writer.write(VAR_INT, entry.getKey());
             writer.writeCollection(entry.getValue(), (writer2, recordable) -> {
                 byte recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.recordable().getClass());
                 writer2.write(BYTE, recordableId);
                 writer2.write(recordable.recordable());
             });
         }
-        writer.write(INT, 0xFF); // End
+        writer.write(VAR_INT, 0xFF); // End
 
         File file = new File(this.getDirectory(), recording.id() + RecordingFormat.FILE_EXTENSION);
         try {
@@ -56,11 +56,7 @@ public final class RecordingFileProcessor {
         writer.nioBuffer().limit(writer.writeIndex());
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            writer.nioBuffer().rewind();
-            byte[] bytes = new byte[writer.nioBuffer().remaining()];
-            writer.nioBuffer().get(bytes);
-
-            fileOutputStream.write(bytes);
+            fileOutputStream.write(writer.readBytes(writer.writeIndex()));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -86,9 +82,9 @@ public final class RecordingFileProcessor {
             long startedAt = reader.read(LONG);
             long endedAt = reader.read(LONG);
 
-            NavigableMap<Integer, List<CachedRecordable>> recordables = new TreeMap<>();
+            TreeMap<Integer, List<CachedRecordable>> recordables = new TreeMap<>();
             int time;
-            while ((time = reader.read(INT)) != 0xFF) {
+            while ((time = reader.read(VAR_INT)) != 0xFF) {
                 List<CachedRecordable> recordableList = reader.readCollection((reader2) -> {
                     byte recordableId = reader.read(BYTE);
                     return new CachedRecordable(MCReplayAPI.getRecordableRegistry().getRecordable(recordableId, reader2));

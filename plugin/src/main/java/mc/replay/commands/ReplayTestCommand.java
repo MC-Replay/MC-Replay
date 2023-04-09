@@ -108,6 +108,12 @@ public class ReplayTestCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("load")) {
+            if (args.length == 2) {
+                this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", args[1] + ".mcrr"));
+                player.sendMessage(Text.color("&aLoaded recording."));
+                return true;
+            }
+
             if (this.recording == null) {
                 player.sendMessage(Text.color("&cNo recording found."));
                 return true;

@@ -36,7 +36,7 @@ public final class RecordingHandler implements IRecordingHandler {
             throw new IllegalStateException("No recording session found for session uuid '" + sessionUuid + "'");
         }
 
-        RecordingImpl recording = new RecordingImpl(recordingSession.getStartTime(), new TreeMap<>(recordingSession.getRecordables()));
+        RecordingImpl recording = new RecordingImpl(recordingSession.getStartTime(), recordingSession.getRecordables());
         this.fileProcessor.createRecordingFile(recording);
         return recording;
     }

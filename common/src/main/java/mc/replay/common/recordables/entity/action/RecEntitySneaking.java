@@ -10,6 +10,7 @@ import mc.replay.wrapper.entity.metadata.EntityMetadata;
 import org.bukkit.entity.Pose;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -27,6 +28,7 @@ public record RecEntitySneaking(EntityId entityId, boolean sneaking) implements 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(this.entityId.entityId());
+        if (data == null) return new ArrayList<>();
 
         EntityWrapper entity = data.entity();
         EntityMetadata metadata = entity.getMetadata();

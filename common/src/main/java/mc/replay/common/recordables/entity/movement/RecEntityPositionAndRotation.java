@@ -10,6 +10,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityPosi
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -37,6 +38,7 @@ public record RecEntityPositionAndRotation(EntityId entityId, Pos deltaPosition,
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createReplayPackets(@NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(this.entityId.entityId());
+        if (data == null) return new ArrayList<>();
 
         return List.of(new ClientboundEntityPositionAndRotationPacket(
                 data.entityId(),
