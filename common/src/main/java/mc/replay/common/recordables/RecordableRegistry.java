@@ -4,10 +4,7 @@ import mc.replay.api.recording.recordables.IRecordableRegistry;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.RecordableDefinition;
 import mc.replay.common.recordables.block.*;
-import mc.replay.common.recordables.entity.RecEntityDestroy;
-import mc.replay.common.recordables.entity.RecEntitySpawn;
-import mc.replay.common.recordables.entity.RecPlayerDestroy;
-import mc.replay.common.recordables.entity.RecPlayerSpawn;
+import mc.replay.common.recordables.entity.*;
 import mc.replay.common.recordables.entity.action.RecEntityGliding;
 import mc.replay.common.recordables.entity.action.RecEntitySneaking;
 import mc.replay.common.recordables.entity.action.RecEntitySprinting;
@@ -57,17 +54,18 @@ public final class RecordableRegistry implements IRecordableRegistry {
         this.registerRecordable((byte) 16, RecEntityTeleport.class, RecEntityTeleport::new);
         this.registerRecordable((byte) 17, RecEntityDestroy.class, RecEntityDestroy::new);
         this.registerRecordable((byte) 18, RecEntitySpawn.class, RecEntitySpawn::new);
-        this.registerRecordable((byte) 19, RecPlayerDestroy.class, RecPlayerDestroy::new);
-        this.registerRecordable((byte) 20, RecPlayerSpawn.class, RecPlayerSpawn::new);
+        this.registerRecordable((byte) 19, RecEntitySpawnMetadata.class, RecEntitySpawnMetadata::new);
+        this.registerRecordable((byte) 20, RecPlayerDestroy.class, RecPlayerDestroy::new);
+        this.registerRecordable((byte) 21, RecPlayerSpawn.class, RecPlayerSpawn::new);
 
-        this.registerRecordable((byte) 21, RecParticle.class, RecParticle::new);
+        this.registerRecordable((byte) 22, RecParticle.class, RecParticle::new);
 
-        this.registerRecordable((byte) 22, RecCustomSoundEffect.class, RecCustomSoundEffect::new);
-        this.registerRecordable((byte) 23, RecEntitySound.class, RecEntitySound::new);
-        this.registerRecordable((byte) 24, RecSoundEffect.class, RecSoundEffect::new);
-        this.registerRecordable((byte) 25, RecStopSound.class, RecStopSound::new);
+        this.registerRecordable((byte) 23, RecCustomSoundEffect.class, RecCustomSoundEffect::new);
+        this.registerRecordable((byte) 24, RecEntitySound.class, RecEntitySound::new);
+        this.registerRecordable((byte) 25, RecSoundEffect.class, RecSoundEffect::new);
+        this.registerRecordable((byte) 26, RecStopSound.class, RecStopSound::new);
 
-        this.registerRecordable((byte) 26, RecWorldEvent.class, RecWorldEvent::new);
+        this.registerRecordable((byte) 27, RecWorldEvent.class, RecWorldEvent::new);
     }
 
     public <R extends Recordable<?>> void registerRecordable(byte id,

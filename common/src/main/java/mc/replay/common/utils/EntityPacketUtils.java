@@ -15,7 +15,6 @@ import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.*;
 import mc.replay.packetlib.network.packet.clientbound.play.version.ClientboundLivingEntitySpawn754_758Packet;
 import mc.replay.packetlib.utils.ProtocolVersion;
-import mc.replay.packetlib.utils.Reflections;
 import mc.replay.wrapper.data.PlayerProfile;
 import mc.replay.wrapper.data.SkinTexture;
 import mc.replay.wrapper.entity.EntityWrapper;
@@ -112,7 +111,7 @@ public class EntityPacketUtils {
         return playerWrapper;
     }
 
-    public static EntityWrapper spawnEntity(Collection<ReplayPlayer> viewers, Pos position, EntityType entityType, Map<Integer, Metadata.Entry<?>> metadata, Vector velocity) {
+    public static EntityWrapper spawnEntity(Collection<ReplayPlayer> viewers, Pos position, EntityType entityType, Vector velocity) {
         if (viewers == null || viewers.isEmpty() || entityType == EntityType.PLAYER)
             return null;
 
@@ -124,15 +123,18 @@ public class EntityPacketUtils {
         }
 
         entityWrapper.setPosition(position);
-        entityWrapper.addMetadata(metadata);
 
         int data = 0;
         short velocityX = 0, velocityY = 0, velocityZ = 0;
+        boolean requiresVelocityPacket = false;
         if (entityWrapper.getMetadata() instanceof ObjectDataProvider provider) {
             data = provider.getObjectData();
-            velocityX = (short) velocity.getX();
-            velocityY = (short) velocity.getY();
-            velocityZ = (short) velocity.getZ();
+            if (provider.requiresVelocityPacketAtSpawn()) {
+                requiresVelocityPacket = true;
+                velocityX = (short) velocity.getX();
+                velocityY = (short) velocity.getY();
+                velocityZ = (short) velocity.getZ();
+            }
         }
 
         ClientboundPacket spawnPacket;
@@ -140,7 +142,7 @@ public class EntityPacketUtils {
             spawnPacket = new ClientboundEntitySpawnPacket(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),
-                    entityType.ordinal(),
+                    entityWrapper.getType().getTypeId(),
                     entityWrapper.getPosition(),
                     entityWrapper.getPosition().yaw(),
                     data,
@@ -152,7 +154,7 @@ public class EntityPacketUtils {
             spawnPacket = new ClientboundLivingEntitySpawn754_758Packet(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),
-                    entityType.ordinal(),
+                    entityWrapper.getType().getTypeId(),
                     entityWrapper.getPosition(),
                     entityWrapper.getPosition().yaw(),
                     velocityX,
@@ -161,13 +163,15 @@ public class EntityPacketUtils {
             );
         }
 
-        ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(entityWrapper.getEntityId(), entityWrapper.getMetadata().getEntries());
+        ClientboundEntityVelocityPacket velocityPacket = new ClientboundEntityVelocityPacket(entityWrapper.getEntityId(), velocityX, velocityY, velocityZ);
 
         for (ReplayPlayer replayPlayer : viewers) {
             Player viewer = replayPlayer.player();
 
             MCReplayAPI.getPacketLib().sendPacket(viewer, spawnPacket);
-            MCReplayAPI.getPacketLib().sendPacket(viewer, metadataPacket);
+            if (requiresVelocityPacket) {
+                MCReplayAPI.getPacketLib().sendPacket(viewer, velocityPacket);
+            }
 
             updateRotation(viewer, position.yaw(), position.pitch(), entityWrapper, true);
         }

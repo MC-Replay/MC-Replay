@@ -1,24 +1,25 @@
 package mc.replay.replay.session.entity;
 
 import lombok.RequiredArgsConstructor;
-import mc.replay.common.recordables.interfaces.RecordableEntity;
-import mc.replay.common.recordables.interfaces.RecordableOther;
 import mc.replay.common.recordables.entity.RecEntityDestroy;
 import mc.replay.common.recordables.entity.RecEntitySpawn;
 import mc.replay.common.recordables.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.entity.RecPlayerSpawn;
+import mc.replay.common.recordables.interfaces.RecordableEntity;
+import mc.replay.common.recordables.interfaces.RecordableOther;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.ReplaySessionImpl;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
 public final class ReplaySessionEntityHandler {
 
     private final ReplaySessionImpl replaySession;
-    private final Map<Integer, AbstractReplayEntity<?>> entities = new HashMap<>();
+    private final Map<Integer, AbstractReplayEntity<?>> entities = new ConcurrentHashMap<>();
 
     public List<ClientboundPacket> handleEntityRecordable(RecordableEntity recordable) {
         return recordable.createReplayPackets((originalEntityId) -> {
@@ -51,7 +52,6 @@ public final class ReplaySessionEntityHandler {
                     recEntitySpawn.entityType(),
                     this.replaySession.getReplayWorld(),
                     recEntitySpawn.position(),
-                    recEntitySpawn.metadata(),
                     recEntitySpawn.velocity()
             );
 
