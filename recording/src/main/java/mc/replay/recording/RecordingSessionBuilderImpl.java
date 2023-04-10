@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.common.recordables.entity.RecPlayerSpawn;
+import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.wrapper.entity.PlayerWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

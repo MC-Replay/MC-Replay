@@ -3,6 +3,7 @@ package mc.replay.replay;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
@@ -44,7 +45,7 @@ public final class ReplaySessionImpl implements ReplaySession {
 
     private boolean invalid = false;
 
-    ReplaySessionImpl(Player navigator, Collection<Player> watchers, Recording recording) {
+    ReplaySessionImpl(MCReplay instance, Player navigator, Collection<Player> watchers, Recording recording) {
         this.sessionUuid = UUID.randomUUID();
         this.recording = recording;
         this.watchers = new HashSet<>();
@@ -54,7 +55,7 @@ public final class ReplaySessionImpl implements ReplaySession {
             this.watchers.add(new ReplayPlayerImpl(watcher, this));
         }
 
-        this.playTask = new ReplaySessionPlayTask(this);
+        this.playTask = new ReplaySessionPlayTask(instance, this);
         this.informTask = new ReplaySessionInformTask(this);
 
         this.playTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.playTask, 0L, 1L);

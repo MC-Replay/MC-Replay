@@ -3,13 +3,12 @@ package mc.replay.common.dispatcher.event.entity;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.entity.action.RecEntitySwimming;
+import mc.replay.common.recordables.types.entity.action.RecEntitySwimming;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
 
 import java.util.List;
-import java.util.function.Function;
 
 public final class ReplayEntityToggleSwimEventListener implements DispatcherEvent<EntityToggleSwimEvent> {
 
@@ -19,7 +18,7 @@ public final class ReplayEntityToggleSwimEventListener implements DispatcherEven
     }
 
     @Override
-    public List<Recordable<? extends Function<?, ?>>> getRecordables(EntityToggleSwimEvent event) {
+    public List<Recordable> getRecordables(EntityToggleSwimEvent event) {
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

@@ -1,6 +1,6 @@
 package mc.replay.api.recording;
 
-import mc.replay.api.recording.recordables.CachedRecordable;
+import mc.replay.api.recording.recordables.Recordable;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +16,7 @@ public interface RecordingSession {
 
     long getStartTime();
 
-    @NotNull TreeMap<Integer, List<CachedRecordable>> getRecordables();
+    @NotNull TreeMap<Integer, List<Recordable>> getRecordables();
 
     @NotNull Recording stopRecording();
 }

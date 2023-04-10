@@ -5,14 +5,13 @@ import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.function.Function;
 
 public interface DispatcherPacketIn<T extends ServerboundPacket> extends Dispatcher<T> {
 
-    //Use getRecordables(Player player, T obj) instead
-    default List<Recordable<? extends Function<?, ?>>> getRecordables(T obj) {
+    // Use getRecordables(Player player, T obj) instead
+    default List<Recordable> getRecordables(T obj) {
         return null;
     }
 
-    List<Recordable<? extends Function<?, ?>>> getRecordables(Player player, T obj);
+    List<Recordable> getRecordables(Player player, T obj);
 }

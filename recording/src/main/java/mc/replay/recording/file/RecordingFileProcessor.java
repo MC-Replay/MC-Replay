@@ -2,7 +2,7 @@ package mc.replay.recording.file;
 
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
-import mc.replay.api.recording.recordables.CachedRecordable;
+import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.recording.RecordingImpl;
 
@@ -23,7 +23,7 @@ public final class RecordingFileProcessor {
     private final String directory = MCReplayAPI.getJavaPlugin().getDataFolder() + "/recordings/";
 
     public File createRecordingFile(Recording recording) {
-        NavigableMap<Integer, List<CachedRecordable>> recordables = recording.recordables();
+        NavigableMap<Integer, List<Recordable>> recordables = recording.recordables();
 
         ReplayByteBuffer writer = new ReplayByteBuffer(ByteBuffer.allocateDirect(0));
 
@@ -34,12 +34,12 @@ public final class RecordingFileProcessor {
         writer.write(LONG, recording.startedAt());
         writer.write(LONG, recording.endedAt());
 
-        for (Map.Entry<Integer, List<CachedRecordable>> entry : recordables.entrySet()) {
+        for (Map.Entry<Integer, List<Recordable>> entry : recordables.entrySet()) {
             writer.write(VAR_INT, entry.getKey());
             writer.writeCollection(entry.getValue(), (writer2, recordable) -> {
-                byte recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.recordable().getClass());
+                byte recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.getClass());
                 writer2.write(BYTE, recordableId);
-                writer2.write(recordable.recordable());
+                writer2.write(recordable);
             });
         }
         writer.write(VAR_INT, 0xFF); // End
@@ -82,12 +82,12 @@ public final class RecordingFileProcessor {
             long startedAt = reader.read(LONG);
             long endedAt = reader.read(LONG);
 
-            TreeMap<Integer, List<CachedRecordable>> recordables = new TreeMap<>();
+            TreeMap<Integer, List<Recordable>> recordables = new TreeMap<>();
             int time;
             while ((time = reader.read(VAR_INT)) != 0xFF) {
-                List<CachedRecordable> recordableList = reader.readCollection((reader2) -> {
+                List<Recordable> recordableList = reader.readCollection((reader2) -> {
                     byte recordableId = reader.read(BYTE);
-                    return new CachedRecordable(MCReplayAPI.getRecordableRegistry().getRecordable(recordableId, reader2));
+                    return MCReplayAPI.getRecordableRegistry().getRecordable(recordableId, reader2);
                 });
                 recordables.put(time, recordableList);
             }

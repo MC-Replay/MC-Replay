@@ -1,69 +1,84 @@
 package mc.replay.replay.session.entity;
 
 import lombok.RequiredArgsConstructor;
-import mc.replay.common.recordables.entity.RecEntityDestroy;
-import mc.replay.common.recordables.entity.RecEntitySpawn;
-import mc.replay.common.recordables.entity.RecPlayerDestroy;
-import mc.replay.common.recordables.entity.RecPlayerSpawn;
-import mc.replay.common.recordables.interfaces.RecordableEntity;
-import mc.replay.common.recordables.interfaces.RecordableOther;
-import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.api.recording.recordables.entity.RecordableEntityData;
+import mc.replay.common.recordables.types.entity.RecEntityDestroy;
+import mc.replay.common.recordables.types.entity.RecEntitySpawn;
+import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
+import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
+import mc.replay.common.replay.IReplayEntityProcessor;
 import mc.replay.replay.ReplaySessionImpl;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 @RequiredArgsConstructor
-public final class ReplaySessionEntityHandler {
+public final class ReplaySessionEntityHandler implements IReplayEntityProcessor {
 
     private final ReplaySessionImpl replaySession;
     private final Map<Integer, AbstractReplayEntity<?>> entities = new ConcurrentHashMap<>();
 
-    public List<ClientboundPacket> handleEntityRecordable(RecordableEntity recordable) {
-        return recordable.createReplayPackets((originalEntityId) -> {
+    public Function<Integer, RecordableEntityData> createEntityGetterFunction() {
+        return (originalEntityId) -> {
             AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
             if (replayEntity == null) return null;
 
-            return new RecordableEntity.RecordableEntityData(
+            return new RecordableEntityData(
                     replayEntity.getReplayEntityId(),
                     replayEntity.getEntity()
             );
-        });
+        };
     }
 
-    public void handleOtherRecordable(RecordableOther recordable) {
-        if (recordable instanceof RecPlayerSpawn recPlayerSpawn) {
+    @Override
+    public void spawnPlayer(@NotNull RecPlayerSpawn recordable) {
+        synchronized (this.entities) {
             ReplayNPC replayNPC = new ReplayNPC(
-                    recPlayerSpawn.entityId().entityId(),
-                    recPlayerSpawn.name(),
+                    recordable.entityId().entityId(),
+                    recordable.name(),
                     this.replaySession.getReplayWorld(),
-                    recPlayerSpawn.position(),
-                    recPlayerSpawn.skinTexture(),
-                    recPlayerSpawn.metadata()
+                    recordable.position(),
+                    recordable.skinTexture(),
+                    recordable.metadata()
             );
 
             replayNPC.spawn(this.replaySession.getAllPlayers());
             this.entities.put(replayNPC.getOriginalEntityId(), replayNPC);
-        } else if (recordable instanceof RecEntitySpawn recEntitySpawn) {
+        }
+    }
+
+    @Override
+    public void destroyPlayer(@NotNull RecPlayerDestroy recordable) {
+        synchronized (this.entities) {
+            AbstractReplayEntity<?> entity = this.entities.remove(recordable.entityId().entityId());
+            if (entity instanceof ReplayNPC) {
+                entity.destroy(this.replaySession.getAllPlayers());
+            }
+        }
+    }
+
+    @Override
+    public void spawnEntity(@NotNull RecEntitySpawn recordable) {
+        synchronized (this.entities) {
             ReplayEntity replayEntity = new ReplayEntity(
-                    recEntitySpawn.entityId().entityId(),
-                    recEntitySpawn.entityType(),
+                    recordable.entityId().entityId(),
+                    recordable.entityType(),
                     this.replaySession.getReplayWorld(),
-                    recEntitySpawn.position(),
-                    recEntitySpawn.velocity()
+                    recordable.position(),
+                    recordable.velocity()
             );
 
             replayEntity.spawn(this.replaySession.getAllPlayers());
             this.entities.put(replayEntity.getOriginalEntityId(), replayEntity);
-        } else if (recordable instanceof RecPlayerDestroy recPlayerDestroy) {
-            AbstractReplayEntity<?> entity = this.entities.remove(recPlayerDestroy.entityId().entityId());
-            if (entity instanceof ReplayNPC) {
-                entity.destroy(this.replaySession.getAllPlayers());
-            }
-        } else if (recordable instanceof RecEntityDestroy recEntityDestroy) {
-            AbstractReplayEntity<?> entity = this.entities.remove(recEntityDestroy.entityId().entityId());
+        }
+    }
+
+    @Override
+    public void destroyEntity(@NotNull RecEntityDestroy recordable) {
+        synchronized (this.entities) {
+            AbstractReplayEntity<?> entity = this.entities.remove(recordable.entityId().entityId());
             if (entity instanceof ReplayEntity) {
                 entity.destroy(this.replaySession.getAllPlayers());
             }

@@ -2,16 +2,15 @@ package mc.replay.common.dispatcher.packet.block;
 
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
-import mc.replay.common.recordables.block.RecBlockAction;
+import mc.replay.common.recordables.types.block.RecBlockAction;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockActionPacket;
 
 import java.util.List;
-import java.util.function.Function;
 
 public final class BlockActionPacketOutConverter implements DispatcherPacketOut<ClientboundBlockActionPacket> {
 
     @Override
-    public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundBlockActionPacket packet) {
+    public List<Recordable> getRecordables(ClientboundBlockActionPacket packet) {
         return List.of(new RecBlockAction(
                 packet.blockPosition(),
                 packet.blockId(),

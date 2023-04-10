@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Function;
 
 public final class ReplayEventDispatcher extends ReplayDispatcher implements Listener {
 
@@ -53,7 +52,7 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
                 ($, event) -> {
                     if (!this.shouldRecord()) return;
 
-                    List<Recordable<? extends Function<?, ?>>> recordables = eventListener.getRecordables(event);
+                    List<Recordable> recordables = eventListener.getRecordables(event);
                     if (recordables == null) return;
 
                     for (RecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessions().values()) {

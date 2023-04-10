@@ -4,6 +4,7 @@ import mc.replay.api.recording.IRecordingHandler;
 import mc.replay.api.recording.recordables.IRecordableRegistry;
 import mc.replay.api.replay.IReplayHandler;
 import mc.replay.packetlib.PacketLib;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public interface MCReplay {
 
@@ -14,4 +15,6 @@ public interface MCReplay {
     IReplayHandler getReplayHandler();
 
     PacketLib getPacketLib();
+
+    JavaPlugin getJavaPlugin();
 }

@@ -17,7 +17,7 @@ public final class Replay {
     private final UUID suspect;
     private final long createdAt;
 
-    private final Map<Integer, List<Recordable<?>>> recordables;
+    private final Map<Integer, List<Recordable>> recordables;
     private final List<UUID> reportedBy = new ArrayList<>();
 
     public void addReporter(UUID playerUUID) {

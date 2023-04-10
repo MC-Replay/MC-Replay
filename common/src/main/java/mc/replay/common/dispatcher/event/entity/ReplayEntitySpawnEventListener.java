@@ -3,7 +3,7 @@ package mc.replay.common.dispatcher.event.entity;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.entity.RecEntitySpawnMetadata;
+import mc.replay.common.recordables.types.entity.RecEntitySpawnMetadata;
 import mc.replay.wrapper.entity.EntityWrapper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.NPC;
@@ -12,7 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
 import java.util.List;
-import java.util.function.Function;
 
 public final class ReplayEntitySpawnEventListener implements DispatcherEvent<EntitySpawnEvent> {
 
@@ -22,7 +21,7 @@ public final class ReplayEntitySpawnEventListener implements DispatcherEvent<Ent
     }
 
     @Override
-    public List<Recordable<? extends Function<?, ?>>> getRecordables(EntitySpawnEvent event) {
+    public List<Recordable> getRecordables(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof Player || entity instanceof NPC) return null;
 

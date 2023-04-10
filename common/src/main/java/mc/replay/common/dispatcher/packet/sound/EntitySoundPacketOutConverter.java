@@ -2,16 +2,15 @@ package mc.replay.common.dispatcher.packet.sound;
 
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
-import mc.replay.common.recordables.sound.RecEntitySound;
+import mc.replay.common.recordables.types.sound.RecEntitySound;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntitySoundEffectPacket;
 
 import java.util.List;
-import java.util.function.Function;
 
 public final class EntitySoundPacketOutConverter implements DispatcherPacketOut<ClientboundEntitySoundEffectPacket> {
 
     @Override
-    public List<Recordable<? extends Function<?, ?>>> getRecordables(ClientboundEntitySoundEffectPacket packet) {
+    public List<Recordable> getRecordables(ClientboundEntitySoundEffectPacket packet) {
         return List.of(new RecEntitySound(
                 packet.soundId(),
                 packet.sourceId(),

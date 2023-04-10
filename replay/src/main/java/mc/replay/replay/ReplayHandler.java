@@ -1,6 +1,7 @@
 package mc.replay.replay;
 
 import lombok.Getter;
+import mc.replay.api.MCReplay;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.IReplayHandler;
 import mc.replay.api.replay.ReplaySession;
@@ -8,7 +9,6 @@ import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.toolbar.ToolbarItemHandler;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,18 +20,20 @@ import java.util.UUID;
 @Getter
 public final class ReplayHandler implements IReplayHandler {
 
+    private final MCReplay instance;
     private final Map<UUID, ReplayPlayer> replayPlayers = new HashMap<>();
     private final Map<UUID, ReplaySession> replaySessions = new HashMap<>();
 
     private final ToolbarItemHandler toolbarItemHandler;
 
-    public ReplayHandler(JavaPlugin plugin) {
-        this.toolbarItemHandler = new ToolbarItemHandler(this, plugin);
+    public ReplayHandler(MCReplay instance) {
+        this.instance = instance;
+        this.toolbarItemHandler = new ToolbarItemHandler(this, instance.getJavaPlugin());
     }
 
     @Override
     public @NotNull ReplaySession startReplay(@NotNull Recording recording, @NotNull Player navigator, @NotNull Player... watchers) {
-        ReplaySessionImpl replaySession = new ReplaySessionImpl(navigator, Arrays.asList(watchers), recording);
+        ReplaySessionImpl replaySession = new ReplaySessionImpl(this.instance, navigator, Arrays.asList(watchers), recording);
         this.replaySessions.put(replaySession.getSessionUuid(), replaySession);
 
         for (ReplayPlayer player : replaySession.getAllPlayers()) {

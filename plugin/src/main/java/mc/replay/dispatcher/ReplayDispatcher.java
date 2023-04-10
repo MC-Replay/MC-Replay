@@ -26,6 +26,6 @@ public abstract class ReplayDispatcher {
     }
 
     public boolean shouldRecord() {
-        return MCReplayPlugin.getInstance().getRecordingHandler().shouldRecord();
+        return this.plugin.getRecordingHandler().shouldRecord();
     }
 }

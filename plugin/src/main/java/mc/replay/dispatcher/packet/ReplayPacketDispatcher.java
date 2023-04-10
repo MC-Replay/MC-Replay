@@ -14,7 +14,6 @@ import mc.replay.recording.RecordingSessionImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 @Getter
 public final class ReplayPacketDispatcher extends ReplayDispatcher {
@@ -29,10 +28,10 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
             for (Map.Entry<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> entry : this.packetOutConverters.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
-                List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(packet);
+                List<Recordable> recordables = entry.getValue().getRecordables(packet);
                 if (recordables == null) continue;
 
-                for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
+                for (RecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
                     ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
                 }
             }
@@ -42,10 +41,10 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
             for (Map.Entry<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> entry : this.packetInConverters.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
-                List<Recordable<? extends Function<?, ?>>> recordables = entry.getValue().getRecordables(player, packet);
+                List<Recordable> recordables = entry.getValue().getRecordables(player, packet);
                 if (recordables == null) continue;
 
-                for (RecordingSession recordingSession : MCReplayPlugin.getInstance().getRecordingHandler().getRecordingSessions().values()) {
+                for (RecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
                     ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
                 }
             }

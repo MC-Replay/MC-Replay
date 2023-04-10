@@ -34,7 +34,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         instance = this;
 
         JavaReflections.getField(MCReplayAPI.class, MCReplay.class, "mcReplay").set(null, this);
-        JavaReflections.getField(MCReplayAPI.class, JavaPlugin.class, "javaPlugin").set(null, this);
     }
 
     @Override
@@ -64,5 +63,10 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     public void disable() {
         this.dispatchManager.stop();
+    }
+
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
     }
 }

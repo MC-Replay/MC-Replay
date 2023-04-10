@@ -1,7 +1,7 @@
 package mc.replay.recording;
 
 import mc.replay.api.recording.Recording;
-import mc.replay.api.recording.recordables.CachedRecordable;
+import mc.replay.api.recording.recordables.Recordable;
 
 import java.time.Duration;
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 public record RecordingImpl(String id, Duration duration, long startedAt, long endedAt,
-                            TreeMap<Integer, List<CachedRecordable>> recordables) implements Recording {
+                            TreeMap<Integer, List<Recordable>> recordables) implements Recording {
 
-    public RecordingImpl(long startedAt, TreeMap<Integer, List<CachedRecordable>> recordables) {
+    public RecordingImpl(long startedAt, TreeMap<Integer, List<Recordable>> recordables) {
         this(
                 UUID.randomUUID().toString(),
                 Duration.ofMillis(System.currentTimeMillis() - startedAt),

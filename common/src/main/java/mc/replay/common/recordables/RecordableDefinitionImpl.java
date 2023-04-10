@@ -2,18 +2,20 @@ package mc.replay.common.recordables;
 
 import lombok.AllArgsConstructor;
 import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.entity.RecordableDefinition;
+import mc.replay.api.recording.recordables.RecordableDefinition;
+import mc.replay.api.recording.recordables.action.RecordableAction;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 @AllArgsConstructor
-final class RecordableDefinitionImpl<R extends Recordable<?>> implements RecordableDefinition<R> {
+final class RecordableDefinitionImpl<R extends Recordable> implements RecordableDefinition<R> {
 
     private final int identifier;
     private final Class<R> recordableClass;
     private final Function<ReplayByteBuffer, R> recordableConstructor;
+    private final RecordableAction<R, ?> action;
 
     @Override
     public int identifier() {
@@ -23,6 +25,11 @@ final class RecordableDefinitionImpl<R extends Recordable<?>> implements Recorda
     @Override
     public @NotNull Class<R> recordableClass() {
         return this.recordableClass;
+    }
+
+    @Override
+    public @NotNull RecordableAction<R, ?> action() {
+        return this.action;
     }
 
     R construct(@NotNull ReplayByteBuffer reader) {

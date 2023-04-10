@@ -11,8 +11,10 @@ public final class MCReplayAPI {
 
     @Getter
     private static MCReplay mcReplay;
-    @Getter
-    private static JavaPlugin javaPlugin;
+
+    public static JavaPlugin getJavaPlugin() {
+        return mcReplay.getJavaPlugin();
+    }
 
     public static PacketLib getPacketLib() {
         return mcReplay.getPacketLib();
