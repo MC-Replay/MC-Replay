@@ -11,6 +11,9 @@ import static mc.replay.common.utils.item.nbt.ItemStackNBTHelper.*;
 
 public final class ItemStackNBT {
 
+    private ItemStackNBT() {
+    }
+
     private static <T> ItemStack add(ItemStack item, String key, T value) {
         return setInternal(item, key, value);
     }

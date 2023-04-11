@@ -1,9 +1,8 @@
 package mc.replay.common.utils.item.nbt;
 
 import mc.replay.common.utils.Pair;
-import mc.replay.common.utils.reflection.nms.MinecraftNMS;
-import mc.replay.common.utils.reflection.nms.MinecraftVersionNMS;
-import mc.replay.common.utils.reflection.version.ProtocolVersion;
+import mc.replay.common.utils.reflection.MinecraftNMS;
+import mc.replay.packetlib.utils.ProtocolVersion;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
@@ -11,6 +10,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 final class ItemStackNBTHelper {
+
+    private ItemStackNBTHelper() {
+    }
 
     public static ProtocolVersion VERSION;
 
@@ -28,7 +30,7 @@ final class ItemStackNBTHelper {
 
     static {
         try {
-            VERSION = MinecraftVersionNMS.getServerProtocolVersionEnum();
+            VERSION = ProtocolVersion.getServerVersion();
 
             if (VERSION.isLowerOrEqual(ProtocolVersion.MINECRAFT_1_16_5)) {
                 HAS_TAG = MinecraftNMS.NMS_ITEM_STACK.getMethod("hasTag");

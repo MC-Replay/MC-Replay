@@ -1,7 +1,7 @@
 package mc.replay.dispatcher;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.common.utils.reflection.nms.MinecraftNMS;
+import mc.replay.common.utils.reflection.MinecraftNMS;
 
 public abstract class ReplayDispatcher {
 

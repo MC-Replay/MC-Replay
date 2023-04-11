@@ -2,8 +2,9 @@ package mc.replay.replay.session.task;
 
 import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.utils.color.Text;
-import mc.replay.common.utils.reflection.nms.MinecraftPlayerNMS;
 import mc.replay.replay.ReplaySessionImpl;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.bukkit.entity.Player;
 
@@ -22,7 +23,7 @@ public record ReplaySessionInformTask(ReplaySessionImpl replaySession) implement
 
         for (ReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
             Player player = replayPlayer.player();
-            MinecraftPlayerNMS.sendActionbar(player, Text.color(status + "     &e" + time + " / " + duration + "     &6" + speed));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.color(status + "     &e" + time + " / " + duration + "     &6" + speed)));
         }
     }
 }

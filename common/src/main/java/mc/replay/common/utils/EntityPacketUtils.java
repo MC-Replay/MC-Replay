@@ -31,7 +31,10 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class EntityPacketUtils {
+public final class EntityPacketUtils {
+
+    private EntityPacketUtils() {
+    }
 
     private static final TeamWrapper REPLAY_SUSPECTS_TEAM = new TeamWrapper("ReplaySuspects")
             .withColor(NamedTextColor.RED)

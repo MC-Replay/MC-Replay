@@ -13,6 +13,9 @@ import java.util.function.Predicate;
 
 public final class JavaReflections {
 
+    private JavaReflections() {
+    }
+
     private static final MethodType VOID_METHOD_TYPE = MethodType.methodType(void.class);
     private static volatile Object theUnsafe;
 
