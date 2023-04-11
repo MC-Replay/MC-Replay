@@ -6,7 +6,6 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.commands.ReplayTestCommand;
-import mc.replay.common.CommonInstance;
 import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.dispatcher.ReplayDispatchManager;
@@ -40,8 +39,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     @Override
     public void onEnable() {
-        CommonInstance.plugin = this;
-
         this.packetLib = new PacketLib(this);
         this.packetLib.inject();
 

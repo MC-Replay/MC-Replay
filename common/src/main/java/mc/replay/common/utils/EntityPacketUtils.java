@@ -2,7 +2,6 @@ package mc.replay.common.utils;
 
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.common.CommonInstance;
 import mc.replay.packetlib.data.PlayerProfileProperty;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.EntityAnimation;
@@ -106,7 +105,7 @@ public class EntityPacketUtils {
                     MCReplayAPI.getPacketLib().sendPacket(viewer, new ClientboundPlayerInfoPacket(PlayerInfoAction.REMOVE_PLAYER, removePlayer));
                 }
             }
-        }.runTaskLaterAsynchronously(CommonInstance.plugin, 20L);
+        }.runTaskLaterAsynchronously(MCReplayAPI.getJavaPlugin(), 20L);
 
         return playerWrapper;
     }
