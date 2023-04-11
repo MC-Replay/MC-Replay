@@ -29,4 +29,8 @@
             <version>Dev-1.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>MCReplay-${project.version}</finalName>
+    </build>
 </project>

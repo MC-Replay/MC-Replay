@@ -20,4 +20,8 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>MCReplay-Recording-${project.version}</finalName>
+    </build>
 </project>

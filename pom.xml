@@ -45,6 +45,7 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Lombok -->
@@ -71,7 +72,7 @@
     </dependencies>
 
     <build>
-        <finalName>MCReplay-Bukkit-${project.version}</finalName>
+        <finalName>MCReplay-${project.version}</finalName>
         <defaultGoal>clean install</defaultGoal>
 
         <resources>

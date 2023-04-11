@@ -25,4 +25,8 @@
             <version>3.29.2-GA</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>MCReplay-ClassGenerator-${project.version}</finalName>
+    </build>
 </project>

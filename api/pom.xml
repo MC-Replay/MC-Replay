@@ -29,4 +29,8 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>MCReplay-API-${project.version}</finalName>
+    </build>
 </project>
