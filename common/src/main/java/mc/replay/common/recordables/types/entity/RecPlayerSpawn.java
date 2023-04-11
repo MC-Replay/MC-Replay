@@ -31,10 +31,10 @@ public record RecPlayerSpawn(EntityId entityId, String name, SkinTexture skinTex
         this(
                 new EntityId(reader),
                 reader.read(STRING),
-                new SkinTexture(
+                (reader.read(BOOLEAN)) ? new SkinTexture(
                         reader.read(STRING),
                         reader.read(STRING)
-                ),
+                ) : null,
                 new Pos(
                         reader.read(DOUBLE),
                         reader.read(DOUBLE),
@@ -50,8 +50,11 @@ public record RecPlayerSpawn(EntityId entityId, String name, SkinTexture skinTex
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
         writer.write(STRING, this.name);
-        writer.write(STRING, this.skinTexture.value());
-        writer.write(STRING, this.skinTexture.signature());
+        writer.write(BOOLEAN, this.skinTexture != null);
+        if (this.skinTexture != null) {
+            writer.write(STRING, this.skinTexture.value());
+            writer.write(STRING, this.skinTexture.signature());
+        }
         writer.write(DOUBLE, this.position.x());
         writer.write(DOUBLE, this.position.y());
         writer.write(DOUBLE, this.position.z());
