@@ -4,8 +4,7 @@ import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -22,37 +21,34 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
     private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
 
     @Override
-    public List<Recordable> getRecordables(Integer currentTick) {
+    public void onTickGlobal(Integer currentTick) {
+        this.lastEquipment.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
+    }
+
+    @Override
+    public List<Recordable> getRecordables(int currentTick, Entity entity) {
+        if (!(entity instanceof LivingEntity livingEntity)) return null;
+
         List<Recordable> recordables = new ArrayList<>();
 
-        this.lastEquipment.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
+        EntityEquipment entityEquipment = livingEntity.getEquipment();
+        if (entityEquipment == null) return null;
 
-        for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()) {
-                if (!(entity instanceof LivingEntity livingEntity)) continue;
-                if (!world.isChunkLoaded(entity.getLocation().getChunk())) continue;
+        EntityId entityId = EntityId.of(livingEntity.getUniqueId(), livingEntity.getEntityId());
 
-                EntityEquipment entityEquipment = livingEntity.getEquipment();
-                if (entityEquipment == null) continue;
+        for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+            Map<EquipmentSlot, ItemStack> equipment = this.lastEquipment.putIfAbsent(livingEntity, new HashMap<>());
+            if (equipment == null) equipment = new HashMap<>();
 
-                EntityId entityId = EntityId.of(livingEntity.getUniqueId(), livingEntity.getEntityId());
+            ItemStack lastItem = equipment.get(equipmentSlot);
+            ItemStack currentItem = entityEquipment.getItem(equipmentSlot);
+            if (lastItem == null && (currentItem == null || currentItem.getType().isAir())) continue;
 
-                for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
-                    try {
-                        Map<EquipmentSlot, ItemStack> equipment = this.lastEquipment.putIfAbsent(livingEntity, new HashMap<>());
-                        if (equipment == null) equipment = new HashMap<>();
+            if (currentItem == null || !currentItem.isSimilar(lastItem)) {
+                if (currentItem == null) currentItem = new ItemStack(Material.AIR);
 
-                        ItemStack lastItem = equipment.get(equipmentSlot);
-                        ItemStack currentItem = entityEquipment.getItem(equipmentSlot);
-                        if (lastItem == null && currentItem.getType().isAir()) continue;
-
-                        if (!currentItem.isSimilar(lastItem)) {
-                            equipment.put(equipmentSlot, currentItem);
-                            recordables.add(new RecEntityEquipment(entityId, equipmentSlot, currentItem));
-                        }
-                    } catch (Exception ignored) {
-                    }
-                }
+                equipment.put(equipmentSlot, currentItem);
+                recordables.add(new RecEntityEquipment(entityId, equipmentSlot, currentItem));
             }
         }
 

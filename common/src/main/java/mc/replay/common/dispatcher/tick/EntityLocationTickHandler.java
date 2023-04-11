@@ -6,9 +6,8 @@ import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPositionAndRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityTeleport;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
@@ -22,42 +21,40 @@ public final class EntityLocationTickHandler implements DispatcherTick {
     private final Map<LivingEntity, Integer> positionAndRotationAmounts = new HashMap<>();
 
     @Override
-    public List<Recordable> getRecordables(Integer currentTick) {
-        List<Recordable> recordables = new ArrayList<>();
-
+    public void onTickGlobal(Integer currentTick) {
         this.lastLocations.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
         this.positionAndRotationAmounts.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
+    }
 
-        for (World world : Bukkit.getWorlds()) {
-            for (LivingEntity livingEntity : world.getLivingEntities()) {
-                if (!world.isChunkLoaded(livingEntity.getLocation().getChunk()))
-                    continue;
+    @Override
+    public List<Recordable> getRecordables(int currentTick, Entity entity) {
+        if (!(entity instanceof LivingEntity livingEntity)) return null;
 
-                Location currentLocation = livingEntity.getLocation();
-                Location lastLocation = this.lastLocations.put(livingEntity, currentLocation);
-                if (lastLocation == null) lastLocation = currentLocation;
+        List<Recordable> recordables = new ArrayList<>();
 
-                EntityId entityId = EntityId.of(livingEntity.getUniqueId(), livingEntity.getEntityId());
+        Location currentLocation = livingEntity.getLocation();
+        Location lastLocation = this.lastLocations.put(livingEntity, currentLocation);
+        if (lastLocation == null) lastLocation = currentLocation;
 
-                if (!lastLocation.equals(currentLocation)) {
-                    if (lastLocation.distanceSquared(currentLocation) > 64) {
-                        recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
-                    } else {
-                        int amount = this.positionAndRotationAmounts.getOrDefault(livingEntity, 0);
-                        if (amount >= 20) {
-                            recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
-                            this.positionAndRotationAmounts.put(livingEntity, 0);
-                        } else {
-                            recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, livingEntity.isOnGround()));
-                            this.positionAndRotationAmounts.put(livingEntity, amount + 1);
-                        }
-                    }
-                }
+        EntityId entityId = EntityId.of(livingEntity.getUniqueId(), livingEntity.getEntityId());
 
-                if (lastLocation.getYaw() != currentLocation.getYaw()) {
-                    recordables.add(new RecEntityHeadRotation(entityId, currentLocation.getYaw()));
+        if (!lastLocation.equals(currentLocation)) {
+            if (lastLocation.distanceSquared(currentLocation) > 64) {
+                recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
+            } else {
+                int amount = this.positionAndRotationAmounts.getOrDefault(livingEntity, 0);
+                if (amount >= 20) {
+                    recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
+                    this.positionAndRotationAmounts.put(livingEntity, 0);
+                } else {
+                    recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, livingEntity.isOnGround()));
+                    this.positionAndRotationAmounts.put(livingEntity, amount + 1);
                 }
             }
+        }
+
+        if (lastLocation.getYaw() != currentLocation.getYaw()) {
+            recordables.add(new RecEntityHeadRotation(entityId, currentLocation.getYaw()));
         }
 
         return recordables;
