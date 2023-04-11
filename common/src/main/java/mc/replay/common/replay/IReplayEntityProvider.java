@@ -6,7 +6,7 @@ import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import org.jetbrains.annotations.NotNull;
 
-public interface IReplayEntityProcessor {
+public interface IReplayEntityProvider {
 
     void spawnPlayer(@NotNull RecPlayerSpawn recordable);
 

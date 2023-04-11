@@ -6,7 +6,7 @@ import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
-import mc.replay.common.replay.IReplayEntityProcessor;
+import mc.replay.common.replay.IReplayEntityProvider;
 import mc.replay.replay.ReplaySessionImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public final class ReplaySessionEntityHandler implements IReplayEntityProcessor {
+public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
 
     private final ReplaySessionImpl replaySession;
     private final Map<Integer, AbstractReplayEntity<?>> entities = new ConcurrentHashMap<>();
