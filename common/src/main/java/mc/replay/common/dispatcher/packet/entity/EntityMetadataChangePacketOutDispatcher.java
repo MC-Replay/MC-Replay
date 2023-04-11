@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EntityMetadataChangePacketOutConverter implements DispatcherPacketOut<ClientboundEntityMetadataPacket> {
+public final class EntityMetadataChangePacketOutDispatcher implements DispatcherPacketOut<ClientboundEntityMetadataPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntityMetadataPacket packet) {

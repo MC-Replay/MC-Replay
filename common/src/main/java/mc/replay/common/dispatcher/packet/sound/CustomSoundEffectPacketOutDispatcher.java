@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundCustomSoun
 
 import java.util.List;
 
-public final class CustomSoundEffectPacketOutConverter implements DispatcherPacketOut<ClientboundCustomSoundEffectPacket> {
+public final class CustomSoundEffectPacketOutDispatcher implements DispatcherPacketOut<ClientboundCustomSoundEffectPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundCustomSoundEffectPacket packet) {

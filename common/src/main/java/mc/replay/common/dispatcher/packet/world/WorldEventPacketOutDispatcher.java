@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundWorldEvent
 
 import java.util.List;
 
-public final class WorldEventPacketOutConverter implements DispatcherPacketOut<ClientboundWorldEventPacket> {
+public final class WorldEventPacketOutDispatcher implements DispatcherPacketOut<ClientboundWorldEventPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundWorldEventPacket packet) {

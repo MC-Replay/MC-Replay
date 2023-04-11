@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EntityLocationTickHandler implements DispatcherTick {
+public final class EntityLocationTickDispatcher implements DispatcherTick {
 
     private final Map<LivingEntity, Location> lastLocations = new HashMap<>();
     private final Map<LivingEntity, Integer> positionAndRotationAmounts = new HashMap<>();

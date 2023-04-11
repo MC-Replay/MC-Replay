@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.version.ClientboundAc
 
 import java.util.List;
 
-public final class AcknowledgePlayerDiggingPacketOutConverter implements DispatcherPacketOut<ClientboundAcknowledgePlayerDigging754_758Packet> {
+public final class AcknowledgePlayerDiggingPacketOutDispatcher implements DispatcherPacketOut<ClientboundAcknowledgePlayerDigging754_758Packet> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundAcknowledgePlayerDigging754_758Packet packet) {

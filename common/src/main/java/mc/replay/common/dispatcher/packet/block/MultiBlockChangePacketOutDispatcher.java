@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundMultiBlock
 
 import java.util.List;
 
-public final class MultiBlockChangePacketOutConverter implements DispatcherPacketOut<ClientboundMultiBlockChangePacket> {
+public final class MultiBlockChangePacketOutDispatcher implements DispatcherPacketOut<ClientboundMultiBlockChangePacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundMultiBlockChangePacket packet) {

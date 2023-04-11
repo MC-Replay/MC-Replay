@@ -3,14 +3,15 @@ package mc.replay.common.dispatcher.event.player;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
+import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
+import mc.replay.wrapper.entity.PlayerWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
 
-public final class ReplayPlayerQuitEventListener implements DispatcherEvent<PlayerQuitEvent> {
+public final class ReplayPlayerJoinEventDispatcher implements DispatcherEvent<PlayerJoinEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -18,10 +19,11 @@ public final class ReplayPlayerQuitEventListener implements DispatcherEvent<Play
     }
 
     @Override
-    public List<Recordable> getRecordables(PlayerQuitEvent event) {
+    public List<Recordable> getRecordables(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
+        PlayerWrapper playerWrapper = new PlayerWrapper(player);
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecPlayerDestroy(entityId));
+        return List.of(new RecPlayerSpawn(entityId, playerWrapper));
     }
 }

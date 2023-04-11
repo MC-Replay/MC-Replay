@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundStopSoundP
 
 import java.util.List;
 
-public final class StopSoundPacketOutConverter implements DispatcherPacketOut<ClientboundStopSoundPacket> {
+public final class StopSoundPacketOutDispatcher implements DispatcherPacketOut<ClientboundStopSoundPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundStopSoundPacket packet) {

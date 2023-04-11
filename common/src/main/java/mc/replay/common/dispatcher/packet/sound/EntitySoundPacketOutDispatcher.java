@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntitySoun
 
 import java.util.List;
 
-public final class EntitySoundPacketOutConverter implements DispatcherPacketOut<ClientboundEntitySoundEffectPacket> {
+public final class EntitySoundPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntitySoundEffectPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntitySoundEffectPacket packet) {

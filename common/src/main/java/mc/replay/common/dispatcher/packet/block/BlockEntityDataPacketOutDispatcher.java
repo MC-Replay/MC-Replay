@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockEntit
 
 import java.util.List;
 
-public final class BlockEntityDataPacketOutConverter implements DispatcherPacketOut<ClientboundBlockEntityDataPacket> {
+public final class BlockEntityDataPacketOutDispatcher implements DispatcherPacketOut<ClientboundBlockEntityDataPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundBlockEntityDataPacket packet) {

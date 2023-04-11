@@ -3,14 +3,14 @@ package mc.replay.common.dispatcher.event.player;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherEvent;
-import mc.replay.common.recordables.types.entity.action.RecEntitySprinting;
+import mc.replay.common.recordables.types.entity.action.RecEntitySneaking;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.List;
 
-public final class ReplayPlayerToggleSprintEventListener implements DispatcherEvent<PlayerToggleSprintEvent> {
+public final class ReplayPlayerToggleSneakEventDispatcher implements DispatcherEvent<PlayerToggleSneakEvent> {
 
     @Override
     public EventPriority getPriority() {
@@ -18,10 +18,10 @@ public final class ReplayPlayerToggleSprintEventListener implements DispatcherEv
     }
 
     @Override
-    public List<Recordable> getRecordables(PlayerToggleSprintEvent event) {
+    public List<Recordable> getRecordables(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecEntitySprinting(entityId, event.isSprinting()));
+        return List.of(new RecEntitySneaking(entityId, event.isSneaking()));
     }
 }

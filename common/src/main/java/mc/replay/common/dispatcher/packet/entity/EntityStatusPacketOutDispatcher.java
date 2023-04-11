@@ -8,7 +8,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityStat
 
 import java.util.List;
 
-public class EntityStatusPacketOutConverter implements DispatcherPacketOut<ClientboundEntityStatusPacket> {
+public class EntityStatusPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntityStatusPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntityStatusPacket packet) {

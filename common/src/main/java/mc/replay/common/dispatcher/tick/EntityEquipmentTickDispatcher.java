@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EntityEquipmentTickHandler implements DispatcherTick {
+public final class EntityEquipmentTickDispatcher implements DispatcherTick {
 
     private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
 

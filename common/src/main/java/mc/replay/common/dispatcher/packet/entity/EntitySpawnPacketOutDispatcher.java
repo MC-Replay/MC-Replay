@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public final class EntitySpawnPacketOutConverter implements DispatcherPacketOut<ClientboundEntitySpawnPacket> {
+public final class EntitySpawnPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntitySpawnPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntitySpawnPacket packet) {

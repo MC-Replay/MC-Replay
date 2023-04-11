@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public final class ArmAnimationPacketInConverter implements DispatcherPacketIn<ServerboundAnimationPacket> {
+public final class ArmAnimationPacketInDispatcher implements DispatcherPacketIn<ServerboundAnimationPacket> {
 
     @Override
     public List<Recordable> getRecordables(Player player, ServerboundAnimationPacket packet) {

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EntityMetadataTickHandler implements DispatcherTick {
+public final class EntityMetadataTickDispatcher implements DispatcherTick {
 
     private final Map<Entity, Integer> lastFireTicks = new HashMap<>();
 

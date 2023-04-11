@@ -8,7 +8,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityAnim
 
 import java.util.List;
 
-public final class AnimationPacketOutConverter implements DispatcherPacketOut<ClientboundEntityAnimationPacket> {
+public final class AnimationPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntityAnimationPacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntityAnimationPacket packet) {

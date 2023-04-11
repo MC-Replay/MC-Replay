@@ -7,7 +7,7 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundParticlePa
 
 import java.util.List;
 
-public final class ParticlePacketOutConverter implements DispatcherPacketOut<ClientboundParticlePacket> {
+public final class ParticlePacketOutDispatcher implements DispatcherPacketOut<ClientboundParticlePacket> {
 
     @Override
     public List<Recordable> getRecordables(ClientboundParticlePacket packet) {
