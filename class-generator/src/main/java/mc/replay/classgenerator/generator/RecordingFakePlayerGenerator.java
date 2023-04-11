@@ -1,10 +1,10 @@
 package mc.replay.classgenerator.generator;
 
 import javassist.*;
-import mc.replay.api.utils.FakePlayerUUID;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.ClassGeneratorReflections;
 import mc.replay.classgenerator.generated.Generated;
+import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.packetlib.utils.Reflections;
 import org.bukkit.Location;
@@ -49,8 +49,8 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
         this.pool.importPackage(AtomicInteger.class.getName());
         this.pool.importPackage(Player.class.getName());
         this.pool.importPackage(Location.class.getName());
-        this.pool.importPackage(FakePlayerUUID.class.getName());
         this.pool.importPackage(ClassGenerator.class.getName());
+        this.pool.importPackage(FakePlayerHandler.class.getName());
         this.pool.importPackage(IRecordingFakePlayer.class.getName());
         this.pool.importPackage("com.mojang.authlib.GameProfile");
         this.pool.importPackage(ClassGeneratorReflections.MINECRAFT_SERVER.getName());
@@ -66,6 +66,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
     @Override
     public void makeFields(CtClass generated) throws Exception {
         generated.addField(CtField.make("private static final AtomicInteger FAKE_PLAYER_COUNT = new AtomicInteger();", generated));
+        generated.addField(CtField.make("private final FakePlayerHandler fakePlayerHandler;", generated));
         generated.addField(CtField.make("private final Player target;", generated));
         generated.addField(CtField.make("private boolean recording = false;", generated));
     }
@@ -73,7 +74,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
     @Override
     public void makeConstructor(CtClass generated) throws Exception {
         generated.addConstructor(CtNewConstructor.make(
-                "public RecordingFakePlayer(Player target) throws Exception {\n" +
+                "public RecordingFakePlayer(FakePlayerHandler fakePlayerHandler, Player target) throws Exception {\n" +
                         "   super(\n" +
                         "       MinecraftServer.getServer(),\n" +
                         "       ((CraftWorld) target.getWorld()).getHandle(),\n" +
@@ -81,6 +82,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
                         "       new PlayerInteractManager(((CraftWorld) target.getWorld()).getHandle())\n" +
                         "   );\n" +
                         "\n" +
+                        "   this.fakePlayerHandler = fakePlayerHandler;\n" +
                         "   this.target = target;\n" +
                         "   new PlayerConnection(MinecraftServer.getServer(), (NetworkManager) ClassGenerator.createNetworkManager(this), this);\n" +
                         "}",
@@ -113,7 +115,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
 
         generated.addMethod(CtMethod.make(
                 "public void spawn() {\n" +
-                        "   FakePlayerUUID.UUIDS.add(super.getUniqueID());\n" +
+                        "   this.fakePlayerHandler.addFakePlayer(this);" +
                         "\n" +
                         "   Location location = this.target.getLocation().clone();\n" +
                         "   this.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());\n" +
@@ -132,6 +134,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
                         "   this.setSpectatorTarget(null);\n" +
                         "   this.getWorldServer().unregisterEntity(this);\n" +
                         "   this.server.getPlayerList().players.remove(this);\n" +
+                        "   this.fakePlayerHandler.removeFakePlayer(this);\n" +
                         "}",
                 generated
         ));

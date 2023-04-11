@@ -4,6 +4,7 @@ import lombok.Getter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.classgenerator.ClassGenerator;
+import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.CommonInstance;
 import mc.replay.common.recordables.RecordableRegistry;
@@ -23,6 +24,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     private PacketLib packetLib;
 
     private RecordingHandler recordingHandler;
+    private FakePlayerHandler fakePlayerHandler;
     private RecordableRegistry recordableRegistry;
 
     private ReplayHandler replayHandler;
@@ -44,6 +46,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         this.packetLib.inject();
 
         this.recordingHandler = new RecordingHandler();
+        this.fakePlayerHandler = new FakePlayerHandler(this);
         this.recordableRegistry = new RecordableRegistry();
 
         this.replayHandler = new ReplayHandler(this);

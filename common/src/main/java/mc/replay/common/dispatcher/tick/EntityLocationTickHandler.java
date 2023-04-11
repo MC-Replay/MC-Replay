@@ -2,7 +2,6 @@ package mc.replay.common.dispatcher.tick;
 
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.api.utils.FakePlayerUUID;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPositionAndRotation;
@@ -31,8 +30,6 @@ public final class EntityLocationTickHandler implements DispatcherTick {
             for (LivingEntity livingEntity : world.getLivingEntities()) {
                 if (!world.isChunkLoaded(livingEntity.getLocation().getChunk()))
                     continue;
-
-                if (FakePlayerUUID.UUIDS.contains(livingEntity.getUniqueId())) continue;
 
                 Location currentLocation = livingEntity.getLocation();
                 Location lastLocation = this.lastLocations.put(livingEntity, currentLocation);

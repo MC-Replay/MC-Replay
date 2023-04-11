@@ -60,7 +60,7 @@ public class ReplayTestCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("spawn")) {
             try {
-                this.fakePlayer = ClassGenerator.createFakePlayer(player);
+                this.fakePlayer = ClassGenerator.createFakePlayer(MCReplayPlugin.getInstance().getFakePlayerHandler(), player);
                 this.fakePlayer.spawn();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();

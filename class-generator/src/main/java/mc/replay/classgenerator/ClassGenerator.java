@@ -2,9 +2,11 @@ package mc.replay.classgenerator;
 
 import javassist.ClassPool;
 import javassist.LoaderClassPath;
+import mc.replay.api.MCReplay;
 import mc.replay.classgenerator.generator.RecordingFakePlayerGenerator;
 import mc.replay.classgenerator.generator.RecordingFakePlayerNetworkManagerGenerator;
 import mc.replay.classgenerator.objects.FakePlayerFilterList;
+import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,9 +22,9 @@ public final class ClassGenerator {
     public static Class<?> FAKE_PLAYER_CLASS;
     public static Class<?> NETWORK_MANAGER_CLASS;
 
-    public static IRecordingFakePlayer createFakePlayer(Player target) {
+    public static IRecordingFakePlayer createFakePlayer(FakePlayerHandler fakePlayerHandler, Player target) {
         try {
-            return (IRecordingFakePlayer) FAKE_PLAYER_CLASS.getConstructor(Player.class).newInstance(target);
+            return (IRecordingFakePlayer) FAKE_PLAYER_CLASS.getConstructor(FakePlayerHandler.class, Player.class).newInstance(fakePlayerHandler, target);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

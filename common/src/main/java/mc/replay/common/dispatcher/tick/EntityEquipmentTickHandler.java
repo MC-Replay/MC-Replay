@@ -2,7 +2,6 @@ package mc.replay.common.dispatcher.tick;
 
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
-import mc.replay.api.utils.FakePlayerUUID;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
 import org.bukkit.Bukkit;
@@ -31,7 +30,6 @@ public final class EntityEquipmentTickHandler implements DispatcherTick {
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (!(entity instanceof LivingEntity livingEntity)) continue;
-                if (FakePlayerUUID.UUIDS.contains(entity.getUniqueId())) continue;
                 if (!world.isChunkLoaded(entity.getLocation().getChunk())) continue;
 
                 EntityEquipment entityEquipment = livingEntity.getEquipment();
