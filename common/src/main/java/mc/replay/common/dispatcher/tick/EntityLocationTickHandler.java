@@ -19,12 +19,14 @@ import java.util.Map;
 public final class EntityLocationTickHandler implements DispatcherTick {
 
     private final Map<LivingEntity, Location> lastLocations = new HashMap<>();
+    private final Map<LivingEntity, Integer> positionAndRotationAmounts = new HashMap<>();
 
     @Override
     public List<Recordable> getRecordables(Integer currentTick) {
         List<Recordable> recordables = new ArrayList<>();
 
         this.lastLocations.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
+        this.positionAndRotationAmounts.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
 
         for (World world : Bukkit.getWorlds()) {
             for (LivingEntity livingEntity : world.getLivingEntities()) {
@@ -41,7 +43,14 @@ public final class EntityLocationTickHandler implements DispatcherTick {
                     if (lastLocation.distanceSquared(currentLocation) > 64) {
                         recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
                     } else {
-                        recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, livingEntity.isOnGround()));
+                        int amount = this.positionAndRotationAmounts.getOrDefault(livingEntity, 0);
+                        if (amount >= 20) {
+                            recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
+                            this.positionAndRotationAmounts.put(livingEntity, 0);
+                        } else {
+                            recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, livingEntity.isOnGround()));
+                            this.positionAndRotationAmounts.put(livingEntity, amount + 1);
+                        }
                     }
                 }
 
