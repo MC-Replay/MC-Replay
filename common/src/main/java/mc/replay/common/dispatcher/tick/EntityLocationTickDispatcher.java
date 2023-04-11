@@ -3,6 +3,7 @@ package mc.replay.common.dispatcher.tick;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
+import mc.replay.common.recordables.types.entity.movement.RecEntityCorrectPositionAndRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPositionAndRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityTeleport;
@@ -44,7 +45,7 @@ public final class EntityLocationTickDispatcher implements DispatcherTick {
             } else {
                 int amount = this.positionAndRotationAmounts.getOrDefault(livingEntity, 0);
                 if (amount >= 20) {
-                    recordables.add(new RecEntityTeleport(entityId, currentLocation, livingEntity.isOnGround()));
+                    recordables.add(new RecEntityCorrectPositionAndRotation(entityId, currentLocation, livingEntity.isOnGround()));
                     this.positionAndRotationAmounts.put(livingEntity, 0);
                 } else {
                     recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, livingEntity.isOnGround()));
