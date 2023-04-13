@@ -25,6 +25,10 @@ public final class ReplayEntityDeathEventDispatcher implements DispatcherEvent<E
         if (entity instanceof Player || entity instanceof NPC) return null;
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
-        return List.of(new RecEntityDestroy(entityId));
+        return List.of(
+                new RecEntityDestroy(
+                        entityId
+                )
+        );
     }
 }

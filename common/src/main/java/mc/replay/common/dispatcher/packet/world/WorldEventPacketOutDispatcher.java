@@ -11,11 +11,13 @@ public final class WorldEventPacketOutDispatcher implements DispatcherPacketOut<
 
     @Override
     public List<Recordable> getRecordables(ClientboundWorldEventPacket packet) {
-        return List.of(new RecWorldEvent(
-                packet.effectId(),
-                packet.position(),
-                packet.data(),
-                packet.disableRelativeVolume()
-        ));
+        return List.of(
+                new RecWorldEvent(
+                        packet.effectId(),
+                        packet.position(),
+                        packet.data(),
+                        packet.disableRelativeVolume()
+                )
+        );
     }
 }

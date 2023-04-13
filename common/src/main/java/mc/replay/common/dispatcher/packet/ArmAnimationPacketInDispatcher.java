@@ -14,9 +14,11 @@ public final class ArmAnimationPacketInDispatcher implements DispatcherPacketIn<
     @Override
     public List<Recordable> getRecordables(Player player, ServerboundAnimationPacket packet) {
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecEntitySwingHandAnimation(
-                entityId,
-                packet.hand()
-        ));
+        return List.of(
+                new RecEntitySwingHandAnimation(
+                        entityId,
+                        packet.hand()
+                )
+        );
     }
 }

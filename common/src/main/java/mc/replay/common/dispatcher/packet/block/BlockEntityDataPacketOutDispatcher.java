@@ -11,10 +11,12 @@ public final class BlockEntityDataPacketOutDispatcher implements DispatcherPacke
 
     @Override
     public List<Recordable> getRecordables(ClientboundBlockEntityDataPacket packet) {
-        return List.of(new RecBlockEntityData(
-                packet.blockPosition(),
-                packet.action(),
-                packet.data()
-        ));
+        return List.of(
+                new RecBlockEntityData(
+                        packet.blockPosition(),
+                        packet.action(),
+                        packet.data()
+                )
+        );
     }
 }

@@ -22,6 +22,11 @@ public final class ReplayEntityToggleSwimEventDispatcher implements DispatcherEv
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
-        return List.of(new RecEntitySwimming(entityId, event.isSwimming()));
+        return List.of(
+                new RecEntitySwimming(
+                        entityId,
+                        event.isSwimming()
+                )
+        );
     }
 }

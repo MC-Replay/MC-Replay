@@ -11,10 +11,12 @@ public final class StopSoundPacketOutDispatcher implements DispatcherPacketOut<C
 
     @Override
     public List<Recordable> getRecordables(ClientboundStopSoundPacket packet) {
-        return List.of(new RecStopSound(
-                packet.flags(),
-                packet.sourceId(),
-                packet.sound()
-        ));
+        return List.of(
+                new RecStopSound(
+                        packet.flags(),
+                        packet.sourceId(),
+                        packet.sound()
+                )
+        );
     }
 }

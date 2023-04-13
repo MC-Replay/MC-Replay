@@ -11,11 +11,13 @@ public final class BlockActionPacketOutDispatcher implements DispatcherPacketOut
 
     @Override
     public List<Recordable> getRecordables(ClientboundBlockActionPacket packet) {
-        return List.of(new RecBlockAction(
-                packet.blockPosition(),
-                packet.blockId(),
-                packet.actionId(),
-                packet.actionParam()
-        ));
+        return List.of(
+                new RecBlockAction(
+                        packet.blockPosition(),
+                        packet.blockId(),
+                        packet.actionId(),
+                        packet.actionParam()
+                )
+        );
     }
 }

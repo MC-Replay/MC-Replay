@@ -28,6 +28,11 @@ public final class ReplayEntitySpawnEventDispatcher implements DispatcherEvent<E
         EntityWrapper entityWrapper = new EntityWrapper(entity);
 
         EntityId entityId = EntityId.of(entity.getEntityId());
-        return List.of(new RecEntitySpawnMetadata(entityId, entityWrapper.getMetadata().getEntries()));
+        return List.of(
+                new RecEntitySpawnMetadata(
+                        entityId,
+                        entityWrapper.getMetadata().getEntries()
+                )
+        );
     }
 }

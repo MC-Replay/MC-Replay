@@ -22,6 +22,11 @@ public final class ReplayPlayerToggleSneakEventDispatcher implements DispatcherE
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecEntitySneaking(entityId, event.isSneaking()));
+        return List.of(
+                new RecEntitySneaking(
+                        entityId,
+                        event.isSneaking()
+                )
+        );
     }
 }

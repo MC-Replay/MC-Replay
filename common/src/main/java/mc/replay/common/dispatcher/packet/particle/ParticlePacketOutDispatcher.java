@@ -11,18 +11,20 @@ public final class ParticlePacketOutDispatcher implements DispatcherPacketOut<Cl
 
     @Override
     public List<Recordable> getRecordables(ClientboundParticlePacket packet) {
-        return List.of(new RecParticle(
-                packet.particleId(),
-                packet.longDistance(),
-                packet.x(),
-                packet.y(),
-                packet.z(),
-                packet.offsetX(),
-                packet.offsetY(),
-                packet.offsetZ(),
-                packet.particleData(),
-                packet.particleCount(),
-                packet.data()
-        ));
+        return List.of(
+                new RecParticle(
+                        packet.particleId(),
+                        packet.longDistance(),
+                        packet.x(),
+                        packet.y(),
+                        packet.z(),
+                        packet.offsetX(),
+                        packet.offsetY(),
+                        packet.offsetZ(),
+                        packet.particleData(),
+                        packet.particleCount(),
+                        packet.data()
+                )
+        );
     }
 }

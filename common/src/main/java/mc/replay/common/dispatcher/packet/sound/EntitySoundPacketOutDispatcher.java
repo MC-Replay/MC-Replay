@@ -11,12 +11,14 @@ public final class EntitySoundPacketOutDispatcher implements DispatcherPacketOut
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntitySoundEffectPacket packet) {
-        return List.of(new RecEntitySound(
-                packet.soundId(),
-                packet.sourceId(),
-                packet.entityId(),
-                packet.volume(),
-                packet.pitch()
-        ));
+        return List.of(
+                new RecEntitySound(
+                        packet.soundId(),
+                        packet.sourceId(),
+                        packet.entityId(),
+                        packet.volume(),
+                        packet.pitch()
+                )
+        );
     }
 }

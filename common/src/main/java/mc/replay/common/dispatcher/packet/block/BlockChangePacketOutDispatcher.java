@@ -11,9 +11,11 @@ public final class BlockChangePacketOutDispatcher implements DispatcherPacketOut
 
     @Override
     public List<Recordable> getRecordables(ClientboundBlockChangePacket packet) {
-        return List.of(new RecBlockChange(
-                packet.blockPosition(),
-                packet.blockStateId()
-        ));
+        return List.of(
+                new RecBlockChange(
+                        packet.blockPosition(),
+                        packet.blockStateId()
+                )
+        );
     }
 }

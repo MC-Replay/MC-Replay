@@ -22,6 +22,10 @@ public final class ReplayPlayerQuitEventDispatcher implements DispatcherEvent<Pl
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecPlayerDestroy(entityId));
+        return List.of(
+                new RecPlayerDestroy(
+                        entityId
+                )
+        );
     }
 }

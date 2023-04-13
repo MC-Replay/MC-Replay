@@ -11,11 +11,13 @@ public final class AcknowledgePlayerDiggingPacketOutDispatcher implements Dispat
 
     @Override
     public List<Recordable> getRecordables(ClientboundAcknowledgePlayerDigging754_758Packet packet) {
-        return List.of(new RecAcknowledgePlayerDigging(
-                packet.blockPosition(),
-                packet.blockStateId(),
-                packet.stateId(),
-                packet.successful()
-        ));
+        return List.of(
+                new RecAcknowledgePlayerDigging(
+                        packet.blockPosition(),
+                        packet.blockStateId(),
+                        packet.stateId(),
+                        packet.successful()
+                )
+        );
     }
 }

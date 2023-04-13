@@ -22,6 +22,11 @@ public final class ReplayEntityToggleGlideEventDispatcher implements DispatcherE
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
-        return List.of(new RecEntityGliding(entityId, event.isGliding()));
+        return List.of(
+                new RecEntityGliding(
+                        entityId,
+                        event.isGliding()
+                )
+        );
     }
 }

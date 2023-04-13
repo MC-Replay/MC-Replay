@@ -24,6 +24,11 @@ public final class ReplayPlayerJoinEventDispatcher implements DispatcherEvent<Pl
 
         PlayerWrapper playerWrapper = new PlayerWrapper(player);
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecPlayerSpawn(entityId, playerWrapper));
+        return List.of(
+                new RecPlayerSpawn(
+                        entityId,
+                        playerWrapper
+                )
+        );
     }
 }

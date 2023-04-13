@@ -12,9 +12,11 @@ public final class AnimationPacketOutDispatcher implements DispatcherPacketOut<C
 
     @Override
     public List<Recordable> getRecordables(ClientboundEntityAnimationPacket packet) {
-        return List.of(new RecEntityAnimation(
-                EntityId.of(packet.entityId()),
-                packet.animation()
-        ));
+        return List.of(
+                new RecEntityAnimation(
+                        EntityId.of(packet.entityId()),
+                        packet.animation()
+                )
+        );
     }
 }

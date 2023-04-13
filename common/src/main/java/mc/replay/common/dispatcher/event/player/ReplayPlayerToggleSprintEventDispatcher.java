@@ -22,6 +22,11 @@ public final class ReplayPlayerToggleSprintEventDispatcher implements Dispatcher
         Player player = event.getPlayer();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
-        return List.of(new RecEntitySprinting(entityId, event.isSprinting()));
+        return List.of(
+                new RecEntitySprinting(
+                        entityId,
+                        event.isSprinting()
+                )
+        );
     }
 }
