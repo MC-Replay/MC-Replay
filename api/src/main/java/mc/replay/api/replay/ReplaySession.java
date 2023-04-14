@@ -29,9 +29,9 @@ public interface ReplaySession {
 
     double getSpeed();
 
-    boolean decreaseSpeed();
-
     boolean increaseSpeed();
+
+    boolean decreaseSpeed();
 
     void updateInformationBar();
 }

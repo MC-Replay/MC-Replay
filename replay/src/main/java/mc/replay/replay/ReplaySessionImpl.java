@@ -91,18 +91,16 @@ public final class ReplaySessionImpl implements ReplaySession {
     }
 
     @Override
-    public boolean decreaseSpeed() {
-        if (this.speed <= 0.25) return false;
-
-        this.speed = (this.speed <= 1) ? this.speed - 0.25 : this.speed - 1;
+    public boolean increaseSpeed() {
+        double stepSize = this.speed > 1 ? 1 : 0.25;
+        this.speed = Math.min(this.speed + stepSize, 4.0);
         return true;
     }
 
     @Override
-    public boolean increaseSpeed() {
-        if (this.speed >= 4.0) return false;
-
-        this.speed = (this.speed < 1) ? this.speed + 0.25 : this.speed + 1;
+    public boolean decreaseSpeed() {
+        double stepSize = this.speed >= 1 ? 1 : 0.25;
+        this.speed = Math.max(this.speed - stepSize, 0.25);
         return true;
     }
 
