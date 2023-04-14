@@ -41,7 +41,7 @@ public class TextFormatter {
         List<String> replaced = new ArrayList<>();
 
         for (String line : this.lines) {
-            replaced.add(line.replaceAll(PLACEHOLDER_PREFIX + placeholder + PLACEHOLDER_PREFIX, replacement));
+            replaced.add(line.replaceAll(PLACEHOLDER_PREFIX + placeholder + PLACEHOLDER_PREFIX, Text.color(replacement)));
         }
 
         this.lines = replaced;
