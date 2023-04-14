@@ -1,7 +1,7 @@
 package mc.replay.replay.session.task;
 
 import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.common.utils.color.Text;
+import mc.replay.common.utils.text.Text;
 import mc.replay.replay.ReplaySessionImpl;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

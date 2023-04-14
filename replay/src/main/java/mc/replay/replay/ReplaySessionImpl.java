@@ -8,7 +8,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.common.utils.color.Text;
+import mc.replay.common.utils.text.Text;
 import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
@@ -67,7 +67,7 @@ public final class ReplaySessionImpl implements ReplaySession {
             replayPlayer.player().setAllowFlight(true);
             replayPlayer.player().setFlying(flying);
 
-            replayPlayer.player().sendMessage(Text.color("&aReplay session started."));
+            replayPlayer.player().sendMessage(Text.color(ReplayMessage.REPLAY_STARTED));
         }
     }
 
@@ -79,7 +79,7 @@ public final class ReplaySessionImpl implements ReplaySession {
         this.invalid = true;
 
         for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
-            replayPlayer.player().sendMessage(Text.color("&aReplay session stopped."));
+            replayPlayer.player().sendMessage(Text.color(ReplayMessage.REPLAY_STOPPED));
         }
     }
 

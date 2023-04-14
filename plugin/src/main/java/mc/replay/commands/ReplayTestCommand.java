@@ -7,7 +7,7 @@ import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.objects.IRecordingFakePlayer;
-import mc.replay.common.utils.color.Text;
+import mc.replay.common.utils.text.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

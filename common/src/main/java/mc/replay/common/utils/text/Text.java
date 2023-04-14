@@ -1,6 +1,6 @@
-package mc.replay.common.utils.color;
+package mc.replay.common.utils.text;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
