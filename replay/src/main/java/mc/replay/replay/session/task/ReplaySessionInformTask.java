@@ -19,14 +19,14 @@ public record ReplaySessionInformTask(ReplaySessionImpl replaySession) implement
         long endTime = this.replaySession.getPlayTask().getEndTime();
 
         SimpleConfigurationFile messages = replaySession.getInstance().getConfigFile(ReplayConfigurationType.MESSAGES);
-        String timeFormat = messages.getString("messages.replay.auction-bar.time-format", "");
+        String timeFormat = messages.getString("messages.replay.action-bar.time-format", "");
 
-        String status = TextFormatter.of(messages.getString("messages.replay.auction-bar.status." + (this.replaySession.isPaused() ? "paused" : "playing"), "")).getSingleLine();
+        String status = TextFormatter.of(messages.getString("messages.replay.action-bar.status." + (this.replaySession.isPaused() ? "paused" : "playing"), "")).getSingleLine();
         String time = DurationFormatUtils.formatDuration(Math.max(0, currentTime - startTime), timeFormat);
         String duration = DurationFormatUtils.formatDuration(Math.min(endTime, endTime - startTime), timeFormat);
         String speed = Double.toString(this.replaySession.getSpeed());
 
-        String bar = TextFormatter.of(messages.getString("messages.replay.auction-bar.display", ""))
+        String bar = TextFormatter.of(messages.getString("messages.replay.action-bar.display", ""))
                 .replace("status", status)
                 .replace("time", time)
                 .replace("duration", duration)

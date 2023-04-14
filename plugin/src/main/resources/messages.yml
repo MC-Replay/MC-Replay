@@ -2,7 +2,7 @@ messages:
   replay:
     started: "%prefix% &aReplay session started."
     stopped: "%prefix% &aReplay session stopped."
-    auction-bar:
+    action-bar:
       status:
         paused: "&cPaused"
         playing: "&aPlaying"
