@@ -1,4 +1,10 @@
 messages:
   replay:
-    started: "&aReplay session started."
-    stopped: "&aReplay session stopped."
+    started: "%prefix% &aReplay session started."
+    stopped: "%prefix% &aReplay session stopped."
+    auction-bar:
+      status:
+        paused: "&cPaused"
+        playing: "&aPlaying"
+      time-format: "mm:ss"
+      display: "%status%     &e%time% / %duration%     &6%speed%x"

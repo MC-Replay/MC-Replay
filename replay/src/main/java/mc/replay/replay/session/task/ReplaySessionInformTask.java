@@ -1,7 +1,9 @@
 package mc.replay.replay.session.task;
 
 import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.common.utils.text.Text;
+import mc.replay.api.utils.config.ReplayConfigurationType;
+import mc.replay.api.utils.config.SimpleConfigurationFile;
+import mc.replay.common.utils.text.TextFormatter;
 import mc.replay.replay.ReplaySessionImpl;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -16,14 +18,24 @@ public record ReplaySessionInformTask(ReplaySessionImpl replaySession) implement
         long startTime = this.replaySession.getPlayTask().getStartTime();
         long endTime = this.replaySession.getPlayTask().getEndTime();
 
-        String status = this.replaySession.isPaused() ? "&cPaused" : "&aPlaying";
-        String time = DurationFormatUtils.formatDuration(Math.max(0, currentTime - startTime), "mm:ss");
-        String duration = DurationFormatUtils.formatDuration(Math.min(endTime, endTime - startTime), "mm:ss");
-        String speed = this.replaySession.getSpeed() + "x";
+        SimpleConfigurationFile messages = replaySession.getInstance().getConfigFile(ReplayConfigurationType.MESSAGES);
+        String timeFormat = messages.getString("messages.replay.auction-bar.time-format", "");
+
+        String status = TextFormatter.of(messages.getString("messages.replay.auction-bar.status." + (this.replaySession.isPaused() ? "paused" : "playing"), "")).getSingleLine();
+        String time = DurationFormatUtils.formatDuration(Math.max(0, currentTime - startTime), timeFormat);
+        String duration = DurationFormatUtils.formatDuration(Math.min(endTime, endTime - startTime), timeFormat);
+        String speed = Double.toString(this.replaySession.getSpeed());
+
+        String bar = TextFormatter.of(messages.getString("messages.replay.auction-bar.display", ""))
+                .replace("status", status)
+                .replace("time", time)
+                .replace("duration", duration)
+                .replace("speed", speed)
+                .getSingleLine();
 
         for (ReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
             Player player = replayPlayer.player();
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.color(status + "     &e" + time + " / " + duration + "     &6" + speed)));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(bar));
         }
     }
 }

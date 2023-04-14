@@ -17,7 +17,7 @@ public class TextFormatter {
     private TextFormatter(@NotNull List<String> lines) {
         this.lines = Text.color(lines);
 
-        this.replace("prefix", ChatColor.RED + "MC-Replay");
+        this.replace("prefix", ChatColor.GOLD + "[MC-Replay]");
     }
 
     public static TextFormatter of(@NotNull List<String> lines) {
@@ -48,12 +48,31 @@ public class TextFormatter {
         return this;
     }
 
-    public void send(Player player) {
+    public List<String> get() {
+        return this.lines;
+    }
+
+    public String getSingleLine() {
+        try {
+            return this.lines.get(0);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return "";
+        }
+    }
+
+    public void send(List<Player> players) {
         if (!this.lines.isEmpty()) {
             for (String line : this.lines) {
-                player.sendMessage(line);
+                for (Player player : players) {
+                    player.sendMessage(line);
+                }
             }
         }
+    }
+
+    public void send(Player... players) {
+        this.send(List.of(players));
     }
 
     public void broadcast() {
