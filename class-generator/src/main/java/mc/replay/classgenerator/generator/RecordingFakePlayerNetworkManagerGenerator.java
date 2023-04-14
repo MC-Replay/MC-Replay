@@ -5,6 +5,8 @@ import javassist.*;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.classgenerator.ClassGeneratorReflections;
 import mc.replay.classgenerator.generated.Generated;
+import mc.replay.classgenerator.objects.IRecordingFakePlayer;
+import mc.replay.classgenerator.objects.IRecordingFakePlayerNetworkManager;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.utils.Reflections;
 
@@ -26,6 +28,9 @@ public final class RecordingFakePlayerNetworkManagerGenerator implements Generat
         CtClass generated = this.pool.makeClass(NETWORK_MANAGER_CLASS_NAME);
         generated.setSuperclass(superclass);
 
+        CtClass iRecordingFakePlayerNetworkManager = this.pool.get(IRecordingFakePlayerNetworkManager.class.getName());
+        generated.addInterface(iRecordingFakePlayerNetworkManager);
+
         this.importPackages(generated);
         this.makeFields(generated);
         this.makeConstructor(generated);
@@ -37,6 +42,7 @@ public final class RecordingFakePlayerNetworkManagerGenerator implements Generat
     @Override
     public void importPackages(CtClass generated) {
         this.pool.importPackage(MCReplayAPI.class.getName());
+        this.pool.importPackage(IRecordingFakePlayerNetworkManager.class.getName());
         this.pool.importPackage(RecordingFakePlayerGenerator.FAKE_PLAYER_CLASS_NAME);
         this.pool.importPackage(ClientboundPacket.class.getName());
         this.pool.importPackage(GenericFutureListener.class.getName());
@@ -75,8 +81,15 @@ public final class RecordingFakePlayerNetworkManagerGenerator implements Generat
                         "   if (!this.fakePlayer.isRecording()) return;\n" +
                         "\n" +
                         "   ClientboundPacket clientboundPacket = ClassGeneratorReflections.readClientboundPacket(packet);\n" +
-                        "   if (clientboundPacket != null) {\n" +
-                        "       MCReplayAPI.getPacketLib().getPacketListener().publishClientbound(clientboundPacket);\n" +
+                        "   this.publishPacket(clientboundPacket);\n" +
+                        "}",
+                generated
+        ));
+
+        generated.addMethod(CtMethod.make(
+                "public void publishPacket(ClientboundPacket packet) {\n" +
+                        "   if (packet != null) {\n" +
+                        "       MCReplayAPI.getPacketLib().getPacketListener().publishClientbound(packet);\n" +
                         "   }\n" +
                         "}",
                 generated

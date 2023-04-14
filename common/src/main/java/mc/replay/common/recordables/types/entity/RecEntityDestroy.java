@@ -5,16 +5,18 @@ import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
-public record RecEntityDestroy(EntityId entityId) implements Recordable {
+import java.util.List;
+
+public record RecEntityDestroy(List<EntityId> entityIds) implements Recordable {
 
     public RecEntityDestroy(@NotNull ReplayByteBuffer reader) {
         this(
-                new EntityId(reader)
+                reader.readCollection(EntityId::new)
         );
     }
 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
-        writer.write(this.entityId);
+        writer.writeCollection(this.entityIds);
     }
 }

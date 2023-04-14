@@ -1,6 +1,7 @@
 package mc.replay.replay.session.entity;
 
 import lombok.RequiredArgsConstructor;
+import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
@@ -78,9 +79,11 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
     @Override
     public void destroyEntity(@NotNull RecEntityDestroy recordable) {
         synchronized (this.entities) {
-            AbstractReplayEntity<?> entity = this.entities.remove(recordable.entityId().entityId());
-            if (entity instanceof ReplayEntity) {
-                entity.destroy(this.replaySession.getAllPlayers());
+            for (EntityId entityId : recordable.entityIds()) {
+                AbstractReplayEntity<?> entity = this.entities.remove(entityId.entityId());
+                if (entity instanceof ReplayEntity) {
+                    entity.destroy(this.replaySession.getAllPlayers());
+                }
             }
         }
     }

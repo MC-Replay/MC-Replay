@@ -12,6 +12,8 @@ public interface IRecordingFakePlayer {
 
     String name();
 
+    IRecordingFakePlayerNetworkManager fakeNetworkManager();
+
     void spawn();
 
     void remove();

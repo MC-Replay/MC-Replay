@@ -3,8 +3,10 @@ package mc.replay.classgenerator;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import mc.replay.api.MCReplayAPI;
+import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityDestroyPacket;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.packetlib.utils.ReflectionUtils;
 import mc.replay.wrapper.utils.WrapperReflections;
@@ -15,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("rawtypes")
 public final class ClassGeneratorReflections {
@@ -24,12 +26,13 @@ public final class ClassGeneratorReflections {
     }
 
     public static Class<?> MINECRAFT_SERVER;
-    public static Class<?> CRAFT_WORLD;
     public static Class<?> PLAYER_INTERACT_MANAGER;
     public static Class<?> ENUM_GAME_MODE;
     public static Class<?> PLAYER_LIST;
     public static Class<?> PACKET;
+    public static Class<?> PACKET_PLAY_OUT_ENTITY_DESTROY;
 
+    public static Class<?> CRAFT_WORLD;
     public static Class<?> CRAFT_SERVER;
     public static Class<?> CRAFT_PLAYER;
 
@@ -50,12 +53,13 @@ public final class ClassGeneratorReflections {
     static {
         try {
             MINECRAFT_SERVER = ReflectionUtils.nmsClass("server", "MinecraftServer");
-            CRAFT_WORLD = ReflectionUtils.obcClass("CraftWorld");
             PLAYER_INTERACT_MANAGER = ReflectionUtils.nmsClass("server.level", "PlayerInteractManager");
             ENUM_GAME_MODE = ReflectionUtils.nmsClass("world.level", "EnumGamemode");
             PLAYER_LIST = ReflectionUtils.nmsClass("server.players", "PlayerList");
             PACKET = ReflectionUtils.nmsClass("network.protocol", "Packet");
+            PACKET_PLAY_OUT_ENTITY_DESTROY = ReflectionUtils.nmsClass("network.protocol.game", "PacketPlayOutEntityDestroy");
 
+            CRAFT_WORLD = ReflectionUtils.obcClass("CraftWorld");
             CRAFT_SERVER = ReflectionUtils.obcClass("CraftServer");
             CRAFT_PLAYER = ReflectionUtils.obcClass("entity.CraftPlayer");
 
@@ -88,6 +92,8 @@ public final class ClassGeneratorReflections {
         }
     }
 
+    // Used in generated code
+    @SuppressWarnings("unused")
     public static ClientboundPacket readClientboundPacket(Object packetObject) {
         if (!PACKET.isAssignableFrom(packetObject.getClass())) return null;
 
@@ -104,6 +110,27 @@ public final class ClassGeneratorReflections {
         }
 
         return null;
+    }
+
+    // Used in generated code
+    @SuppressWarnings("unchecked, unused")
+    public static void clearEntityRemoveQueue(Object removeQueueObject, IRecordingFakePlayer fakePlayer) {
+        try {
+            Deque<Integer> removeQueue = new ArrayDeque<>((Collection<Integer>) removeQueueObject);
+            if (!removeQueue.isEmpty()) {
+                int size = removeQueue.size();
+                List<Integer> entityIdsToDestroy = new ArrayList<>(size);
+
+                Integer integer;
+                while ((integer = removeQueue.poll()) != null) {
+                    entityIdsToDestroy.add(integer);
+                }
+
+                fakePlayer.fakeNetworkManager().publishPacket(new ClientboundEntityDestroyPacket(entityIdsToDestroy));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     private static @Nullable Integer getClientboundPacketId(@NotNull Object packetObject) {

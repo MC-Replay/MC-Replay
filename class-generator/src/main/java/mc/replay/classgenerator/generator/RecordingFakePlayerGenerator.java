@@ -6,11 +6,16 @@ import mc.replay.classgenerator.ClassGeneratorReflections;
 import mc.replay.classgenerator.generated.Generated;
 import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.classgenerator.objects.IRecordingFakePlayer;
+import mc.replay.classgenerator.objects.IRecordingFakePlayerNetworkManager;
 import mc.replay.packetlib.utils.Reflections;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import java.lang.reflect.Field;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -46,18 +51,26 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
     @Override
     public void importPackages(CtClass generated) {
         this.pool.importPackage(UUID.class.getName());
+        this.pool.importPackage(Deque.class.getName());
+        this.pool.importPackage(ArrayDeque.class.getName());
+        this.pool.importPackage(Collection.class.getName());
+        this.pool.importPackage(Field.class.getName());
         this.pool.importPackage(AtomicInteger.class.getName());
         this.pool.importPackage(Player.class.getName());
         this.pool.importPackage(Location.class.getName());
         this.pool.importPackage(ClassGenerator.class.getName());
         this.pool.importPackage(FakePlayerHandler.class.getName());
         this.pool.importPackage(IRecordingFakePlayer.class.getName());
+        this.pool.importPackage(IRecordingFakePlayerNetworkManager.class.getName());
         this.pool.importPackage("com.mojang.authlib.GameProfile");
+        this.pool.importPackage(ClassGeneratorReflections.class.getName());
         this.pool.importPackage(ClassGeneratorReflections.MINECRAFT_SERVER.getName());
         this.pool.importPackage(ClassGeneratorReflections.CRAFT_WORLD.getName());
         this.pool.importPackage(ClassGeneratorReflections.PLAYER_INTERACT_MANAGER.getName());
         this.pool.importPackage(ClassGeneratorReflections.ENUM_GAME_MODE.getName());
         this.pool.importPackage(ClassGeneratorReflections.CRAFT_PLAYER.getName());
+        this.pool.importPackage(ClassGeneratorReflections.PACKET_PLAY_OUT_ENTITY_DESTROY.getName());
+        this.pool.importPackage(Reflections.ENTITY_PLAYER.getName());
         this.pool.importPackage(Reflections.NETWORK_MANAGER.getName());
         this.pool.importPackage(Reflections.PLAYER_CONNECTION.getName());
         this.pool.importPackage(CreatureSpawnEvent.class.getName());
@@ -67,6 +80,7 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
     public void makeFields(CtClass generated) throws Exception {
         generated.addField(CtField.make("private static final AtomicInteger FAKE_PLAYER_COUNT = new AtomicInteger();", generated));
         generated.addField(CtField.make("private final FakePlayerHandler fakePlayerHandler;", generated));
+        generated.addField(CtField.make("private final IRecordingFakePlayerNetworkManager fakeNetworkManager;", generated));
         generated.addField(CtField.make("private final Player target;", generated));
         generated.addField(CtField.make("private boolean recording = false;", generated));
     }
@@ -84,7 +98,8 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
                         "\n" +
                         "   this.fakePlayerHandler = fakePlayerHandler;\n" +
                         "   this.target = target;\n" +
-                        "   new PlayerConnection(MinecraftServer.getServer(), (NetworkManager) ClassGenerator.createNetworkManager(this), this);\n" +
+                        "   this.fakeNetworkManager = ClassGenerator.createNetworkManager(this);\n" +
+                        "   new PlayerConnection(MinecraftServer.getServer(), (NetworkManager) this.fakeNetworkManager, this);\n" +
                         "}",
                 generated
         ));
@@ -109,6 +124,13 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
         generated.addMethod(CtMethod.make(
                 "public String name() {\n" +
                         "   return super.getName();\n" +
+                        "}",
+                generated
+        ));
+
+        generated.addMethod(CtMethod.make(
+                "public IRecordingFakePlayerNetworkManager fakeNetworkManager() {\n" +
+                        "   return this.fakeNetworkManager;\n" +
                         "}",
                 generated
         ));
@@ -164,6 +186,16 @@ public final class RecordingFakePlayerGenerator implements GeneratorTemplate {
                         "\n" +
                         "   if (this.joining) {\n" +
                         "       this.joining = false;\n" +
+                        "   }\n" +
+                        "\n" +
+                        "   try {\n" +
+                        "       Field removeQueueField = EntityPlayer.class.getDeclaredField(\"removeQueue\");\n" +
+                        "       removeQueueField.setAccessible(true);\n" +
+                        "\n" +
+                        "       Object removeQueueObject = removeQueueField.get(this);\n" +
+                        "       ClassGeneratorReflections.clearEntityRemoveQueue(removeQueueObject, this);\n" +
+                        "   } catch (Exception exception) {\n" +
+                        "       exception.printStackTrace();\n" +
                         "   }\n" +
                         "\n" +
                         "   if(this.target == null || !this.target.isOnline() || this.target.isDead()) {\n" +
