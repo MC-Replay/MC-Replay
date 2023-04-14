@@ -8,8 +8,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.api.utils.config.ReplayConfigurationType;
-import mc.replay.common.utils.text.Text;
+import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.common.utils.text.TextFormatter;
 import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
@@ -73,7 +72,7 @@ public final class ReplaySessionImpl implements ReplaySession {
             bukkitPlayer.setAllowFlight(true);
             bukkitPlayer.setFlying(flying);
 
-            TextFormatter.of(this.instance.getConfigFile(ReplayConfigurationType.MESSAGES).getString("messages.replay.started", "")).send(bukkitPlayer);
+            TextFormatter.of(this.instance.getMessagesProcessor().getString(ReplayMessages.REPLAY_STARTED)).send(bukkitPlayer);
         }
     }
 
@@ -86,7 +85,7 @@ public final class ReplaySessionImpl implements ReplaySession {
 
         for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
             Player bukkitPlayer = replayPlayer.player();
-            TextFormatter.of(this.instance.getConfigFile(ReplayConfigurationType.MESSAGES).getString("messages.replay.stopped", "")).send(bukkitPlayer);
+            TextFormatter.of(this.instance.getMessagesProcessor().getString(ReplayMessages.REPLAY_STOPPED)).send(bukkitPlayer);
         }
     }
 

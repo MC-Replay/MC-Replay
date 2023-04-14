@@ -4,8 +4,9 @@ import lombok.Getter;
 import mc.replay.api.recording.IRecordingHandler;
 import mc.replay.api.recording.recordables.IRecordableRegistry;
 import mc.replay.api.replay.IReplayHandler;
-import mc.replay.api.utils.config.ReplayConfigurationType;
-import mc.replay.api.utils.config.SimpleConfigurationFile;
+import mc.replay.api.utils.config.IReplayConfigProcessor;
+import mc.replay.api.utils.config.templates.ReplayMessages;
+import mc.replay.api.utils.config.templates.ReplaySettings;
 import mc.replay.packetlib.PacketLib;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,8 +23,12 @@ public final class MCReplayAPI {
         return mcReplay.getPacketLib();
     }
 
-    public static SimpleConfigurationFile getConfigFile(ReplayConfigurationType fileType) {
-        return mcReplay.getConfigFile(fileType);
+    public static IReplayConfigProcessor<ReplayMessages> getMessagesProcessor() {
+        return mcReplay.getMessagesProcessor();
+    }
+
+    public static IReplayConfigProcessor<ReplaySettings> getSettingsProcessor() {
+        return mcReplay.getSettingsProcessor();
     }
 
     public static IRecordingHandler getRecordingHandler() {

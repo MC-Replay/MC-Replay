@@ -3,21 +3,19 @@ package mc.replay;
 import lombok.Getter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.utils.config.ReplayConfigurationType;
-import mc.replay.api.utils.config.SimpleConfigurationFile;
+import mc.replay.api.utils.config.templates.ReplayMessages;
+import mc.replay.api.utils.config.templates.ReplaySettings;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.recordables.RecordableRegistry;
+import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.ReplayHandler;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 
 @Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
@@ -27,7 +25,9 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     private PacketLib packetLib;
 
-    private HashMap<ReplayConfigurationType, SimpleConfigurationFile> replayConfigFiles;
+    private ReplayConfigProcessor<ReplayMessages> messagesProcessor;
+    private ReplayConfigProcessor<ReplaySettings> settingsProcessor;
+
     private RecordingHandler recordingHandler;
     private FakePlayerHandler fakePlayerHandler;
     private RecordableRegistry recordableRegistry;
@@ -48,12 +48,10 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
         this.packetLib = new PacketLib(this);
         this.packetLib.inject();
 
-        //Loading all replay configuration files
+        //Load replay configuration files
         try {
-            this.replayConfigFiles = new HashMap<>();
-            for (ReplayConfigurationType fileType : ReplayConfigurationType.values()) {
-                this.replayConfigFiles.put(fileType, new SimpleConfigurationFile(this, fileType.getFileName()));
-            }
+            this.settingsProcessor = new ReplayConfigProcessor<>(this, "config.yml", ReplaySettings.class);
+            this.messagesProcessor = new ReplayConfigProcessor<>(this, "messages.yml", ReplayMessages.class);
         } catch (Exception exception) {
             exception.printStackTrace();
             return;
@@ -85,10 +83,5 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     @Override
     public JavaPlugin getJavaPlugin() {
         return this;
-    }
-
-    @Override
-    public SimpleConfigurationFile getConfigFile(@NotNull ReplayConfigurationType fileType) {
-        return this.replayConfigFiles.get(fileType);
     }
 }

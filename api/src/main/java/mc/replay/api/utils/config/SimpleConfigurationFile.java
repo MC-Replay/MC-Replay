@@ -10,10 +10,11 @@ public class SimpleConfigurationFile extends YamlConfiguration {
     private final File file;
 
     public SimpleConfigurationFile(JavaPlugin plugin, String name, boolean overwrite) throws Exception {
-        this.file = new File(plugin.getDataFolder(), name + ".yml");
+        String fileName = name.replaceAll("\\.yml", "") + ".yml";
+        this.file = new File(plugin.getDataFolder(), fileName);
 
         if (!this.file.exists()) {
-            plugin.saveResource(name + ".yml", overwrite);
+            plugin.saveResource(fileName, overwrite);
         }
 
         this.load(this.file);
