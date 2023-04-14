@@ -1,0 +1,4 @@
+messages:
+  replay:
+    started: "&aReplay session started."
+    stopped: "&aReplay session stopped."

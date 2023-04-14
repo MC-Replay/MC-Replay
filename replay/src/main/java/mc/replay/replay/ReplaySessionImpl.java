@@ -8,7 +8,9 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.utils.config.ReplayConfigurationType;
 import mc.replay.common.utils.text.Text;
+import mc.replay.common.utils.text.TextFormatter;
 import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
@@ -26,6 +28,7 @@ import java.util.UUID;
 @Getter
 public final class ReplaySessionImpl implements ReplaySession {
 
+    private final MCReplay instance;
     private final UUID sessionUuid;
     private final ReplayPlayer navigator;
     private final Collection<ReplayPlayer> watchers;
@@ -46,6 +49,7 @@ public final class ReplaySessionImpl implements ReplaySession {
     private boolean invalid = false;
 
     ReplaySessionImpl(MCReplay instance, Player navigator, Collection<Player> watchers, Recording recording) {
+        this.instance = instance;
         this.sessionUuid = UUID.randomUUID();
         this.recording = recording;
         this.watchers = new HashSet<>();
@@ -62,12 +66,14 @@ public final class ReplaySessionImpl implements ReplaySession {
         this.informTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.informTask, 0L, 20L);
 
         for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
+            Player bukkitPlayer = replayPlayer.player();
             MCReplayAPI.getReplayHandler().getToolbarItemHandler().giveItems(replayPlayer);
-            boolean flying = replayPlayer.player().isFlying();
-            replayPlayer.player().setAllowFlight(true);
-            replayPlayer.player().setFlying(flying);
 
-            replayPlayer.player().sendMessage(Text.color(ReplayMessage.REPLAY_STARTED));
+            boolean flying = bukkitPlayer.isFlying();
+            bukkitPlayer.setAllowFlight(true);
+            bukkitPlayer.setFlying(flying);
+
+            TextFormatter.of(this.instance.getConfigFile(ReplayConfigurationType.MESSAGES).getString("messages.replay.started", "")).send(bukkitPlayer);
         }
     }
 
@@ -79,7 +85,8 @@ public final class ReplaySessionImpl implements ReplaySession {
         this.invalid = true;
 
         for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
-            replayPlayer.player().sendMessage(Text.color(ReplayMessage.REPLAY_STOPPED));
+            Player bukkitPlayer = replayPlayer.player();
+            TextFormatter.of(this.instance.getConfigFile(ReplayConfigurationType.MESSAGES).getString("messages.replay.stopped", "")).send(bukkitPlayer);
         }
     }
 

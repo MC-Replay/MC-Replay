@@ -25,6 +25,10 @@ public class TextFormatter {
     }
 
     public static TextFormatter of(@NotNull String line) {
+        if (line.equalsIgnoreCase("")) {
+            return of(new ArrayList<>());
+        }
+
         return of(new ArrayList<>(List.of(line)));
     }
 
@@ -45,15 +49,18 @@ public class TextFormatter {
     }
 
     public void send(Player player) {
-        for (String line : this.lines) {
-            player.sendMessage(line);
+        if (!this.lines.isEmpty()) {
+            for (String line : this.lines) {
+                player.sendMessage(line);
+            }
         }
     }
 
     public void broadcast() {
-        for (String line : this.lines) {
-            Bukkit.broadcastMessage(line);
+        if (!this.lines.isEmpty()) {
+            for (String line : this.lines) {
+                Bukkit.broadcastMessage(line);
+            }
         }
     }
-
 }
