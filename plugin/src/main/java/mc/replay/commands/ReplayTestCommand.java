@@ -37,7 +37,7 @@ public class ReplayTestCommand implements CommandExecutor {
         }
 
         if (args.length < 1) {
-            TextFormatter.of("%prefix% &cPlease use: /replaytest <start/stop> <player>").send(player);
+            TextFormatter.of("%prefix% &cPlease use: /replaytest <start/stop/play/quit/load> [replay-id]").send(player);
             return false;
         }
 
@@ -48,8 +48,8 @@ public class ReplayTestCommand implements CommandExecutor {
             }
 
             if (this.fakePlayer == null) {
-                TextFormatter.of("%prefix% &cCreate fakeplayer first.").send(player);
-                return false;
+                this.fakePlayer = ClassGenerator.createFakePlayer(MCReplayPlugin.getInstance().getFakePlayerHandler(), player);
+                this.fakePlayer.spawn();
             }
 
             this.fakePlayer.setRecording(true);
@@ -58,18 +58,6 @@ public class ReplayTestCommand implements CommandExecutor {
                     .startRecording();
 
             TextFormatter.of("%prefix% &aRecording started for everything.").send(player);
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("spawn")) {
-            try {
-                this.fakePlayer = ClassGenerator.createFakePlayer(MCReplayPlugin.getInstance().getFakePlayerHandler(), player);
-                this.fakePlayer.spawn();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            TextFormatter.of("%prefix% &aEntity spawned.").send(player);
             return true;
         }
 
