@@ -5,10 +5,11 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.RecordingSession;
 import mc.replay.api.replay.ReplaySession;
+import mc.replay.api.utils.config.IReplayConfigProcessor;
+import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.objects.IRecordingFakePlayer;
-import mc.replay.common.utils.text.Text;
-import org.bukkit.ChatColor;
+import mc.replay.common.utils.text.TextFormatter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,24 +29,26 @@ public class ReplayTestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false;
 
+        IReplayConfigProcessor<ReplayMessages> messagesProcessor = MCReplayPlugin.getInstance().getMessagesProcessor();
+
         if (!player.hasPermission("mc.replay.test")) {
-            player.sendMessage(ChatColor.RED + "No permissions!");
+            TextFormatter.of(messagesProcessor.getString(ReplayMessages.REPLAY_COMMAND_NO_PERMISSION)).send(player);
             return false;
         }
 
         if (args.length < 1) {
-            player.sendMessage(ChatColor.RED + "Please use: /replaytest <start/stop> <player>");
+            TextFormatter.of("%prefix% &cPlease use: /replaytest <start/stop> <player>").send(player);
             return false;
         }
 
         if (args[0].equalsIgnoreCase("start")) {
             if (this.session != null) {
-                player.sendMessage(ChatColor.RED + "A recording session is already running!");
+                TextFormatter.of("%prefix% &cA recording session is already running!").send(player);
                 return false;
             }
 
             if (this.fakePlayer == null) {
-                player.sendMessage(ChatColor.RED + "Create fakeplayer first.");
+                TextFormatter.of("%prefix% &cCreate fakeplayer first.").send(player);
                 return false;
             }
 
@@ -54,7 +57,7 @@ public class ReplayTestCommand implements CommandExecutor {
                     .world(player.getWorld())
                     .startRecording();
 
-            player.sendMessage(ChatColor.GREEN + "Recording started for everything.");
+            TextFormatter.of("%prefix% &aRecording started for everything.").send(player);
             return true;
         }
 
@@ -66,31 +69,31 @@ public class ReplayTestCommand implements CommandExecutor {
                 throwable.printStackTrace();
             }
 
-            player.sendMessage(ChatColor.GREEN + "Entity spawned.");
+            TextFormatter.of("%prefix% &aEntity spawned.").send(player);
             return true;
         }
 
         if (args[0].equalsIgnoreCase("stop")) {
             if (this.session == null) {
-                player.sendMessage(ChatColor.RED + "No recording session is running!");
+                TextFormatter.of("%prefix% &cNo recording session is running!").send(player);
                 return false;
             }
 
             this.recording = this.session.stopRecording();
             this.fakePlayer.setRecording(false);
             this.fakePlayer.remove();
-            player.sendMessage(ChatColor.GREEN + "Recording stopped.");
+            TextFormatter.of("%prefix% &aRecording stopped.").send(player);
             return true;
         }
 
         if (args[0].equalsIgnoreCase("play")) {
             if (this.recording == null) {
-                player.sendMessage(ChatColor.RED + "No recording found!");
+                TextFormatter.of("%prefix% &cNo recording found!").send(player);
                 return false;
             }
 
             this.replaySession = MCReplayAPI.getReplayHandler().startReplay(this.recording, player);
-            player.sendMessage(ChatColor.GREEN + "Replay session started.");
+            TextFormatter.of("%prefix% &aReplay session started.").send(player);
             return true;
         }
 
@@ -99,28 +102,28 @@ public class ReplayTestCommand implements CommandExecutor {
                 this.replaySession.stop();
                 this.session = null;
                 this.recording = null;
-                player.sendMessage(ChatColor.GREEN + "Replay stopped.");
+                TextFormatter.of("%prefix% &aReplay stopped.").send(player);
                 return true;
             }
 
-            player.sendMessage(Text.color("&cNo active replay found."));
+            TextFormatter.of("%prefix% &cNo active replay found.").send(player);
             return true;
         }
 
         if (args[0].equalsIgnoreCase("load")) {
             if (args.length == 2) {
                 this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", args[1] + ".mcrr"));
-                player.sendMessage(Text.color("&aLoaded recording."));
+                TextFormatter.of("%prefix% &aLoaded recording.").send(player);
                 return true;
             }
 
             if (this.recording == null) {
-                player.sendMessage(Text.color("&cNo recording found."));
+                TextFormatter.of("%prefix% &cNo recording found.").send(player);
                 return true;
             }
 
             this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", this.recording.id() + ".mcrr"));
-            player.sendMessage(Text.color("&aLoaded recording."));
+            TextFormatter.of("%prefix% &aLoaded recording.").send(player);
             return true;
         }
 

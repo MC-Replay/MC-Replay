@@ -7,6 +7,8 @@ import lombok.Getter;
 @Getter
 public enum ReplayMessages implements IReplayConfigStructure {
 
+    REPLAY_COMMAND_NO_PERMISSION("messages.command.no-permission", "%prefix% &cI'm sorry, but you do not have permission to perform this command."),
+
     REPLAY_STARTED("messages.replay.started", "%prefix% &aReplay session started."),
     REPLAY_STOPPED("messages.replay.stopped", "%prefix% &aReplay session stopped."),
 
