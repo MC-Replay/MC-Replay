@@ -3,6 +3,8 @@ package mc.replay;
 import lombok.Getter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
+import mc.replay.api.utils.config.ReplayConfigurationType;
+import mc.replay.api.utils.config.SimpleConfigurationFile;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.commands.ReplayTestCommand;
@@ -13,6 +15,9 @@ import mc.replay.packetlib.PacketLib;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.ReplayHandler;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 @Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
@@ -22,6 +27,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     private PacketLib packetLib;
 
+    private HashMap<ReplayConfigurationType, SimpleConfigurationFile> replayConfigFiles;
     private RecordingHandler recordingHandler;
     private FakePlayerHandler fakePlayerHandler;
     private RecordableRegistry recordableRegistry;
@@ -41,6 +47,17 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     public void onEnable() {
         this.packetLib = new PacketLib(this);
         this.packetLib.inject();
+
+        //Loading all replay configuration files
+        try {
+            this.replayConfigFiles = new HashMap<>();
+            for (ReplayConfigurationType fileType : ReplayConfigurationType.values()) {
+                this.replayConfigFiles.put(fileType, new SimpleConfigurationFile(this, fileType.getFileName()));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return;
+        }
 
         this.recordingHandler = new RecordingHandler();
         this.fakePlayerHandler = new FakePlayerHandler(this);
@@ -68,5 +85,10 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
     @Override
     public JavaPlugin getJavaPlugin() {
         return this;
+    }
+
+    @Override
+    public SimpleConfigurationFile getConfigFile(@NotNull ReplayConfigurationType fileType) {
+        return this.replayConfigFiles.get(fileType);
     }
 }
