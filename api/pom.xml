@@ -15,12 +15,12 @@
         <dependency>
             <groupId>com.github.MC-Replay</groupId>
             <artifactId>PacketLib</artifactId>
-            <version>eb28356a3c</version>
+            <version>6c9de21ffa</version>
         </dependency>
         <dependency>
             <groupId>com.github.MC-Replay</groupId>
             <artifactId>Minecraft-Object-Wrapper</artifactId>
-            <version>94ce847a78</version>
+            <version>9345becbf1</version>
             <exclusions>
                 <exclusion>
                     <groupId>mc.replay</groupId>
