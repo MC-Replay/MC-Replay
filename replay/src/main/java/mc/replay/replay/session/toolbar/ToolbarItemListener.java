@@ -56,6 +56,8 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
         if (toolbarItem != null) {
             event.setCancelled(true);
             event.getView().setCursor(null);
+
+            toolbarItem.getOnClick().accept(replayPlayer);
         }
     }
 
