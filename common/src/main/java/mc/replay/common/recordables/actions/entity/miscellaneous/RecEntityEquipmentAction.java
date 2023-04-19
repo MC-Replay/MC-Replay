@@ -5,6 +5,7 @@ import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityEquipmentPacket;
+import mc.replay.wrapper.entity.LivingEntityWrapper;
 import mc.replay.wrapper.item.ItemWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,10 @@ public record RecEntityEquipmentAction() implements EntityRecordableAction<RecEn
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityEquipment recordable, @NotNull Function<Integer, RecordableEntityData> function) {
         RecordableEntityData data = function.apply(recordable.entityId().entityId());
         if (data == null) return List.of();
+
+        if (data.entity() instanceof LivingEntityWrapper livingEntityWrapper) {
+            livingEntityWrapper.setEquipment(recordable.slot(), recordable.item());
+        }
 
         return List.of(
                 new ClientboundEntityEquipmentPacket(

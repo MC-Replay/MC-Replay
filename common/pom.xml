@@ -24,6 +24,12 @@
             <artifactId>class-generator</artifactId>
             <version>Dev-1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.odalita-developments.odalitamenus</groupId>
+            <artifactId>core</artifactId>
+            <version>v0.1.6</version>
+        </dependency>
     </dependencies>
 
     <build>

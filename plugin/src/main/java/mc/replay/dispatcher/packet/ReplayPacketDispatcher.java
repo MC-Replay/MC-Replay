@@ -24,7 +24,7 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
     public ReplayPacketDispatcher(MCReplayPlugin plugin) {
         super(plugin);
 
-        plugin.getPacketLib().getPacketListener().listenClientbound((packet) -> {
+        plugin.getPacketLib().packetListener().listenClientbound((player, packet) -> {
             for (Map.Entry<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> entry : this.packetOutConverters.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
@@ -37,7 +37,7 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
             }
         });
 
-        plugin.getPacketLib().getPacketListener().listenServerbound((player, packet) -> {
+        plugin.getPacketLib().packetListener().listenServerbound((player, packet) -> {
             for (Map.Entry<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> entry : this.packetInConverters.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 

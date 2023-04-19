@@ -1,12 +1,13 @@
 package mc.replay.replay;
 
 import lombok.Getter;
-import mc.replay.api.MCReplay;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.IReplayHandler;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.common.MCReplayInternal;
 import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.listener.ReplaySessionPacketListener;
 import mc.replay.replay.session.toolbar.ToolbarItemHandler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -20,14 +21,16 @@ import java.util.UUID;
 @Getter
 public final class ReplayHandler implements IReplayHandler {
 
-    private final MCReplay instance;
+    private final MCReplayInternal instance;
     private final Map<UUID, ReplayPlayer> replayPlayers = new HashMap<>();
     private final Map<UUID, ReplaySession> replaySessions = new HashMap<>();
 
+    private final ReplaySessionPacketListener packetListener;
     private final ToolbarItemHandler toolbarItemHandler;
 
-    public ReplayHandler(MCReplay instance) {
+    public ReplayHandler(MCReplayInternal instance) {
         this.instance = instance;
+        this.packetListener = new ReplaySessionPacketListener(this, instance);
         this.toolbarItemHandler = new ToolbarItemHandler(this, instance.getJavaPlugin());
     }
 
@@ -38,6 +41,7 @@ public final class ReplayHandler implements IReplayHandler {
 
         for (ReplayPlayer player : replaySession.getAllPlayers()) {
             this.replayPlayers.put(player.player().getUniqueId(), player);
+            this.instance.getPacketLib().inject(player.player());
         }
 
         return replaySession;
@@ -50,6 +54,7 @@ public final class ReplayHandler implements IReplayHandler {
 
         for (ReplayPlayer player : session.getAllPlayers()) {
             this.replayPlayers.remove(player.player().getUniqueId());
+            this.instance.getPacketLib().uninject(player.player());
         }
 
         session.stop();

@@ -11,6 +11,7 @@ import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.common.utils.text.TextFormatter;
 import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -117,5 +119,9 @@ public final class ReplaySessionImpl implements ReplaySession {
 
     public World getReplayWorld() {
         return this.navigator.player().getWorld();
+    }
+
+    public @Nullable AbstractReplayEntity<?> getReplayEntityByReplayId(int entityId) {
+        return this.playTask.getEntityByReplayId(entityId);
     }
 }

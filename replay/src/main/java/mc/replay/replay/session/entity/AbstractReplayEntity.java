@@ -7,7 +7,7 @@ import mc.replay.wrapper.entity.EntityWrapper;
 import java.util.Collection;
 
 @Getter
-abstract class AbstractReplayEntity<T extends AbstractReplayEntity<T>> {
+public abstract class AbstractReplayEntity<T extends AbstractReplayEntity<T>> {
 
     protected final int originalEntityId;
     protected EntityWrapper entity;

@@ -8,6 +8,7 @@ import mc.replay.api.utils.config.templates.ReplaySettings;
 import mc.replay.classgenerator.ClassGenerator;
 import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.commands.ReplayTestCommand;
+import mc.replay.common.MCReplayInternal;
 import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.common.utils.reflection.JavaReflections;
@@ -15,15 +16,17 @@ import mc.replay.dispatcher.ReplayDispatchManager;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.ReplayHandler;
+import nl.odalitadevelopments.menus.OdalitaMenus;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
+public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal {
 
     @Getter
     private static MCReplayPlugin instance;
 
     private PacketLib packetLib;
+    private OdalitaMenus menuHandler;
 
     private ReplayConfigProcessor<ReplayMessages> messagesProcessor;
     private ReplayConfigProcessor<ReplaySettings> settingsProcessor;
@@ -45,8 +48,14 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplay {
 
     @Override
     public void onEnable() {
-        this.packetLib = new PacketLib(this);
-        this.packetLib.inject();
+        this.packetLib = PacketLib.builder()
+                .player()
+                .listenServerbound(true)
+                .listenMinecraftClientbound(false) // We use our fake player to listen to clientbound minecraft packets
+                .listenPacketLibClientbound(false)
+                .inject(this);
+
+        this.menuHandler = OdalitaMenus.createInstance(this);
 
         //Load replay configuration files
         try {

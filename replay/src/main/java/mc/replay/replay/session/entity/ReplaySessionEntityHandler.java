@@ -10,6 +10,7 @@ import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.common.replay.IReplayEntityProvider;
 import mc.replay.replay.ReplaySessionImpl;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +21,18 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
 
     private final ReplaySessionImpl replaySession;
     private final Map<Integer, AbstractReplayEntity<?>> entities = new ConcurrentHashMap<>();
+
+    public @Nullable AbstractReplayEntity<?> getEntityByReplayId(int entityId) {
+        synchronized (this.entities) {
+            for (AbstractReplayEntity<?> entity : this.entities.values()) {
+                if (entity.getEntity().getEntityId() == entityId) {
+                    return entity;
+                }
+            }
+
+            return null;
+        }
+    }
 
     public Function<Integer, RecordableEntityData> createEntityGetterFunction() {
         return (originalEntityId) -> {

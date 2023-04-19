@@ -2,8 +2,8 @@ package mc.replay.classgenerator;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import mc.replay.api.MCReplayAPI;
 import mc.replay.classgenerator.objects.IRecordingFakePlayer;
+import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityDestroyPacket;
@@ -99,11 +99,11 @@ public final class ClassGeneratorReflections {
 
         try {
             Integer packetId = getClientboundPacketId(packetObject);
-            if (packetId != null && MCReplayAPI.getPacketLib().getPacketRegistry().isClientboundRegistered(packetId)) {
+            if (packetId != null && PacketLib.getPacketRegistry().isClientboundRegistered(packetId)) {
                 ByteBuffer buffer = serializePacket(packetObject);
 
                 ReplayByteBuffer byteBuffer = new ReplayByteBuffer(buffer);
-                return MCReplayAPI.getPacketLib().getPacketRegistry().getClientboundPacket(packetId, byteBuffer);
+                return PacketLib.getPacketRegistry().getClientboundPacket(packetId, byteBuffer);
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();

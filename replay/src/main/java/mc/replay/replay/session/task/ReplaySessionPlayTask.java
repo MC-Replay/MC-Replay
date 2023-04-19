@@ -13,7 +13,9 @@ import mc.replay.api.replay.session.ReplayPlayer;
 import mc.replay.common.recordables.actions.internal.InternalEntityRecordableAction;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.ReplaySessionImpl;
+import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,10 @@ public final class ReplaySessionPlayTask implements Runnable {
 
         this.startTime = this.currentTime = this.recordables.firstKey();
         this.endTime = this.recordables.lastKey();
+    }
+
+    public @Nullable AbstractReplayEntity<?> getEntityByReplayId(int entityId) {
+        return this.entityCache.getEntityByReplayId(entityId);
     }
 
     @SuppressWarnings("rawtypes, unchecked")

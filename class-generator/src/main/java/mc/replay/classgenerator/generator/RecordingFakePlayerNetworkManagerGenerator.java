@@ -89,7 +89,7 @@ public final class RecordingFakePlayerNetworkManagerGenerator implements Generat
         generated.addMethod(CtMethod.make(
                 "public void publishPacket(ClientboundPacket packet) {\n" +
                         "   if (packet != null) {\n" +
-                        "       MCReplayAPI.getPacketLib().getPacketListener().publishClientbound(packet);\n" +
+                        "       MCReplayAPI.getPacketLib().packetListener().publishClientbound(this.fakePlayer.target(), packet);\n" +
                         "   }\n" +
                         "}",
                 generated
