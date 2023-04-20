@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.github.MC-Replay</groupId>
             <artifactId>Minecraft-Object-Wrapper</artifactId>
-            <version>b514adf05d</version>
+            <version>e0b74074f6</version>
             <exclusions>
                 <exclusion>
                     <groupId>mc.replay</groupId>
