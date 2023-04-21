@@ -14,7 +14,11 @@ import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.menu.ReplayPlayerInfoMenu;
 import mc.replay.wrapper.entity.PlayerWrapper;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
+import net.minecraft.server.v1_16_R3.MinecraftServer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public final class ReplaySessionPacketListener {
 
@@ -47,25 +51,34 @@ public final class ReplaySessionPacketListener {
         });
     }
 
-    // TODO check if other players still receive the movement packets of the replay players
-    // TODO check if chunks are still loaded for the replay players
-    // TODO check if there are any other issues with this
+    // TODO optimize move event
+    // TODO use reflection to set player position and rotation
     private void interceptMovementPackets() {
         this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_POSITION_AND_ROTATION, (player, serverboundPacket) -> {
             ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
 
-            ServerboundPlayerPositionAndRotationPacket packet = (ServerboundPlayerPositionAndRotationPacket) serverboundPacket;
+            MinecraftServer.getServer().execute(() -> {
+                ServerboundPlayerPositionAndRotationPacket packet = (ServerboundPlayerPositionAndRotationPacket) serverboundPacket;
 
-            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            entityPlayer.setPositionRaw(
-                    packet.x(),
-                    packet.y(),
-                    packet.z()
-            );
+                Location from = player.getLocation().clone();
+                Location to = new Location(from.getWorld(), packet.x(), packet.y(), packet.z(), packet.yaw(), packet.pitch());
 
-            entityPlayer.yaw = packet.yaw();
-            entityPlayer.pitch = packet.pitch();
+                EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+                entityPlayer.setPositionRaw(
+                        packet.x(),
+                        packet.y(),
+                        packet.z()
+                );
+
+                entityPlayer.yaw = packet.yaw();
+                entityPlayer.pitch = packet.pitch();
+
+                entityPlayer.getWorldServer().getChunkProvider().movePlayer(entityPlayer);
+
+                PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
+                Bukkit.getPluginManager().callEvent(playerMoveEvent);
+            });
 
             return true;
         });
@@ -74,14 +87,24 @@ public final class ReplaySessionPacketListener {
             ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
 
-            ServerboundPlayerPositionPacket packet = (ServerboundPlayerPositionPacket) serverboundPacket;
+            MinecraftServer.getServer().execute(() -> {
+                ServerboundPlayerPositionPacket packet = (ServerboundPlayerPositionPacket) serverboundPacket;
 
-            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            entityPlayer.setPositionRaw(
-                    packet.x(),
-                    packet.y(),
-                    packet.z()
-            );
+                Location from = player.getLocation().clone();
+                Location to = new Location(from.getWorld(), packet.x(), packet.y(), packet.z(), from.getYaw(), from.getPitch());
+
+                EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+                entityPlayer.setPositionRaw(
+                        packet.x(),
+                        packet.y(),
+                        packet.z()
+                );
+
+                entityPlayer.getWorldServer().getChunkProvider().movePlayer(entityPlayer);
+
+                PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
+                Bukkit.getPluginManager().callEvent(playerMoveEvent);
+            });
 
             return true;
         });
@@ -90,11 +113,19 @@ public final class ReplaySessionPacketListener {
             ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
 
-            ServerboundPlayerRotationPacket packet = (ServerboundPlayerRotationPacket) serverboundPacket;
+            MinecraftServer.getServer().execute(() -> {
+                ServerboundPlayerRotationPacket packet = (ServerboundPlayerRotationPacket) serverboundPacket;
 
-            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            entityPlayer.yaw = packet.yaw();
-            entityPlayer.pitch = packet.pitch();
+                Location from = player.getLocation().clone();
+                Location to = new Location(from.getWorld(), from.getX(), from.getY(), from.getZ(), packet.yaw(), packet.pitch());
+
+                EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+                entityPlayer.yaw = packet.yaw();
+                entityPlayer.pitch = packet.pitch();
+
+                PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
+                Bukkit.getPluginManager().callEvent(playerMoveEvent);
+            });
 
             return true;
         });
