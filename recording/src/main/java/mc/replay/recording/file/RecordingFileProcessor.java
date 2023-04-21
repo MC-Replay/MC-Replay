@@ -4,6 +4,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
+import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.recording.RecordingImpl;
 
 import java.io.File;
@@ -11,10 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.time.Duration;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
@@ -28,7 +26,7 @@ public final class RecordingFileProcessor {
         ReplayByteBuffer writer = new ReplayByteBuffer(ByteBuffer.allocateDirect(0));
 
         writer.write(BYTE, RecordingFormat.RECORDING_VERSION);
-        writer.write(BYTE, RecordingFormat.MINECRAFT_PROTOCOL_VERSION);
+        writer.write(PROTOCOL_VERSION, RecordingFormat.MINECRAFT_PROTOCOL_VERSION);
 
         writer.write(STRING, recording.id());
         writer.write(LONG, recording.startedAt());
@@ -76,7 +74,15 @@ public final class RecordingFileProcessor {
                 return null;
             }
 
-            int protocolVersion = reader.read(BYTE); // Minecraft protocol version
+            ProtocolVersion protocolVersion = reader.read(PROTOCOL_VERSION); // Minecraft protocol version
+            if (protocolVersion == ProtocolVersion.NOT_SUPPORTED) {
+                throw new IllegalStateException("This Minecraft version is no longer or never was supported.");
+            }
+
+            ProtocolVersion serverProtocolVersion = ProtocolVersion.getServerVersion();
+            if (protocolVersion.ordinal() < serverProtocolVersion.ordinal()) {
+                throw new IllegalStateException("Can't load a recording that was created on a newer Minecraft version.");
+            }
 
             String id = reader.read(STRING);
             long startedAt = reader.read(LONG);

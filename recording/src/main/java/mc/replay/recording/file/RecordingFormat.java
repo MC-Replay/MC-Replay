@@ -10,5 +10,5 @@ public final class RecordingFormat {
     public static final String FILE_EXTENSION = ".mcrr"; // MC-Replay Recording
 
     public static final byte RECORDING_VERSION = 1;
-    public static final byte MINECRAFT_PROTOCOL_VERSION = (byte) ProtocolVersion.getServerVersion().getNumber();
+    public static final ProtocolVersion MINECRAFT_PROTOCOL_VERSION = ProtocolVersion.getServerVersion();
 }
