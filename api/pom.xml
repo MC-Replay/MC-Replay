@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.github.MC-Replay</groupId>
             <artifactId>PacketLib</artifactId>
-            <version>ce4752d035</version>
+            <version>462c09e084</version>
         </dependency>
         <dependency>
             <groupId>com.github.MC-Replay</groupId>
