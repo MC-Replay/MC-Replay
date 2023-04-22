@@ -84,7 +84,7 @@ public final class ReplaySessionPlayTask implements Runnable {
 
         this.currentTime += nextTime - this.currentTime;
         if (this.currentTime >= this.endTime) {
-            this.replaySession.stop();
+            this.instance.getReplayHandler().stopReplay(this.replaySession.getSessionUuid());
         }
     }
 

@@ -8,8 +8,6 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.Recording;
 import mc.replay.api.replay.ReplaySession;
 import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.api.utils.config.templates.ReplayMessages;
-import mc.replay.common.utils.text.TextFormatter;
 import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
@@ -65,17 +63,6 @@ public final class ReplaySessionImpl implements ReplaySession {
 
         this.playTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.playTask, 0L, 1L);
         this.informTaskHandle = Bukkit.getScheduler().runTaskTimer(MCReplayAPI.getJavaPlugin(), this.informTask, 0L, 20L);
-
-        for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
-            Player bukkitPlayer = replayPlayer.player();
-            MCReplayAPI.getReplayHandler().getToolbarItemHandler().giveItems(replayPlayer);
-
-            boolean flying = bukkitPlayer.isFlying();
-            bukkitPlayer.setAllowFlight(true);
-            bukkitPlayer.setFlying(flying);
-
-            TextFormatter.of(this.instance.getMessagesProcessor().getString(ReplayMessages.REPLAY_STARTED)).send(bukkitPlayer);
-        }
     }
 
     @Override
@@ -84,11 +71,6 @@ public final class ReplaySessionImpl implements ReplaySession {
         this.informTaskHandle.cancel();
 
         this.invalid = true;
-
-        for (ReplayPlayer replayPlayer : this.getAllPlayers()) {
-            Player bukkitPlayer = replayPlayer.player();
-            TextFormatter.of(this.instance.getMessagesProcessor().getString(ReplayMessages.REPLAY_STOPPED)).send(bukkitPlayer);
-        }
     }
 
     @Override
