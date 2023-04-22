@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface IRecordingHandler {
 
-    Map<UUID, RecordingSession> getRecordingSessions();
+    Map<UUID, IRecordingSession> getRecordingSessions();
 
     @NotNull RecordingSessionBuilder createRecordingSession();
 
-    @NotNull Recording stopRecording(@NotNull UUID sessionUuid);
+    @NotNull IRecording stopRecording(@NotNull UUID sessionUuid);
 
     boolean cancelRecording(@NotNull UUID sessionUuid);
 }

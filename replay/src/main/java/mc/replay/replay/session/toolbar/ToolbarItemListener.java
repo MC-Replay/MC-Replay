@@ -1,7 +1,7 @@
 package mc.replay.replay.session.toolbar;
 
 import mc.replay.replay.ReplayHandler;
-import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.ReplayPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,7 +20,7 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
         if (event.getAction().equals(Action.PHYSICAL)) return;
 
         Player player = event.getPlayer();
-        ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
+        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
         if (replayPlayer == null) return;
 
         ItemStack stack = player.getInventory().getItemInMainHand();
@@ -34,7 +34,7 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onSwapHandItem(PlayerSwapHandItemsEvent event) {
-        ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(event.getPlayer());
+        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(event.getPlayer());
         if (replayPlayer == null) return;
 
         ToolbarItem toolbarItemMain = this.handler.getItem(event.getMainHandItem());
@@ -47,7 +47,7 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
-        ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(event.getWhoClicked().getUniqueId());
+        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(event.getWhoClicked().getUniqueId());
         if (replayPlayer == null) return;
 
         ItemStack stack = event.getCurrentItem();
@@ -63,7 +63,7 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemDrop(PlayerDropItemEvent event) {
-        ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(event.getPlayer());
+        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(event.getPlayer());
         if (replayPlayer == null) return;
 
         ItemStack stack = event.getItemDrop().getItemStack();

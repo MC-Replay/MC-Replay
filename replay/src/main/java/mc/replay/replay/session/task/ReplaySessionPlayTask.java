@@ -9,10 +9,10 @@ import mc.replay.api.recording.recordables.RecordableDefinition;
 import mc.replay.api.recording.recordables.action.EmptyRecordableAction;
 import mc.replay.api.recording.recordables.action.EntityRecordableAction;
 import mc.replay.api.recording.recordables.action.RecordableAction;
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.recordables.actions.internal.InternalEntityRecordableAction;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
-import mc.replay.replay.ReplaySessionImpl;
+import mc.replay.replay.ReplaySession;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +25,7 @@ import java.util.NavigableMap;
 public final class ReplaySessionPlayTask implements Runnable {
 
     private final MCReplay instance;
-    private final ReplaySessionImpl replaySession;
+    private final ReplaySession replaySession;
     private final NavigableMap<Integer, List<Recordable>> recordables;
 
     private final ReplaySessionEntityHandler entityCache;
@@ -34,7 +34,7 @@ public final class ReplaySessionPlayTask implements Runnable {
 
     private int currentTime;
 
-    public ReplaySessionPlayTask(MCReplay instance, ReplaySessionImpl replaySession) {
+    public ReplaySessionPlayTask(MCReplay instance, ReplaySession replaySession) {
         this.instance = instance;
         this.replaySession = replaySession;
         this.recordables = replaySession.getRecording().recordables();
@@ -89,7 +89,7 @@ public final class ReplaySessionPlayTask implements Runnable {
     }
 
     private void sendPackets(List<ClientboundPacket> packets) {
-        for (ReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
+        for (IReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
             for (ClientboundPacket packet : packets) {
                 MCReplayAPI.getPacketLib().sendPacket(replayPlayer.player(), packet);
             }

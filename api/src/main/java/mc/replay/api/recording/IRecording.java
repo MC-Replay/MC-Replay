@@ -7,7 +7,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.NavigableMap;
 
-public interface Recording {
+public interface IRecording {
 
     @NotNull String id();
 

@@ -1,11 +1,11 @@
 package mc.replay.recording.file;
 
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.recording.Recording;
+import mc.replay.api.recording.IRecording;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.utils.ProtocolVersion;
-import mc.replay.recording.RecordingImpl;
+import mc.replay.recording.Recording;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ public final class RecordingFileProcessor {
 
     private final String directory = MCReplayAPI.getJavaPlugin().getDataFolder() + "/recordings/";
 
-    public File createRecordingFile(Recording recording) {
+    public File createRecordingFile(IRecording recording) {
         NavigableMap<Integer, List<Recordable>> recordables = recording.recordables();
 
         ReplayByteBuffer writer = new ReplayByteBuffer(ByteBuffer.allocateDirect(0));
@@ -63,7 +63,7 @@ public final class RecordingFileProcessor {
         return file;
     }
 
-    public Recording loadRecording(File file) {
+    public IRecording loadRecording(File file) {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             byte[] bytes = fileInputStream.readAllBytes();
             ReplayByteBuffer reader = new ReplayByteBuffer(ByteBuffer.wrap(bytes));
@@ -98,7 +98,7 @@ public final class RecordingFileProcessor {
                 recordables.put(time, recordableList);
             }
 
-            return new RecordingImpl(id, Duration.ofMillis(endedAt - startedAt), startedAt, endedAt, recordables);
+            return new Recording(id, Duration.ofMillis(endedAt - startedAt), startedAt, endedAt, recordables);
         } catch (Exception exception) {
             exception.printStackTrace();
         }

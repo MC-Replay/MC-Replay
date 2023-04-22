@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.UUID;
 
-public interface RecordingSession {
+public interface IRecordingSession {
 
     @NotNull UUID getSessionUuid();
 
@@ -18,5 +18,5 @@ public interface RecordingSession {
 
     @NotNull TreeMap<Integer, List<Recordable>> getRecordables();
 
-    @NotNull Recording stopRecording();
+    @NotNull IRecording stopRecording();
 }

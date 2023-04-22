@@ -9,5 +9,5 @@ public interface RecordingSessionBuilder {
 
     @NotNull RecordingSessionBuilder world(@NotNull String worldName);
 
-    @NotNull RecordingSession startRecording();
+    @NotNull IRecordingSession startRecording();
 }

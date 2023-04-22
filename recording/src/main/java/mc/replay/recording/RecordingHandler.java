@@ -2,21 +2,20 @@ package mc.replay.recording;
 
 import lombok.Getter;
 import mc.replay.api.recording.IRecordingHandler;
-import mc.replay.api.recording.Recording;
-import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.IRecording;
+import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.recording.file.RecordingFileProcessor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.UUID;
 
 @Getter
 public final class RecordingHandler implements IRecordingHandler {
 
-    private final Map<UUID, RecordingSession> recordingSessions = new HashMap<>();
+    private final Map<UUID, IRecordingSession> recordingSessions = new HashMap<>();
 
     private final RecordingFileProcessor fileProcessor;
 
@@ -30,13 +29,13 @@ public final class RecordingHandler implements IRecordingHandler {
     }
 
     @Override
-    public @NotNull Recording stopRecording(@NotNull UUID sessionUuid) {
-        RecordingSession recordingSession = this.recordingSessions.remove(sessionUuid);
+    public @NotNull IRecording stopRecording(@NotNull UUID sessionUuid) {
+        IRecordingSession recordingSession = this.recordingSessions.remove(sessionUuid);
         if (recordingSession == null) {
             throw new IllegalStateException("No recording session found for session uuid '" + sessionUuid + "'");
         }
 
-        RecordingImpl recording = new RecordingImpl(recordingSession.getStartTime(), recordingSession.getRecordables());
+        Recording recording = new Recording(recordingSession.getStartTime(), recordingSession.getRecordables());
         this.fileProcessor.createRecordingFile(recording);
         return recording;
     }

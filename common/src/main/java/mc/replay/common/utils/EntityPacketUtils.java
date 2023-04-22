@@ -1,7 +1,7 @@
 package mc.replay.common.utils;
 
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.packetlib.data.PlayerProfileProperty;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.EntityAnimation;
@@ -40,7 +40,7 @@ public final class EntityPacketUtils {
             .withColor(NamedTextColor.RED)
             .withCollisionRule(CollisionRule.NEVER);
 
-    public static PlayerWrapper spawnNPC(Collection<ReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
+    public static PlayerWrapper spawnNPC(Collection<IReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
         if (viewers == null || viewers.isEmpty()) return null;
 
         Map<String, PlayerProfileProperty> properties = new HashMap<>();
@@ -86,7 +86,7 @@ public final class EntityPacketUtils {
         ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(playerWrapper.getEntityId(), metadata.getEntries());
         ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_SUSPECTS_TEAM.getName(), createTeamAction);
 
-        for (ReplayPlayer viewerReplayPlayer : viewers) {
+        for (IReplayPlayer viewerReplayPlayer : viewers) {
             Player viewer = viewerReplayPlayer.player();
 
             MCReplayAPI.getPacketLib().sendPacket(viewer, infoPacket);
@@ -102,7 +102,7 @@ public final class EntityPacketUtils {
             public void run() {
                 PlayerInfoEntry.RemovePlayer removePlayer = new PlayerInfoEntry.RemovePlayer(playerWrapper.getUniqueId());
 
-                for (ReplayPlayer viewerReplayPlayer : viewers) {
+                for (IReplayPlayer viewerReplayPlayer : viewers) {
                     Player viewer = viewerReplayPlayer.player();
 
                     MCReplayAPI.getPacketLib().sendPacket(viewer, new ClientboundPlayerInfoPacket(PlayerInfoAction.REMOVE_PLAYER, removePlayer));
@@ -113,7 +113,7 @@ public final class EntityPacketUtils {
         return playerWrapper;
     }
 
-    public static EntityWrapper spawnEntity(Collection<ReplayPlayer> viewers, Pos position, EntityType entityType, Vector velocity) {
+    public static EntityWrapper spawnEntity(Collection<IReplayPlayer> viewers, Pos position, EntityType entityType, Vector velocity) {
         if (viewers == null || viewers.isEmpty() || entityType == EntityType.PLAYER)
             return null;
 
@@ -167,7 +167,7 @@ public final class EntityPacketUtils {
 
         ClientboundEntityVelocityPacket velocityPacket = new ClientboundEntityVelocityPacket(entityWrapper.getEntityId(), velocityX, velocityY, velocityZ);
 
-        for (ReplayPlayer replayPlayer : viewers) {
+        for (IReplayPlayer replayPlayer : viewers) {
             Player viewer = replayPlayer.player();
 
             MCReplayAPI.getPacketLib().sendPacket(viewer, spawnPacket);
@@ -198,10 +198,10 @@ public final class EntityPacketUtils {
         }
     }
 
-    public static void destroy(Collection<ReplayPlayer> viewers, EntityWrapper entityWrapper) {
+    public static void destroy(Collection<IReplayPlayer> viewers, EntityWrapper entityWrapper) {
         ClientboundEntityDestroyPacket destroyPacket = new ClientboundEntityDestroyPacket(entityWrapper.getEntityId());
 
-        for (ReplayPlayer replayPlayer : viewers) {
+        for (IReplayPlayer replayPlayer : viewers) {
             Player viewer = replayPlayer.player();
 
             MCReplayAPI.getPacketLib().sendPacket(viewer, destroyPacket);

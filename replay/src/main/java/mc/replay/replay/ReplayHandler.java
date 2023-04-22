@@ -1,13 +1,13 @@
 package mc.replay.replay;
 
 import lombok.Getter;
-import mc.replay.api.recording.Recording;
+import mc.replay.api.recording.IRecording;
 import mc.replay.api.replay.IReplayHandler;
-import mc.replay.api.replay.ReplaySession;
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.IReplaySession;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.replay.preparation.ReplayPlayerPreparationHandler;
-import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.listener.ReplaySessionPacketListener;
 import mc.replay.replay.session.toolbar.ToolbarItemHandler;
 import org.bukkit.entity.Player;
@@ -23,8 +23,8 @@ import java.util.UUID;
 public final class ReplayHandler implements IReplayHandler {
 
     private final MCReplayInternal instance;
-    private final Map<UUID, ReplayPlayer> replayPlayers = new HashMap<>();
-    private final Map<UUID, ReplaySession> replaySessions = new HashMap<>();
+    private final Map<UUID, IReplayPlayer> replayPlayers = new HashMap<>();
+    private final Map<UUID, IReplaySession> replaySessions = new HashMap<>();
 
     private final ReplayPlayerPreparationHandler preparationHandler;
 
@@ -39,11 +39,11 @@ public final class ReplayHandler implements IReplayHandler {
     }
 
     @Override
-    public @NotNull ReplaySession startReplay(@NotNull Recording recording, @NotNull Player navigator, @NotNull Player... watchers) {
-        ReplaySessionImpl replaySession = new ReplaySessionImpl(this.instance, navigator, Arrays.asList(watchers), recording);
+    public @NotNull IReplaySession startReplay(@NotNull IRecording recording, @NotNull Player navigator, @NotNull Player... watchers) {
+        ReplaySession replaySession = new ReplaySession(this.instance, navigator, Arrays.asList(watchers), recording);
         this.replaySessions.put(replaySession.getSessionUuid(), replaySession);
 
-        for (ReplayPlayer player : replaySession.getAllPlayers()) {
+        for (IReplayPlayer player : replaySession.getAllPlayers()) {
             this.replayPlayers.put(player.player().getUniqueId(), player);
             this.preparationHandler.prepare(player);
         }
@@ -53,10 +53,10 @@ public final class ReplayHandler implements IReplayHandler {
 
     @Override
     public boolean stopReplay(@NotNull UUID sessionUuid) {
-        ReplaySession session = this.replaySessions.remove(sessionUuid);
+        IReplaySession session = this.replaySessions.remove(sessionUuid);
         if (session == null) return false;
 
-        for (ReplayPlayer player : session.getAllPlayers()) {
+        for (IReplayPlayer player : session.getAllPlayers()) {
             this.replayPlayers.remove(player.player().getUniqueId());
             this.preparationHandler.reset(player);
         }
@@ -66,13 +66,13 @@ public final class ReplayHandler implements IReplayHandler {
     }
 
     @Override
-    public @Nullable ReplayPlayerImpl getReplayPlayer(@NotNull UUID uuid) {
-        ReplayPlayerImpl replayPlayer = (ReplayPlayerImpl) this.replayPlayers.get(uuid);
+    public @Nullable ReplayPlayer getReplayPlayer(@NotNull UUID uuid) {
+        ReplayPlayer replayPlayer = (ReplayPlayer) this.replayPlayers.get(uuid);
         return (replayPlayer == null || replayPlayer.replaySession().isInvalid()) ? null : replayPlayer;
     }
 
     @Override
-    public @Nullable ReplayPlayerImpl getReplayPlayer(@NotNull Player player) {
+    public @Nullable ReplayPlayer getReplayPlayer(@NotNull Player player) {
         return this.getReplayPlayer(player.getUniqueId());
     }
 }

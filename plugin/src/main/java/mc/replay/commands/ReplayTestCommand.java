@@ -2,9 +2,9 @@ package mc.replay.commands;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.recording.Recording;
-import mc.replay.api.recording.RecordingSession;
-import mc.replay.api.replay.ReplaySession;
+import mc.replay.api.recording.IRecording;
+import mc.replay.api.recording.IRecordingSession;
+import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.utils.config.IReplayConfigProcessor;
 import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.classgenerator.ClassGenerator;
@@ -20,9 +20,9 @@ import java.io.File;
 
 public class ReplayTestCommand implements CommandExecutor {
 
-    private RecordingSession session;
-    private Recording recording;
-    private ReplaySession replaySession;
+    private IRecordingSession session;
+    private IRecording recording;
+    private IReplaySession replaySession;
     private IRecordingFakePlayer fakePlayer;
 
     @Override

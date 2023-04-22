@@ -1,7 +1,7 @@
 package mc.replay.api.replay;
 
-import mc.replay.api.recording.Recording;
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.recording.IRecording;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.api.replay.session.toolbar.IToolbarItemHandler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,17 +12,17 @@ import java.util.UUID;
 
 public interface IReplayHandler {
 
-    Map<UUID, ReplayPlayer> getReplayPlayers();
+    Map<UUID, IReplayPlayer> getReplayPlayers();
 
-    Map<UUID, ReplaySession> getReplaySessions();
+    Map<UUID, IReplaySession> getReplaySessions();
 
     IToolbarItemHandler getToolbarItemHandler();
 
-    @NotNull ReplaySession startReplay(@NotNull Recording recording, @NotNull Player navigator, @NotNull Player... watchers);
+    @NotNull IReplaySession startReplay(@NotNull IRecording recording, @NotNull Player navigator, @NotNull Player... watchers);
 
     boolean stopReplay(@NotNull UUID sessionUuid);
 
-    @Nullable ReplayPlayer getReplayPlayer(@NotNull UUID uuid);
+    @Nullable IReplayPlayer getReplayPlayer(@NotNull UUID uuid);
 
-    @Nullable ReplayPlayer getReplayPlayer(@NotNull Player player);
+    @Nullable IReplayPlayer getReplayPlayer(@NotNull Player player);
 }

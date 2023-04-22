@@ -11,7 +11,7 @@ import mc.replay.packetlib.network.packet.serverbound.play.ServerboundPlayerPosi
 import mc.replay.packetlib.network.packet.serverbound.play.ServerboundPlayerPositionPacket;
 import mc.replay.packetlib.network.packet.serverbound.play.ServerboundPlayerRotationPacket;
 import mc.replay.replay.ReplayHandler;
-import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.menu.ReplayPlayerInfoMenu;
 import mc.replay.wrapper.entity.PlayerWrapper;
@@ -41,7 +41,7 @@ public final class ReplaySessionPacketListener {
 
             if (packet.type() instanceof InteractEntityType.Interact interact) {
                 if (interact.hand() == PlayerHand.MAIN_HAND) {
-                    ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
+                    ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
                     if (replayPlayer == null) return;
 
                     AbstractReplayEntity<?> replayEntity = replayPlayer.replaySession().getReplayEntityByReplayId(packet.targetId());
@@ -55,7 +55,7 @@ public final class ReplaySessionPacketListener {
 
     private void interceptMovementPackets() {
         this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_POSITION_AND_ROTATION, (player, serverboundPacket) -> {
-            ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
+            ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
 
             ServerboundPlayerPositionAndRotationPacket packet = (ServerboundPlayerPositionAndRotationPacket) serverboundPacket;
@@ -68,7 +68,7 @@ public final class ReplaySessionPacketListener {
         });
 
         this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_POSITION, (player, serverboundPacket) -> {
-            ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
+            ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
 
             ServerboundPlayerPositionPacket packet = (ServerboundPlayerPositionPacket) serverboundPacket;
@@ -81,7 +81,7 @@ public final class ReplaySessionPacketListener {
         });
 
         this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_ROTATION, (player, serverboundPacket) -> {
-            ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
+            ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
 
             ServerboundPlayerRotationPacket packet = (ServerboundPlayerRotationPacket) serverboundPacket;

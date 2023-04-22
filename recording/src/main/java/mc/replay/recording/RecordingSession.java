@@ -2,8 +2,8 @@ package mc.replay.recording;
 
 import lombok.Getter;
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.recording.Recording;
-import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.IRecording;
+import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.recordables.DependentRecordableData;
 import mc.replay.api.recording.recordables.Recordable;
 import org.bukkit.World;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 @Getter
-public final class RecordingSessionImpl implements RecordingSession {
+public final class RecordingSession implements IRecordingSession {
 
     private final UUID sessionUuid;
     private final World world;
@@ -20,7 +20,7 @@ public final class RecordingSessionImpl implements RecordingSession {
     private final TreeMap<Integer, List<Recordable>> recordables;
     private final List<Recordable> recordablesToBeAdded = new ArrayList<>();
 
-    RecordingSessionImpl(World world) {
+    RecordingSession(World world) {
         this.sessionUuid = UUID.randomUUID();
         this.world = world;
         this.startTime = System.currentTimeMillis();
@@ -28,7 +28,7 @@ public final class RecordingSessionImpl implements RecordingSession {
     }
 
     @Override
-    public @NotNull Recording stopRecording() {
+    public @NotNull IRecording stopRecording() {
         return MCReplayAPI.getRecordingHandler().stopRecording(this.sessionUuid);
     }
 

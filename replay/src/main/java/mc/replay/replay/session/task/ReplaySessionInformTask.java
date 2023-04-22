@@ -1,16 +1,16 @@
 package mc.replay.replay.session.task;
 
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.api.utils.config.IReplayConfigProcessor;
 import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.common.utils.text.TextFormatter;
-import mc.replay.replay.ReplaySessionImpl;
+import mc.replay.replay.ReplaySession;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.bukkit.entity.Player;
 
-public record ReplaySessionInformTask(ReplaySessionImpl replaySession) implements Runnable {
+public record ReplaySessionInformTask(ReplaySession replaySession) implements Runnable {
 
     @Override
     public void run() {
@@ -34,7 +34,7 @@ public record ReplaySessionInformTask(ReplaySessionImpl replaySession) implement
                 .replace("speed", speed)
                 .getSingleLine();
 
-        for (ReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
+        for (IReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
             Player player = replayPlayer.player();
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(bar));
         }

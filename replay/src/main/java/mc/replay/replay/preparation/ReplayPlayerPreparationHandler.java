@@ -1,11 +1,11 @@
 package mc.replay.replay.preparation;
 
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.common.utils.text.TextFormatter;
 import mc.replay.replay.ReplayHandler;
-import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.ReplayPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public final class ReplayPlayerPreparationHandler implements Listener {
         Bukkit.getPluginManager().registerEvents(this, instance.getJavaPlugin());
     }
 
-    public void prepare(ReplayPlayer replayPlayer) {
+    public void prepare(IReplayPlayer replayPlayer) {
         Player player = replayPlayer.player();
 
         this.playerStates.put(player, new PlayerState(player));
@@ -44,7 +44,7 @@ public final class ReplayPlayerPreparationHandler implements Listener {
         this.instance.getPacketLib().inject(player);
     }
 
-    public void reset(ReplayPlayer replayPlayer) {
+    public void reset(IReplayPlayer replayPlayer) {
         Player player = replayPlayer.player();
 
         this.instance.getPacketLib().uninject(player);
@@ -70,7 +70,7 @@ public final class ReplayPlayerPreparationHandler implements Listener {
     private void quitOrKick(Player player) {
         if (!this.playerStates.containsKey(player)) return;
 
-        ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
+        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
         if (replayPlayer == null) return;
 
         this.reset(replayPlayer);

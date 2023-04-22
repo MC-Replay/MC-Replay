@@ -1,12 +1,11 @@
 package mc.replay.replay.session.entity;
 
 import lombok.Getter;
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.utils.EntityPacketUtils;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.wrapper.data.SkinTexture;
-import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.Collection;
@@ -38,12 +37,12 @@ public final class ReplayNPC extends AbstractReplayEntity<ReplayNPC> {
     }
 
     @Override
-    public void spawn(Collection<ReplayPlayer> viewers) {
+    public void spawn(Collection<IReplayPlayer> viewers) {
         this.entity = EntityPacketUtils.spawnNPC(viewers, this.startPosition, "Suspect", this.skinTexture, metadata);
     }
 
     @Override
-    public void destroy(Collection<ReplayPlayer> viewers) {
+    public void destroy(Collection<IReplayPlayer> viewers) {
         EntityPacketUtils.destroy(viewers, this.entity);
     }
 }

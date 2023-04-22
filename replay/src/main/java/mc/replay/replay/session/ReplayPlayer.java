@@ -1,14 +1,14 @@
 package mc.replay.replay.session;
 
-import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.replay.ReplaySessionImpl;
+import mc.replay.api.replay.session.IReplayPlayer;
+import mc.replay.replay.ReplaySession;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public record ReplayPlayerImpl(Player player, ReplaySessionImpl replaySession) implements ReplayPlayer {
+public record ReplayPlayer(Player player, ReplaySession replaySession) implements IReplayPlayer {
 
     @Override
-    public @NotNull ReplaySessionImpl replaySession() {
+    public @NotNull ReplaySession replaySession() {
         return this.replaySession;
     }
 

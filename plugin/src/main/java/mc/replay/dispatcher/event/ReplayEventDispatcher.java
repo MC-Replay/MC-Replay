@@ -1,11 +1,11 @@
 package mc.replay.dispatcher.event;
 
 import mc.replay.MCReplayPlugin;
-import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.dispatcher.ReplayDispatcher;
-import mc.replay.recording.RecordingSessionImpl;
+import mc.replay.recording.RecordingSession;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -55,8 +55,8 @@ public final class ReplayEventDispatcher extends ReplayDispatcher implements Lis
                     List<Recordable> recordables = eventListener.getRecordables(event);
                     if (recordables == null) return;
 
-                    for (RecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessions().values()) {
-                        ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                    for (IRecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessions().values()) {
+                        ((RecordingSession) recordingSession).addRecordables(recordables);
                     }
                 },
                 this.plugin,

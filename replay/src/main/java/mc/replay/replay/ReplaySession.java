@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.recording.Recording;
-import mc.replay.api.replay.ReplaySession;
-import mc.replay.api.replay.session.ReplayPlayer;
-import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.api.recording.IRecording;
+import mc.replay.api.replay.IReplaySession;
+import mc.replay.api.replay.session.IReplayPlayer;
+import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
@@ -25,13 +25,13 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
-public final class ReplaySessionImpl implements ReplaySession {
+public final class ReplaySession implements IReplaySession {
 
     private final MCReplay instance;
     private final UUID sessionUuid;
-    private final ReplayPlayer navigator;
-    private final Collection<ReplayPlayer> watchers;
-    private final Recording recording;
+    private final IReplayPlayer navigator;
+    private final Collection<IReplayPlayer> watchers;
+    private final IRecording recording;
 
     @Setter
     private boolean paused = true;
@@ -47,15 +47,15 @@ public final class ReplaySessionImpl implements ReplaySession {
 
     private boolean invalid = false;
 
-    ReplaySessionImpl(MCReplay instance, Player navigator, Collection<Player> watchers, Recording recording) {
+    ReplaySession(MCReplay instance, Player navigator, Collection<Player> watchers, IRecording recording) {
         this.instance = instance;
         this.sessionUuid = UUID.randomUUID();
         this.recording = recording;
         this.watchers = new HashSet<>();
 
-        this.navigator = new ReplayPlayerImpl(navigator, this);
+        this.navigator = new ReplayPlayer(navigator, this);
         for (Player watcher : watchers) {
-            this.watchers.add(new ReplayPlayerImpl(watcher, this));
+            this.watchers.add(new ReplayPlayer(watcher, this));
         }
 
         this.playTask = new ReplaySessionPlayTask(instance, this);
@@ -74,8 +74,8 @@ public final class ReplaySessionImpl implements ReplaySession {
     }
 
     @Override
-    public @NotNull Collection<ReplayPlayer> getAllPlayers() {
-        Set<ReplayPlayer> allPlayers = new HashSet<>(this.watchers);
+    public @NotNull Collection<IReplayPlayer> getAllPlayers() {
+        Set<IReplayPlayer> allPlayers = new HashSet<>(this.watchers);
         allPlayers.add(this.navigator);
         return allPlayers;
     }

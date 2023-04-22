@@ -8,7 +8,7 @@ import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.common.replay.IReplayEntityProvider;
-import mc.replay.replay.ReplaySessionImpl;
+import mc.replay.replay.ReplaySession;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +19,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
 
-    private final ReplaySessionImpl replaySession;
+    private final ReplaySession replaySession;
     private final Map<Integer, AbstractReplayEntity<?>> entities = new ConcurrentHashMap<>();
 
     public @Nullable AbstractReplayEntity<?> getEntityByReplayId(int entityId) {

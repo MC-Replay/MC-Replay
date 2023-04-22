@@ -2,14 +2,14 @@ package mc.replay.dispatcher.packet;
 
 import lombok.Getter;
 import mc.replay.MCReplayPlugin;
-import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.dispatcher.ReplayDispatcher;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
-import mc.replay.recording.RecordingSessionImpl;
+import mc.replay.recording.RecordingSession;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +31,8 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
                 List<Recordable> recordables = entry.getValue().getRecordables(packet);
                 if (recordables == null) continue;
 
-                for (RecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
-                    ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                for (IRecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
+                    ((RecordingSession) recordingSession).addRecordables(recordables);
                 }
             }
         });
@@ -44,8 +44,8 @@ public final class ReplayPacketDispatcher extends ReplayDispatcher {
                 List<Recordable> recordables = entry.getValue().getRecordables(player, packet);
                 if (recordables == null) continue;
 
-                for (RecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
-                    ((RecordingSessionImpl) recordingSession).addRecordables(recordables);
+                for (IRecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
+                    ((RecordingSession) recordingSession).addRecordables(recordables);
                 }
             }
         });

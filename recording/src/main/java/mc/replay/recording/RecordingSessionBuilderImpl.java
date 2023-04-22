@@ -1,7 +1,7 @@
 package mc.replay.recording;
 
 import lombok.RequiredArgsConstructor;
-import mc.replay.api.recording.RecordingSession;
+import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
@@ -36,12 +36,12 @@ final class RecordingSessionBuilderImpl implements RecordingSessionBuilder {
     }
 
     @Override
-    public @NotNull RecordingSession startRecording() {
+    public @NotNull IRecordingSession startRecording() {
         if (this.world == null) {
             throw new IllegalStateException("No world was set for this recording session");
         }
 
-        RecordingSessionImpl recordingSession = new RecordingSessionImpl(this.world);
+        RecordingSession recordingSession = new RecordingSession(this.world);
         this.recordingHandler.getRecordingSessions().put(recordingSession.getSessionUuid(), recordingSession);
 
         // TODO move somewhere else

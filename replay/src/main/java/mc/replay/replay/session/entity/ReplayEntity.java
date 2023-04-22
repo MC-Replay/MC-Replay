@@ -1,6 +1,6 @@
 package mc.replay.replay.session.entity;
 
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.utils.EntityPacketUtils;
 import mc.replay.packetlib.data.Pos;
 import org.bukkit.World;
@@ -26,12 +26,12 @@ public final class ReplayEntity extends AbstractReplayEntity<ReplayEntity> {
     }
 
     @Override
-    public void spawn(Collection<ReplayPlayer> viewers) {
+    public void spawn(Collection<IReplayPlayer> viewers) {
         this.entity = EntityPacketUtils.spawnEntity(viewers, this.startPosition, this.entityType, this.velocity);
     }
 
     @Override
-    public void destroy(Collection<ReplayPlayer> viewers) {
+    public void destroy(Collection<IReplayPlayer> viewers) {
         EntityPacketUtils.destroy(viewers, this.entity);
     }
 }

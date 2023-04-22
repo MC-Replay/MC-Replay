@@ -1,10 +1,10 @@
 package mc.replay.replay.session.toolbar;
 
-import mc.replay.api.replay.session.ReplayPlayer;
+import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.api.replay.session.toolbar.IToolbarItemHandler;
 import mc.replay.common.utils.item.nbt.ItemStackNBT;
 import mc.replay.replay.ReplayHandler;
-import mc.replay.replay.session.ReplayPlayerImpl;
+import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.toolbar.types.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
     }
 
     @Override
-    public void giveItems(@NotNull ReplayPlayer replayPlayer) {
+    public void giveItems(@NotNull IReplayPlayer replayPlayer) {
         if (replayPlayer.replaySession().isInvalid()) return;
 
         Player player = replayPlayer.player();
@@ -40,10 +40,10 @@ public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
 
         if (replayPlayer.isNavigator()) {
             for (ToolbarItem toolbarItem : this.toolbarItems.values()) {
-                toolbarItem.give((ReplayPlayerImpl) replayPlayer);
+                toolbarItem.give((ReplayPlayer) replayPlayer);
             }
         } else {
-            this.getItem("leave").give((ReplayPlayerImpl) replayPlayer);
+            this.getItem("leave").give((ReplayPlayer) replayPlayer);
         }
     }
 
