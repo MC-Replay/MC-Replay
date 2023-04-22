@@ -15,13 +15,12 @@ import mc.replay.replay.session.ReplayPlayerImpl;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.menu.ReplayPlayerInfoMenu;
 import mc.replay.wrapper.entity.PlayerWrapper;
-import net.minecraft.server.v1_16_R3.EntityPlayer;
-import net.minecraft.server.v1_16_R3.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import static mc.replay.common.utils.reflection.MinecraftNMS.*;
 
 public final class ReplaySessionPacketListener {
 
@@ -54,7 +53,6 @@ public final class ReplaySessionPacketListener {
         });
     }
 
-    // TODO use reflection to set player position and rotation
     private void interceptMovementPackets() {
         this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_POSITION_AND_ROTATION, (player, serverboundPacket) -> {
             ReplayPlayerImpl replayPlayer = this.replayHandler.getReplayPlayer(player);
@@ -96,30 +94,43 @@ public final class ReplaySessionPacketListener {
         });
     }
 
+    // TODO test reflection on all server versions
     private void handleMovementPacket(Player player, Location to) {
         Location from = player.getLocation().clone();
         if (from.getX() == to.getX() && from.getY() == to.getY() && from.getZ() == to.getZ() && from.getYaw() == to.getYaw() && from.getPitch() == to.getPitch()) {
             return; // No need to set the player position if the player didn't move
         }
 
-        MinecraftServer.getServer().execute(() -> { // Make sure to execute this on the main thread
-            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            entityPlayer.setPositionRaw(
-                    to.getX(),
-                    to.getY(),
-                    to.getZ()
-            );
+        try {
+            EXECUTE_TASK_METHOD.invoke(MINECRAFT_SERVER_INSTANCE, (Runnable) () -> { // Make sure to execute this on the main thread
+                try {
+                    Object entityPlayer = getEntityPlayer(player);
+                    SET_ENTITY_POSITION_ROTATION_METHOD.invoke(
+                            entityPlayer,
+                            to.getX(),
+                            to.getY(),
+                            to.getZ(),
+                            to.getYaw(),
+                            to.getPitch()
+                    );
 
-            entityPlayer.yaw = to.getYaw();
-            entityPlayer.pitch = to.getPitch();
+                    Object worldServer = GET_WORLD_SERVER_METHOD.invoke(entityPlayer);
+                    Object chunkProviderServer = GET_CHUNK_PROVIDER_METHOD.invoke(worldServer);
+                    MOVE_PLAYER_METHOD.invoke(chunkProviderServer, entityPlayer); // This is needed to load chunks for the player
 
-            boolean shouldChangeBlock = MCReplayAPI.getSettingsProcessor().getBoolean(ReplaySettings.REPLAY_PLAYER_MOVEMENT_BLOCK_CHANGE);
-            if (shouldChangeBlock && from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) {
-                return; // No need to call the event if the player didn't change block
-            }
+                    boolean shouldChangeBlock = MCReplayAPI.getSettingsProcessor().getBoolean(ReplaySettings.REPLAY_PLAYER_MOVEMENT_BLOCK_CHANGE);
+                    if (shouldChangeBlock && from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) {
+                        return; // No need to call the event if the player didn't change block
+                    }
 
-            PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
-            Bukkit.getPluginManager().callEvent(playerMoveEvent);
-        });
+                    PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
+                    Bukkit.getPluginManager().callEvent(playerMoveEvent);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            });
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 }
