@@ -5,11 +5,9 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.utils.config.templates.ReplaySettings;
 import mc.replay.packetlib.data.entity.InteractEntityType;
 import mc.replay.packetlib.data.entity.PlayerHand;
+import mc.replay.packetlib.data.entity.player.DiggingStatus;
 import mc.replay.packetlib.network.packet.serverbound.ServerboundPacketIdentifier;
-import mc.replay.packetlib.network.packet.serverbound.play.ServerboundInteractEntityPacket;
-import mc.replay.packetlib.network.packet.serverbound.play.ServerboundPlayerPositionAndRotationPacket;
-import mc.replay.packetlib.network.packet.serverbound.play.ServerboundPlayerPositionPacket;
-import mc.replay.packetlib.network.packet.serverbound.play.ServerboundPlayerRotationPacket;
+import mc.replay.packetlib.network.packet.serverbound.play.*;
 import mc.replay.replay.ReplayHandler;
 import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
@@ -31,19 +29,19 @@ public final class ReplaySessionPacketListener {
         this.replayHandler = replayHandler;
         this.instance = instance;
 
-        this.listenInteractPackets();
-        this.interceptMovementPackets();
+        this.listenAndInterceptInteractPackets();
+        this.listenAndInterceptMovementPackets();
     }
 
-    private void listenInteractPackets() {
+    private void listenAndInterceptInteractPackets() {
         this.instance.getPacketLib().packetListener().listenServerbound(ServerboundPacketIdentifier.INTERACT_ENTITY, (player, serverboundPacket) -> {
+            ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
+            if (replayPlayer == null) return; // This is not a replay player, so no need to listen to the packet
+
             ServerboundInteractEntityPacket packet = (ServerboundInteractEntityPacket) serverboundPacket;
 
             if (packet.type() instanceof InteractEntityType.Interact interact) {
                 if (interact.hand() == PlayerHand.MAIN_HAND) {
-                    ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
-                    if (replayPlayer == null) return;
-
                     AbstractReplayEntity<?> replayEntity = replayPlayer.replaySession().getReplayEntityByReplayId(packet.targetId());
                     if (replayEntity != null && replayEntity.getEntity() instanceof PlayerWrapper entity) {
                         this.replayHandler.getInstance().getMenuHandler().openMenu(new ReplayPlayerInfoMenu(entity), player);
@@ -51,9 +49,22 @@ public final class ReplaySessionPacketListener {
                 }
             }
         });
+
+        this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_BLOCK_PLACEMENT, (player, serverboundPacket) -> {
+            ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
+            return replayPlayer != null; // Only intercept if the player is a replay player
+        });
+
+        this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_DIGGING, (player, serverboundPacket) -> {
+            ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
+            if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
+
+            ServerboundPlayerDiggingPacket packet = (ServerboundPlayerDiggingPacket) serverboundPacket;
+            return packet.status() == DiggingStatus.STARTED_DIGGING || packet.status() == DiggingStatus.CANCELLED_DIGGING || packet.status() == DiggingStatus.FINISHED_DIGGING;
+        });
     }
 
-    private void interceptMovementPackets() {
+    private void listenAndInterceptMovementPackets() {
         this.instance.getPacketLib().packetListener().interceptServerbound(ServerboundPacketIdentifier.PLAYER_POSITION_AND_ROTATION, (player, serverboundPacket) -> {
             ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
             if (replayPlayer == null) return false; // This is not a replay player, so no need to intercept the packet
