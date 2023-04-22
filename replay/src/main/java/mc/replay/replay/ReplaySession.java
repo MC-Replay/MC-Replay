@@ -82,14 +82,14 @@ public final class ReplaySession implements IReplaySession {
 
     @Override
     public boolean increaseSpeed() {
-        double stepSize = this.speed > 1 ? 1 : 0.25;
+        double stepSize = this.speed >= 1 ? 1 : 0.25;
         this.speed = Math.min(this.speed + stepSize, 4.0);
         return true;
     }
 
     @Override
     public boolean decreaseSpeed() {
-        double stepSize = this.speed >= 1 ? 1 : 0.25;
+        double stepSize = this.speed <= 1 ? 0.25 : 1;
         this.speed = Math.max(this.speed - stepSize, 0.25);
         return true;
     }
