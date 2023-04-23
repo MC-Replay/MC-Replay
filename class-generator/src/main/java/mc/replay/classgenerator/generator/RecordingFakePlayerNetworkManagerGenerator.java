@@ -5,7 +5,6 @@ import javassist.*;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.classgenerator.ClassGeneratorReflections;
 import mc.replay.classgenerator.generated.Generated;
-import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.classgenerator.objects.IRecordingFakePlayerNetworkManager;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.utils.Reflections;

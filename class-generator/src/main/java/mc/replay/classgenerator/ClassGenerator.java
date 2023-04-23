@@ -2,7 +2,6 @@ package mc.replay.classgenerator;
 
 import javassist.ClassPool;
 import javassist.LoaderClassPath;
-import mc.replay.api.MCReplay;
 import mc.replay.classgenerator.generator.RecordingFakePlayerGenerator;
 import mc.replay.classgenerator.generator.RecordingFakePlayerNetworkManagerGenerator;
 import mc.replay.classgenerator.objects.FakePlayerFilterList;

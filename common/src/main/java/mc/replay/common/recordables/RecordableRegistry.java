@@ -5,7 +5,10 @@ import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.RecordableDefinition;
 import mc.replay.api.recording.recordables.action.RecordableAction;
 import mc.replay.common.recordables.actions.block.*;
-import mc.replay.common.recordables.actions.entity.*;
+import mc.replay.common.recordables.actions.entity.RecEntityDestroyAction;
+import mc.replay.common.recordables.actions.entity.RecEntitySpawnAction;
+import mc.replay.common.recordables.actions.entity.RecPlayerDestroyAction;
+import mc.replay.common.recordables.actions.entity.RecPlayerSpawnAction;
 import mc.replay.common.recordables.actions.entity.action.*;
 import mc.replay.common.recordables.actions.entity.item.RecCollectItemAction;
 import mc.replay.common.recordables.actions.entity.miscellaneous.*;
@@ -20,7 +23,10 @@ import mc.replay.common.recordables.actions.sound.RecSoundEffectAction;
 import mc.replay.common.recordables.actions.sound.RecStopSoundAction;
 import mc.replay.common.recordables.actions.world.RecWorldEventAction;
 import mc.replay.common.recordables.types.block.*;
-import mc.replay.common.recordables.types.entity.*;
+import mc.replay.common.recordables.types.entity.RecEntityDestroy;
+import mc.replay.common.recordables.types.entity.RecEntitySpawn;
+import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
+import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.common.recordables.types.entity.action.*;
 import mc.replay.common.recordables.types.entity.item.RecCollectItem;
 import mc.replay.common.recordables.types.entity.miscellaneous.*;
@@ -73,18 +79,17 @@ public final class RecordableRegistry implements IRecordableRegistry {
         this.registerRecordable((byte) 22, RecEntityTeleport.class, RecEntityTeleport::new, new RecEntityTeleportAction());
         this.registerRecordable((byte) 23, RecEntityDestroy.class, RecEntityDestroy::new, new RecEntityDestroyAction());
         this.registerRecordable((byte) 24, RecEntitySpawn.class, RecEntitySpawn::new, new RecEntitySpawnAction());
-        this.registerRecordable((byte) 25, RecEntitySpawnMetadata.class, RecEntitySpawnMetadata::new, new RecEntitySpawnMetadataAction());
-        this.registerRecordable((byte) 26, RecPlayerDestroy.class, RecPlayerDestroy::new, new RecPlayerDestroyAction());
-        this.registerRecordable((byte) 27, RecPlayerSpawn.class, RecPlayerSpawn::new, new RecPlayerSpawnAction());
+        this.registerRecordable((byte) 25, RecPlayerDestroy.class, RecPlayerDestroy::new, new RecPlayerDestroyAction());
+        this.registerRecordable((byte) 26, RecPlayerSpawn.class, RecPlayerSpawn::new, new RecPlayerSpawnAction());
 
-        this.registerRecordable((byte) 28, RecParticle.class, RecParticle::new, new RecParticleAction());
+        this.registerRecordable((byte) 27, RecParticle.class, RecParticle::new, new RecParticleAction());
 
-        this.registerRecordable((byte) 29, RecCustomSoundEffect.class, RecCustomSoundEffect::new, new RecCustomSoundEffectAction());
-        this.registerRecordable((byte) 30, RecEntitySound.class, RecEntitySound::new, new RecEntitySoundAction());
-        this.registerRecordable((byte) 31, RecSoundEffect.class, RecSoundEffect::new, new RecSoundEffectAction());
-        this.registerRecordable((byte) 32, RecStopSound.class, RecStopSound::new, new RecStopSoundAction());
+        this.registerRecordable((byte) 28, RecCustomSoundEffect.class, RecCustomSoundEffect::new, new RecCustomSoundEffectAction());
+        this.registerRecordable((byte) 29, RecEntitySound.class, RecEntitySound::new, new RecEntitySoundAction());
+        this.registerRecordable((byte) 30, RecSoundEffect.class, RecSoundEffect::new, new RecSoundEffectAction());
+        this.registerRecordable((byte) 31, RecStopSound.class, RecStopSound::new, new RecStopSoundAction());
 
-        this.registerRecordable((byte) 33, RecWorldEvent.class, RecWorldEvent::new, new RecWorldEventAction());
+        this.registerRecordable((byte) 32, RecWorldEvent.class, RecWorldEvent::new, new RecWorldEventAction());
     }
 
     @Override
