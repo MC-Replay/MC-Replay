@@ -13,9 +13,8 @@ import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.recordables.actions.internal.InternalEntityRecordableAction;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.ReplaySession;
-import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +44,8 @@ public final class ReplaySessionPlayTask implements Runnable {
         this.endTime = this.recordables.lastKey();
     }
 
-    public @Nullable AbstractReplayEntity<?> getEntityByReplayId(int entityId) {
-        return this.entityCache.getEntityByReplayId(entityId);
+    public @NotNull ReplaySessionEntityHandler getEntityCache() {
+        return this.entityCache;
     }
 
     @SuppressWarnings("rawtypes, unchecked")
@@ -73,7 +72,7 @@ public final class ReplaySessionPlayTask implements Runnable {
             }
 
             if (action instanceof EntityRecordableAction entityRecordableAction) {
-                this.sendPackets(entityRecordableAction.createPackets(recordable, this.entityCache.createEntityGetterFunction()));
+                this.sendPackets(entityRecordableAction.createPackets(recordable, this.entityCache));
                 continue;
             }
 

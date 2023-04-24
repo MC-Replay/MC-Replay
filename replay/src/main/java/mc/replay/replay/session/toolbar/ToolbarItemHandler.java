@@ -23,6 +23,7 @@ public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
     public ToolbarItemHandler(ReplayHandler replayHandler, JavaPlugin plugin) {
         Bukkit.getServer().getPluginManager().registerEvents(new ToolbarItemListener(replayHandler, this), plugin);
 
+        this.register(new TeleportToolbarItem(0));
         this.register(new DecreaseSpeedToolbarItem(2));
         this.register(new BackwardsToolbarItem(3));
         this.register(new PauseResumeToolbarItem(4));

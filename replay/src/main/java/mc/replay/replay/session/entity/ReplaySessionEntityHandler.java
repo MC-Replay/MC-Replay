@@ -8,13 +8,16 @@ import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.common.replay.IReplayEntityProvider;
+import mc.replay.packetlib.data.Pos;
 import mc.replay.replay.ReplaySession;
+import mc.replay.wrapper.entity.EntityWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 @RequiredArgsConstructor
 public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
@@ -34,16 +37,18 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
         }
     }
 
-    public Function<Integer, RecordableEntityData> createEntityGetterFunction() {
-        return (originalEntityId) -> {
-            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
-            if (replayEntity == null) return null;
+    public @NotNull Collection<ReplayNPC> getNPCs() {
+        synchronized (this.entities) {
+            Collection<ReplayNPC> npcs = new HashSet<>();
 
-            return new RecordableEntityData(
-                    replayEntity.getReplayEntityId(),
-                    replayEntity.getEntity()
-            );
-        };
+            for (AbstractReplayEntity<?> entity : this.entities.values()) {
+                if (entity instanceof ReplayNPC npc) {
+                    npcs.add(npc);
+                }
+            }
+
+            return npcs;
+        }
     }
 
     @Override
@@ -98,6 +103,56 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
                     entity.destroy(this.replaySession.getAllPlayers());
                 }
             }
+        }
+    }
+
+    @Override
+    public @Nullable RecordableEntityData getEntity(int originalEntityId) {
+        synchronized (this.entities) {
+            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
+            if (replayEntity == null) return null;
+
+            return new RecordableEntityData(
+                    replayEntity.getReplayEntityId(),
+                    replayEntity.getEntity()
+            );
+        }
+    }
+
+    @Override
+    public void moveEntity(int originalEntityId, @NotNull Pos deltaPosition) {
+        synchronized (this.entities) {
+            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
+            if (replayEntity == null) return;
+
+            EntityWrapper entity = replayEntity.getEntity();
+
+            Pos newPosition = entity.getPosition()
+                    .add(deltaPosition)
+                    .withRotation(deltaPosition.yaw(), deltaPosition.pitch());
+            entity.setPosition(newPosition);
+        }
+    }
+
+    @Override
+    public void teleportEntity(int originalEntityId, @NotNull Pos position) {
+        synchronized (this.entities) {
+            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
+            if (replayEntity == null) return;
+
+            EntityWrapper entity = replayEntity.getEntity();
+            entity.setPosition(position);
+        }
+    }
+
+    @Override
+    public void rotateEntity(int originalEntityId, float yaw, float pitch) {
+        synchronized (this.entities) {
+            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
+            if (replayEntity == null) return;
+
+            EntityWrapper entity = replayEntity.getEntity();
+            entity.setPosition(entity.getPosition().withRotation(yaw, pitch));
         }
     }
 }

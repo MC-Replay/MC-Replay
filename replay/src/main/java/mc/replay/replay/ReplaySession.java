@@ -3,13 +3,12 @@ package mc.replay.replay;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.IRecording;
 import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.replay.session.IReplayPlayer;
+import mc.replay.common.MCReplayInternal;
 import mc.replay.replay.session.ReplayPlayer;
-import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
 import org.bukkit.Bukkit;
@@ -17,7 +16,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,7 +25,7 @@ import java.util.UUID;
 @Getter
 public final class ReplaySession implements IReplaySession {
 
-    private final MCReplay instance;
+    private final MCReplayInternal instance;
     private final UUID sessionUuid;
     private final IReplayPlayer navigator;
     private final Collection<IReplayPlayer> watchers;
@@ -47,7 +45,7 @@ public final class ReplaySession implements IReplaySession {
 
     private boolean invalid = false;
 
-    ReplaySession(MCReplay instance, Player navigator, Collection<Player> watchers, IRecording recording) {
+    ReplaySession(MCReplayInternal instance, Player navigator, Collection<Player> watchers, IRecording recording) {
         this.instance = instance;
         this.sessionUuid = UUID.randomUUID();
         this.recording = recording;
@@ -101,9 +99,5 @@ public final class ReplaySession implements IReplaySession {
 
     public World getReplayWorld() {
         return this.navigator.player().getWorld();
-    }
-
-    public @Nullable AbstractReplayEntity<?> getReplayEntityByReplayId(int entityId) {
-        return this.playTask.getEntityByReplayId(entityId);
     }
 }

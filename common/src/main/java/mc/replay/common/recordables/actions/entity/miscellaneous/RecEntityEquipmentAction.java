@@ -1,6 +1,7 @@
 package mc.replay.common.recordables.actions.entity.miscellaneous;
 
 import mc.replay.api.recording.recordables.action.EntityRecordableAction;
+import mc.replay.api.recording.recordables.data.IEntityProvider;
 import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
@@ -8,16 +9,16 @@ import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityEqui
 import mc.replay.wrapper.entity.LivingEntityWrapper;
 import mc.replay.wrapper.item.ItemWrapper;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public record RecEntityEquipmentAction() implements EntityRecordableAction<RecEntityEquipment> {
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityEquipment recordable, @NotNull Function<Integer, RecordableEntityData> function) {
-        RecordableEntityData data = function.apply(recordable.entityId().entityId());
+    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityEquipment recordable, @UnknownNullability IEntityProvider provider) {
+        RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
         if (data.entity() instanceof LivingEntityWrapper livingEntityWrapper) {

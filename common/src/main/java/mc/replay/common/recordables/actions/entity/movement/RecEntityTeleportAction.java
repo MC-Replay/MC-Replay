@@ -1,21 +1,24 @@
 package mc.replay.common.recordables.actions.entity.movement;
 
 import mc.replay.api.recording.recordables.action.EntityRecordableAction;
+import mc.replay.api.recording.recordables.data.IEntityProvider;
 import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.movement.RecEntityTeleport;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityTeleportPacket;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
-import java.util.function.Function;
 
 public record RecEntityTeleportAction() implements EntityRecordableAction<RecEntityTeleport> {
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityTeleport recordable, @NotNull Function<Integer, RecordableEntityData> function) {
-        RecordableEntityData data = function.apply(recordable.entityId().entityId());
+    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityTeleport recordable, @UnknownNullability IEntityProvider provider) {
+        RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
+
+        provider.teleportEntity(recordable.entityId().entityId(), recordable.position());
 
         return List.of(
                 new ClientboundEntityTeleportPacket(
