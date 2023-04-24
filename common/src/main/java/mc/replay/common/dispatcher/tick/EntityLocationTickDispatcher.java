@@ -3,10 +3,8 @@ package mc.replay.common.dispatcher.tick;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
-import mc.replay.common.recordables.types.entity.movement.RecEntityCorrectPositionAndRotation;
+import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
-import mc.replay.common.recordables.types.entity.movement.RecEntityPositionAndRotation;
-import mc.replay.common.recordables.types.entity.movement.RecEntityTeleport;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -20,12 +18,10 @@ import java.util.Map;
 public final class EntityLocationTickDispatcher implements DispatcherTick {
 
     private final Map<Entity, Location> lastLocations = new HashMap<>();
-    private final Map<Entity, Integer> positionAndRotationAmounts = new HashMap<>();
 
     @Override
     public void onTickGlobal(Integer currentTick) {
         this.lastLocations.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
-        this.positionAndRotationAmounts.entrySet().removeIf((entry) -> entry.getKey() == null || entry.getKey().isDead());
     }
 
     @Override
@@ -40,22 +36,11 @@ public final class EntityLocationTickDispatcher implements DispatcherTick {
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());
 
-        if (!lastLocation.equals(currentLocation)) {
-            if (lastLocation.distanceSquared(currentLocation) > 64) {
-                recordables.add(new RecEntityTeleport(entityId, currentLocation, entity.isOnGround()));
-            } else {
-                int amount = this.positionAndRotationAmounts.getOrDefault(entity, 0);
-                if (amount >= 20) {
-                    recordables.add(new RecEntityCorrectPositionAndRotation(entityId, currentLocation, entity.isOnGround()));
-                    this.positionAndRotationAmounts.put(entity, 0);
-                } else {
-                    recordables.add(new RecEntityPositionAndRotation(entityId, currentLocation, lastLocation, entity.isOnGround()));
-                    this.positionAndRotationAmounts.put(entity, amount + 1);
-                }
-            }
+        if (lastLocation.getX() != currentLocation.getX() || lastLocation.getY() != currentLocation.getY() || lastLocation.getZ() != currentLocation.getZ() || currentLocation.getPitch() != lastLocation.getPitch()) {
+            recordables.add(new RecEntityPosition(entityId, currentLocation));
         }
 
-        if (lastLocation.getYaw() != currentLocation.getYaw()) {
+        if (lastLocation.getYaw() != currentLocation.getYaw() || lastLocation.getPitch() != currentLocation.getPitch()) {
             recordables.add(new RecEntityHeadRotation(entityId, currentLocation.getYaw()));
         }
 

@@ -8,9 +8,7 @@ import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.common.replay.IReplayEntityProvider;
-import mc.replay.packetlib.data.Pos;
 import mc.replay.replay.ReplaySession;
-import mc.replay.wrapper.entity.EntityWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -117,43 +115,6 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
                     replayEntity.getReplayEntityId(),
                     replayEntity.getEntity()
             );
-        }
-    }
-
-    @Override
-    public void moveEntity(int originalEntityId, @NotNull Pos deltaPosition) {
-        synchronized (this.entities) {
-            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
-            if (replayEntity == null) return;
-
-            EntityWrapper entity = replayEntity.getEntity();
-
-            Pos newPosition = entity.getPosition()
-                    .add(deltaPosition)
-                    .withRotation(deltaPosition.yaw(), deltaPosition.pitch());
-            entity.setPosition(newPosition);
-        }
-    }
-
-    @Override
-    public void teleportEntity(int originalEntityId, @NotNull Pos position) {
-        synchronized (this.entities) {
-            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
-            if (replayEntity == null) return;
-
-            EntityWrapper entity = replayEntity.getEntity();
-            entity.setPosition(position);
-        }
-    }
-
-    @Override
-    public void rotateEntity(int originalEntityId, float yaw, float pitch) {
-        synchronized (this.entities) {
-            AbstractReplayEntity<?> replayEntity = this.entities.get(originalEntityId);
-            if (replayEntity == null) return;
-
-            EntityWrapper entity = replayEntity.getEntity();
-            entity.setPosition(entity.getPosition().withRotation(yaw, pitch));
         }
     }
 }

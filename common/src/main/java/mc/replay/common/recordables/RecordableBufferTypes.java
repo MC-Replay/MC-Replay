@@ -37,7 +37,7 @@ public final class RecordableBufferTypes {
             }
     );
 
-    public static final ReplayByteBuffer.Type<Float> SINGLE_ENTITY_ROTATION = new TypeImpl<>(Float.class,
+    public static final ReplayByteBuffer.Type<Float> ENTITY_ROTATION = new TypeImpl<>(Float.class,
             (buffer, boxed) -> {
                 float value = boxed;
                 if (value < 0) value += 360;
@@ -58,36 +58,6 @@ public final class RecordableBufferTypes {
                 short shortValue = (short) (((bytes[0] & 0xFF) << 8) | (bytes[1] & 0xFF));
                 int intValue = (shortValue >>> 6) & 0x3FF;
                 return (float) Math.toDegrees(intValue / 160.0);
-            }
-    );
-
-    public static final ReplayByteBuffer.Type<Pos> ENTITY_ROTATION = new TypeImpl<>(Pos.class, // TODO create different object for rotation
-            (buffer, pos) -> {
-                float[] values = new float[]{pos.yaw(), pos.pitch()};
-                for (float value : values) {
-                    buffer.write(SINGLE_ENTITY_ROTATION, value);
-                }
-                return -1;
-            },
-            buffer -> {
-                float[] values = new float[2];
-                for (int i = 0; i < values.length; i++) {
-                    values[i] = buffer.read(SINGLE_ENTITY_ROTATION);
-                }
-                return new Pos(0, 0, 0, values[0], values[1]);
-            }
-    );
-
-    public static final ReplayByteBuffer.Type<Pos> ENTITY_POSITION_WITH_ROTATION = new TypeImpl<>(Pos.class,
-            (buffer, pos) -> {
-                buffer.write(ENTITY_POSITION, pos);
-                buffer.write(ENTITY_ROTATION, pos);
-                return -1;
-            },
-            buffer -> {
-                Pos pos = buffer.read(ENTITY_POSITION);
-                Pos rotation = buffer.read(ENTITY_ROTATION);
-                return pos.withRotation(rotation.yaw(), rotation.pitch());
             }
     );
 

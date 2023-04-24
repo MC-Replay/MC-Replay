@@ -4,21 +4,26 @@ import mc.replay.api.recording.recordables.action.EntityRecordableAction;
 import mc.replay.api.recording.recordables.data.IEntityProvider;
 import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
+import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityHeadRotationPacket;
+import mc.replay.wrapper.entity.EntityWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecEntityHeadRotationAction() implements EntityRecordableAction<RecEntityHeadRotation> {
+public record RecEntityRotationAction() implements EntityRecordableAction<RecEntityHeadRotation> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityHeadRotation recordable, @UnknownNullability IEntityProvider provider) {
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        provider.rotateEntity(recordable.entityId().entityId(), recordable.yaw(), data.entity().getPosition().pitch());
+        EntityWrapper entity = data.entity();
+        Pos oldPosition = entity.getPosition();
+
+        entity.setPosition(oldPosition.withRotation(recordable.yaw(), oldPosition.pitch()));
 
         return List.of(
                 new ClientboundEntityHeadRotationPacket(

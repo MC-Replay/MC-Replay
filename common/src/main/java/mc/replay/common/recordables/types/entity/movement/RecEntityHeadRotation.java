@@ -11,13 +11,13 @@ public record RecEntityHeadRotation(EntityId entityId, float yaw) implements Rec
     public RecEntityHeadRotation(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                reader.read(RecordableBufferTypes.SINGLE_ENTITY_ROTATION)
+                reader.read(RecordableBufferTypes.ENTITY_ROTATION)
         );
     }
 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(RecordableBufferTypes.SINGLE_ENTITY_ROTATION, this.yaw);
+        writer.write(RecordableBufferTypes.ENTITY_ROTATION, this.yaw);
     }
 }
