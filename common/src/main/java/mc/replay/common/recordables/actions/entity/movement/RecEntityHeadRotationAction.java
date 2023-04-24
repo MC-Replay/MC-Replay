@@ -13,7 +13,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecEntityRotationAction() implements EntityRecordableAction<RecEntityHeadRotation> {
+public record RecEntityHeadRotationAction() implements EntityRecordableAction<RecEntityHeadRotation> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityHeadRotation recordable, @UnknownNullability IEntityProvider provider) {
