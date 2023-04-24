@@ -1,6 +1,7 @@
 package mc.replay.replay.session.entity;
 
 import lombok.Getter;
+import mc.replay.api.recording.recordables.data.IEntityProvider;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.utils.EntityPacketUtils;
 import mc.replay.packetlib.data.Pos;
@@ -37,7 +38,7 @@ public final class ReplayNPC extends AbstractReplayEntity<ReplayNPC> {
     }
 
     @Override
-    public void spawn(Collection<IReplayPlayer> viewers) {
+    public void spawn(IEntityProvider provider, Collection<IReplayPlayer> viewers) {
         this.entity = EntityPacketUtils.spawnNPC(viewers, this.startPosition, "Suspect", this.skinTexture, metadata);
     }
 

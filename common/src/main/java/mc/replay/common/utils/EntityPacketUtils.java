@@ -1,6 +1,8 @@
 package mc.replay.common.utils;
 
 import mc.replay.api.MCReplayAPI;
+import mc.replay.api.recording.recordables.data.IEntityProvider;
+import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.packetlib.data.PlayerProfileProperty;
 import mc.replay.packetlib.data.Pos;
@@ -21,6 +23,7 @@ import mc.replay.wrapper.entity.LivingEntityWrapper;
 import mc.replay.wrapper.entity.PlayerWrapper;
 import mc.replay.wrapper.entity.metadata.ObjectDataProvider;
 import mc.replay.wrapper.entity.metadata.PlayerMetadata;
+import mc.replay.wrapper.entity.metadata.ShooterProvider;
 import mc.replay.wrapper.team.TeamWrapper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -114,7 +117,7 @@ public final class EntityPacketUtils {
         return playerWrapper;
     }
 
-    public static EntityWrapper spawnEntity(Collection<IReplayPlayer> viewers, Pos position, EntityType entityType, Vector velocity) {
+    public static EntityWrapper spawnEntity(IEntityProvider entityProvider, Collection<IReplayPlayer> viewers, Pos position, EntityType entityType, int data, Vector velocity) {
         if (viewers == null || viewers.isEmpty() || entityType == EntityType.PLAYER)
             return null;
 
@@ -127,11 +130,18 @@ public final class EntityPacketUtils {
 
         entityWrapper.setPosition(position);
 
-        int data = 0;
         short velocityX = 0, velocityY = 0, velocityZ = 0;
         boolean requiresVelocityPacket = false;
         if (entityWrapper.getMetadata() instanceof ObjectDataProvider provider) {
-            data = provider.getObjectData();
+            if (entityWrapper.getMetadata() instanceof ShooterProvider shooterProvider) {
+                RecordableEntityData entityData = entityProvider.getEntity(data);
+                if (entityData != null) {
+                    shooterProvider.setShooterId(data = entityData.entityId());
+                }
+            } else {
+                data = provider.getObjectData();
+            }
+
             if (provider.requiresVelocityPacketAtSpawn()) {
                 requiresVelocityPacket = true;
                 velocityX = (short) velocity.getX();

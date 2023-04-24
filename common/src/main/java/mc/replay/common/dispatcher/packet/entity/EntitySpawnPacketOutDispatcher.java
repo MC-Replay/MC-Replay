@@ -19,6 +19,7 @@ public final class EntitySpawnPacketOutDispatcher implements DispatcherPacketOut
                         EntityId.of(packet.entityId()),
                         new EntityTypeWrapper(packet.type()).getBukkitType(),
                         packet.position(),
+                        packet.data(),
                         new Vector(
                                 packet.velocityX(),
                                 packet.velocityY(),

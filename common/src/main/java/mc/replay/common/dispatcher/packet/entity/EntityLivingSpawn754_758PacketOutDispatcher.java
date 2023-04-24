@@ -19,6 +19,7 @@ public final class EntityLivingSpawn754_758PacketOutDispatcher implements Dispat
                         EntityId.of(packet.entityId()),
                         new EntityTypeWrapper(packet.type()).getBukkitType(),
                         packet.position(),
+                        0,
                         new Vector(
                                 packet.velocityX(),
                                 packet.velocityY(),

@@ -63,7 +63,7 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
                     recordable.metadata()
             );
 
-            replayNPC.spawn(this.replaySession.getAllPlayers());
+            replayNPC.spawn(this, this.replaySession.getAllPlayers());
             this.entities.put(replayNPC.getOriginalEntityId(), replayNPC);
         }
     }
@@ -86,10 +86,11 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
                     recordable.entityType(),
                     this.replaySession.getReplayWorld(),
                     recordable.position(),
+                    recordable.data(),
                     recordable.velocity()
             );
 
-            replayEntity.spawn(this.replaySession.getAllPlayers());
+            replayEntity.spawn(this, this.replaySession.getAllPlayers());
             this.entities.put(replayEntity.getOriginalEntityId(), replayEntity);
         }
     }

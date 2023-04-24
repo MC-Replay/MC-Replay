@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
 public record RecEntitySpawn(EntityId entityId, EntityType entityType, Pos position,
-                             Vector velocity) implements Recordable {
+                             int data, Vector velocity) implements Recordable {
 
     public RecEntitySpawn(@NotNull ReplayByteBuffer reader) {
         this(
@@ -24,6 +24,7 @@ public record RecEntitySpawn(EntityId entityId, EntityType entityType, Pos posit
                         reader.read(FLOAT),
                         reader.read(FLOAT)
                 ),
+                reader.read(VAR_INT),
                 (reader.read(BOOLEAN)) ? new Vector(
                         reader.read(DOUBLE),
                         reader.read(DOUBLE),
@@ -42,6 +43,7 @@ public record RecEntitySpawn(EntityId entityId, EntityType entityType, Pos posit
         writer.write(FLOAT, this.position.yaw());
         writer.write(FLOAT, this.position.pitch());
 
+        writer.write(VAR_INT, this.data);
         writer.write(BOOLEAN, this.velocity != null);
         if (this.velocity != null) {
             writer.write(DOUBLE, this.velocity.getX());
