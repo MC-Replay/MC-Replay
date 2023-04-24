@@ -3,8 +3,8 @@ package mc.replay.common.dispatcher.tick;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
-import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
+import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -40,7 +40,7 @@ public final class EntityLocationTickDispatcher implements DispatcherTick {
             recordables.add(new RecEntityPosition(entityId, currentLocation));
         }
 
-        if (lastLocation.getYaw() != currentLocation.getYaw() || lastLocation.getPitch() != currentLocation.getPitch()) {
+        if (lastLocation.getYaw() != currentLocation.getYaw()) {
             recordables.add(new RecEntityHeadRotation(entityId, currentLocation.getYaw()));
         }
 
