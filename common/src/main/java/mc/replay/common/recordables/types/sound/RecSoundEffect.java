@@ -3,11 +3,12 @@ package mc.replay.common.recordables.types.sound;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
 public record RecSoundEffect(int soundId, int sourceId, int x, int y, int z, float volume,
-                             float pitch, long seed) implements Recordable {
+                             float pitch, @Nullable Long seed) implements Recordable {
 
     public RecSoundEffect(@NotNull ReplayByteBuffer reader) {
         this(
@@ -31,6 +32,6 @@ public record RecSoundEffect(int soundId, int sourceId, int x, int y, int z, flo
         writer.write(INT, this.z);
         writer.write(FLOAT, this.volume);
         writer.write(FLOAT, this.pitch);
-        writer.write(LONG, this.seed);
+        writer.write(LONG, (this.seed == null) ? 0 : this.seed);
     }
 }

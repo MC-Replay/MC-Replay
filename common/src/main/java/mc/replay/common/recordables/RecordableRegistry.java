@@ -5,6 +5,8 @@ import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.RecordableDefinition;
 import mc.replay.api.recording.recordables.action.RecordableAction;
 import mc.replay.common.recordables.actions.block.*;
+import mc.replay.common.recordables.actions.chat.RecPlayerChatAction;
+import mc.replay.common.recordables.actions.chat.RecPlayerCommandAction;
 import mc.replay.common.recordables.actions.entity.RecEntityDestroyAction;
 import mc.replay.common.recordables.actions.entity.RecEntitySpawnAction;
 import mc.replay.common.recordables.actions.entity.RecPlayerDestroyAction;
@@ -23,6 +25,8 @@ import mc.replay.common.recordables.actions.sound.RecSoundEffectAction;
 import mc.replay.common.recordables.actions.sound.RecStopSoundAction;
 import mc.replay.common.recordables.actions.world.RecWorldEventAction;
 import mc.replay.common.recordables.types.block.*;
+import mc.replay.common.recordables.types.chat.RecPlayerChat;
+import mc.replay.common.recordables.types.chat.RecPlayerCommand;
 import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
@@ -59,8 +63,8 @@ public final class RecordableRegistry implements IRecordableRegistry {
         this.registerRecordable((byte) 4, RecBlockEntityData.class, RecBlockEntityData::new, new RecBlockEntityDataAction());
         this.registerRecordable((byte) 5, RecMultiBlockChange.class, RecMultiBlockChange::new, new RecMultiBlockChangeAction());
 
-        //        this.registerRecordable((byte) 6, RecPlayerChat.class, RecPlayerChat::new); // chat
-        //        this.registerRecordable((byte) 7, RecPlayerCommand.class, RecPlayerCommand::new); // command
+        this.registerRecordable((byte) 6, RecPlayerChat.class, RecPlayerChat::new, new RecPlayerChatAction());
+        this.registerRecordable((byte) 7, RecPlayerCommand.class, RecPlayerCommand::new, new RecPlayerCommandAction());
 
         this.registerRecordable((byte) 8, RecEntityCombust.class, RecEntityCombust::new, new RecEntityCombustAction());
         this.registerRecordable((byte) 9, RecEntityGliding.class, RecEntityGliding::new, new RecEntityGlidingAction());
