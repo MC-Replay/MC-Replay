@@ -12,7 +12,7 @@ import mc.replay.packetlib.data.team.CollisionRule;
 import mc.replay.packetlib.data.team.TeamAction;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.*;
-import mc.replay.packetlib.network.packet.clientbound.play.version.ClientboundLivingEntitySpawn754_758Packet;
+import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundLivingEntitySpawn754_758Packet;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.wrapper.data.PlayerProfile;
 import mc.replay.wrapper.data.SkinTexture;
@@ -22,6 +22,7 @@ import mc.replay.wrapper.entity.PlayerWrapper;
 import mc.replay.wrapper.entity.metadata.ObjectDataProvider;
 import mc.replay.wrapper.entity.metadata.PlayerMetadata;
 import mc.replay.wrapper.team.TeamWrapper;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
@@ -67,7 +68,7 @@ public final class EntityPacketUtils {
                 List.copyOf(playerProfile.properties().values()),
                 GameMode.SURVIVAL,
                 0,
-                null
+                (Component) null
         );
 
         TeamAction.CreateTeamAction createTeamAction = new TeamAction.CreateTeamAction(

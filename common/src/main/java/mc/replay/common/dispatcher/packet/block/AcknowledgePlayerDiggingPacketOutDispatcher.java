@@ -3,7 +3,7 @@ package mc.replay.common.dispatcher.packet.block;
 import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.types.block.RecAcknowledgePlayerDigging;
-import mc.replay.packetlib.network.packet.clientbound.play.version.ClientboundAcknowledgePlayerDigging754_758Packet;
+import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundAcknowledgePlayerDigging754_758Packet;
 
 import java.util.List;
 

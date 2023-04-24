@@ -4,7 +4,7 @@ import mc.replay.api.recording.recordables.Recordable;
 import mc.replay.api.recording.recordables.entity.EntityId;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
-import mc.replay.packetlib.network.packet.clientbound.play.version.ClientboundLivingEntitySpawn754_758Packet;
+import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundLivingEntitySpawn754_758Packet;
 import mc.replay.wrapper.entity.EntityTypeWrapper;
 import org.bukkit.util.Vector;
 
