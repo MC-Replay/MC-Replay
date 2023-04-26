@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.actions.entity.movement;
 
-import mc.replay.api.recording.recordables.action.EntityRecordableAction;
-import mc.replay.api.recording.recordables.data.IEntityProvider;
-import mc.replay.api.recording.recordables.entity.RecordableEntityData;
+import mc.replay.api.recordables.action.EntityRecordableAction;
+import mc.replay.api.recordables.data.IEntityProvider;
+import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;

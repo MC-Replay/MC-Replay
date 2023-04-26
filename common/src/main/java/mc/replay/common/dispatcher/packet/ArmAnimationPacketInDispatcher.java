@@ -1,7 +1,7 @@
 package mc.replay.common.dispatcher.packet;
 
-import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntitySwingHandAnimation;
 import mc.replay.packetlib.network.packet.serverbound.play.ServerboundAnimationPacket;

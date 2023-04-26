@@ -1,6 +1,6 @@
 package mc.replay.common.recordables.types.block;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

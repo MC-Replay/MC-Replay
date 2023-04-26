@@ -1,6 +1,6 @@
 package mc.replay.common.dispatcher.packet.particle;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.types.particle.RecParticle;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundParticlePacket;

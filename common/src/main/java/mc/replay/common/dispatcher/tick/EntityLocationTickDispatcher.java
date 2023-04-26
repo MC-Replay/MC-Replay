@@ -1,7 +1,7 @@
 package mc.replay.common.dispatcher.tick;
 
-import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.dispatcher.DispatcherTick;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;

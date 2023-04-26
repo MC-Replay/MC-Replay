@@ -3,7 +3,7 @@ package mc.replay.dispatcher.packet;
 import lombok.Getter;
 import mc.replay.MCReplayPlugin;
 import mc.replay.api.recording.IRecordingSession;
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketIn;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.dispatcher.ReplayDispatcher;

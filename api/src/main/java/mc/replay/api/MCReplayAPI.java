@@ -2,7 +2,7 @@ package mc.replay.api;
 
 import lombok.Getter;
 import mc.replay.api.recording.IRecordingHandler;
-import mc.replay.api.recording.recordables.IRecordableRegistry;
+import mc.replay.api.recordables.IRecordableRegistry;
 import mc.replay.api.replay.IReplayHandler;
 import mc.replay.api.utils.config.IReplayConfigProcessor;
 import mc.replay.api.utils.config.templates.ReplayMessages;

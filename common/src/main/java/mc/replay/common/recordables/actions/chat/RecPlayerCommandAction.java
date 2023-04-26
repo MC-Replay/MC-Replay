@@ -1,7 +1,6 @@
 package mc.replay.common.recordables.actions.chat;
 
-import mc.replay.api.recording.recordables.action.EmptyRecordableAction;
-import mc.replay.common.recordables.types.chat.RecPlayerChat;
+import mc.replay.api.recordables.action.EmptyRecordableAction;
 import mc.replay.common.recordables.types.chat.RecPlayerCommand;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundSystemChatMessagePacket;

@@ -1,6 +1,6 @@
 package mc.replay.replay.session.entity;
 
-import mc.replay.api.recording.recordables.data.IEntityProvider;
+import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.utils.EntityPacketUtils;
 import mc.replay.packetlib.data.Pos;

@@ -1,6 +1,6 @@
 package mc.replay.common.dispatcher;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;

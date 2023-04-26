@@ -1,7 +1,7 @@
 package mc.replay.recording;
 
 import mc.replay.api.recording.IRecording;
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 
 import java.time.Duration;
 import java.util.List;

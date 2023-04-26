@@ -1,6 +1,6 @@
 package mc.replay.common.replay;
 
-import mc.replay.api.recording.recordables.data.IEntityProvider;
+import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;

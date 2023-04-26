@@ -1,6 +1,6 @@
 package mc.replay.common.dispatcher;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
 import org.bukkit.entity.Player;
 

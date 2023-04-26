@@ -1,6 +1,5 @@
-package mc.replay.api.recording.recordables.data;
+package mc.replay.api.recordables.data;
 
-import mc.replay.api.recording.recordables.entity.RecordableEntityData;
 import org.jetbrains.annotations.Nullable;
 
 public interface IEntityProvider {

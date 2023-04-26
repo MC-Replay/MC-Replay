@@ -1,6 +1,6 @@
 package mc.replay.api.recording;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;

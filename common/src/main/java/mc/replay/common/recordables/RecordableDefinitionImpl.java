@@ -1,9 +1,9 @@
 package mc.replay.common.recordables;
 
 import lombok.AllArgsConstructor;
-import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.RecordableDefinition;
-import mc.replay.api.recording.recordables.action.RecordableAction;
+import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recordables.RecordableDefinition;
+import mc.replay.api.recordables.action.RecordableAction;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 

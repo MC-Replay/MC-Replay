@@ -1,6 +1,6 @@
 package mc.replay.common.recordables.actions.sound;
 
-import mc.replay.api.recording.recordables.action.EmptyRecordableAction;
+import mc.replay.api.recordables.action.EmptyRecordableAction;
 import mc.replay.common.recordables.types.sound.RecSoundEffect;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundSoundEffectPacket;

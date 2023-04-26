@@ -1,4 +1,4 @@
-package mc.replay.api.recording.recordables.entity;
+package mc.replay.api.recordables.data;
 
 import mc.replay.wrapper.entity.EntityWrapper;
 

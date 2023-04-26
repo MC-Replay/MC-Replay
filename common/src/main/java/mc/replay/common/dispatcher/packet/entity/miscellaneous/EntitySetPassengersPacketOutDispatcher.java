@@ -1,7 +1,7 @@
 package mc.replay.common.dispatcher.packet.entity.miscellaneous;
 
-import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.entity.EntityId;
+import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntitySetPassengers;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundSetPassengersPacket;

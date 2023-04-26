@@ -2,7 +2,7 @@ package mc.replay.dispatcher.event;
 
 import mc.replay.MCReplayPlugin;
 import mc.replay.api.recording.IRecordingSession;
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherEvent;
 import mc.replay.dispatcher.ReplayDispatcher;
 import mc.replay.recording.RecordingSession;

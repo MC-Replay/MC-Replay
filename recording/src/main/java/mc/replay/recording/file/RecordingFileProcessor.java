@@ -2,7 +2,7 @@ package mc.replay.recording.file;
 
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recording.IRecording;
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.recording.Recording;

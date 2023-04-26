@@ -1,6 +1,6 @@
 package mc.replay.common.dispatcher.packet.block;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.common.dispatcher.DispatcherPacketOut;
 import mc.replay.common.recordables.types.block.RecBlockBreakStage;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockBreakAnimationPacket;

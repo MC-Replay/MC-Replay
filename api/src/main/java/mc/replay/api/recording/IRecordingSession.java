@@ -1,6 +1,6 @@
 package mc.replay.api.recording;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 

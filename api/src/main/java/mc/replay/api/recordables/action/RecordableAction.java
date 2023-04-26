@@ -1,6 +1,6 @@
-package mc.replay.api.recording.recordables.action;
+package mc.replay.api.recordables.action;
 
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;

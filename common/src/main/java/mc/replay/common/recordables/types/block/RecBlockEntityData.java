@@ -1,7 +1,7 @@
 package mc.replay.common.recordables.types.block;
 
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
-import mc.replay.api.recording.recordables.Recordable;
+import mc.replay.api.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

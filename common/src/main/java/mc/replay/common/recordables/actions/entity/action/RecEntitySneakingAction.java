@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.actions.entity.action;
 
-import mc.replay.api.recording.recordables.action.EntityRecordableAction;
-import mc.replay.api.recording.recordables.data.IEntityProvider;
-import mc.replay.api.recording.recordables.entity.RecordableEntityData;
+import mc.replay.api.recordables.action.EntityRecordableAction;
+import mc.replay.api.recordables.data.IEntityProvider;
+import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.action.RecEntitySneaking;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;

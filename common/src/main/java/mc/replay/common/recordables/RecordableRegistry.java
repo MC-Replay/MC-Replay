@@ -1,9 +1,9 @@
 package mc.replay.common.recordables;
 
-import mc.replay.api.recording.recordables.IRecordableRegistry;
-import mc.replay.api.recording.recordables.Recordable;
-import mc.replay.api.recording.recordables.RecordableDefinition;
-import mc.replay.api.recording.recordables.action.RecordableAction;
+import mc.replay.api.recordables.IRecordableRegistry;
+import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recordables.RecordableDefinition;
+import mc.replay.api.recordables.action.RecordableAction;
 import mc.replay.common.recordables.actions.block.*;
 import mc.replay.common.recordables.actions.chat.RecPlayerChatAction;
 import mc.replay.common.recordables.actions.chat.RecPlayerCommandAction;
