@@ -17,24 +17,24 @@ import java.util.List;
 
 public final class RecordingEventDispatcher extends RecordingDispatcher implements Listener {
 
-    private final Collection<DispatcherEvent<?>> eventListeners = new HashSet<>();
+    private final Collection<DispatcherEvent<?>> eventDispatchers = new HashSet<>();
 
     public RecordingEventDispatcher(MCReplayInternal plugin) {
         super(plugin);
     }
 
-    public <T extends Event> void registerListener(DispatcherEvent<T> eventListener) {
-        this.eventListeners.add(eventListener);
+    public <T extends Event> void registerEvent(DispatcherEvent<T> eventListener) {
+        this.eventDispatchers.add(eventListener);
     }
 
     public int getDispatcherCount() {
-        return this.eventListeners.size();
+        return this.eventDispatchers.size();
     }
 
     @Override
     public void start() {
-        for (DispatcherEvent<?> eventListener : this.eventListeners) {
-            this.registerReplayEventListener(eventListener);
+        for (DispatcherEvent<?> event : this.eventDispatchers) {
+            this.registerBukkitEvent(event);
         }
     }
 
@@ -44,15 +44,15 @@ public final class RecordingEventDispatcher extends RecordingDispatcher implemen
     }
 
     @SuppressWarnings("rawtypes, unchecked")
-    private void registerReplayEventListener(DispatcherEvent eventListener) {
+    private void registerBukkitEvent(DispatcherEvent event) {
         Bukkit.getServer().getPluginManager().registerEvent(
-                eventListener.getInputClass(),
+                event.getInputClass(),
                 this,
-                eventListener.getPriority(),
-                ($, event) -> {
+                event.getPriority(),
+                ($, bukkitEvent) -> {
                     if (!this.shouldRecord()) return;
 
-                    List<Recordable> recordables = eventListener.getRecordables(event);
+                    List<Recordable> recordables = event.getRecordables(bukkitEvent);
                     if (recordables == null) return;
 
                     for (IRecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessions().values()) {
@@ -60,7 +60,7 @@ public final class RecordingEventDispatcher extends RecordingDispatcher implemen
                     }
                 },
                 this.plugin.getJavaPlugin(),
-                eventListener.ignoreCancelled()
+                event.ignoreCancelled()
         );
     }
 }

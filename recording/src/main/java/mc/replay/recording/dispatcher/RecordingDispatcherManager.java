@@ -55,11 +55,11 @@ public final class RecordingDispatcherManager {
 
     @SuppressWarnings("unchecked")
     private void loadDispatchers() throws Exception {
-        for (Class<?> clazz : this.getClasses(this.plugin.getJavaPlugin(), "mc.replay.common.dispatcher")) {
+        for (Class<?> clazz : this.getClasses(this.plugin.getJavaPlugin(), "mc.replay.recording.dispatcher.dispatchers")) {
             if (clazz.isInterface()) continue;
 
             if (DispatcherEvent.class.isAssignableFrom(clazz)) {
-                this.eventDispatcher.registerListener((DispatcherEvent<?>) clazz.getDeclaredConstructor().newInstance());
+                this.eventDispatcher.registerEvent((DispatcherEvent<?>) clazz.getDeclaredConstructor().newInstance());
                 continue;
             }
 

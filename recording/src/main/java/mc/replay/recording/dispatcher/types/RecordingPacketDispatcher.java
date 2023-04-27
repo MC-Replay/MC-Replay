@@ -18,14 +18,14 @@ import java.util.Map;
 @Getter
 public final class RecordingPacketDispatcher extends RecordingDispatcher {
 
-    private final Map<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> packetInConverters = new HashMap<>();
-    private final Map<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> packetOutConverters = new HashMap<>();
+    private final Map<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> packetInDispatchers = new HashMap<>();
+    private final Map<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> packetOutDispatchers = new HashMap<>();
 
     public RecordingPacketDispatcher(MCReplayInternal plugin) {
         super(plugin);
 
         plugin.getPacketLib().packetListener().listenClientbound((player, packet) -> {
-            for (Map.Entry<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> entry : this.packetOutConverters.entrySet()) {
+            for (Map.Entry<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> entry : this.packetOutDispatchers.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
                 List<Recordable> recordables = entry.getValue().getRecordables(packet);
@@ -38,7 +38,7 @@ public final class RecordingPacketDispatcher extends RecordingDispatcher {
         });
 
         plugin.getPacketLib().packetListener().listenServerbound((player, packet) -> {
-            for (Map.Entry<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> entry : this.packetInConverters.entrySet()) {
+            for (Map.Entry<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> entry : this.packetInDispatchers.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
                 List<Recordable> recordables = entry.getValue().getRecordables(player, packet);
@@ -52,14 +52,14 @@ public final class RecordingPacketDispatcher extends RecordingDispatcher {
     }
 
     public void registerPacketInConverter(DispatcherPacketIn<ServerboundPacket> converter) {
-        this.packetInConverters.put(converter.getInputClass(), converter);
+        this.packetInDispatchers.put(converter.getInputClass(), converter);
     }
 
     public void registerPacketOutConverter(DispatcherPacketOut<ClientboundPacket> converter) {
-        this.packetOutConverters.put(converter.getInputClass(), converter);
+        this.packetOutDispatchers.put(converter.getInputClass(), converter);
     }
 
     public int getDispatcherCount() {
-        return this.packetInConverters.size() + this.packetOutConverters.size();
+        return this.packetInDispatchers.size() + this.packetOutDispatchers.size();
     }
 }
