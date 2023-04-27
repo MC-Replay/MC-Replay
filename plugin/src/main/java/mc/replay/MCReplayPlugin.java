@@ -12,7 +12,7 @@ import mc.replay.common.MCReplayInternal;
 import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.common.utils.reflection.JavaReflections;
-import mc.replay.dispatcher.ReplayDispatchManager;
+import mc.replay.recording.dispatcher.RecordingDispatcherManager;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.replay.ReplayHandler;
@@ -37,7 +37,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
 
     private ReplayHandler replayHandler;
 
-    private ReplayDispatchManager dispatchManager;
+    private RecordingDispatcherManager dispatchManager;
 
     @Override
     public void onLoad() {
@@ -74,7 +74,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
 
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());
 
-        this.dispatchManager = new ReplayDispatchManager(this);
+        this.dispatchManager = new RecordingDispatcherManager(this);
 
         ClassGenerator.generate();
 

@@ -1,8 +1,8 @@
 package mc.replay.recording;
 
 import lombok.Getter;
-import mc.replay.api.recording.IRecordingHandler;
 import mc.replay.api.recording.IRecording;
+import mc.replay.api.recording.IRecordingHandler;
 import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.recording.file.RecordingFileProcessor;
@@ -43,9 +43,5 @@ public final class RecordingHandler implements IRecordingHandler {
     @Override
     public boolean cancelRecording(@NotNull UUID sessionUuid) {
         return this.recordingSessions.remove(sessionUuid) != null;
-    }
-
-    public boolean shouldRecord() {
-        return !this.recordingSessions.isEmpty();
     }
 }
