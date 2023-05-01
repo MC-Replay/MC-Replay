@@ -7,8 +7,15 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-@FunctionalInterface
 public interface RecordableAction<R extends Recordable, T> {
 
     @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull R recordable, @UnknownNullability T data);
+
+    default @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull R recordable, @UnknownNullability T data) {
+        return this.createPackets(recordable, data);
+    }
+
+    default @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull R recordable, @UnknownNullability T data) {
+        return this.createPackets(recordable, data);
+    }
 }

@@ -1,6 +1,6 @@
 package mc.replay.common.recordables.types.block;
 
-import mc.replay.api.recordables.Recordable;
+import mc.replay.common.recordables.types.internal.BlockRelatedRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import static mc.replay.packetlib.network.ReplayByteBuffer.BLOCK_POSITION;
 import static mc.replay.packetlib.network.ReplayByteBuffer.INT;
 
-public record RecBlockChange(Vector blockPosition, int blockStateId) implements Recordable {
+public record RecBlockChange(Vector blockPosition, int blockStateId) implements BlockRelatedRecordable {
 
     public RecBlockChange(@NotNull ReplayByteBuffer reader) {
         this(

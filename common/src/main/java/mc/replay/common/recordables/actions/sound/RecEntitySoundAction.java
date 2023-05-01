@@ -5,6 +5,7 @@ import mc.replay.common.recordables.types.sound.RecEntitySound;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntitySoundEffectPacket;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
@@ -21,5 +22,15 @@ public record RecEntitySoundAction() implements EmptyRecordableAction<RecEntityS
                         recordable.pitch()
                 )
         );
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecEntitySound recordable, @UnknownNullability Void data) {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecEntitySound recordable, @UnknownNullability Void data) {
+        return List.of();
     }
 }

@@ -5,6 +5,7 @@ import mc.replay.common.recordables.types.sound.RecStopSound;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundStopSoundPacket;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
@@ -19,5 +20,15 @@ public record RecStopSoundAction() implements EmptyRecordableAction<RecStopSound
                         recordable.sound()
                 )
         );
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecStopSound recordable, @UnknownNullability Void data) {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecStopSound recordable, @UnknownNullability Void data) {
+        return List.of();
     }
 }

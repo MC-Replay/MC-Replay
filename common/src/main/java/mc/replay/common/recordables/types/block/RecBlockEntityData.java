@@ -1,14 +1,14 @@
 package mc.replay.common.recordables.types.block;
 
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
-import mc.replay.api.recordables.Recordable;
+import mc.replay.common.recordables.types.internal.BlockRelatedRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
-public record RecBlockEntityData(Vector blockPosition, int action, CompoundTag data) implements Recordable {
+public record RecBlockEntityData(Vector blockPosition, int action, CompoundTag data) implements BlockRelatedRecordable {
 
     public RecBlockEntityData(@NotNull ReplayByteBuffer reader) {
         this(

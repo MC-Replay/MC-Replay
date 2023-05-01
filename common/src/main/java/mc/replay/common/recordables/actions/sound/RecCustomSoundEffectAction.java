@@ -5,6 +5,7 @@ import mc.replay.common.recordables.types.sound.RecCustomSoundEffect;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundCustomSoundEffect_754_760Packet;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
@@ -24,5 +25,15 @@ public record RecCustomSoundEffectAction() implements EmptyRecordableAction<RecC
                         recordable.seed()
                 )
         );
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecCustomSoundEffect recordable, @UnknownNullability Void data) {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecCustomSoundEffect recordable, @UnknownNullability Void data) {
+        return List.of();
     }
 }

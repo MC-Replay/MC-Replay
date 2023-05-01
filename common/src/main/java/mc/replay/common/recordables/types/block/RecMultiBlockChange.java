@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.block;
 
-import mc.replay.api.recordables.Recordable;
+import mc.replay.common.recordables.types.internal.BlockRelatedRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
 public record RecMultiBlockChange(long chunkSectorPosition, boolean suppressLightUpdates,
-                                  long[] blocks) implements Recordable {
+                                  long[] blocks) implements BlockRelatedRecordable {
 
     public RecMultiBlockChange(@NotNull ReplayByteBuffer reader) {
         this(

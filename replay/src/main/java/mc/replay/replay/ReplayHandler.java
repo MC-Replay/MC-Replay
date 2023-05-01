@@ -10,6 +10,7 @@ import mc.replay.replay.preparation.ReplayPlayerPreparationHandler;
 import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.listener.ReplaySessionPacketListener;
 import mc.replay.replay.session.toolbar.ToolbarItemHandler;
+import mc.replay.replay.time.ReplaySkipTimeHandler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +28,7 @@ public final class ReplayHandler implements IReplayHandler {
     private final Map<UUID, IReplaySession> replaySessions = new HashMap<>();
 
     private final ReplayPlayerPreparationHandler preparationHandler;
+    private final ReplaySkipTimeHandler skipTimeHandler;
 
     private final ReplaySessionPacketListener packetListener;
     private final ToolbarItemHandler toolbarItemHandler;
@@ -34,6 +36,7 @@ public final class ReplayHandler implements IReplayHandler {
     public ReplayHandler(MCReplayInternal instance) {
         this.instance = instance;
         this.preparationHandler = new ReplayPlayerPreparationHandler(this, instance);
+        this.skipTimeHandler = new ReplaySkipTimeHandler(instance);
         this.packetListener = new ReplaySessionPacketListener(this, instance);
         this.toolbarItemHandler = new ToolbarItemHandler(this, instance.getJavaPlugin());
     }

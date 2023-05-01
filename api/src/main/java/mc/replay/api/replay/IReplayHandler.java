@@ -3,6 +3,7 @@ package mc.replay.api.replay;
 import mc.replay.api.recording.IRecording;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.api.replay.session.toolbar.IToolbarItemHandler;
+import mc.replay.api.replay.time.IReplaySkipTimeHandler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +16,8 @@ public interface IReplayHandler {
     Map<UUID, IReplayPlayer> getReplayPlayers();
 
     Map<UUID, IReplaySession> getReplaySessions();
+
+    IReplaySkipTimeHandler getSkipTimeHandler();
 
     IToolbarItemHandler getToolbarItemHandler();
 

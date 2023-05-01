@@ -2,6 +2,7 @@ package mc.replay.replay.session.task;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recordables.Recordable;
@@ -31,6 +32,8 @@ public final class ReplaySessionPlayTask implements Runnable {
 
     private final long startTime, endTime;
 
+    @Getter
+    @Setter
     private int currentTime;
 
     public ReplaySessionPlayTask(MCReplay instance, ReplaySession replaySession) {
@@ -67,7 +70,7 @@ public final class ReplaySessionPlayTask implements Runnable {
 
             RecordableAction<? extends Recordable, ?> action = recordableDefinition.action();
             if (action instanceof InternalEntityRecordableAction internalEntityRecordableAction) {
-                internalEntityRecordableAction.createPackets(recordable, this.entityCache);
+                this.sendPackets(internalEntityRecordableAction.createPackets(recordable, this.entityCache));
                 continue;
             }
 
@@ -87,7 +90,7 @@ public final class ReplaySessionPlayTask implements Runnable {
         }
     }
 
-    private void sendPackets(List<ClientboundPacket> packets) {
+    public void sendPackets(List<ClientboundPacket> packets) {
         for (IReplayPlayer replayPlayer : this.replaySession.getAllPlayers()) {
             for (ClientboundPacket packet : packets) {
                 MCReplayAPI.getPacketLib().sendPacket(replayPlayer.player(), packet);

@@ -16,4 +16,14 @@ public record RecPlayerSpawnAction() implements InternalEntityRecordableAction<R
         provider.spawnPlayer(recordable);
         return List.of();
     }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecPlayerSpawn recordable, @UnknownNullability IReplayEntityProvider provider) {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecPlayerSpawn recordable, @UnknownNullability IReplayEntityProvider provider) {
+        return List.of();
+    }
 }

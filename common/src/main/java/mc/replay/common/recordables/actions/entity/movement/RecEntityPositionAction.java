@@ -50,6 +50,33 @@ public record RecEntityPositionAction() implements EntityRecordableAction<RecEnt
         );
     }
 
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecEntityPosition recordable, @UnknownNullability IEntityProvider provider) {
+        RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
+        if (data == null) return List.of();
+
+        EntityWrapper entity = data.entity();
+
+        Pos oldPosition = entity.getPosition();
+        Pos newPosition = recordable.position()
+                .withRotation(oldPosition.yaw(), recordable.pitch());
+
+        entity.setPosition(newPosition);
+
+        return List.of(
+                new ClientboundEntityTeleportPacket(
+                        data.entityId(),
+                        newPosition,
+                        false
+                )
+        );
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecEntityPosition recordable, @UnknownNullability IEntityProvider provider) {
+        return this.createPacketsForwards(recordable, provider);
+    }
+
     private double distanceSquared(Pos pos1, Pos pos2) {
         return this.square(pos1.x() - pos2.x()) + this.square(pos1.y() - pos2.y()) + this.square(pos1.z() - pos2.z());
     }

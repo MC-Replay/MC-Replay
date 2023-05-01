@@ -5,6 +5,7 @@ import mc.replay.common.recordables.types.particle.RecParticle;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundParticlePacket;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
@@ -27,5 +28,15 @@ public record RecParticleAction() implements EmptyRecordableAction<RecParticle> 
                         recordable.data()
                 )
         );
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecParticle recordable, @UnknownNullability Void data) {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecParticle recordable, @UnknownNullability Void data) {
+        return List.of();
     }
 }

@@ -26,6 +26,7 @@ import java.util.UUID;
 public final class ReplaySession implements IReplaySession {
 
     private final MCReplayInternal instance;
+
     private final UUID sessionUuid;
     private final IReplayPlayer navigator;
     private final Collection<IReplayPlayer> watchers;

@@ -23,16 +23,8 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
     private final ReplaySession replaySession;
     private final Map<Integer, AbstractReplayEntity<?>> entities = new ConcurrentHashMap<>();
 
-    public @Nullable AbstractReplayEntity<?> getEntityByReplayId(int entityId) {
-        synchronized (this.entities) {
-            for (AbstractReplayEntity<?> entity : this.entities.values()) {
-                if (entity.getEntity().getEntityId() == entityId) {
-                    return entity;
-                }
-            }
-
-            return null;
-        }
+    public Map<Integer, AbstractReplayEntity<?>> getEntities() {
+        return this.entities;
     }
 
     public @NotNull Collection<ReplayNPC> getNPCs() {
@@ -46,6 +38,18 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
             }
 
             return npcs;
+        }
+    }
+
+    public @Nullable AbstractReplayEntity<?> getEntityByReplayId(int entityId) {
+        synchronized (this.entities) {
+            for (AbstractReplayEntity<?> entity : this.entities.values()) {
+                if (entity.getEntity().getEntityId() == entityId) {
+                    return entity;
+                }
+            }
+
+            return null;
         }
     }
 
