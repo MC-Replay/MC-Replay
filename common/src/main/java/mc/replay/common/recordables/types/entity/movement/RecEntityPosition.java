@@ -1,14 +1,14 @@
 package mc.replay.common.recordables.types.entity.movement;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.RecordableBufferTypes;
+import mc.replay.common.recordables.types.internal.EntityMovementRecordable;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
-public record RecEntityPosition(EntityId entityId, Pos position, float pitch) implements Recordable {
+public record RecEntityPosition(EntityId entityId, Pos position, float pitch) implements EntityMovementRecordable {
 
     public RecEntityPosition(EntityId entityId, @NotNull Location location) {
         this(

@@ -1,12 +1,12 @@
 package mc.replay.common.recordables.types.entity.movement;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.RecordableBufferTypes;
+import mc.replay.common.recordables.types.internal.EntityMovementRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
-public record RecEntityHeadRotation(EntityId entityId, float yaw) implements Recordable {
+public record RecEntityHeadRotation(EntityId entityId, float yaw) implements EntityMovementRecordable {
 
     public RecEntityHeadRotation(@NotNull ReplayByteBuffer reader) {
         this(

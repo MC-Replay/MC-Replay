@@ -6,15 +6,16 @@ import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
-import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
-import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
 import mc.replay.common.recordables.types.internal.BlockRelatedRecordable;
+import mc.replay.common.recordables.types.internal.EntityMovementRecordable;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.ReplaySession;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NavigableMap;
 
@@ -47,20 +48,20 @@ final class SkipTimeForwardsHandler extends AbstractSkipTimeHandler {
         }
 
         for (AbstractReplayEntity<?> entity : session.getPlayTask().getEntityCache().getEntities().values()) {
-            RecEntityPosition position = this.findRecordable(RecEntityPosition.class, until, recordables, (recordable) -> {
+            Collection<EntityMovementRecordable> entityMovements = this.findLatestTypeUniqueRecordables(EntityMovementRecordable.class, until, recordables, (recordable) -> {
                 return recordable.entityId().entityId() == entity.getOriginalEntityId();
             });
 
-            RecEntityHeadRotation headRotation = this.findRecordable(RecEntityHeadRotation.class, until, recordables, (recordable) -> {
-                return recordable.entityId().entityId() == entity.getOriginalEntityId();
-            });
-
-            if (headRotation != null) {
-                packets.addAll(this.handleRecordableForwards(session, headRotation));
+            for (EntityMovementRecordable entityMovement : entityMovements) {
+                packets.addAll(this.handleRecordableForwards(session, entityMovement));
             }
 
-            if (position != null) {
-                packets.addAll(this.handleRecordableForwards(session, position));
+            Collection<EntityStateRecordable> entityStates = this.findLatestTypeUniqueRecordables(EntityStateRecordable.class, until, recordables, (recordable) -> {
+                return recordable.entityId().entityId() == entity.getOriginalEntityId();
+            });
+
+            for (EntityStateRecordable entityState : entityStates) {
+                packets.addAll(this.handleRecordableForwards(session, entityState));
             }
         }
 

@@ -47,10 +47,6 @@ public final class ReplaySkipTimeHandler implements IReplaySkipTimeHandler {
                 true
         );
 
-        if (!forwards) {
-            recordablesBetween = recordablesBetween.descendingMap();
-        }
-
         if (forwards) {
             this.forwardsHandler.skipTime(session, until, recordablesBetween);
         } else {

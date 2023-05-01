@@ -45,6 +45,25 @@ abstract class AbstractSkipTimeHandler {
         return null;
     }
 
+    protected <R extends Recordable> Collection<R> findLatestTypeUniqueRecordables(Class<R> clazz, int untilTime, NavigableMap<Integer, List<Recordable>> recordables, Predicate<R> predicate) {
+        NavigableMap<Integer, List<Recordable>> recordablesBetween = recordables.subMap(recordables.firstKey(), true, untilTime, true)
+                .descendingMap();
+
+        Map<Class<?>, R> recordablesFound = new HashMap<>();
+        for (Map.Entry<Integer, List<Recordable>> entry : recordablesBetween.entrySet()) {
+            for (Recordable recordable : entry.getValue()) {
+                if (clazz.isAssignableFrom(recordable.getClass()) && !recordablesFound.containsKey(recordable.getClass())) {
+                    R casted = clazz.cast(recordable);
+                    if (predicate.test(casted)) {
+                        recordablesFound.put(casted.getClass(), casted);
+                    }
+                }
+            }
+        }
+
+        return Set.copyOf(recordablesFound.values());
+    }
+
     protected List<Recordable> findRecordables(NavigableMap<Integer, List<Recordable>> recordables, Predicate<Recordable> predicate) {
         List<Recordable> recordablesFound = new ArrayList<>();
         for (Map.Entry<Integer, List<Recordable>> entry : recordables.entrySet()) {

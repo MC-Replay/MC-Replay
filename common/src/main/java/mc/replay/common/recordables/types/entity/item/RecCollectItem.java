@@ -11,7 +11,7 @@ public record RecCollectItem(EntityId collectedEntityId, EntityId collectorEntit
                              int pickupItemCount) implements Recordable {
 
     public RecCollectItem(@NotNull ReplayByteBuffer reader) {
-        this( // TODO add fake player to all player chunk maps -> tracked entities -> tracked players to get all broadcasted packets
+        this(
                 new EntityId(reader),
                 new EntityId(reader),
                 reader.read(VAR_INT)

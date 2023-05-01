@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.action;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecEntitySwimming(EntityId entityId, boolean swimming) implements Recordable {
+public record RecEntitySwimming(EntityId entityId, boolean swimming) implements EntityStateRecordable {
 
     public RecEntitySwimming(@NotNull ReplayByteBuffer reader) {
         this(
