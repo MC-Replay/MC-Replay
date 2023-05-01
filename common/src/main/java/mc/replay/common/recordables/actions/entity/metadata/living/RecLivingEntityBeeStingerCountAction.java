@@ -1,9 +1,9 @@
-package mc.replay.common.recordables.actions.entity.metadata;
+package mc.replay.common.recordables.actions.entity.metadata.living;
 
 import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
-import mc.replay.common.recordables.types.entity.metadata.RecEntityBeeStingerCount;
+import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityBeeStingerCount;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
@@ -15,10 +15,10 @@ import org.jetbrains.annotations.UnknownNullability;
 import java.util.List;
 import java.util.Map;
 
-public record RecEntityBeeStingerCountAction() implements EntityRecordableAction<RecEntityBeeStingerCount> {
+public record RecLivingEntityBeeStingerCountAction() implements EntityRecordableAction<RecLivingEntityBeeStingerCount> {
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityBeeStingerCount recordable, @UnknownNullability IEntityProvider provider) {
+    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecLivingEntityBeeStingerCount recordable, @UnknownNullability IEntityProvider provider) {
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 

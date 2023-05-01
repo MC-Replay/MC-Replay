@@ -2,10 +2,10 @@ package mc.replay.recording.dispatcher.helpers.metadata;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.common.recordables.types.entity.metadata.RecEntityArrowCount;
-import mc.replay.common.recordables.types.entity.metadata.RecEntityBeeStingerCount;
-import mc.replay.common.recordables.types.entity.metadata.RecEntityHandState;
-import mc.replay.common.recordables.types.entity.metadata.RecEntityHealth;
+import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityArrowCount;
+import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityBeeStingerCount;
+import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityHandState;
+import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityHealth;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.wrapper.entity.metadata.LivingEntityMetadata;
 
@@ -21,7 +21,7 @@ public final class LivingEntityMetadataReader implements MetadataReader<LivingEn
 
         if (entries.remove(HAND_STATES_MASK_INDEX) != null) {
             recordables.add(
-                    new RecEntityHandState(
+                    new RecLivingEntityHandState(
                             entityId,
                             metadata.isHandActive(),
                             metadata.getActiveHand(),
@@ -32,7 +32,7 @@ public final class LivingEntityMetadataReader implements MetadataReader<LivingEn
 
         if (entries.remove(HEALTH_INDEX) != null) {
             recordables.add(
-                    new RecEntityHealth(
+                    new RecLivingEntityHealth(
                             entityId,
                             metadata.getHealth()
                     )
@@ -41,7 +41,7 @@ public final class LivingEntityMetadataReader implements MetadataReader<LivingEn
 
         if (entries.remove(ARROW_COUNT_INDEX) != null) {
             recordables.add(
-                    new RecEntityArrowCount(
+                    new RecLivingEntityArrowCount(
                             entityId,
                             metadata.getArrowCount()
                     )
@@ -50,7 +50,7 @@ public final class LivingEntityMetadataReader implements MetadataReader<LivingEn
 
         if (entries.remove(BEE_STINGER_COUNT) != null) {
             recordables.add(
-                    new RecEntityBeeStingerCount(
+                    new RecLivingEntityBeeStingerCount(
                             entityId,
                             metadata.getBeeStingerCount()
                     )

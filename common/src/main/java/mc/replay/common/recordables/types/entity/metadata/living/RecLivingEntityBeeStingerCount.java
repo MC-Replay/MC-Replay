@@ -1,4 +1,4 @@
-package mc.replay.common.recordables.types.entity.metadata;
+package mc.replay.common.recordables.types.entity.metadata.living;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.VAR_INT;
 
-public record RecEntityArrowCount(EntityId entityId, int arrowCount) implements Recordable {
+public record RecLivingEntityBeeStingerCount(EntityId entityId, int beeStingerCount) implements Recordable {
 
-    public RecEntityArrowCount(@NotNull ReplayByteBuffer reader) {
+    public RecLivingEntityBeeStingerCount(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
                 reader.read(VAR_INT)
@@ -19,6 +19,6 @@ public record RecEntityArrowCount(EntityId entityId, int arrowCount) implements 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(VAR_INT, this.arrowCount);
+        writer.write(VAR_INT, this.beeStingerCount);
     }
 }

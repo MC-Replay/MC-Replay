@@ -1,24 +1,24 @@
-package mc.replay.common.recordables.types.entity.metadata;
+package mc.replay.common.recordables.types.entity.metadata.player;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
-import static mc.replay.packetlib.network.ReplayByteBuffer.FLOAT;
+import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecEntityHealth(EntityId entityId, float health) implements Recordable {
+public record RecPlayerMainHand(EntityId entityId, boolean right) implements Recordable {
 
-    public RecEntityHealth(@NotNull ReplayByteBuffer reader) {
+    public RecPlayerMainHand(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                reader.read(FLOAT)
+                reader.read(BOOLEAN)
         );
     }
 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(FLOAT, this.health);
+        writer.write(BOOLEAN, this.right);
     }
 }

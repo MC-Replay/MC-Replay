@@ -1,4 +1,4 @@
-package mc.replay.common.recordables.types.entity.metadata;
+package mc.replay.common.recordables.types.entity.metadata.living;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecEntityHandState(EntityId entityId, boolean handActive, PlayerHand activeHand,
-                                 boolean inSpinAttack) implements Recordable {
+public record RecLivingEntityHandState(EntityId entityId, boolean handActive, PlayerHand activeHand,
+                                       boolean inSpinAttack) implements Recordable {
 
-    public RecEntityHandState(@NotNull ReplayByteBuffer reader) {
+    public RecLivingEntityHandState(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
                 reader.read(BOOLEAN),
