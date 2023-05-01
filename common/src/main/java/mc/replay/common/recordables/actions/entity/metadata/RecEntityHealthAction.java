@@ -22,14 +22,16 @@ public record RecEntityHealthAction() implements EntityRecordableAction<RecEntit
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        EntityMetadata metadata = data.entity().getMetadata();
-        if (metadata instanceof LivingEntityMetadata livingEntityMetadata) {
-            livingEntityMetadata.getMetadata().detectChanges(true);
+        EntityMetadata entityMetadata = data.entity().getMetadata();
+        if (entityMetadata instanceof LivingEntityMetadata livingEntityMetadata) {
+            Metadata metadata = livingEntityMetadata.getMetadata();
+
+            metadata.detectChanges(true);
 
             livingEntityMetadata.setHealth(recordable.health());
 
-            Map<Integer, Metadata.Entry<?>> changes = livingEntityMetadata.getMetadata().getChanges();
-            livingEntityMetadata.getMetadata().detectChanges(false);
+            Map<Integer, Metadata.Entry<?>> changes = metadata.getChanges();
+            metadata.detectChanges(false);
 
             if (changes == null || changes.isEmpty()) return List.of();
 

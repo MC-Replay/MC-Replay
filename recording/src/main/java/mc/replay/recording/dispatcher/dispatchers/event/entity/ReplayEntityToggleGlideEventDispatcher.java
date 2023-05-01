@@ -2,7 +2,7 @@ package mc.replay.recording.dispatcher.dispatchers.event.entity;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.common.recordables.types.entity.action.RecEntityGliding;
+import mc.replay.common.recordables.types.entity.metadata.RecEntityGliding;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
 import org.bukkit.entity.Entity;

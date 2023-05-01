@@ -11,7 +11,6 @@ import mc.replay.common.recordables.actions.entity.RecEntityDestroyAction;
 import mc.replay.common.recordables.actions.entity.RecEntitySpawnAction;
 import mc.replay.common.recordables.actions.entity.RecPlayerDestroyAction;
 import mc.replay.common.recordables.actions.entity.RecPlayerSpawnAction;
-import mc.replay.common.recordables.actions.entity.action.*;
 import mc.replay.common.recordables.actions.entity.item.RecCollectItemAction;
 import mc.replay.common.recordables.actions.entity.metadata.*;
 import mc.replay.common.recordables.actions.entity.miscellaneous.*;
@@ -30,7 +29,6 @@ import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
-import mc.replay.common.recordables.types.entity.action.*;
 import mc.replay.common.recordables.types.entity.item.RecCollectItem;
 import mc.replay.common.recordables.types.entity.metadata.*;
 import mc.replay.common.recordables.types.entity.miscellaneous.*;
@@ -64,27 +62,31 @@ public final class RecordableRegistry implements IRecordableRegistry {
         this.registerRecordable((byte) 6, RecPlayerChat.class, RecPlayerChat::new, new RecPlayerChatAction());
         this.registerRecordable((byte) 7, RecPlayerCommand.class, RecPlayerCommand::new, new RecPlayerCommandAction());
 
-        this.registerRecordable((byte) 8, RecEntityGliding.class, RecEntityGliding::new, new RecEntityGlidingAction());
-        this.registerRecordable((byte) 9, RecEntitySneaking.class, RecEntitySneaking::new, new RecEntitySneakingAction());
-        this.registerRecordable((byte) 10, RecEntitySprinting.class, RecEntitySprinting::new, new RecEntitySprintingAction());
-        this.registerRecordable((byte) 11, RecEntitySwimming.class, RecEntitySwimming::new, new RecEntitySwimmingAction());
-        this.registerRecordable((byte) 12, RecCollectItem.class, RecCollectItem::new, new RecCollectItemAction());
-        this.registerRecordable((byte) 13, RecEntityCombust.class, RecEntityCombust::new, new RecEntityCombustAction());
-        this.registerRecordable((byte) 14, RecEntityCustomName.class, RecEntityCustomName::new, new RecEntityCustomNameAction());
-        this.registerRecordable((byte) 15, RecEntityCustomNameVisible.class, RecEntityCustomNameVisible::new, new RecEntityCustomNameVisibleAction());
-        this.registerRecordable((byte) 16, RecEntityGlowing.class, RecEntityGlowing::new, new RecEntityGlowingAction());
-        this.registerRecordable((byte) 17, RecEntityHandState.class, RecEntityHandState::new, new RecEntityHandStateAction());
-        this.registerRecordable((byte) 18, RecEntityHealth.class, RecEntityHealth::new, new RecEntityHealthAction());
-        this.registerRecordable((byte) 19, RecEntityInvisible.class, RecEntityInvisible::new, new RecEntityInvisibleAction());
-        this.registerRecordable((byte) 20, RecEntityMetadataChange.class, RecEntityMetadataChange::new, new RecEntityMetadataChangeAction());
+        this.registerRecordable((byte) 8, RecCollectItem.class, RecCollectItem::new, new RecCollectItemAction());
+
+        this.registerRecordable((byte) 9, RecEntityCombust.class, RecEntityCombust::new, new RecEntityCombustAction());
+        this.registerRecordable((byte) 10, RecEntityCustomName.class, RecEntityCustomName::new, new RecEntityCustomNameAction());
+        this.registerRecordable((byte) 11, RecEntityCustomNameVisible.class, RecEntityCustomNameVisible::new, new RecEntityCustomNameVisibleAction());
+        this.registerRecordable((byte) 12, RecEntityGliding.class, RecEntityGliding::new, new RecEntityGlidingAction());
+        this.registerRecordable((byte) 13, RecEntityGlowing.class, RecEntityGlowing::new, new RecEntityGlowingAction());
+        this.registerRecordable((byte) 14, RecEntityHandState.class, RecEntityHandState::new, new RecEntityHandStateAction());
+        this.registerRecordable((byte) 15, RecEntityHealth.class, RecEntityHealth::new, new RecEntityHealthAction());
+        this.registerRecordable((byte) 16, RecEntityInvisible.class, RecEntityInvisible::new, new RecEntityInvisibleAction());
+        this.registerRecordable((byte) 17, RecEntityMetadataChange.class, RecEntityMetadataChange::new, new RecEntityMetadataChangeAction());
+        this.registerRecordable((byte) 18, RecEntitySneaking.class, RecEntitySneaking::new, new RecEntitySneakingAction());
+        this.registerRecordable((byte) 19, RecEntitySprinting.class, RecEntitySprinting::new, new RecEntitySprintingAction());
+        this.registerRecordable((byte) 20, RecEntitySwimming.class, RecEntitySwimming::new, new RecEntitySwimmingAction());
+
         this.registerRecordable((byte) 21, RecEntityAnimation.class, RecEntityAnimation::new, new RecEntityAnimationAction());
         this.registerRecordable((byte) 22, RecEntityAttach.class, RecEntityAttach::new, new RecEntityAttachAction());
         this.registerRecordable((byte) 23, RecEntityEquipment.class, RecEntityEquipment::new, new RecEntityEquipmentAction());
         this.registerRecordable((byte) 24, RecEntitySetPassengers.class, RecEntitySetPassengers::new, new RecEntitySetPassengersAction());
         this.registerRecordable((byte) 25, RecEntityStatus.class, RecEntityStatus::new, new RecEntityStatusAction());
         this.registerRecordable((byte) 26, RecEntitySwingHandAnimation.class, RecEntitySwingHandAnimation::new, new RecEntitySwingHandAnimationAction());
+
         this.registerRecordable((byte) 27, RecEntityHeadRotation.class, RecEntityHeadRotation::new, new RecEntityHeadRotationAction());
         this.registerRecordable((byte) 28, RecEntityPosition.class, RecEntityPosition::new, new RecEntityPositionAction());
+
         this.registerRecordable((byte) 29, RecEntityDestroy.class, RecEntityDestroy::new, new RecEntityDestroyAction());
         this.registerRecordable((byte) 30, RecEntitySpawn.class, RecEntitySpawn::new, new RecEntitySpawnAction());
         this.registerRecordable((byte) 31, RecPlayerDestroy.class, RecPlayerDestroy::new, new RecPlayerDestroyAction());
