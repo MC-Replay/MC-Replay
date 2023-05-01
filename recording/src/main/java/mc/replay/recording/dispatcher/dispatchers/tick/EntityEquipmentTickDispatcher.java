@@ -2,8 +2,9 @@ package mc.replay.recording.dispatcher.dispatchers.tick;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
+import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -26,7 +27,7 @@ public final class EntityEquipmentTickDispatcher implements DispatcherTick {
     }
 
     @Override
-    public List<Recordable> getRecordables(int currentTick, Entity entity) {
+    public List<Recordable> getRecordables(RecordingSession session, int currentTick, Entity entity) {
         if (!(entity instanceof LivingEntity livingEntity)) return null;
 
         List<Recordable> recordables = new ArrayList<>();
