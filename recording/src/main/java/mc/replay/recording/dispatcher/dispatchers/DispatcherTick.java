@@ -2,15 +2,20 @@ package mc.replay.recording.dispatcher.dispatchers;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface DispatcherTick extends Dispatcher<Integer> {
+public abstract class DispatcherTick extends Dispatcher<Integer> {
+
+    public DispatcherTick(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
-    default List<Recordable> getRecordables(RecordingSession session, Integer currentTick) {
+    public final List<Recordable> getRecordables(RecordingSession session, Integer currentTick) {
         this.onTickGlobal(currentTick);
 
         List<Recordable> recordables = new ArrayList<>();
@@ -27,8 +32,8 @@ public interface DispatcherTick extends Dispatcher<Integer> {
         return recordables;
     }
 
-    default void onTickGlobal(Integer currentTick) {
+    public void onTickGlobal(Integer currentTick) {
     }
 
-    List<Recordable> getRecordables(RecordingSession session, int currentTick, Entity entity);
+    public abstract List<Recordable> getRecordables(RecordingSession session, int currentTick, Entity entity);
 }

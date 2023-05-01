@@ -6,10 +6,15 @@ import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityAttach;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityAttachPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 
-public final class EntityAttachPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntityAttachPacket> {
+public final class EntityAttachPacketOutDispatcher extends DispatcherPacketOut<ClientboundEntityAttachPacket> {
+
+    private EntityAttachPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundEntityAttachPacket packet) {

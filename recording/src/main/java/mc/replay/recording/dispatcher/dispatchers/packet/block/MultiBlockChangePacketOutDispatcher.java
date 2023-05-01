@@ -5,10 +5,15 @@ import mc.replay.common.recordables.types.block.RecMultiBlockChange;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundMultiBlockChangePacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 
-public final class MultiBlockChangePacketOutDispatcher implements DispatcherPacketOut<ClientboundMultiBlockChangePacket> {
+public final class MultiBlockChangePacketOutDispatcher extends DispatcherPacketOut<ClientboundMultiBlockChangePacket> {
+
+    private MultiBlockChangePacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundMultiBlockChangePacket packet) {

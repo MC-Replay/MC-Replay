@@ -6,10 +6,15 @@ import mc.replay.common.recordables.types.entity.item.RecCollectItem;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundCollectItemPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 
-public final class CollectItemPacketOutDispatcher implements DispatcherPacketOut<ClientboundCollectItemPacket> {
+public final class CollectItemPacketOutDispatcher extends DispatcherPacketOut<ClientboundCollectItemPacket> {
+
+    private CollectItemPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundCollectItemPacket packet) {

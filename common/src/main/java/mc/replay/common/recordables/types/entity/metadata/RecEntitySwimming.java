@@ -1,4 +1,4 @@
-package mc.replay.common.recordables.types.entity.action;
+package mc.replay.common.recordables.types.entity.metadata;
 
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;

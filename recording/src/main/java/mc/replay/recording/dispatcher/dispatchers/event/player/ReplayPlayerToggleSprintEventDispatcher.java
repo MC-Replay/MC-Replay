@@ -2,16 +2,21 @@ package mc.replay.recording.dispatcher.dispatchers.event.player;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.common.recordables.types.entity.action.RecEntitySprinting;
+import mc.replay.common.recordables.types.entity.metadata.RecEntitySprinting;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import java.util.List;
 
-public final class ReplayPlayerToggleSprintEventDispatcher implements DispatcherEvent<PlayerToggleSprintEvent> {
+public final class ReplayPlayerToggleSprintEventDispatcher extends DispatcherEvent<PlayerToggleSprintEvent> {
+
+    private ReplayPlayerToggleSprintEventDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public EventPriority getPriority() {

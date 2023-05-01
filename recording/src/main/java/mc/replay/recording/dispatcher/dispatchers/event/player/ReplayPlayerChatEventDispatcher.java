@@ -5,13 +5,18 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.chat.RecPlayerChat;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.List;
 
-public final class ReplayPlayerChatEventDispatcher implements DispatcherEvent<AsyncPlayerChatEvent> {
+public final class ReplayPlayerChatEventDispatcher extends DispatcherEvent<AsyncPlayerChatEvent> {
+
+    private ReplayPlayerChatEventDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public EventPriority getPriority() {

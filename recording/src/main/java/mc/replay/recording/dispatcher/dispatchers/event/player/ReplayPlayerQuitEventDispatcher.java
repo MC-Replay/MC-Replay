@@ -5,13 +5,18 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
 
-public final class ReplayPlayerQuitEventDispatcher implements DispatcherEvent<PlayerQuitEvent> {
+public final class ReplayPlayerQuitEventDispatcher extends DispatcherEvent<PlayerQuitEvent> {
+
+    private ReplayPlayerQuitEventDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public EventPriority getPriority() {

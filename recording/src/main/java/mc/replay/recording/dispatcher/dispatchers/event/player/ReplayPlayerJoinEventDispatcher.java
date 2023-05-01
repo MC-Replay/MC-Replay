@@ -5,6 +5,7 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import mc.replay.wrapper.entity.PlayerWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -12,7 +13,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
 
-public final class ReplayPlayerJoinEventDispatcher implements DispatcherEvent<PlayerJoinEvent> {
+public final class ReplayPlayerJoinEventDispatcher extends DispatcherEvent<PlayerJoinEvent> {
+
+    private ReplayPlayerJoinEventDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public EventPriority getPriority() {

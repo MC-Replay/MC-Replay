@@ -33,6 +33,7 @@ public final class RecordingSession implements IRecordingSession {
 
     @Override
     public @NotNull IRecording stopRecording() {
+        this.entityTracker.entityCache.clear();
         return MCReplayAPI.getRecordingHandler().stopRecording(this.sessionUuid);
     }
 

@@ -5,10 +5,15 @@ import mc.replay.common.recordables.types.block.RecBlockBreakStage;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundBlockBreakAnimationPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 
-public final class BlockBreakAnimationPacketOutDispatcher implements DispatcherPacketOut<ClientboundBlockBreakAnimationPacket> {
+public final class BlockBreakAnimationPacketOutDispatcher extends DispatcherPacketOut<ClientboundBlockBreakAnimationPacket> {
+
+    private BlockBreakAnimationPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundBlockBreakAnimationPacket packet) {

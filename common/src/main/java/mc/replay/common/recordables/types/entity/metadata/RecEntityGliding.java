@@ -5,20 +5,20 @@ import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
-import static mc.replay.packetlib.network.ReplayByteBuffer.FLOAT;
+import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecEntityHealth(EntityId entityId, float health) implements EntityStateRecordable {
+public record RecEntityGliding(EntityId entityId, boolean gliding) implements EntityStateRecordable {
 
-    public RecEntityHealth(@NotNull ReplayByteBuffer reader) {
+    public RecEntityGliding(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                reader.read(FLOAT)
+                reader.read(BOOLEAN)
         );
     }
 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(FLOAT, this.health);
+        writer.write(BOOLEAN, this.gliding);
     }
 }

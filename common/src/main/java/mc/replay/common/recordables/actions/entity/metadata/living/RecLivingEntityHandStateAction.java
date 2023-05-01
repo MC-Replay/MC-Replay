@@ -1,9 +1,9 @@
-package mc.replay.common.recordables.actions.entity.metadata;
+package mc.replay.common.recordables.actions.entity.metadata.living;
 
 import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
-import mc.replay.common.recordables.types.entity.metadata.RecEntityHealth;
+import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityHandState;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
@@ -15,21 +15,25 @@ import org.jetbrains.annotations.UnknownNullability;
 import java.util.List;
 import java.util.Map;
 
-public record RecEntityHealthAction() implements EntityRecordableAction<RecEntityHealth> {
+public record RecLivingEntityHandStateAction() implements EntityRecordableAction<RecLivingEntityHandState> {
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityHealth recordable, @UnknownNullability IEntityProvider provider) {
+    public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecLivingEntityHandState recordable, @UnknownNullability IEntityProvider provider) {
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        EntityMetadata metadata = data.entity().getMetadata();
-        if (metadata instanceof LivingEntityMetadata livingEntityMetadata) {
-            livingEntityMetadata.getMetadata().detectChanges(true);
+        EntityMetadata entityMetadata = data.entity().getMetadata();
+        if (entityMetadata instanceof LivingEntityMetadata livingEntityMetadata) {
+            Metadata metadata = livingEntityMetadata.getMetadata();
 
-            livingEntityMetadata.setHealth(recordable.health());
+            metadata.detectChanges(true);
 
-            Map<Integer, Metadata.Entry<?>> changes = livingEntityMetadata.getMetadata().getChanges();
-            livingEntityMetadata.getMetadata().detectChanges(false);
+            livingEntityMetadata.setHandActive(recordable.handActive());
+            livingEntityMetadata.setActiveHand(recordable.activeHand());
+            livingEntityMetadata.setInRiptideSpinAttack(recordable.inSpinAttack());
+
+            Map<Integer, Metadata.Entry<?>> changes = metadata.getChanges();
+            metadata.detectChanges(false);
 
             if (changes == null || changes.isEmpty()) return List.of();
 

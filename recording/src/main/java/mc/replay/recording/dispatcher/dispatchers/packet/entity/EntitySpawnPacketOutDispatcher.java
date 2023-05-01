@@ -6,12 +6,17 @@ import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntitySpawnPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import mc.replay.wrapper.entity.EntityTypeWrapper;
 import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public final class EntitySpawnPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntitySpawnPacket> {
+public final class EntitySpawnPacketOutDispatcher extends DispatcherPacketOut<ClientboundEntitySpawnPacket> {
+
+    private EntitySpawnPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundEntitySpawnPacket packet) {

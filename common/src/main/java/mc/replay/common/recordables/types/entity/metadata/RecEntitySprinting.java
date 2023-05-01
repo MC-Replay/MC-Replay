@@ -1,4 +1,4 @@
-package mc.replay.common.recordables.types.entity.action;
+package mc.replay.common.recordables.types.entity.metadata;
 
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;
@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecEntitySneaking(EntityId entityId, boolean sneaking) implements EntityStateRecordable {
+public record RecEntitySprinting(EntityId entityId, boolean sprinting) implements EntityStateRecordable {
 
-    public RecEntitySneaking(@NotNull ReplayByteBuffer reader) {
+    public RecEntitySprinting(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
                 reader.read(BOOLEAN)
@@ -19,6 +19,6 @@ public record RecEntitySneaking(EntityId entityId, boolean sneaking) implements 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.write(BOOLEAN, this.sneaking);
+        writer.write(BOOLEAN, this.sprinting);
     }
 }

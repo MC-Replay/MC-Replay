@@ -6,10 +6,15 @@ import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityAnimatio
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityAnimationPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 
-public final class AnimationPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntityAnimationPacket> {
+public final class AnimationPacketOutDispatcher extends DispatcherPacketOut<ClientboundEntityAnimationPacket> {
+
+    private AnimationPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundEntityAnimationPacket packet) {

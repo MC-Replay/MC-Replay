@@ -5,6 +5,7 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -17,9 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EntityEquipmentTickDispatcher implements DispatcherTick {
+public final class EntityEquipmentTickDispatcher extends DispatcherTick {
 
     private final Map<LivingEntity, Map<EquipmentSlot, ItemStack>> lastEquipment = new HashMap<>();
+
+    private EntityEquipmentTickDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public void onTickGlobal(Integer currentTick) {

@@ -21,13 +21,15 @@ public record RecEntityCustomNameVisibleAction() implements EntityRecordableActi
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        EntityMetadata metadata = data.entity().getMetadata();
-        metadata.getMetadata().detectChanges(true);
+        EntityMetadata entityMetadata = data.entity().getMetadata();
+        Metadata metadata = entityMetadata.getMetadata();
 
-        metadata.setCustomNameVisible(recordable.visible());
+        metadata.detectChanges(true);
 
-        Map<Integer, Metadata.Entry<?>> changes = metadata.getMetadata().getChanges();
-        metadata.getMetadata().detectChanges(false);
+        entityMetadata.setCustomNameVisible(recordable.visible());
+
+        Map<Integer, Metadata.Entry<?>> changes = metadata.getChanges();
+        metadata.detectChanges(false);
 
         if (changes == null || changes.isEmpty()) return List.of();
 

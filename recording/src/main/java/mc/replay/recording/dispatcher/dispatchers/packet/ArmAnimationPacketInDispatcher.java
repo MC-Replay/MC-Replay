@@ -6,11 +6,16 @@ import mc.replay.common.recordables.types.entity.miscellaneous.RecEntitySwingHan
 import mc.replay.packetlib.network.packet.serverbound.play.ServerboundAnimationPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketIn;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public final class ArmAnimationPacketInDispatcher implements DispatcherPacketIn<ServerboundAnimationPacket> {
+public final class ArmAnimationPacketInDispatcher extends DispatcherPacketIn<ServerboundAnimationPacket> {
+
+    private ArmAnimationPacketInDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, Player player, ServerboundAnimationPacket packet) {

@@ -1,15 +1,20 @@
 package mc.replay.recording.dispatcher.dispatchers;
 
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 
-public interface DispatcherEvent<T extends Event> extends Dispatcher<T> {
+public abstract class DispatcherEvent<T extends Event> extends Dispatcher<T> {
 
-    default EventPriority getPriority() {
+    public DispatcherEvent(DispatcherHelpers helpers) {
+        super(helpers);
+    }
+
+    public EventPriority getPriority() {
         return EventPriority.NORMAL;
     }
 
-    default boolean ignoreCancelled() {
+    public boolean ignoreCancelled() {
         return true;
     }
 }
