@@ -1,13 +1,14 @@
 package mc.replay.recording.dispatcher.dispatchers;
 
 import mc.replay.api.recordables.Recordable;
+import mc.replay.recording.RecordingSession;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 interface Dispatcher<T> {
 
-    List<Recordable> getRecordables(T obj);
+    List<Recordable> getRecordables(RecordingSession session, T obj);
 
     @SuppressWarnings("unchecked")
     default Class<T> getInputClass() {

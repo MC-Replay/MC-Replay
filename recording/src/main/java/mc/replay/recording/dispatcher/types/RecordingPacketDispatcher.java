@@ -7,9 +7,9 @@ import mc.replay.common.MCReplayInternal;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.serverbound.ServerboundPacket;
 import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.RecordingDispatcher;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketIn;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
-import mc.replay.recording.dispatcher.RecordingDispatcher;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +28,12 @@ public final class RecordingPacketDispatcher extends RecordingDispatcher {
             for (Map.Entry<Class<ClientboundPacket>, DispatcherPacketOut<ClientboundPacket>> entry : this.packetOutDispatchers.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
-                List<Recordable> recordables = entry.getValue().getRecordables(packet);
-                if (recordables == null) continue;
-
                 for (IRecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
-                    ((RecordingSession) recordingSession).addRecordables(recordables);
+                    RecordingSession session = (RecordingSession) recordingSession;
+                    List<Recordable> recordables = entry.getValue().getRecordables(session, packet);
+                    if (recordables == null) continue;
+
+                    session.addRecordables(recordables);
                 }
             }
         });
@@ -41,11 +42,12 @@ public final class RecordingPacketDispatcher extends RecordingDispatcher {
             for (Map.Entry<Class<ServerboundPacket>, DispatcherPacketIn<ServerboundPacket>> entry : this.packetInDispatchers.entrySet()) {
                 if (!packet.getClass().equals(entry.getKey())) continue;
 
-                List<Recordable> recordables = entry.getValue().getRecordables(player, packet);
-                if (recordables == null) continue;
-
                 for (IRecordingSession recordingSession : plugin.getRecordingHandler().getRecordingSessions().values()) {
-                    ((RecordingSession) recordingSession).addRecordables(recordables);
+                    RecordingSession session = (RecordingSession) recordingSession;
+                    List<Recordable> recordables = entry.getValue().getRecordables(session, packet);
+                    if (recordables == null) continue;
+
+                    session.addRecordables(recordables);
                 }
             }
         });

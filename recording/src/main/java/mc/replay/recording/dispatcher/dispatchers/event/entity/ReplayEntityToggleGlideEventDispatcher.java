@@ -2,8 +2,9 @@ package mc.replay.recording.dispatcher.dispatchers.event.entity;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
 import mc.replay.common.recordables.types.entity.action.RecEntityGliding;
+import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
@@ -18,7 +19,7 @@ public final class ReplayEntityToggleGlideEventDispatcher implements DispatcherE
     }
 
     @Override
-    public List<Recordable> getRecordables(EntityToggleGlideEvent event) {
+    public List<Recordable> getRecordables(RecordingSession session, EntityToggleGlideEvent event) {
         Entity entity = event.getEntity();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

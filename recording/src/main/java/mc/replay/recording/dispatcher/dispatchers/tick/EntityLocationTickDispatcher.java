@@ -2,9 +2,10 @@ package mc.replay.recording.dispatcher.dispatchers.tick;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
+import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -25,7 +26,7 @@ public final class EntityLocationTickDispatcher implements DispatcherTick {
     }
 
     @Override
-    public List<Recordable> getRecordables(int currentTick, Entity entity) {
+    public List<Recordable> getRecordables(RecordingSession session, int currentTick, Entity entity) {
         if (!(entity instanceof LivingEntity) && !(entity instanceof Vehicle)) return null;
 
         List<Recordable> recordables = new ArrayList<>();

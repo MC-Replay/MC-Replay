@@ -2,8 +2,9 @@ package mc.replay.recording.dispatcher.dispatchers.tick;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import mc.replay.common.recordables.types.entity.action.RecEntityCombust;
+import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import org.bukkit.entity.Entity;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public final class EntityMetadataTickDispatcher implements DispatcherTick {
     }
 
     @Override
-    public List<Recordable> getRecordables(int currentTick, Entity entity) {
+    public List<Recordable> getRecordables(RecordingSession session, int currentTick, Entity entity) {
         List<Recordable> recordables = new ArrayList<>();
 
         EntityId entityId = EntityId.of(entity.getUniqueId(), entity.getEntityId());

@@ -2,8 +2,9 @@ package mc.replay.recording.dispatcher.dispatchers.event.player;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
+import mc.replay.recording.RecordingSession;
+import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
 import mc.replay.wrapper.entity.PlayerWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -19,7 +20,7 @@ public final class ReplayPlayerJoinEventDispatcher implements DispatcherEvent<Pl
     }
 
     @Override
-    public List<Recordable> getRecordables(PlayerJoinEvent event) {
+    public List<Recordable> getRecordables(RecordingSession session, PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
         PlayerWrapper playerWrapper = new PlayerWrapper(player);

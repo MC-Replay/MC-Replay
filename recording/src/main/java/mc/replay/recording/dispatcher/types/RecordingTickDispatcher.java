@@ -4,8 +4,8 @@ import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recording.IRecordingSession;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.recording.RecordingSession;
-import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import mc.replay.recording.dispatcher.RecordingDispatcher;
+import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -43,11 +43,12 @@ public final class RecordingTickDispatcher extends RecordingDispatcher {
                     break;
                 }
 
-                List<Recordable> recordables = tickHandler.getRecordables(this.getCurrentTick());
-                if (recordables == null) continue;
-
                 for (IRecordingSession recordingSession : this.plugin.getRecordingHandler().getRecordingSessions().values()) {
-                    ((RecordingSession) recordingSession).addRecordables(recordables);
+                    RecordingSession session = (RecordingSession) recordingSession;
+                    List<Recordable> recordables = tickHandler.getRecordables(session, this.getCurrentTick());
+                    if (recordables == null) continue;
+
+                    session.addRecordables(recordables);
                 }
             }
         }, 0, 1);

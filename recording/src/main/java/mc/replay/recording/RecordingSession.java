@@ -5,6 +5,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recording.IRecording;
 import mc.replay.api.recording.IRecordingSession;
+import mc.replay.wrapper.entity.EntityTracker;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,13 +21,14 @@ public final class RecordingSession implements IRecordingSession {
     private final World world;
     private final long startTime;
     private final TreeMap<Integer, List<Recordable>> recordables;
-    private final List<Recordable> recordablesToBeAdded = new ArrayList<>();
+    private final EntityTracker entityTracker;
 
     RecordingSession(World world) {
         this.sessionUuid = UUID.randomUUID();
         this.world = world;
         this.startTime = System.currentTimeMillis();
         this.recordables = new TreeMap<>();
+        this.entityTracker = new EntityTracker();
     }
 
     @Override
