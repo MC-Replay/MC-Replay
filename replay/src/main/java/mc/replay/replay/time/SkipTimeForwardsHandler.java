@@ -1,7 +1,12 @@
 package mc.replay.replay.time;
 
 import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recordables.RecordableDefinition;
+import mc.replay.api.recordables.action.EmptyRecordableAction;
+import mc.replay.api.recordables.action.EntityRecordableAction;
+import mc.replay.api.recordables.action.RecordableAction;
 import mc.replay.common.MCReplayInternal;
+import mc.replay.common.recordables.actions.internal.InternalEntityRecordableAction;
 import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
@@ -14,10 +19,7 @@ import mc.replay.replay.ReplaySession;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.NavigableMap;
+import java.util.*;
 
 final class SkipTimeForwardsHandler extends AbstractSkipTimeHandler {
 
@@ -66,5 +68,26 @@ final class SkipTimeForwardsHandler extends AbstractSkipTimeHandler {
         }
 
         session.getPlayTask().sendPackets(packets);
+    }
+
+    @SuppressWarnings("unchecked, rawtypes")
+    private Collection<ClientboundPacket> handleRecordableForwards(ReplaySession session, Recordable recordable) {
+        RecordableDefinition<? extends Recordable> recordableDefinition = this.instance.getRecordableRegistry().getRecordableDefinition(recordable.getClass());
+        if (recordableDefinition == null) return Collections.emptyList();
+
+        RecordableAction<? extends Recordable, ?> action = recordableDefinition.action();
+        if (action instanceof InternalEntityRecordableAction internalEntityRecordableAction) {
+            return internalEntityRecordableAction.createPacketsForwards(recordable, session.getPlayTask().getEntityCache());
+        }
+
+        if (action instanceof EntityRecordableAction entityRecordableAction) {
+            return entityRecordableAction.createPacketsForwards(recordable, session.getPlayTask().getEntityCache());
+        }
+
+        if (action instanceof EmptyRecordableAction emptyRecordableAction) {
+            return emptyRecordableAction.createPacketsForwards(recordable, null);
+        }
+
+        return Collections.emptyList();
     }
 }
