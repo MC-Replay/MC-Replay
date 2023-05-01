@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.metadata.living;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.VAR_INT;
 
-public record RecLivingEntityBeeStingerCount(EntityId entityId, int beeStingerCount) implements Recordable {
+public record RecLivingEntityBeeStingerCount(EntityId entityId, int beeStingerCount) implements EntityStateRecordable {
 
     public RecLivingEntityBeeStingerCount(@NotNull ReplayByteBuffer reader) {
         this(
