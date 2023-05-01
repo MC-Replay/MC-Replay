@@ -6,11 +6,16 @@ import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityDestroyPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class EntityDestroyPacketOutDispatcher implements DispatcherPacketOut<ClientboundEntityDestroyPacket> {
+public final class EntityDestroyPacketOutDispatcher extends DispatcherPacketOut<ClientboundEntityDestroyPacket> {
+
+    private EntityDestroyPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundEntityDestroyPacket packet) {

@@ -5,10 +5,15 @@ import mc.replay.common.recordables.types.sound.RecSoundEffect;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundSoundEffectPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 
 import java.util.List;
 
-public final class SoundEffectPacketOutDispatcher implements DispatcherPacketOut<ClientboundSoundEffectPacket> {
+public final class SoundEffectPacketOutDispatcher extends DispatcherPacketOut<ClientboundSoundEffectPacket> {
+
+    private SoundEffectPacketOutDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public List<Recordable> getRecordables(RecordingSession session, ClientboundSoundEffectPacket packet) {

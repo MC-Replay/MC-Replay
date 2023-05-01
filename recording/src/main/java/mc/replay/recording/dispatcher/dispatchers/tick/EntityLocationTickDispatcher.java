@@ -6,6 +6,7 @@ import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,9 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EntityLocationTickDispatcher implements DispatcherTick {
+public final class EntityLocationTickDispatcher extends DispatcherTick {
 
     private final Map<Entity, Location> lastLocations = new HashMap<>();
+
+    private EntityLocationTickDispatcher(DispatcherHelpers helpers) {
+        super(helpers);
+    }
 
     @Override
     public void onTickGlobal(Integer currentTick) {

@@ -6,6 +6,7 @@ import mc.replay.common.MCReplayInternal;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.RecordingDispatcher;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherEvent;
+import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
