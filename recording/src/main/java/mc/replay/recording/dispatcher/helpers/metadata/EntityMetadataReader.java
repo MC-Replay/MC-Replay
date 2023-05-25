@@ -6,6 +6,7 @@ import mc.replay.common.recordables.types.entity.metadata.*;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.wrapper.entity.metadata.EntityMetadata;
+import org.bukkit.entity.Pose;
 
 import java.util.*;
 
@@ -64,12 +65,26 @@ public final class EntityMetadataReader implements MetadataReader<EntityMetadata
             );
         }
 
+        Metadata.Entry<?> entry;
+        if ((entry = entries.remove(POSE_INDEX)) != null) {
+            Pose pose = (Pose) entry.value();
+
+            if (pose != Pose.SNEAKING && pose != Pose.SWIMMING) {
+                recordables.add(
+                        new RecEntityPose(
+                                entityId,
+                                pose
+                        )
+                );
+            }
+        }
+
         return recordables;
     }
 
     @Override
     public Collection<Integer> skippedIndexes() {
-        Collection<Integer> indexes = new HashSet<>(Set.of(AIR_TICKS_INDEX, SILENT_INDEX, NO_GRAVITY_INDEX, POSE_INDEX));
+        Collection<Integer> indexes = new HashSet<>(Set.of(AIR_TICKS_INDEX, SILENT_INDEX, NO_GRAVITY_INDEX));
 
         if (ProtocolVersion.getServerVersion().isHigher(ProtocolVersion.MINECRAFT_1_16_5)) {
             indexes.add(TICKS_FROZEN_INDEX);

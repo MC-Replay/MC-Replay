@@ -2,6 +2,7 @@ package mc.replay.common.recordables;
 
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.ReplayByteBuffer;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
@@ -58,6 +59,21 @@ public final class RecordableBufferTypes {
                 short shortValue = (short) (((bytes[0] & 0xFF) << 8) | (bytes[1] & 0xFF));
                 int intValue = (shortValue >>> 6) & 0x3FF;
                 return (float) Math.toDegrees(intValue / 160.0);
+            }
+    );
+
+    public static final ReplayByteBuffer.Type<Vector> ENTITY_VECTOR_ROTATION = new TypeImpl<>(Vector.class,
+            (buffer, vector) -> {
+                buffer.write(ENTITY_ROTATION, (float) vector.getX());
+                buffer.write(ENTITY_ROTATION, (float) vector.getY());
+                buffer.write(ENTITY_ROTATION, (float) vector.getZ());
+                return -1;
+            },
+            buffer -> {
+                float x = buffer.read(ENTITY_ROTATION);
+                float y = buffer.read(ENTITY_ROTATION);
+                float z = buffer.read(ENTITY_ROTATION);
+                return new Vector(x, y, z);
             }
     );
 
