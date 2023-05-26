@@ -3,9 +3,11 @@ package mc.replay.recording.dispatcher.helpers.metadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.recording.dispatcher.helpers.metadata.monster.BlazeMetadataReader;
-import mc.replay.recording.dispatcher.helpers.metadata.monster.CreeperMetadataReader;
-import mc.replay.recording.dispatcher.helpers.metadata.monster.EndermanMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.flying.PhantomMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.golem.ShulkerMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.golem.SnowGolemMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.minecart.FurnaceMinecartMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.monster.*;
 import mc.replay.recording.dispatcher.helpers.metadata.other.ArmorStandMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.other.BoatMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.other.ItemFrameMetadataReader;
@@ -16,9 +18,15 @@ import mc.replay.recording.dispatcher.helpers.metadata.water.AxolotlMetadataRead
 import mc.replay.recording.dispatcher.helpers.metadata.water.PufferfishMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.water.TropicalFishMetadataReader;
 import mc.replay.wrapper.entity.metadata.*;
-import mc.replay.wrapper.entity.metadata.monster.BlazeMetadata;
-import mc.replay.wrapper.entity.metadata.monster.CreeperMetadata;
-import mc.replay.wrapper.entity.metadata.monster.EndermanMetadata;
+import mc.replay.wrapper.entity.metadata.flying.PhantomMetadata;
+import mc.replay.wrapper.entity.metadata.golem.IronGolemMetadata;
+import mc.replay.wrapper.entity.metadata.golem.ShulkerMetadata;
+import mc.replay.wrapper.entity.metadata.golem.SnowGolemMetadata;
+import mc.replay.wrapper.entity.metadata.minecart.CommandBlockMinecartMetadata;
+import mc.replay.wrapper.entity.metadata.minecart.FurnaceMinecartMetadata;
+import mc.replay.wrapper.entity.metadata.monster.*;
+import mc.replay.wrapper.entity.metadata.monster.zombie.ZombieMetadata;
+import mc.replay.wrapper.entity.metadata.monster.zombie.ZombieVillagerMetadata;
 import mc.replay.wrapper.entity.metadata.other.ArmorStandMetadata;
 import mc.replay.wrapper.entity.metadata.other.BoatMetadata;
 import mc.replay.wrapper.entity.metadata.other.ItemFrameMetadata;
@@ -39,9 +47,20 @@ public final class MetadataHelper {
     private final Map<Class<?>, MetadataReader<?>> readers = new HashMap<>();
 
     public MetadataHelper() {
+        this.registerReader(PhantomMetadata.class, new PhantomMetadataReader());
+
+        this.registerReader(ShulkerMetadata.class, new ShulkerMetadataReader());
+        this.registerReader(SnowGolemMetadata.class, new SnowGolemMetadataReader());
+
+        this.registerReader(FurnaceMinecartMetadata.class, new FurnaceMinecartMetadataReader());
+
         this.registerReader(BlazeMetadata.class, new BlazeMetadataReader());
         this.registerReader(CreeperMetadata.class, new CreeperMetadataReader());
         this.registerReader(EndermanMetadata.class, new EndermanMetadataReader());
+        this.registerReader(PiglinMetadata.class, new PiglinMetadataReader());
+        this.registerReader(ZoglinMetadata.class, new ZoglinMetadataReader());
+        this.registerReader(ZombieMetadata.class, new ZombieMetadataReader());
+        this.registerReader(ZombieVillagerMetadata.class, new ZombieVillagerMetadataReader());
 
         this.registerReader(ArmorStandMetadata.class, new ArmorStandMetadataReader());
         this.registerReader(BoatMetadata.class, new BoatMetadataReader());
@@ -62,6 +81,8 @@ public final class MetadataHelper {
         this.registerReader(PlayerMetadata.class, new PlayerMetadataReader());
 
         this.registerSkippedIndexes(DolphinMetadata.class, DolphinMetadata.TREASURE_POSITION_INDEX, DolphinMetadata.CAN_FIND_TREASURE_INDEX, DolphinMetadata.HAS_FISH_INDEX);
+        this.registerSkippedIndexes(CommandBlockMinecartMetadata.class, CommandBlockMinecartMetadata.COMMAND_INDEX, CommandBlockMinecartMetadata.LAST_OUTPUT_INDEX);
+        this.registerSkippedIndexes(IronGolemMetadata.class, IronGolemMetadata.OFFSET);
     }
 
     @SuppressWarnings("unchecked, rawtypes")

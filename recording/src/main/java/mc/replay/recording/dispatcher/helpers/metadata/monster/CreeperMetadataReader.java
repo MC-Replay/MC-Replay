@@ -22,7 +22,7 @@ public final class CreeperMetadataReader implements MetadataReader<CreeperMetada
         List<Recordable> recordables = new ArrayList<>();
 
         if (entries.remove(STATE_INDEX) != null) {
-            if (before.getState() != metadata.getState()) {
+            if (metadata.getState() != before.getState()) {
                 recordables.add(
                         new RecCreeperState(
                                 entityId,
@@ -33,7 +33,7 @@ public final class CreeperMetadataReader implements MetadataReader<CreeperMetada
         }
 
         if (entries.remove(CHARGED_INDEX) != null) {
-            if (before.isCharged() != metadata.isCharged()) {
+            if (metadata.isCharged() != before.isCharged()) {
                 recordables.add(
                         new RecCreeperCharged(
                                 entityId,

@@ -19,7 +19,7 @@ public final class EntityMetadataReader implements MetadataReader<EntityMetadata
         List<Recordable> recordables = new ArrayList<>();
 
         if (entries.remove(MASK_INDEX) != null) {
-            if (before.isOnFire() != metadata.isOnFire()) {
+            if (metadata.isOnFire() != before.isOnFire()) {
                 recordables.add(
                         new RecEntityCombust(
                                 entityId,
@@ -28,7 +28,7 @@ public final class EntityMetadataReader implements MetadataReader<EntityMetadata
                 );
             }
 
-            if (before.isInvisible() != metadata.isInvisible()) {
+            if (metadata.isInvisible() != before.isInvisible()) {
                 recordables.add(
                         new RecEntityInvisible(
                                 entityId,
@@ -37,7 +37,7 @@ public final class EntityMetadataReader implements MetadataReader<EntityMetadata
                 );
             }
 
-            if (before.isHasGlowingEffect() != metadata.isHasGlowingEffect()) {
+            if (metadata.isHasGlowingEffect() != before.isHasGlowingEffect()) {
                 recordables.add(
                         new RecEntityGlowing(
                                 entityId,
@@ -48,28 +48,32 @@ public final class EntityMetadataReader implements MetadataReader<EntityMetadata
         }
 
         if (entries.remove(CUSTOM_NAME_INDEX) != null) {
-            recordables.add(
-                    new RecEntityCustomName(
-                            entityId,
-                            metadata.getCustomName()
-                    )
-            );
+            if (!Objects.equals(metadata.getCustomName(), before.getCustomName())) {
+                recordables.add(
+                        new RecEntityCustomName(
+                                entityId,
+                                metadata.getCustomName()
+                        )
+                );
+            }
         }
 
         if (entries.remove(CUSTOM_NAME_VISIBLE_INDEX) != null) {
-            recordables.add(
-                    new RecEntityCustomNameVisible(
-                            entityId,
-                            metadata.isCustomNameVisible()
-                    )
-            );
+            if (metadata.isCustomNameVisible() != before.isCustomNameVisible()) {
+                recordables.add(
+                        new RecEntityCustomNameVisible(
+                                entityId,
+                                metadata.isCustomNameVisible()
+                        )
+                );
+            }
         }
 
         Metadata.Entry<?> entry;
         if ((entry = entries.remove(POSE_INDEX)) != null) {
             Pose pose = (Pose) entry.value();
 
-            if (pose != Pose.SNEAKING && pose != Pose.SWIMMING) {
+            if (pose != Pose.SNEAKING && pose != Pose.SWIMMING && metadata.getPose() != before.getPose()) {
                 recordables.add(
                         new RecEntityPose(
                                 entityId,

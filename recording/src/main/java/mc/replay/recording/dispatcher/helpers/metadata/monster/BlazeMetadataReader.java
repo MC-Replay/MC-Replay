@@ -20,7 +20,7 @@ public final class BlazeMetadataReader implements MetadataReader<BlazeMetadata> 
         List<Recordable> recordables = new ArrayList<>();
 
         if (entries.remove(MASK_INDEX) != null) {
-            if (before.isOnFire() != metadata.isOnFire()) {
+            if (metadata.isOnFire() != before.isOnFire()) {
                 recordables.add(
                         new RecEntityCombust(
                                 entityId,

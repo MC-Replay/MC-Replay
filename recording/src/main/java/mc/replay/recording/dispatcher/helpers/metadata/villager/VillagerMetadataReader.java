@@ -10,6 +10,7 @@ import mc.replay.wrapper.entity.metadata.villager.VillagerMetadata;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static mc.replay.wrapper.entity.metadata.villager.VillagerMetadata.VILLAGER_DATA_INDEX;
 
@@ -23,7 +24,7 @@ public final class VillagerMetadataReader implements MetadataReader<VillagerMeta
         if ((entry = entries.remove(VILLAGER_DATA_INDEX)) != null) {
             int[] data = (int[]) entry.value();
 
-            if (!metadata.getVillagerData().equals(metadata.getVillagerData())) {
+            if (!Objects.equals(metadata.getVillagerData(), before.getVillagerData())) {
                 recordables.add(
                         new RecVillagerData(
                                 entityId,

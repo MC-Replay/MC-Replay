@@ -23,7 +23,7 @@ public final class EndermanMetadataReader implements MetadataReader<EndermanMeta
         List<Recordable> recordables = new ArrayList<>();
 
         if (entries.remove(CARRIED_BLOCK_ID_INDEX) != null) {
-            if (!Objects.equals(before.getCarriedBlockId(), metadata.getCarriedBlockId())) {
+            if (!Objects.equals(metadata.getCarriedBlockId(), before.getCarriedBlockId())) {
                 recordables.add(
                         new RecEndermanCarriedBlock(
                                 entityId,
@@ -34,7 +34,7 @@ public final class EndermanMetadataReader implements MetadataReader<EndermanMeta
         }
 
         if (entries.remove(SCREAMING_INDEX) != null) {
-            if (before.isScreaming() != metadata.isScreaming()) {
+            if (metadata.isScreaming() != before.isScreaming()) {
                 recordables.add(
                         new RecEndermanScreaming(
                                 entityId,
@@ -45,7 +45,7 @@ public final class EndermanMetadataReader implements MetadataReader<EndermanMeta
         }
 
         if (entries.remove(STARING_INDEX) != null) {
-            if (before.isStaring() != metadata.isStaring()) {
+            if (metadata.isStaring() != before.isStaring()) {
                 recordables.add(
                         new RecEndermanStaring(
                                 entityId,

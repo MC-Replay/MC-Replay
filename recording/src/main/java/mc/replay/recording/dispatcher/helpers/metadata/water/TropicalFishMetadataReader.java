@@ -20,7 +20,7 @@ public final class TropicalFishMetadataReader implements MetadataReader<Tropical
         List<Recordable> recordables = new ArrayList<>();
 
         if (entries.remove(VARIANT_INDEX) != null) {
-            if (before.getVariant() != metadata.getVariant()) {
+            if (metadata.getVariant() != before.getVariant()) {
                 recordables.add(
                         new RecEntityVariant(
                                 entityId,

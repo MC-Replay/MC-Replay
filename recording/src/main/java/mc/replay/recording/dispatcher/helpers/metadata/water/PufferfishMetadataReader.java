@@ -20,7 +20,7 @@ public final class PufferfishMetadataReader implements MetadataReader<Pufferfish
         List<Recordable> recordables = new ArrayList<>();
 
         if (entries.remove(STATE_INDEX) != null) {
-            if (before.getState() != metadata.getState()) {
+            if (metadata.getState() != before.getState()) {
                 recordables.add(
                         new RecPufferfishState(
                                 entityId,
