@@ -9,7 +9,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecPlayerSpawnAction() implements InternalEntityRecordableAction<RecPlayerSpawn> {
+public final class RecPlayerSpawnAction implements InternalEntityRecordableAction<RecPlayerSpawn> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecPlayerSpawn recordable, @UnknownNullability IReplayEntityProvider provider) {

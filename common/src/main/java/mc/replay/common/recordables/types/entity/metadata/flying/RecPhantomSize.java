@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.metadata.flying;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.VAR_INT;
 
-public record RecPhantomSize(EntityId entityId, int size) implements Recordable {
+public record RecPhantomSize(EntityId entityId, int size) implements EntityStateRecordable {
 
     public RecPhantomSize(@NotNull ReplayByteBuffer reader) {
         this(

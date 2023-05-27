@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.metadata.golem;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecSnowGolemPumpkinHat(EntityId entityId, boolean pumpkinHat) implements Recordable {
+public record RecSnowGolemPumpkinHat(EntityId entityId, boolean pumpkinHat) implements EntityStateRecordable {
 
     public RecSnowGolemPumpkinHat(@NotNull ReplayByteBuffer reader) {
         this(

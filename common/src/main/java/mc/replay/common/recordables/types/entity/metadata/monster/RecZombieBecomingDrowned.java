@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.metadata.monster;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecZombieBecomingDrowned(EntityId entityId, boolean becomingDrowned) implements Recordable {
+public record RecZombieBecomingDrowned(EntityId entityId, boolean becomingDrowned) implements EntityStateRecordable {
 
     public RecZombieBecomingDrowned(@NotNull ReplayByteBuffer reader) {
         this(

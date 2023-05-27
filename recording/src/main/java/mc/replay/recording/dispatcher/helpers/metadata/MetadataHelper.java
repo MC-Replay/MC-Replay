@@ -3,6 +3,8 @@ package mc.replay.recording.dispatcher.helpers.metadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.packetlib.data.entity.Metadata;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.AbstractHorseMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.BeeMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.flying.PhantomMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.golem.ShulkerMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.golem.SnowGolemMetadataReader;
@@ -18,6 +20,8 @@ import mc.replay.recording.dispatcher.helpers.metadata.water.AxolotlMetadataRead
 import mc.replay.recording.dispatcher.helpers.metadata.water.PufferfishMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.water.TropicalFishMetadataReader;
 import mc.replay.wrapper.entity.metadata.*;
+import mc.replay.wrapper.entity.metadata.animal.AbstractHorseMetadata;
+import mc.replay.wrapper.entity.metadata.animal.BeeMetadata;
 import mc.replay.wrapper.entity.metadata.flying.PhantomMetadata;
 import mc.replay.wrapper.entity.metadata.golem.IronGolemMetadata;
 import mc.replay.wrapper.entity.metadata.golem.ShulkerMetadata;
@@ -47,6 +51,9 @@ public final class MetadataHelper {
     private final Map<Class<?>, MetadataReader<?>> readers = new HashMap<>();
 
     public MetadataHelper() {
+        this.registerReader(AbstractHorseMetadata.class, new AbstractHorseMetadataReader());
+        this.registerReader(BeeMetadata.class, new BeeMetadataReader());
+
         this.registerReader(PhantomMetadata.class, new PhantomMetadataReader());
 
         this.registerReader(ShulkerMetadata.class, new ShulkerMetadataReader());

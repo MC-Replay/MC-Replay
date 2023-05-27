@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record RecEntitySoundAction() implements EmptyRecordableAction<RecEntitySound> {
+public final class RecEntitySoundAction implements EmptyRecordableAction<RecEntitySound> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntitySound recordable, @NotNull Void data) {

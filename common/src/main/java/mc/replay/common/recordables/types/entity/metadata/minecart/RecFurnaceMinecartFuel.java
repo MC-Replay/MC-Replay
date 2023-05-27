@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.metadata.minecart;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecFurnaceMinecartFuel(EntityId entityId, boolean fuel) implements Recordable {
+public record RecFurnaceMinecartFuel(EntityId entityId, boolean fuel) implements EntityStateRecordable {
 
     public RecFurnaceMinecartFuel(@NotNull ReplayByteBuffer reader) {
         this(

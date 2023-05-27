@@ -13,7 +13,7 @@ import org.jetbrains.annotations.UnknownNullability;
 import java.util.ArrayList;
 import java.util.List;
 
-public record RecEntitySetPassengersAction() implements EntityRecordableAction<RecEntitySetPassengers> {
+public final class RecEntitySetPassengersAction implements EntityRecordableAction<RecEntitySetPassengers> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntitySetPassengers recordable, @UnknownNullability IEntityProvider provider) {

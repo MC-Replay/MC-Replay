@@ -1,14 +1,14 @@
 package mc.replay.common.recordables.types.entity.metadata.other;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.wrapper.item.ItemWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.ITEM;
 
-public record RecItemFrameItem(EntityId entityId, ItemWrapper item) implements Recordable {
+public record RecItemFrameItem(EntityId entityId, ItemWrapper item) implements EntityStateRecordable {
 
     public RecItemFrameItem(@NotNull ReplayByteBuffer reader) {
         this(

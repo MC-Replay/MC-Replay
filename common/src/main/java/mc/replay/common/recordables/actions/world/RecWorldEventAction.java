@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record RecWorldEventAction() implements EmptyRecordableAction<RecWorldEvent> {
+public final class RecWorldEventAction implements EmptyRecordableAction<RecWorldEvent> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecWorldEvent recordable, @NotNull Void data) {

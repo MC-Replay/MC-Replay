@@ -1,14 +1,14 @@
 package mc.replay.common.recordables.types.entity.metadata;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.COMPONENT;
 
-public record RecEntityCustomName(EntityId entityId, Component customName) implements Recordable {
+public record RecEntityCustomName(EntityId entityId, Component customName) implements EntityStateRecordable {
 
     public RecEntityCustomName(@NotNull ReplayByteBuffer reader) {
         this(

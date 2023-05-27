@@ -1,12 +1,12 @@
 package mc.replay.common.recordables.types.entity.metadata.other;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.Rotation;
 import org.jetbrains.annotations.NotNull;
 
-public record RecItemFrameRotation(EntityId entityId, Rotation rotation) implements Recordable {
+public record RecItemFrameRotation(EntityId entityId, Rotation rotation) implements EntityStateRecordable {
 
     public RecItemFrameRotation(@NotNull ReplayByteBuffer reader) {
         this(

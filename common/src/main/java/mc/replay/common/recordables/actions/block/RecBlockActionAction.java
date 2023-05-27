@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record RecBlockActionAction() implements EmptyRecordableAction<RecBlockAction> {
+public final class RecBlockActionAction implements EmptyRecordableAction<RecBlockAction> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecBlockAction recordable, @NotNull Void data) {

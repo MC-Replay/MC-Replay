@@ -11,7 +11,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecCollectItemAction() implements EntityRecordableAction<RecCollectItem> {
+public final class RecCollectItemAction implements EntityRecordableAction<RecCollectItem> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecCollectItem recordable, @UnknownNullability IEntityProvider provider) {

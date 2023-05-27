@@ -1,13 +1,13 @@
 package mc.replay.common.recordables.types.entity.metadata.mob;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.BOOLEAN;
 
-public record RecMobLeftHanded(EntityId entityId, boolean leftHanded) implements Recordable {
+public record RecMobLeftHanded(EntityId entityId, boolean leftHanded) implements EntityStateRecordable {
 
     public RecMobLeftHanded(@NotNull ReplayByteBuffer reader) {
         this(

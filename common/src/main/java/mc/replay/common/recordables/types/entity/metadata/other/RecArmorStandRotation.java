@@ -1,14 +1,15 @@
 package mc.replay.common.recordables.types.entity.metadata.other;
 
-import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.common.recordables.RecordableBufferTypes.ENTITY_VECTOR_ROTATION;
 
-public record RecArmorStandRotation(EntityId entityId, RotationType type, Vector rotation) implements Recordable {
+public record RecArmorStandRotation(EntityId entityId, RotationType type,
+                                    Vector rotation) implements EntityStateRecordable {
 
     public RecArmorStandRotation(@NotNull ReplayByteBuffer reader) {
         this(
