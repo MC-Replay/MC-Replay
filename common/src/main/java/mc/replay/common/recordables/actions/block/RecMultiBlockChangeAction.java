@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record RecMultiBlockChangeAction() implements EmptyRecordableAction<RecMultiBlockChange> {
+public final class RecMultiBlockChangeAction implements EmptyRecordableAction<RecMultiBlockChange> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecMultiBlockChange recordable, @NotNull Void data) {

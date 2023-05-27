@@ -11,7 +11,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecEntityAttachAction() implements EntityRecordableAction<RecEntityAttach> {
+public final class RecEntityAttachAction implements EntityRecordableAction<RecEntityAttach> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityAttach recordable, @UnknownNullability IEntityProvider provider) {

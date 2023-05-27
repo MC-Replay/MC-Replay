@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record RecAcknowledgePlayerDiggingAction() implements EmptyRecordableAction<RecAcknowledgePlayerDigging> {
+public final class RecAcknowledgePlayerDiggingAction implements EmptyRecordableAction<RecAcknowledgePlayerDigging> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecAcknowledgePlayerDigging recordable, @NotNull Void data) {

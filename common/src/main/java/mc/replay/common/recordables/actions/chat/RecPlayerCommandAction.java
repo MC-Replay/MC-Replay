@@ -10,7 +10,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecPlayerCommandAction() implements EmptyRecordableAction<RecPlayerCommand> {
+public final class RecPlayerCommandAction implements EmptyRecordableAction<RecPlayerCommand> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecPlayerCommand recordable, @NotNull Void data) {

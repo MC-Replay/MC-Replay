@@ -10,7 +10,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecPlayerChatAction() implements EmptyRecordableAction<RecPlayerChat> {
+public final class RecPlayerChatAction implements EmptyRecordableAction<RecPlayerChat> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecPlayerChat recordable, @NotNull Void data) {

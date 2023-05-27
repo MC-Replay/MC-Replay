@@ -9,7 +9,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecParticleAction() implements EmptyRecordableAction<RecParticle> {
+public final class RecParticleAction implements EmptyRecordableAction<RecParticle> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecParticle recordable, @NotNull Void data) {

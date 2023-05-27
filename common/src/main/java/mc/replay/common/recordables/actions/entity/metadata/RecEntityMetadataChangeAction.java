@@ -14,7 +14,7 @@ import org.jetbrains.annotations.UnknownNullability;
 import java.util.List;
 import java.util.Map;
 
-public record RecEntityMetadataChangeAction() implements EntityRecordableAction<RecEntityMetadataChange> {
+public final class RecEntityMetadataChangeAction implements EntityRecordableAction<RecEntityMetadataChange> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecEntityMetadataChange recordable, @UnknownNullability IEntityProvider provider) {

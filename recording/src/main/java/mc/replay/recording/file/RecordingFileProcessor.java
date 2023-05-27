@@ -35,8 +35,8 @@ public final class RecordingFileProcessor {
         for (Map.Entry<Integer, List<Recordable>> entry : recordables.entrySet()) {
             writer.write(VAR_INT, entry.getKey());
             writer.writeCollection(entry.getValue(), (writer2, recordable) -> {
-                byte recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.getClass());
-                writer2.write(BYTE, recordableId);
+                int recordableId = MCReplayAPI.getRecordableRegistry().getRecordableId(recordable.getClass());
+                writer2.write(VAR_INT, recordableId);
                 writer2.write(recordable);
             });
         }
@@ -92,7 +92,7 @@ public final class RecordingFileProcessor {
             int time;
             while ((time = reader.read(VAR_INT)) != 0xFF) {
                 List<Recordable> recordableList = reader.readCollection((reader2) -> {
-                    byte recordableId = reader.read(BYTE);
+                    int recordableId = reader.read(VAR_INT);
                     return MCReplayAPI.getRecordableRegistry().getRecordable(recordableId, reader2);
                 });
                 recordables.put(time, recordableList);

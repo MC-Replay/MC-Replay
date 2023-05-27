@@ -9,7 +9,7 @@ import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
-public record RecCustomSoundEffectAction() implements EmptyRecordableAction<RecCustomSoundEffect> {
+public final class RecCustomSoundEffectAction implements EmptyRecordableAction<RecCustomSoundEffect> {
 
     @Override
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecCustomSoundEffect recordable, @NotNull Void data) {
