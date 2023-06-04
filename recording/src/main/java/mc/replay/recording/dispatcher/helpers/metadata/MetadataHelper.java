@@ -3,8 +3,12 @@ package mc.replay.recording.dispatcher.helpers.metadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.recording.dispatcher.helpers.metadata.animal.AbstractHorseMetadataReader;
-import mc.replay.recording.dispatcher.helpers.metadata.animal.BeeMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.ambient.BatMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.*;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.tameable.CatMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.tameable.ParrotMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.tameable.TameableAnimalMetadataReader;
+import mc.replay.recording.dispatcher.helpers.metadata.animal.tameable.WolfMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.flying.PhantomMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.golem.ShulkerMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.golem.SnowGolemMetadataReader;
@@ -20,8 +24,12 @@ import mc.replay.recording.dispatcher.helpers.metadata.water.AxolotlMetadataRead
 import mc.replay.recording.dispatcher.helpers.metadata.water.PufferfishMetadataReader;
 import mc.replay.recording.dispatcher.helpers.metadata.water.TropicalFishMetadataReader;
 import mc.replay.wrapper.entity.metadata.*;
-import mc.replay.wrapper.entity.metadata.animal.AbstractHorseMetadata;
-import mc.replay.wrapper.entity.metadata.animal.BeeMetadata;
+import mc.replay.wrapper.entity.metadata.ambient.BatMetadata;
+import mc.replay.wrapper.entity.metadata.animal.*;
+import mc.replay.wrapper.entity.metadata.animal.tameable.CatMetadata;
+import mc.replay.wrapper.entity.metadata.animal.tameable.ParrotMetadata;
+import mc.replay.wrapper.entity.metadata.animal.tameable.TameableAnimalMetadata;
+import mc.replay.wrapper.entity.metadata.animal.tameable.WolfMetadata;
 import mc.replay.wrapper.entity.metadata.flying.PhantomMetadata;
 import mc.replay.wrapper.entity.metadata.golem.IronGolemMetadata;
 import mc.replay.wrapper.entity.metadata.golem.ShulkerMetadata;
@@ -51,8 +59,27 @@ public final class MetadataHelper {
     private final Map<Class<?>, MetadataReader<?>> readers = new HashMap<>();
 
     public MetadataHelper() {
+        this.registerReader(BatMetadata.class, new BatMetadataReader());
+
+        this.registerReader(CatMetadata.class, new CatMetadataReader());
+        this.registerReader(ParrotMetadata.class, new ParrotMetadataReader());
+        this.registerReader(TameableAnimalMetadata.class, new TameableAnimalMetadataReader());
+        this.registerReader(WolfMetadata.class, new WolfMetadataReader());
+
         this.registerReader(AbstractHorseMetadata.class, new AbstractHorseMetadataReader());
         this.registerReader(BeeMetadata.class, new BeeMetadataReader());
+        this.registerReader(FoxMetadata.class, new FoxMetadataReader());
+        this.registerReader(GoatMetadata.class, new GoatMetadataReader());
+        this.registerReader(HorseMetadata.class, new HorseMetadataReader());
+        this.registerReader(LlamaMetadata.class, new LlamaMetadataReader());
+        this.registerReader(MooshroomMetadata.class, new MooshroomMetadataReader());
+        this.registerReader(PandaMetadata.class, new PandaMetadataReader());
+        this.registerReader(PigMetadata.class, new PigMetadataReader());
+        this.registerReader(PolarBearMetadata.class, new PolarBearMetadataReader());
+        this.registerReader(RabbitMetadata.class, new RabbitMetadataReader());
+        this.registerReader(SheepMetadata.class, new SheepMetadataReader());
+        this.registerReader(StriderMetadata.class, new StriderMetadataReader());
+        this.registerReader(TurtleMetadata.class, new TurtleMetadataReader());
 
         this.registerReader(PhantomMetadata.class, new PhantomMetadataReader());
 
