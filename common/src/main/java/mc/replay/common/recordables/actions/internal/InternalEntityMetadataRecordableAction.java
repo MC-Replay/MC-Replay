@@ -1,6 +1,5 @@
 package mc.replay.common.recordables.actions.internal;
 
-import mc.replay.api.recordables.action.RecordableAction;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.common.replay.IReplayEntityProvider;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @FunctionalInterface
-public interface InternalEntityMetadataRecordableAction<R extends EntityStateRecordable> extends RecordableAction<R, IReplayEntityProvider> {
+public interface InternalEntityMetadataRecordableAction<R extends EntityStateRecordable> extends InternalEntityRecordableAction<R> {
 
     @Override
     default @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull R recordable, @UnknownNullability IReplayEntityProvider provider) {
