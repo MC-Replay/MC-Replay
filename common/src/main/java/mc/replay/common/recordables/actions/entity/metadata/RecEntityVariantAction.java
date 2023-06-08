@@ -3,10 +3,7 @@ package mc.replay.common.recordables.actions.entity.metadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
 import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.animal.FoxMetadata;
-import mc.replay.wrapper.entity.metadata.animal.LlamaMetadata;
-import mc.replay.wrapper.entity.metadata.animal.MooshroomMetadata;
-import mc.replay.wrapper.entity.metadata.animal.RabbitMetadata;
+import mc.replay.wrapper.entity.metadata.animal.*;
 import mc.replay.wrapper.entity.metadata.animal.tameable.CatMetadata;
 import mc.replay.wrapper.entity.metadata.animal.tameable.ParrotMetadata;
 import mc.replay.wrapper.entity.metadata.other.BoatMetadata;
@@ -26,6 +23,8 @@ public final class RecEntityVariantAction implements InternalEntityMetadataRecor
             boatMetadata.setType(BoatMetadata.Type.values()[recordable.variant()]);
         } else if (entityMetadata instanceof FoxMetadata foxMetadata) {
             foxMetadata.setType(FoxMetadata.Type.values()[recordable.variant()]);
+        } else if (entityMetadata instanceof HorseMetadata horseMetadata) {
+            horseMetadata.setVariant(HorseMetadata.getVariantFromId(recordable.variant()));
         } else if (entityMetadata instanceof LlamaMetadata llamaMetadata) {
             llamaMetadata.setVariant(LlamaMetadata.Variant.values()[recordable.variant()]);
         } else if (entityMetadata instanceof MooshroomMetadata mooshroomMetadata) {

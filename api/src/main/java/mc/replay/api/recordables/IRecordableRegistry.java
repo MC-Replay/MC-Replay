@@ -16,6 +16,10 @@ public interface IRecordableRegistry {
                                                    @NotNull Function<ReplayByteBuffer, R> recordableConstructor,
                                                    @NotNull RecordableAction<R, ?> action);
 
+    <R extends Recordable> void registerRecordable(@NotNull Class<R> recordableClass,
+                                                   @NotNull Function<ReplayByteBuffer, R> recordableConstructor,
+                                                   @NotNull RecordableAction<R, ?> action);
+
     <R extends Recordable> R getRecordable(int id, @NotNull ReplayByteBuffer buffer);
 
     <R extends Recordable> int getRecordableId(@NotNull Class<R> recordableClass);
