@@ -2,7 +2,7 @@ package mc.replay.recording.dispatcher.helpers.metadata.animal;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.common.recordables.types.entity.metadata.animal.RecHorseVariant;
+import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
 import mc.replay.wrapper.entity.metadata.animal.HorseMetadata;
@@ -25,7 +25,7 @@ public final class HorseMetadataReader implements MetadataReader<HorseMetadata> 
 
             if (!Objects.equals(variant, before.getVariant())) {
                 recordables.add(
-                        new RecHorseVariant(
+                        new RecEntityVariant(
                                 entityId,
                                 HorseMetadata.getVariantId(variant.getMarking(), variant.getColor())
                         )
