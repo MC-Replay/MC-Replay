@@ -1,26 +1,23 @@
-package mc.replay.common.recordables.types.entity.miscellaneous;
+package mc.replay.common.recordables.types.entity.equipment;
 
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.wrapper.item.ItemWrapper;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.ITEM;
 
-public record RecEntityEquipment(EntityId entityId, EquipmentSlot slot,
-                                 ItemWrapper item) implements EntityStateRecordable {
+public record RecEntityHand(EntityId entityId, ItemWrapper item) implements EntityStateRecordable {
 
-    public RecEntityEquipment(EntityId entityId, EquipmentSlot slot, ItemStack itemStack) {
-        this(entityId, slot, new ItemWrapper(itemStack));
+    public RecEntityHand(EntityId entityId, ItemStack itemStack) {
+        this(entityId, new ItemWrapper(itemStack));
     }
 
-    public RecEntityEquipment(@NotNull ReplayByteBuffer reader) {
+    public RecEntityHand(@NotNull ReplayByteBuffer reader) {
         this(
                 new EntityId(reader),
-                reader.readEnum(EquipmentSlot.class),
                 new ItemWrapper(reader.read(ITEM))
         );
     }
@@ -28,7 +25,6 @@ public record RecEntityEquipment(EntityId entityId, EquipmentSlot slot,
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
         writer.write(this.entityId);
-        writer.writeEnum(EquipmentSlot.class, this.slot);
         writer.write(ITEM, this.item);
     }
 }

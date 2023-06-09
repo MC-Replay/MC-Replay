@@ -2,7 +2,7 @@ package mc.replay.recording.dispatcher.dispatchers.tick;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
+import mc.replay.common.recordables.types.entity.equipment.*;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherTick;
 import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
@@ -54,7 +54,16 @@ public final class EntityEquipmentTickDispatcher extends DispatcherTick {
                 if (currentItem == null) currentItem = new ItemStack(Material.AIR);
 
                 equipment.put(equipmentSlot, currentItem);
-                recordables.add(new RecEntityEquipment(entityId, equipmentSlot, currentItem));
+                Recordable recordable = switch (equipmentSlot) {
+                    case HAND -> new RecEntityHand(entityId, currentItem);
+                    case OFF_HAND -> new RecEntityOffHand(entityId, currentItem);
+                    case FEET -> new RecEntityBoots(entityId, currentItem);
+                    case LEGS -> new RecEntityLeggings(entityId, currentItem);
+                    case CHEST -> new RecEntityChestplate(entityId, currentItem);
+                    case HEAD -> new RecEntityHelmet(entityId, currentItem);
+                };
+
+                recordables.add(recordable);
             }
         }
 

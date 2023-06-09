@@ -11,6 +11,7 @@ import mc.replay.common.recordables.actions.entity.RecEntityDestroyAction;
 import mc.replay.common.recordables.actions.entity.RecEntitySpawnAction;
 import mc.replay.common.recordables.actions.entity.RecPlayerDestroyAction;
 import mc.replay.common.recordables.actions.entity.RecPlayerSpawnAction;
+import mc.replay.common.recordables.actions.entity.equipment.*;
 import mc.replay.common.recordables.actions.entity.item.RecCollectItemAction;
 import mc.replay.common.recordables.actions.entity.metadata.*;
 import mc.replay.common.recordables.actions.entity.metadata.ambient.RecBatHangingAction;
@@ -50,6 +51,7 @@ import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
+import mc.replay.common.recordables.types.entity.equipment.*;
 import mc.replay.common.recordables.types.entity.item.RecCollectItem;
 import mc.replay.common.recordables.types.entity.metadata.*;
 import mc.replay.common.recordables.types.entity.metadata.ambient.RecBatHanging;
@@ -105,6 +107,13 @@ public final class RecordableRegistry implements IRecordableRegistry {
 
         this.registerRecordable(RecPlayerChat.class, RecPlayerChat::new, new RecPlayerChatAction());
         this.registerRecordable(RecPlayerCommand.class, RecPlayerCommand::new, new RecPlayerCommandAction());
+
+        this.registerRecordable(RecEntityBoots.class, RecEntityBoots::new, new RecEntityBootsAction());
+        this.registerRecordable(RecEntityChestplate.class, RecEntityChestplate::new, new RecEntityChestplateAction());
+        this.registerRecordable(RecEntityHand.class, RecEntityHand::new, new RecEntityHandAction());
+        this.registerRecordable(RecEntityHelmet.class, RecEntityHelmet::new, new RecEntityHelmetAction());
+        this.registerRecordable(RecEntityLeggings.class, RecEntityLeggings::new, new RecEntityLeggingsAction());
+        this.registerRecordable(RecEntityOffHand.class, RecEntityOffHand::new, new RecEntityOffHandAction());
 
         this.registerRecordable(RecCollectItem.class, RecCollectItem::new, new RecCollectItemAction());
 
@@ -202,7 +211,6 @@ public final class RecordableRegistry implements IRecordableRegistry {
 
         this.registerRecordable(RecEntityAnimation.class, RecEntityAnimation::new, new RecEntityAnimationAction());
         this.registerRecordable(RecEntityAttach.class, RecEntityAttach::new, new RecEntityAttachAction());
-        this.registerRecordable(RecEntityEquipment.class, RecEntityEquipment::new, new RecEntityEquipmentAction());
         this.registerRecordable(RecEntitySetPassengers.class, RecEntitySetPassengers::new, new RecEntitySetPassengersAction());
         this.registerRecordable(RecEntityStatus.class, RecEntityStatus::new, new RecEntityStatusAction());
         this.registerRecordable(RecEntitySwingHandAnimation.class, RecEntitySwingHandAnimation::new, new RecEntitySwingHandAnimationAction());
