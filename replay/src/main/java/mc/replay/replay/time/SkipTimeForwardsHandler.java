@@ -11,6 +11,7 @@ import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
 import mc.replay.common.recordables.types.entity.RecPlayerDestroy;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
+import mc.replay.common.recordables.types.entity.miscellaneous.RecEntitySetPassengers;
 import mc.replay.common.recordables.types.internal.BlockRelatedRecordable;
 import mc.replay.common.recordables.types.internal.EntityMovementRecordable;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;
@@ -38,24 +39,32 @@ final class SkipTimeForwardsHandler extends AbstractSkipTimeHandler {
 
         List<ClientboundPacket> packets = new ArrayList<>();
         for (Recordable recordable : blockChangeRecordables) {
-            packets.addAll(this.handleRecordableForwards(session, recordable));
+            packets.addAll(this.handleRecordable(session, recordable));
         }
 
         for (Recordable recordable : spawnRecordables) {
-            packets.addAll(this.handleRecordableForwards(session, recordable));
+            packets.addAll(this.handleRecordable(session, recordable));
         }
 
         for (Recordable recordable : destroyRecordables) {
-            packets.addAll(this.handleRecordableForwards(session, recordable));
+            packets.addAll(this.handleRecordable(session, recordable));
         }
 
         for (AbstractReplayEntity<?> entity : session.getPlayTask().getEntityCache().getEntities().values()) {
+            Collection<RecEntitySetPassengers> entityPassengers = this.findLatestTypeUniqueRecordables(RecEntitySetPassengers.class, until, recordables, (recordable) -> {
+                return recordable.vehicleEntityid().entityId() == entity.getOriginalEntityId();
+            });
+
+            for (RecEntitySetPassengers entityPassenger : entityPassengers) {
+                packets.addAll(this.handleRecordable(session, entityPassenger));
+            }
+
             Collection<EntityMovementRecordable> entityMovements = this.findLatestTypeUniqueRecordables(EntityMovementRecordable.class, until, recordables, (recordable) -> {
                 return recordable.entityId().entityId() == entity.getOriginalEntityId();
             });
 
             for (EntityMovementRecordable entityMovement : entityMovements) {
-                packets.addAll(this.handleRecordableForwards(session, entityMovement));
+                packets.addAll(this.handleRecordable(session, entityMovement));
             }
 
             Collection<EntityStateRecordable> entityStates = this.findLatestTypeUniqueRecordables(EntityStateRecordable.class, until, recordables, (recordable) -> {
@@ -63,7 +72,7 @@ final class SkipTimeForwardsHandler extends AbstractSkipTimeHandler {
             });
 
             for (EntityStateRecordable entityState : entityStates) {
-                packets.addAll(this.handleRecordableForwards(session, entityState));
+                packets.addAll(this.handleRecordable(session, entityState));
             }
         }
 
@@ -71,7 +80,7 @@ final class SkipTimeForwardsHandler extends AbstractSkipTimeHandler {
     }
 
     @SuppressWarnings("unchecked, rawtypes")
-    private Collection<ClientboundPacket> handleRecordableForwards(ReplaySession session, Recordable recordable) {
+    private Collection<ClientboundPacket> handleRecordable(ReplaySession session, Recordable recordable) {
         RecordableDefinition<? extends Recordable> recordableDefinition = this.instance.getRecordableRegistry().getRecordableDefinition(recordable.getClass());
         if (recordableDefinition == null) return Collections.emptyList();
 
