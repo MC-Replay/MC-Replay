@@ -18,11 +18,6 @@ public final class RecEntityDestroyAction implements InternalEntityRecordableAct
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecEntityDestroy recordable, @UnknownNullability IReplayEntityProvider provider) {
-        return List.of();
-    }
-
-    @Override
     public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecEntityDestroy recordable, @UnknownNullability IReplayEntityProvider provider) {
         return List.of();
     }
