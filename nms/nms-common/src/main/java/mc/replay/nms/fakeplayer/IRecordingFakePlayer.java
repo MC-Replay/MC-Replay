@@ -1,4 +1,4 @@
-package mc.replay.classgenerator.objects;
+package mc.replay.nms.fakeplayer;
 
 import org.bukkit.entity.Player;
 

@@ -1,4 +1,4 @@
-package mc.replay.classgenerator.objects;
+package mc.replay.nms.fakeplayer;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,12 +21,10 @@ public final class FakePlayerHandler implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    // Used in generated code
     public void addFakePlayer(@NotNull IRecordingFakePlayer fakePlayer) {
         this.fakePlayers.put(fakePlayer.uuid(), fakePlayer);
     }
 
-    // Used in generated code
     public void removeFakePlayer(@NotNull IRecordingFakePlayer fakePlayer) {
         this.fakePlayers.remove(fakePlayer.uuid());
     }

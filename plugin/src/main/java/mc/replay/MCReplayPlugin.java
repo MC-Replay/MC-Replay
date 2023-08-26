@@ -5,19 +5,26 @@ import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.api.utils.config.templates.ReplaySettings;
-import mc.replay.classgenerator.ClassGenerator;
-import mc.replay.classgenerator.objects.FakePlayerHandler;
 import mc.replay.commands.ReplayTestCommand;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.common.utils.reflection.JavaReflections;
-import mc.replay.recording.dispatcher.RecordingDispatcherManager;
+import mc.replay.nms.MCReplayNMS;
+import mc.replay.nms.MCReplayNMS_v1_16_R3;
+import mc.replay.nms.MCReplayNMS_v1_19_R3;
+import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.packetlib.PacketLib;
+import mc.replay.packetlib.utils.ProtocolVersion;
+import mc.replay.packetlib.utils.ReflectionUtils;
 import mc.replay.recording.RecordingHandler;
+import mc.replay.recording.dispatcher.RecordingDispatcherManager;
 import mc.replay.replay.ReplayHandler;
 import nl.odalitadevelopments.menus.OdalitaMenus;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Method;
 
 @Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal {
@@ -55,6 +62,28 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
                 .listenPacketLibClientbound(false)
                 .inject(this);
 
+        try {
+            Class<?> nmsInstanceClass = ReflectionUtils.getClass("mc.replay.nms.MCReplayNMSInstance");
+
+            MCReplayNMS instance = switch (ProtocolVersion.getServerVersion()) {
+                case MINECRAFT_1_16_5 -> new MCReplayNMS_v1_16_R3();
+                case MINECRAFT_1_19_4 -> new MCReplayNMS_v1_19_R3();
+                default ->
+                        throw new IllegalStateException("Unsupported server version " + ProtocolVersion.getServerVersion());
+            };
+
+            Method initMethod = ReflectionUtils.getMethod(nmsInstanceClass, "init", MCReplayNMS.class);
+            initMethod.setAccessible(true);
+            initMethod.invoke(null, instance);
+            initMethod.setAccessible(false);
+
+            instance.init();
+        } catch (Exception exception) {
+            System.out.println("Failed to initialize MCReplayNMS");
+            Bukkit.shutdown();
+            return;
+        }
+
         this.menuHandler = OdalitaMenus.createInstance(this);
 
         //Load replay configuration files
@@ -75,8 +104,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
         this.getCommand("replaytest").setExecutor(new ReplayTestCommand());
 
         this.dispatchManager = new RecordingDispatcherManager(this);
-
-        ClassGenerator.generate();
 
         this.enable();
     }

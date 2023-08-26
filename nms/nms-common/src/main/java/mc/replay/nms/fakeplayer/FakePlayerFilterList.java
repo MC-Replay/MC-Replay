@@ -1,6 +1,6 @@
-package mc.replay.classgenerator.objects;
+package mc.replay.nms.fakeplayer;
 
-import mc.replay.classgenerator.ClassGeneratorReflections;
+import mc.replay.nms.MCReplayNMS;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
@@ -13,9 +13,12 @@ public final class FakePlayerFilterList extends AbstractList<Object> implements 
     @Serial
     private static final long serialVersionUID = 0L;
 
+    private final MCReplayNMS nms;
+
     private final List<Object> fromList;
 
-    public FakePlayerFilterList(List<Object> fromList) {
+    public FakePlayerFilterList(MCReplayNMS nms, List<Object> fromList) {
+        this.nms = nms;
         this.fromList = fromList;
     }
 
@@ -60,7 +63,7 @@ public final class FakePlayerFilterList extends AbstractList<Object> implements 
         for (Object object : this.fromList) {
             try {
                 if (!(object instanceof IRecordingFakePlayer)) {
-                    Object bukkitEntity = ClassGeneratorReflections.GET_BUKKIT_ENTITY_METHOD.invoke(object);
+                    Object bukkitEntity = this.nms.getBukkitEntity(object);
                     list.add(bukkitEntity);
                 }
             } catch (Exception ignored) {

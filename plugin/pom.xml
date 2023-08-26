@@ -28,6 +28,17 @@
             <artifactId>replay</artifactId>
             <version>Dev-1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>mc.replay.nms</groupId>
+            <artifactId>v1_16_R3</artifactId>
+            <version>Dev-1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mc.replay.nms</groupId>
+            <artifactId>v1_19_R3</artifactId>
+            <version>Dev-1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

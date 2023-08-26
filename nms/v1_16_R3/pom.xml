@@ -3,36 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <artifactId>MCReplay</artifactId>
         <groupId>mc.replay</groupId>
+        <artifactId>nms</artifactId>
         <version>Dev-1.0</version>
     </parent>
 
-    <artifactId>common</artifactId>
+    <groupId>mc.replay.nms</groupId>
+    <artifactId>v1_16_R3</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>mc.replay</groupId>
             <artifactId>api</artifactId>
             <version>Dev-1.0</version>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>mc.replay.nms</groupId>
             <artifactId>nms-common</artifactId>
             <version>Dev-1.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.github.odalita-developments.odalitamenus</groupId>
-            <artifactId>core</artifactId>
-            <version>v0.1.6</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <finalName>MCReplay-Common-${project.version}</finalName>
-    </build>
 </project>

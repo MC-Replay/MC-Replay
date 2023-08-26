@@ -15,7 +15,7 @@
         <module>recording</module>
         <module>replay</module>
         <module>plugin</module>
-        <module>class-generator</module>
+        <module>nms</module>
     </modules>
 
     <properties>
