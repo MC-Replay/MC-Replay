@@ -41,7 +41,7 @@ public final class ReplaySkipTimeHandler implements IReplaySkipTimeHandler {
         session.setPaused(true);
 
         NavigableMap<Integer, List<Recordable>> recordablesBetween = recordables.subMap(
-                (forwards) ? currentTime : until,
+                (forwards) ? currentTime : 0,
                 true,
                 (forwards) ? until : currentTime,
                 true

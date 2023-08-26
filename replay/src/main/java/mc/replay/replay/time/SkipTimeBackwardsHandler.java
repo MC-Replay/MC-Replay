@@ -2,6 +2,7 @@ package mc.replay.replay.time;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.common.MCReplayInternal;
+import mc.replay.common.recordables.types.internal.BlockRelatedRecordable;
 import mc.replay.replay.ReplaySession;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,6 @@ final class SkipTimeBackwardsHandler extends AbstractSkipTimeHandler {
 
     @Override
     void skipTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween) {
-
+        List<Recordable> blockChangeRecordables = this.findRecordables(recordablesBetween, (recordable) -> recordable instanceof BlockRelatedRecordable);
     }
 }
