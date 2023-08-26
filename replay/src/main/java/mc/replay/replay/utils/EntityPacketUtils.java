@@ -1,4 +1,4 @@
-package mc.replay.common.utils;
+package mc.replay.replay.utils;
 
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recordables.data.IEntityProvider;
