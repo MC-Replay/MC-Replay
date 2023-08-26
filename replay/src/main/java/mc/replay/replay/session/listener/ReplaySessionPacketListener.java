@@ -3,6 +3,7 @@ package mc.replay.replay.session.listener;
 import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.utils.config.templates.ReplaySettings;
+import mc.replay.nms.MCReplayNMS;
 import mc.replay.packetlib.data.entity.InteractEntityType;
 import mc.replay.packetlib.data.entity.PlayerHand;
 import mc.replay.packetlib.data.entity.player.DiggingStatus;
@@ -17,8 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import static mc.replay.common.utils.reflection.MinecraftNMS.*;
 
 public final class ReplaySessionPacketListener {
 
@@ -112,36 +111,14 @@ public final class ReplaySessionPacketListener {
             return; // No need to set the player position if the player didn't move
         }
 
-        try {
-            EXECUTE_TASK_METHOD.invoke(MINECRAFT_SERVER_INSTANCE, (Runnable) () -> { // Make sure to execute this on the main thread
-                try {
-                    Object entityPlayer = getEntityPlayer(player);
-                    SET_ENTITY_POSITION_ROTATION_METHOD.invoke(
-                            entityPlayer,
-                            to.getX(),
-                            to.getY(),
-                            to.getZ(),
-                            to.getYaw(),
-                            to.getPitch()
-                    );
+        MCReplayNMS.getInstance().movePlayerSync(player, to, () -> {
+            boolean shouldChangeBlock = MCReplayAPI.getSettingsProcessor().getBoolean(ReplaySettings.REPLAY_PLAYER_MOVEMENT_BLOCK_CHANGE);
+            if (shouldChangeBlock && from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) {
+                return; // No need to call the event if the player didn't change block
+            }
 
-                    Object worldServer = GET_WORLD_SERVER_METHOD.invoke(entityPlayer);
-                    Object chunkProviderServer = GET_CHUNK_PROVIDER_METHOD.invoke(worldServer);
-                    MOVE_PLAYER_METHOD.invoke(chunkProviderServer, entityPlayer); // This is needed to load chunks for the player
-
-                    boolean shouldChangeBlock = MCReplayAPI.getSettingsProcessor().getBoolean(ReplaySettings.REPLAY_PLAYER_MOVEMENT_BLOCK_CHANGE);
-                    if (shouldChangeBlock && from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) {
-                        return; // No need to call the event if the player didn't change block
-                    }
-
-                    PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
-                    Bukkit.getPluginManager().callEvent(playerMoveEvent);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            });
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+            PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(player, from, to);
+            Bukkit.getPluginManager().callEvent(playerMoveEvent);
+        });
     }
 }

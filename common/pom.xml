@@ -20,8 +20,8 @@
         </dependency>
 
         <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>class-generator</artifactId>
+            <groupId>mc.replay.nms</groupId>
+            <artifactId>nms-common</artifactId>
             <version>Dev-1.0</version>
         </dependency>
 

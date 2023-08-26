@@ -7,9 +7,9 @@ import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.utils.config.IReplayConfigProcessor;
 import mc.replay.api.utils.config.templates.ReplayMessages;
-import mc.replay.classgenerator.ClassGenerator;
-import mc.replay.classgenerator.objects.IRecordingFakePlayer;
 import mc.replay.common.utils.text.TextFormatter;
+import mc.replay.nms.MCReplayNMS;
+import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,7 +48,7 @@ public class ReplayTestCommand implements CommandExecutor {
             }
 
             if (this.fakePlayer == null) {
-                this.fakePlayer = ClassGenerator.createFakePlayer(MCReplayPlugin.getInstance().getFakePlayerHandler(), player);
+                this.fakePlayer = MCReplayNMS.getInstance().createFakePlayer(MCReplayPlugin.getInstance().getFakePlayerHandler(), player);
                 this.fakePlayer.spawn();
             }
 

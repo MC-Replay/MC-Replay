@@ -3,7 +3,7 @@ package mc.replay.replay.session.entity;
 import lombok.Getter;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.replay.session.IReplayPlayer;
-import mc.replay.common.utils.EntityPacketUtils;
+import mc.replay.replay.utils.EntityPacketUtils;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.wrapper.data.SkinTexture;
