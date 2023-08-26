@@ -1,7 +1,7 @@
 package mc.replay.recording.dispatcher;
 
 import mc.replay.common.MCReplayInternal;
-import mc.replay.common.utils.reflection.MinecraftNMS;
+import mc.replay.nms.MCReplayNMS;
 
 public abstract class RecordingDispatcher {
 
@@ -18,7 +18,7 @@ public abstract class RecordingDispatcher {
     }
 
     public int getCurrentTick() {
-        return MinecraftNMS.getCurrentServerTick();
+        return MCReplayNMS.getInstance().getCurrentServerTick();
     }
 
     public boolean shouldRecord() {

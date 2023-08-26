@@ -14,15 +14,12 @@ import mc.replay.nms.*;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.utils.ProtocolVersion;
-import mc.replay.packetlib.utils.ReflectionUtils;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.recording.dispatcher.RecordingDispatcherManager;
 import mc.replay.replay.ReplayHandler;
 import nl.odalitadevelopments.menus.OdalitaMenus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.lang.reflect.Method;
 
 @Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal {
@@ -61,7 +58,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
                 .inject(this);
 
         try {
-            Class<?> nmsInstanceClass = ReflectionUtils.getClass("mc.replay.nms.MCReplayNMSInstance");
+            Class<?> nmsInstanceClass = JavaReflections.getClass("mc.replay.nms.MCReplayNMSInstance");
 
             MCReplayNMS instance = switch (ProtocolVersion.getServerVersion()) {
                 case MINECRAFT_1_16_5 -> new MCReplayNMS_v1_16_R3();
@@ -73,12 +70,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
                         throw new IllegalStateException("Unsupported server version " + ProtocolVersion.getServerVersion());
             };
 
-            Method initMethod = ReflectionUtils.getMethod(nmsInstanceClass, "init", MCReplayNMS.class);
-            initMethod.setAccessible(true);
-            initMethod.invoke(null, instance);
-            initMethod.setAccessible(false);
-
-            instance.init();
+            JavaReflections.getMethod(nmsInstanceClass, "init", MCReplayNMS.class).invoke(null, instance);
         } catch (Exception exception) {
             System.out.println("Failed to initialize MCReplayNMS");
             Bukkit.shutdown();

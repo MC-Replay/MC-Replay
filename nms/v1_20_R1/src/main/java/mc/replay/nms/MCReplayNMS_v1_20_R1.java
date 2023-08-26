@@ -16,8 +16,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.item.ItemStack;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -48,6 +50,11 @@ public final class MCReplayNMS_v1_20_R1 implements MCReplayNMS {
     }
 
     @Override
+    public int getCurrentServerTick() {
+        return MinecraftServer.currentTick;
+    }
+
+    @Override
     public RItemStack modifyItemStack(org.bukkit.inventory.ItemStack itemStack) {
         ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
         return new RItemStack_v1_20_R1(itemStack, nmsItemStack);
@@ -61,6 +68,17 @@ public final class MCReplayNMS_v1_20_R1 implements MCReplayNMS {
     @Override
     public IRecordingFakePlayer createFakePlayer(FakePlayerHandler fakePlayerHandler, Player target) {
         return new RecordingFakePlayer_v1_20_R1(fakePlayerHandler, target);
+    }
+
+    @Override
+    public void movePlayerSync(Player player, Location to, Runnable callback) {
+        MinecraftServer.getServer().execute(() -> {
+            ServerPlayer entityPlayer = (ServerPlayer) getBukkitEntity(player);
+            entityPlayer.absMoveTo(to.getX(), to.getY(), to.getZ(), to.getYaw(), to.getPitch());
+
+            entityPlayer.serverLevel().getChunkSource().move(entityPlayer);
+            callback.run();
+        });
     }
 
     @Override
