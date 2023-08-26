@@ -15,6 +15,9 @@
     <modules>
         <module>nms-common</module>
         <module>v1_16_R3</module>
+        <module>v1_17_R1</module>
+        <module>v1_18_R2</module>
         <module>v1_19_R3</module>
+        <module>v1_20_R1</module>
     </modules>
 </project>

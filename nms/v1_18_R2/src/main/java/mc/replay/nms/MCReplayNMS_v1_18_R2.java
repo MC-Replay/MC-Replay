@@ -4,7 +4,7 @@ import io.netty.buffer.Unpooled;
 import mc.replay.nms.fakeplayer.FakePlayerFilterList;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
-import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_19_R3;
+import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_18_R2;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
@@ -15,7 +15,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.players.PlayerList;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_18_R2.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-public final class MCReplayNMS_v1_19_R3 implements MCReplayNMS {
+public final class MCReplayNMS_v1_18_R2 implements MCReplayNMS {
 
     @SuppressWarnings("unchecked")
     @Override
@@ -32,7 +32,7 @@ public final class MCReplayNMS_v1_19_R3 implements MCReplayNMS {
         PlayerList playerList = MinecraftServer.getServer().getPlayerList();
 
         try {
-            Field playersField = ReflectionUtils.getField(playerList.getClass(), "k");
+            Field playersField = ReflectionUtils.getField(playerList.getClass(), "j");
             playersField.setAccessible(true);
             List<Object> players = (List<Object>) playersField.get(playerList);
 
@@ -50,7 +50,7 @@ public final class MCReplayNMS_v1_19_R3 implements MCReplayNMS {
 
     @Override
     public IRecordingFakePlayer createFakePlayer(FakePlayerHandler fakePlayerHandler, Player target) {
-        return new RecordingFakePlayer_v1_19_R3(fakePlayerHandler, target);
+        return new RecordingFakePlayer_v1_18_R2(fakePlayerHandler, target);
     }
 
     @Override
