@@ -2,7 +2,7 @@ package mc.replay.replay.session.toolbar;
 
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.api.replay.session.toolbar.IToolbarItemHandler;
-import mc.replay.common.utils.item.nbt.ItemStackNBT;
+import mc.replay.nms.MCReplayNMS;
 import mc.replay.replay.ReplayHandler;
 import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.toolbar.types.*;
@@ -57,6 +57,7 @@ public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
     }
 
     ToolbarItem getItem(ItemStack stack) {
-        return this.getItem(ItemStackNBT.getString(stack, "TOOLBAR_ITEM"));
+        String id = MCReplayNMS.getInstance().modifyItemStack(stack).getTagValue("TOOLBAR_ITEM");
+        return this.getItem(id);
     }
 }

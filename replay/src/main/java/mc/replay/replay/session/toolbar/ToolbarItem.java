@@ -1,7 +1,8 @@
 package mc.replay.replay.session.toolbar;
 
+import com.github.steveice10.opennbt.tag.builtin.StringTag;
 import lombok.Getter;
-import mc.replay.common.utils.item.nbt.ItemStackNBT;
+import mc.replay.nms.MCReplayNMS;
 import mc.replay.replay.session.ReplayPlayer;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,7 +41,9 @@ public abstract class ToolbarItem {
         }
 
         if (stack != null) {
-            stack = ItemStackNBT.setString(stack, "TOOLBAR_ITEM", this.id);
+            stack = MCReplayNMS.getInstance().modifyItemStack(stack)
+                    .setTag(new StringTag("TOOLBAR_ITEM", this.id))
+                    .bukkit();
             player.player().getInventory().setItem(this.inventorySlot, stack);
         }
     }

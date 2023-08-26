@@ -151,7 +151,7 @@ public final class EntityPacketUtils {
         }
 
         ClientboundPacket spawnPacket;
-        if (ProtocolVersion.getServerVersion().isHigherOrEqual(ProtocolVersion.MINECRAFT_1_19) || !entityType.isAlive()) {
+        if (ProtocolVersion.getServerVersion().isHigherOrEqual(ProtocolVersion.MINECRAFT_1_19_4) || !entityType.isAlive()) {
             spawnPacket = new ClientboundEntitySpawnPacket(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),

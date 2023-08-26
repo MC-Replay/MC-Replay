@@ -2,8 +2,10 @@ package mc.replay.nms;
 
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
+import mc.replay.nms.inventory.RItemStack;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public interface MCReplayNMS {
 
@@ -12,6 +14,8 @@ public interface MCReplayNMS {
     }
 
     void init();
+
+    RItemStack modifyItemStack(ItemStack itemStack);
 
     Object getBukkitEntity(Object entity);
 

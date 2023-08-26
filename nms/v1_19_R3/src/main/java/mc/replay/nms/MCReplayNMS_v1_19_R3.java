@@ -5,6 +5,8 @@ import mc.replay.nms.fakeplayer.FakePlayerFilterList;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_19_R3;
+import mc.replay.nms.inventory.RItemStack;
+import mc.replay.nms.inventory.RItemStack_v1_19_R3;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
@@ -15,7 +17,9 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.item.ItemStack;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_19_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +45,12 @@ public final class MCReplayNMS_v1_19_R3 implements MCReplayNMS {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    @Override
+    public RItemStack modifyItemStack(org.bukkit.inventory.ItemStack itemStack) {
+        ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+        return new RItemStack_v1_19_R3(itemStack, nmsItemStack);
     }
 
     @Override
