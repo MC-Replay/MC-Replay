@@ -28,12 +28,7 @@ public final class RecCustomSoundEffectAction implements EmptyRecordableAction<R
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecCustomSoundEffect recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecCustomSoundEffect recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecCustomSoundEffect recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

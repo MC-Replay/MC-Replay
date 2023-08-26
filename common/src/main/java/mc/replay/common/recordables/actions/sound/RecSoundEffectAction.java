@@ -28,12 +28,7 @@ public final class RecSoundEffectAction implements EmptyRecordableAction<RecSoun
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecSoundEffect recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecSoundEffect recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecSoundEffect recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

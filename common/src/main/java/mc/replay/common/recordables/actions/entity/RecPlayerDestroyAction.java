@@ -16,9 +16,4 @@ public final class RecPlayerDestroyAction implements InternalEntityRecordableAct
         provider.destroyPlayer(recordable);
         return List.of();
     }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecPlayerDestroy recordable, @UnknownNullability IReplayEntityProvider provider) {
-        return List.of();
-    }
 }

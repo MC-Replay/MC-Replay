@@ -72,8 +72,12 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
 
     @Override
     public void destroyPlayer(@NotNull RecPlayerDestroy recordable) {
+        this.destroyPlayer(recordable.entityId().entityId());
+    }
+
+    public void destroyPlayer(int entityId) {
         synchronized (this.entities) {
-            AbstractReplayEntity<?> entity = this.entities.remove(recordable.entityId().entityId());
+            AbstractReplayEntity<?> entity = this.entities.remove(entityId);
             if (entity instanceof ReplayNPC) {
                 entity.destroy(this.replaySession.getAllPlayers());
             }
@@ -99,12 +103,16 @@ public final class ReplaySessionEntityHandler implements IReplayEntityProvider {
 
     @Override
     public void destroyEntity(@NotNull RecEntityDestroy recordable) {
+        for (EntityId entityId : recordable.entityIds()) {
+            this.destroyEntity(entityId.entityId());
+        }
+    }
+
+    public void destroyEntity(int entityId) {
         synchronized (this.entities) {
-            for (EntityId entityId : recordable.entityIds()) {
-                AbstractReplayEntity<?> entity = this.entities.remove(entityId.entityId());
-                if (entity instanceof ReplayEntity) {
-                    entity.destroy(this.replaySession.getAllPlayers());
-                }
+            AbstractReplayEntity<?> entity = this.entities.remove(entityId);
+            if (entity instanceof ReplayEntity) {
+                entity.destroy(this.replaySession.getAllPlayers());
             }
         }
     }

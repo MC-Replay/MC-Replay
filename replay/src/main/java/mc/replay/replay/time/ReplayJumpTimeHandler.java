@@ -2,7 +2,7 @@ package mc.replay.replay.time;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.replay.IReplaySession;
-import mc.replay.api.replay.time.IReplaySkipTimeHandler;
+import mc.replay.api.replay.time.IReplayJumpTimeHandler;
 import mc.replay.api.replay.time.SkipTimeType;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.replay.ReplaySession;
@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.concurrent.TimeUnit;
 
-public final class ReplaySkipTimeHandler implements IReplaySkipTimeHandler {
+public final class ReplayJumpTimeHandler implements IReplayJumpTimeHandler {
 
-    private final SkipTimeForwardsHandler forwardsHandler;
-    private final SkipTimeBackwardsHandler backwardsHandler;
+    private final JumpTimeForwardsHandler forwardsHandler;
+    private final JumpTimeBackwardsHandler backwardsHandler;
 
-    public ReplaySkipTimeHandler(MCReplayInternal instance) {
-        this.forwardsHandler = new SkipTimeForwardsHandler(instance);
-        this.backwardsHandler = new SkipTimeBackwardsHandler(instance);
+    public ReplayJumpTimeHandler(MCReplayInternal instance) {
+        this.forwardsHandler = new JumpTimeForwardsHandler(instance);
+        this.backwardsHandler = new JumpTimeBackwardsHandler(instance);
     }
 
     @Override
-    public void skipTime(@NotNull IReplaySession iReplaySession, int time, @NotNull TimeUnit unit, @NotNull SkipTimeType type) {
+    public void jumpTime(@NotNull IReplaySession iReplaySession, int time, @NotNull TimeUnit unit, @NotNull SkipTimeType type) {
         if (!(iReplaySession instanceof ReplaySession session)) {
             throw new IllegalArgumentException("Session is not a MC-Replay ReplaySession");
         }
@@ -55,8 +55,6 @@ public final class ReplaySkipTimeHandler implements IReplaySkipTimeHandler {
 
         session.getPlayTask().setCurrentTime(until);
 
-        if (!wasPaused) {
-            session.setPaused(false);
-        }
+        session.setPaused(wasPaused);
     }
 }

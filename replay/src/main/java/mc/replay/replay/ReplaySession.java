@@ -8,7 +8,9 @@ import mc.replay.api.recording.IRecording;
 import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.MCReplayInternal;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.session.ReplayPlayer;
+import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
 import org.bukkit.Bukkit;
@@ -17,10 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public final class ReplaySession implements IReplaySession {
@@ -35,6 +34,8 @@ public final class ReplaySession implements IReplaySession {
     @Setter
     private boolean paused = true;
     private double speed = 1.0;
+
+    private final ReplaySessionEntityHandler entityCache;
 
     private final ReplaySessionPlayTask playTask;
     private final ReplaySessionInformTask informTask;
@@ -56,6 +57,8 @@ public final class ReplaySession implements IReplaySession {
         for (Player watcher : watchers) {
             this.watchers.add(new ReplayPlayer(watcher, this));
         }
+
+        this.entityCache = new ReplaySessionEntityHandler(this);
 
         this.playTask = new ReplaySessionPlayTask(instance, this);
         this.informTask = new ReplaySessionInformTask(this);
@@ -100,5 +103,13 @@ public final class ReplaySession implements IReplaySession {
 
     public World getReplayWorld() {
         return this.navigator.player().getWorld();
+    }
+
+    public void sendPackets(List<ClientboundPacket> packets) {
+        for (IReplayPlayer replayPlayer : this.getAllPlayers()) {
+            for (ClientboundPacket packet : packets) {
+                MCReplayAPI.getPacketLib().sendPacket(replayPlayer.player(), packet);
+            }
+        }
     }
 }

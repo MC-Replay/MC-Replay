@@ -22,7 +22,7 @@ public final class ForwardsToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            player.replaySession().getInstance().getReplayHandler().getSkipTimeHandler().skipTime(player.replaySession(), 10, TimeUnit.SECONDS, SkipTimeType.FORWARDS);
+            player.replaySession().getInstance().getReplayHandler().getJumpTimeHandler().jumpTime(player.replaySession(), 10, TimeUnit.SECONDS, SkipTimeType.FORWARDS);
             player.replaySession().updateInformationBar();
         };
     }

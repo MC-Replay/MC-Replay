@@ -25,12 +25,7 @@ public final class RecEntitySoundAction implements EmptyRecordableAction<RecEnti
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecEntitySound recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecEntitySound recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecEntitySound recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

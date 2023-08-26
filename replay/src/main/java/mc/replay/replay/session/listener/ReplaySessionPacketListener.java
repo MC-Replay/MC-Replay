@@ -41,7 +41,7 @@ public final class ReplaySessionPacketListener {
 
             if (packet.type() instanceof InteractEntityType.Interact interact) {
                 if (interact.hand() == PlayerHand.MAIN_HAND) {
-                    AbstractReplayEntity<?> replayEntity = replayPlayer.replaySession().getPlayTask().getEntityCache().getEntityByReplayId(packet.targetId());
+                    AbstractReplayEntity<?> replayEntity = replayPlayer.replaySession().getEntityCache().getEntityByReplayId(packet.targetId());
                     if (replayEntity != null && replayEntity.getEntity() instanceof PlayerWrapper entity) {
                         this.replayHandler.getInstance().getMenuHandler().openMenu(new ReplayPlayerInfoMenu(entity), player);
                     }

@@ -22,7 +22,7 @@ public final class BackwardsToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            player.replaySession().getInstance().getReplayHandler().getSkipTimeHandler().skipTime(player.replaySession(), 10, TimeUnit.SECONDS, SkipTimeType.BACKWARDS);
+            player.replaySession().getInstance().getReplayHandler().getJumpTimeHandler().jumpTime(player.replaySession(), 10, TimeUnit.SECONDS, SkipTimeType.BACKWARDS);
             player.replaySession().updateInformationBar();
         };
     }

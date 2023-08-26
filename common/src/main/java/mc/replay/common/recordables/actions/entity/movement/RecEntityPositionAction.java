@@ -51,7 +51,7 @@ public final class RecEntityPositionAction implements EntityRecordableAction<Rec
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecEntityPosition recordable, @UnknownNullability IEntityProvider provider) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecEntityPosition recordable, @UnknownNullability IEntityProvider provider) {
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
@@ -70,11 +70,6 @@ public final class RecEntityPositionAction implements EntityRecordableAction<Rec
                         false
                 )
         );
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecEntityPosition recordable, @UnknownNullability IEntityProvider provider) {
-        return this.createPacketsForwards(recordable, provider);
     }
 
     private double distanceSquared(Pos pos1, Pos pos2) {

@@ -25,12 +25,7 @@ public final class RecPlayerCommandAction implements EmptyRecordableAction<RecPl
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecPlayerCommand recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecPlayerCommand recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecPlayerCommand recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

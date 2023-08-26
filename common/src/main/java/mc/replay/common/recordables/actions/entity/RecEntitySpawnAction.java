@@ -16,9 +16,4 @@ public final class RecEntitySpawnAction implements InternalEntityRecordableActio
         provider.spawnEntity(recordable);
         return List.of();
     }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecEntitySpawn recordable, @UnknownNullability IReplayEntityProvider provider) {
-        return List.of();
-    }
 }

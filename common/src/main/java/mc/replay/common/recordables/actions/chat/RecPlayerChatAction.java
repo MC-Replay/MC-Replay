@@ -25,12 +25,7 @@ public final class RecPlayerChatAction implements EmptyRecordableAction<RecPlaye
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecPlayerChat recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecPlayerChat recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecPlayerChat recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-public interface IReplaySkipTimeHandler {
+public interface IReplayJumpTimeHandler {
 
-    void skipTime(@NotNull IReplaySession session, int time, @NotNull TimeUnit unit, @NotNull SkipTimeType type);
+    void jumpTime(@NotNull IReplaySession session, int time, @NotNull TimeUnit unit, @NotNull SkipTimeType type);
 }

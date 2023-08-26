@@ -26,7 +26,7 @@ public final class ReplayTeleportMenu implements PlayerMenuProvider {
 
     @Override
     public void onLoad(@NotNull Player player, @NotNull MenuContents contents) {
-        ReplaySessionEntityHandler entityCache = this.replaySession.getPlayTask().getEntityCache();
+        ReplaySessionEntityHandler entityCache = this.replaySession.getEntityCache();
 
         for (ReplayNPC npc : entityCache.getNPCs()) {
             contents.add(ClickableItem.of(SkullBuilder.getSkullByTextureBuilder(npc.getSkinTexture() == null ? "" : npc.getSkinTexture().value())

@@ -24,12 +24,7 @@ public final class RecWorldEventAction implements EmptyRecordableAction<RecWorld
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecWorldEvent recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecWorldEvent recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecWorldEvent recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

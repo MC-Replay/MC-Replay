@@ -23,12 +23,7 @@ public final class RecStopSoundAction implements EmptyRecordableAction<RecStopSo
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecStopSound recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecStopSound recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecStopSound recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }

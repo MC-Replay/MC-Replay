@@ -31,12 +31,7 @@ public final class RecParticleAction implements EmptyRecordableAction<RecParticl
     }
 
     @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsForwards(@NotNull RecParticle recordable, @UnknownNullability Void data) {
-        return List.of();
-    }
-
-    @Override
-    public @NotNull List<@NotNull ClientboundPacket> createPacketsBackwards(@NotNull RecParticle recordable, @UnknownNullability Void data) {
+    public @NotNull List<@NotNull ClientboundPacket> createPacketsTimeJump(@NotNull RecParticle recordable, @UnknownNullability Void data) {
         return List.of();
     }
 }
