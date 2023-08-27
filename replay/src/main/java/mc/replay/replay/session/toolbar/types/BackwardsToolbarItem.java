@@ -1,6 +1,6 @@
 package mc.replay.replay.session.toolbar.types;
 
-import mc.replay.api.replay.time.SkipTimeType;
+import mc.replay.api.replay.time.JumpTimeType;
 import mc.replay.common.utils.item.skull.SkullBuilder;
 import mc.replay.replay.session.toolbar.ToolbarItem;
 
@@ -22,7 +22,7 @@ public final class BackwardsToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            player.replaySession().getInstance().getReplayHandler().getJumpTimeHandler().jumpTime(player.replaySession(), 10, TimeUnit.SECONDS, SkipTimeType.BACKWARDS);
+            player.replaySession().getInstance().getReplayHandler().getJumpTimeHandler().jumpTime(player.replaySession(), 10, TimeUnit.SECONDS, JumpTimeType.BACKWARDS);
             player.replaySession().updateInformationBar();
         };
     }

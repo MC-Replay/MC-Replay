@@ -26,7 +26,7 @@ final class JumpTimeForwardsHandler extends AbstractJumpTimeHandler {
         super(instance);
     }
 
-    void skipTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween) {
+    void jumpTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween) {
         NavigableMap<Integer, List<Recordable>> recordables = session.getRecording().recordables();
 
         List<Recordable> blockChangeRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof BlockRelatedRecordable);

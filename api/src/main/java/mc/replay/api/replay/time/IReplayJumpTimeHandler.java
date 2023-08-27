@@ -7,5 +7,5 @@ import java.util.concurrent.TimeUnit;
 
 public interface IReplayJumpTimeHandler {
 
-    void jumpTime(@NotNull IReplaySession session, int time, @NotNull TimeUnit unit, @NotNull SkipTimeType type);
+    void jumpTime(@NotNull IReplaySession session, int time, @NotNull TimeUnit unit, @NotNull JumpTimeType type);
 }

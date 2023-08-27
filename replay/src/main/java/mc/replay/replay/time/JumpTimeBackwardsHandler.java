@@ -23,7 +23,7 @@ final class JumpTimeBackwardsHandler extends AbstractJumpTimeHandler {
     }
 
     @Override
-    void skipTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween) {
+    void jumpTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween) {
         List<Recordable> blockChangeRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof BlockRelatedRecordable);
         List<Recordable> spawnRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof RecPlayerSpawn || recordable instanceof RecEntitySpawn);
         List<Recordable> destroyRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof RecPlayerDestroy || recordable instanceof RecEntityDestroy);

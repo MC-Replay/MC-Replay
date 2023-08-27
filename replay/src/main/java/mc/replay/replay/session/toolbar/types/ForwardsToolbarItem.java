@@ -2,7 +2,7 @@ package mc.replay.replay.session.toolbar.types;
 
 import mc.replay.common.utils.item.skull.SkullBuilder;
 import mc.replay.replay.session.toolbar.ToolbarItem;
-import mc.replay.api.replay.time.SkipTimeType;
+import mc.replay.api.replay.time.JumpTimeType;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +22,7 @@ public final class ForwardsToolbarItem extends ToolbarItem {
         );
 
         this.onClick = (player) -> {
-            player.replaySession().getInstance().getReplayHandler().getJumpTimeHandler().jumpTime(player.replaySession(), 10, TimeUnit.SECONDS, SkipTimeType.FORWARDS);
+            player.replaySession().getInstance().getReplayHandler().getJumpTimeHandler().jumpTime(player.replaySession(), 10, TimeUnit.SECONDS, JumpTimeType.FORWARDS);
             player.replaySession().updateInformationBar();
         };
     }

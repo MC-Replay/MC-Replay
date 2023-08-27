@@ -25,7 +25,7 @@ abstract class AbstractJumpTimeHandler {
 
     protected final MCReplayInternal instance;
 
-    abstract void skipTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween);
+    abstract void jumpTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween);
 
     protected <R extends Recordable> R findRecordable(Class<R> clazz, int untilTime, NavigableMap<Integer, List<Recordable>> recordables, Predicate<R> predicate) {
         NavigableMap<Integer, List<Recordable>> recordablesBetween = recordables.subMap(recordables.firstKey(), true, untilTime, true)

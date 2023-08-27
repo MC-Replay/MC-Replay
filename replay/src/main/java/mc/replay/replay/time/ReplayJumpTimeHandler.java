@@ -3,7 +3,7 @@ package mc.replay.replay.time;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.replay.time.IReplayJumpTimeHandler;
-import mc.replay.api.replay.time.SkipTimeType;
+import mc.replay.api.replay.time.JumpTimeType;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.replay.ReplaySession;
 import org.jetbrains.annotations.NotNull;
@@ -23,13 +23,13 @@ public final class ReplayJumpTimeHandler implements IReplayJumpTimeHandler {
     }
 
     @Override
-    public void jumpTime(@NotNull IReplaySession iReplaySession, int time, @NotNull TimeUnit unit, @NotNull SkipTimeType type) {
+    public void jumpTime(@NotNull IReplaySession iReplaySession, int time, @NotNull TimeUnit unit, @NotNull JumpTimeType type) {
         if (!(iReplaySession instanceof ReplaySession session)) {
             throw new IllegalArgumentException("Session is not a MC-Replay ReplaySession");
         }
 
         int timeMillis = (int) unit.toMillis(time);
-        boolean forwards = type == SkipTimeType.FORWARDS;
+        boolean forwards = type == JumpTimeType.FORWARDS;
 
         NavigableMap<Integer, List<Recordable>> recordables = session.getRecording().recordables();
         int currentTime = session.getPlayTask().getCurrentTime();
@@ -48,9 +48,9 @@ public final class ReplayJumpTimeHandler implements IReplayJumpTimeHandler {
         );
 
         if (forwards) {
-            this.forwardsHandler.skipTime(session, until, recordablesBetween);
+            this.forwardsHandler.jumpTime(session, until, recordablesBetween);
         } else {
-            this.backwardsHandler.skipTime(session, until, recordablesBetween);
+            this.backwardsHandler.jumpTime(session, until, recordablesBetween);
         }
 
         session.getPlayTask().setCurrentTime(until);

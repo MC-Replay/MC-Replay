@@ -1,6 +1,6 @@
 package mc.replay.api.replay.time;
 
-public enum SkipTimeType {
+public enum JumpTimeType {
 
     FORWARDS,
     BACKWARDS
