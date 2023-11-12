@@ -1,4 +1,4 @@
-package mc.replay.nms.player;
+package mc.replay.nms.entity.player;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class PlayerProfile_v1_16_R3 implements PlayerProfile {
+public final class PlayerProfile_v1_18_R2 implements PlayerProfile {
 
     private final GameProfile gameProfile;
     private final Map<String, PlayerProfileProperty> properties = new HashMap<>();
 
-    public PlayerProfile_v1_16_R3(GameProfile gameProfile) {
+    public PlayerProfile_v1_18_R2(GameProfile gameProfile) {
         this.gameProfile = gameProfile;
 
         for (Map.Entry<String, Property> entry : this.gameProfile.getProperties().entries()) {

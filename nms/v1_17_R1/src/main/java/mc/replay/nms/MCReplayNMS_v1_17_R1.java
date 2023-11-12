@@ -10,7 +10,7 @@ import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_17_R1;
 import mc.replay.nms.inventory.RItemStack;
 import mc.replay.nms.inventory.RItemStack_v1_17_R1;
-import mc.replay.nms.player.PlayerProfile_v1_17_R1;
+import mc.replay.nms.entity.player.PlayerProfile_v1_17_R1;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.ReplayByteBuffer;
