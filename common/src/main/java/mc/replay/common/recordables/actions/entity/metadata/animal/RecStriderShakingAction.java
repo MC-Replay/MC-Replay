@@ -1,9 +1,9 @@
 package mc.replay.common.recordables.actions.entity.metadata.animal;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecStriderShaking;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.animal.StriderMetadata;
+import mc.replay.nms.entity.metadata.animal.StriderMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecStriderShakingAction implements InternalEntityMetadataRecordableAction<RecStriderShaking> {

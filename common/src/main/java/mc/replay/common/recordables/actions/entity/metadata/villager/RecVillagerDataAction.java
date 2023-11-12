@@ -1,10 +1,10 @@
 package mc.replay.common.recordables.actions.entity.metadata.villager;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.villager.RecVillagerData;
+import mc.replay.nms.entity.metadata.villager.VillagerMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.villager.VillagerMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecVillagerDataAction implements InternalEntityMetadataRecordableAction<RecVillagerData> {

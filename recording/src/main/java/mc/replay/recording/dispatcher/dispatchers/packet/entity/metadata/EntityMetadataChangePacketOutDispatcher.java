@@ -1,16 +1,16 @@
 package mc.replay.recording.dispatcher.dispatchers.packet.entity.metadata;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityMetadataChange;
+import mc.replay.nms.entity.REntity;
+import mc.replay.nms.entity.metadata.other.AreaEffectCloudMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
 import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
-import mc.replay.wrapper.entity.EntityWrapper;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.other.AreaEffectCloudMetadata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public final class EntityMetadataChangePacketOutDispatcher extends DispatcherPac
         int id = packet.entityId();
         EntityId entityId = EntityId.of(id);
 
-        EntityWrapper entityWrapper = session.getEntityTracker().getOrFindEntityWrapper(null, id, true);
+        REntity entityWrapper = session.getEntityTracker().getOrFindEntityWrapper(null, id, true);
         if (entityWrapper == null) return List.of();
 
         EntityMetadata metadata = entityWrapper.getMetadata();

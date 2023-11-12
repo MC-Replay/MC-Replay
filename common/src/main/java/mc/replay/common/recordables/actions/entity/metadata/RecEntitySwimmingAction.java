@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.actions.entity.metadata;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.RecEntitySwimming;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
 import org.bukkit.entity.Pose;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
 package mc.replay.nms.entity;
 
-import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.nms.entity.metadata.PlayerMetadata;
 import mc.replay.nms.entity.metadata.ambient.BatMetadata;
 import mc.replay.nms.entity.metadata.animal.*;

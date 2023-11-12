@@ -1,6 +1,6 @@
 package mc.replay.nms.entity.metadata.minecart;
 
-import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;

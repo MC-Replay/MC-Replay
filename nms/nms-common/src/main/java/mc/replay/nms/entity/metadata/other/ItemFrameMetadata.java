@@ -1,6 +1,6 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.nms.inventory.RItem;
 import mc.replay.packetlib.data.Item;

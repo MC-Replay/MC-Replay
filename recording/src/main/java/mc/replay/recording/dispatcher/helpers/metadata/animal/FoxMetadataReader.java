@@ -6,14 +6,14 @@ import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
 import mc.replay.common.recordables.types.entity.metadata.animal.*;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.FoxMetadata;
+import mc.replay.nms.entity.metadata.animal.FoxMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.FoxMetadata.MASK_INDEX;
-import static mc.replay.wrapper.entity.metadata.animal.FoxMetadata.TYPE_INDEX;
+import static mc.replay.nms.entity.metadata.animal.FoxMetadata.MASK_INDEX;
+import static mc.replay.nms.entity.metadata.animal.FoxMetadata.TYPE_INDEX;
 
 public final class FoxMetadataReader implements MetadataReader<FoxMetadata> {
 

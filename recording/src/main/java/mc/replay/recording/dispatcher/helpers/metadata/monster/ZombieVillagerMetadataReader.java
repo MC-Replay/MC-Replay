@@ -6,15 +6,15 @@ import mc.replay.common.recordables.types.entity.metadata.monster.RecZombieVilla
 import mc.replay.common.recordables.types.entity.metadata.villager.RecVillagerData;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.monster.zombie.ZombieVillagerMetadata;
+import mc.replay.nms.entity.metadata.monster.zombie.ZombieVillagerMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static mc.replay.wrapper.entity.metadata.monster.zombie.ZombieVillagerMetadata.CONVERTING_INDEX;
-import static mc.replay.wrapper.entity.metadata.monster.zombie.ZombieVillagerMetadata.VILLAGER_DATA_INDEX;
+import static mc.replay.nms.entity.metadata.monster.zombie.ZombieVillagerMetadata.CONVERTING_INDEX;
+import static mc.replay.nms.entity.metadata.monster.zombie.ZombieVillagerMetadata.VILLAGER_DATA_INDEX;
 
 public final class ZombieVillagerMetadataReader implements MetadataReader<ZombieVillagerMetadata> {
 

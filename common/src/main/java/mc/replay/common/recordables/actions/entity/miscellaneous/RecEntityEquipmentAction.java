@@ -4,10 +4,10 @@ import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.miscellaneous.RecEntityEquipment;
+import mc.replay.nms.entity.RLivingEntity;
+import mc.replay.nms.inventory.RItem;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityEquipmentPacket;
-import mc.replay.wrapper.entity.LivingEntityWrapper;
-import mc.replay.wrapper.item.ItemWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -21,8 +21,8 @@ public final class RecEntityEquipmentAction implements EntityRecordableAction<Re
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        if (data.entity() instanceof LivingEntityWrapper livingEntityWrapper) {
-            livingEntityWrapper.setEquipment(recordable.slot(), recordable.item());
+        if (data.entity() instanceof RLivingEntity livingEntity) {
+            livingEntity.setEquipment(recordable.slot(), recordable.item());
         }
 
         return List.of(
@@ -30,7 +30,7 @@ public final class RecEntityEquipmentAction implements EntityRecordableAction<Re
                         data.entityId(),
                         Map.of(
                                 (byte) recordable.slot().ordinal(),
-                                new ItemWrapper(recordable.item())
+                                new RItem(recordable.item())
                         )
                 )
         );

@@ -2,11 +2,11 @@ package mc.replay.common.recordables.types.entity;
 
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
+import mc.replay.nms.entity.player.RPlayer;
+import mc.replay.nms.entity.player.SkinTexture;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.ReplayByteBuffer;
-import mc.replay.wrapper.data.SkinTexture;
-import mc.replay.wrapper.entity.PlayerWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 public record RecPlayerSpawn(EntityId entityId, String name, SkinTexture skinTexture,
                              Pos position, Map<Integer, Metadata.Entry<?>> metadata) implements Recordable {
 
-    public RecPlayerSpawn(EntityId entityId, PlayerWrapper playerWrapper) {
+    public RecPlayerSpawn(EntityId entityId, RPlayer playerWrapper) {
         this(
                 entityId,
                 playerWrapper.getUsername(),

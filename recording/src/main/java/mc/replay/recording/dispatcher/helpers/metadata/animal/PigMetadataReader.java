@@ -5,12 +5,12 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecPigSaddle;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.PigMetadata;
+import mc.replay.nms.entity.metadata.animal.PigMetadata;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.animal.PigMetadata.HAS_SADDLE_INDEX;
-import static mc.replay.wrapper.entity.metadata.animal.PigMetadata.TIME_TO_BOOST_INDEX;
+import static mc.replay.nms.entity.metadata.animal.PigMetadata.HAS_SADDLE_INDEX;
+import static mc.replay.nms.entity.metadata.animal.PigMetadata.TIME_TO_BOOST_INDEX;
 
 public final class PigMetadataReader implements MetadataReader<PigMetadata> {
 

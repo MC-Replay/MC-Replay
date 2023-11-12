@@ -5,13 +5,13 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.animal.*;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.PandaMetadata;
+import mc.replay.nms.entity.metadata.animal.PandaMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.PandaMetadata.*;
+import static mc.replay.nms.entity.metadata.animal.PandaMetadata.*;
 
 public final class PandaMetadataReader implements MetadataReader<PandaMetadata> {
 

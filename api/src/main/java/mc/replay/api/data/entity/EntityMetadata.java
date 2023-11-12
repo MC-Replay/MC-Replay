@@ -1,4 +1,4 @@
-package mc.replay.nms.entity.metadata;
+package mc.replay.api.data.entity;
 
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.utils.ProtocolVersion;

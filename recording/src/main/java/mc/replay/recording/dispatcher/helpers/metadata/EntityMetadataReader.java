@@ -5,12 +5,12 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.*;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.utils.ProtocolVersion;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
+import mc.replay.api.data.entity.EntityMetadata;
 import org.bukkit.entity.Pose;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.EntityMetadata.*;
+import static mc.replay.api.data.entity.EntityMetadata.*;
 
 public final class EntityMetadataReader implements MetadataReader<EntityMetadata> {
 

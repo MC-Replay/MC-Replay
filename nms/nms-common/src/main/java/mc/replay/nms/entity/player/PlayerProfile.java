@@ -12,4 +12,7 @@ public interface PlayerProfile {
     String name();
 
     Map<String, PlayerProfileProperty> properties();
+
+    record PlayerProfileImpl(UUID uuid, String name, Map<String, PlayerProfileProperty> properties) implements PlayerProfile {
+    }
 }

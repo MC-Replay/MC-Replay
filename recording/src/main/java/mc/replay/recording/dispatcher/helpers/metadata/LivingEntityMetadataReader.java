@@ -7,11 +7,11 @@ import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntity
 import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityHandState;
 import mc.replay.common.recordables.types.entity.metadata.living.RecLivingEntityHealth;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.wrapper.entity.metadata.LivingEntityMetadata;
+import mc.replay.nms.entity.metadata.LivingEntityMetadata;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.LivingEntityMetadata.*;
+import static mc.replay.nms.entity.metadata.LivingEntityMetadata.*;
 
 public final class LivingEntityMetadataReader implements MetadataReader<LivingEntityMetadata> {
 

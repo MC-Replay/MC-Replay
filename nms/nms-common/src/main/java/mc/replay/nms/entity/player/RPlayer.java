@@ -10,14 +10,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class PlayerWrapper extends RLivingEntity {
+public class RPlayer extends RLivingEntity {
 
     private PlayerProfile profile;
 
     private final String username;
     private SkinTexture skin;
 
-    public PlayerWrapper(int entityId, @NotNull PlayerProfile profile) {
+    public RPlayer(int entityId, @NotNull PlayerProfile profile) {
         super(EntityType.PLAYER, entityId, profile.uuid());
 
         this.profile = profile;
@@ -25,11 +25,11 @@ public class PlayerWrapper extends RLivingEntity {
         this.skin = SkinTexture.fromProfile(profile);
     }
 
-    public PlayerWrapper(PlayerProfile profile) {
+    public RPlayer(PlayerProfile profile) {
         this(MCReplayNMS.getInstance().getNewEntityId(), profile);
     }
 
-    public PlayerWrapper(@NotNull Player player) {
+    public RPlayer(@NotNull Player player) {
         super(player);
 
         this.profile = MCReplayNMS.getInstance().getPlayerProfile(player);
@@ -59,11 +59,11 @@ public class PlayerWrapper extends RLivingEntity {
     }
 
     @Override
-    public @NotNull PlayerWrapper withUniqueId() {
-        return (PlayerWrapper) super.withUniqueId();
+    public @NotNull RPlayer withUniqueId() {
+        return (RPlayer) super.withUniqueId();
     }
 
-    public @NotNull PlayerWrapper withProfile(@NotNull Function<@NotNull PlayerProfile, @NotNull PlayerProfile> function) {
+    public @NotNull RPlayer withProfile(@NotNull Function<@NotNull PlayerProfile, @NotNull PlayerProfile> function) {
         this.profile = function.apply(this.profile);
         return this;
     }

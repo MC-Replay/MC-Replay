@@ -5,13 +5,13 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.golem.RecSnowGolemPumpkinHat;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.golem.SnowGolemMetadata;
+import mc.replay.nms.entity.metadata.golem.SnowGolemMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.golem.SnowGolemMetadata.PUMPKIN_HAT_INDEX;
+import static mc.replay.nms.entity.metadata.golem.SnowGolemMetadata.PUMPKIN_HAT_INDEX;
 
 public final class SnowGolemMetadataReader implements MetadataReader<SnowGolemMetadata> {
 

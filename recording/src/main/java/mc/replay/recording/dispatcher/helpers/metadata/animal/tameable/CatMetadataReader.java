@@ -8,13 +8,13 @@ import mc.replay.common.recordables.types.entity.metadata.animal.tameable.RecCat
 import mc.replay.common.recordables.types.entity.metadata.animal.tameable.RecCatRelaxed;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.tameable.CatMetadata;
+import mc.replay.nms.entity.metadata.animal.tameable.CatMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.tameable.CatMetadata.*;
+import static mc.replay.nms.entity.metadata.animal.tameable.CatMetadata.*;
 
 public final class CatMetadataReader implements MetadataReader<CatMetadata> {
 

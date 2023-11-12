@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.data.entity.PlayerHand;
 import mc.replay.packetlib.utils.ProtocolVersion;

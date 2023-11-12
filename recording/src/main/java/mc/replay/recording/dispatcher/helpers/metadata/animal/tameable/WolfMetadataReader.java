@@ -7,13 +7,13 @@ import mc.replay.common.recordables.types.entity.metadata.animal.tameable.RecWol
 import mc.replay.common.recordables.types.entity.metadata.animal.tameable.RecWolfCollarColor;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.tameable.WolfMetadata;
+import mc.replay.nms.entity.metadata.animal.tameable.WolfMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.tameable.WolfMetadata.*;
+import static mc.replay.nms.entity.metadata.animal.tameable.WolfMetadata.*;
 
 public final class WolfMetadataReader implements MetadataReader<WolfMetadata> {
 

@@ -7,14 +7,14 @@ import mc.replay.common.recordables.types.entity.metadata.monster.RecEndermanScr
 import mc.replay.common.recordables.types.entity.metadata.monster.RecEndermanStaring;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.monster.EndermanMetadata;
+import mc.replay.nms.entity.metadata.monster.EndermanMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static mc.replay.wrapper.entity.metadata.monster.EndermanMetadata.*;
+import static mc.replay.nms.entity.metadata.monster.EndermanMetadata.*;
 
 public final class EndermanMetadataReader implements MetadataReader<EndermanMetadata> {
 

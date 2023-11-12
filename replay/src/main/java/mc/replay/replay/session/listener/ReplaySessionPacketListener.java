@@ -4,6 +4,7 @@ import mc.replay.api.MCReplay;
 import mc.replay.api.MCReplayAPI;
 import mc.replay.api.utils.config.templates.ReplaySettings;
 import mc.replay.nms.MCReplayNMS;
+import mc.replay.nms.entity.player.RPlayer;
 import mc.replay.packetlib.data.entity.InteractEntityType;
 import mc.replay.packetlib.data.entity.PlayerHand;
 import mc.replay.packetlib.data.entity.player.DiggingStatus;
@@ -13,7 +14,6 @@ import mc.replay.replay.ReplayHandler;
 import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.entity.AbstractReplayEntity;
 import mc.replay.replay.session.menu.ReplayPlayerInfoMenu;
-import mc.replay.wrapper.entity.PlayerWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -42,7 +42,7 @@ public final class ReplaySessionPacketListener {
             if (packet.type() instanceof InteractEntityType.Interact interact) {
                 if (interact.hand() == PlayerHand.MAIN_HAND) {
                     AbstractReplayEntity<?> replayEntity = replayPlayer.replaySession().getPlayTask().getEntityCache().getEntityByReplayId(packet.targetId());
-                    if (replayEntity != null && replayEntity.getEntity() instanceof PlayerWrapper entity) {
+                    if (replayEntity != null && replayEntity.getEntity() instanceof RPlayer entity) {
                         this.replayHandler.getInstance().getMenuHandler().openMenu(new ReplayPlayerInfoMenu(entity), player);
                     }
                 }

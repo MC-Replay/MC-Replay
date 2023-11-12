@@ -5,12 +5,12 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.animal.tameable.RecTameableAnimalSitting;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.tameable.TameableAnimalMetadata;
+import mc.replay.nms.entity.metadata.animal.tameable.TameableAnimalMetadata;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.animal.tameable.TameableAnimalMetadata.MASK_INDEX;
-import static mc.replay.wrapper.entity.metadata.animal.tameable.TameableAnimalMetadata.OWNER_INDEX;
+import static mc.replay.nms.entity.metadata.animal.tameable.TameableAnimalMetadata.MASK_INDEX;
+import static mc.replay.nms.entity.metadata.animal.tameable.TameableAnimalMetadata.OWNER_INDEX;
 
 public final class TameableAnimalMetadataReader implements MetadataReader<TameableAnimalMetadata> {
 

@@ -1,5 +1,6 @@
 package mc.replay.common.recordables.actions.entity.movement;
 
+import mc.replay.api.data.entity.IREntity;
 import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
@@ -8,7 +9,6 @@ import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityPositionAndRotationPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityTeleportPacket;
-import mc.replay.wrapper.entity.EntityWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -21,7 +21,7 @@ public final class RecEntityPositionAction implements EntityRecordableAction<Rec
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        EntityWrapper entity = data.entity();
+        IREntity entity = data.entity();
 
         Pos oldPosition = entity.getPosition();
         Pos newPosition = recordable.position()

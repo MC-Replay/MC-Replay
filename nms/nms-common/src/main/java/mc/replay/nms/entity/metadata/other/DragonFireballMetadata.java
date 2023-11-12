@@ -1,7 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
 import mc.replay.nms.entity.REntity;
-import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.nms.entity.metadata.ProjectileMetadata;
 import mc.replay.packetlib.data.entity.Metadata;

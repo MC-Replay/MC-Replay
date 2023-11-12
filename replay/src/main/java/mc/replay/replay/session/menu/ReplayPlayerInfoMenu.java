@@ -2,8 +2,8 @@ package mc.replay.replay.session.menu;
 
 import lombok.AllArgsConstructor;
 import mc.replay.common.utils.item.ItemBuilder;
-import mc.replay.wrapper.entity.PlayerWrapper;
-import mc.replay.wrapper.item.ItemWrapper;
+import mc.replay.nms.entity.player.RPlayer;
+import mc.replay.nms.inventory.RItem;
 import nl.odalitadevelopments.menus.annotations.Menu;
 import nl.odalitadevelopments.menus.contents.MenuContents;
 import nl.odalitadevelopments.menus.menu.providers.PlayerMenuProvider;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 )
 public final class ReplayPlayerInfoMenu implements PlayerMenuProvider {
 
-    private final PlayerWrapper entity;
+    private final RPlayer entity;
 
     @Override
     public void onLoad(@NotNull Player player, @NotNull MenuContents contents) {
@@ -37,7 +37,7 @@ public final class ReplayPlayerInfoMenu implements PlayerMenuProvider {
 
     private void setItem(MenuContents contents, int slot, EquipmentSlot equipmentSlot) {
         contents.setUpdatable(slot, () -> {
-            ItemWrapper equipment = this.entity.getEquipment(equipmentSlot);
+            RItem equipment = this.entity.getEquipment(equipmentSlot);
             ItemStack itemStack = equipment == null ? null : equipment.toItemStack();
 
             if (itemStack == null || itemStack.getType().isAir()) {

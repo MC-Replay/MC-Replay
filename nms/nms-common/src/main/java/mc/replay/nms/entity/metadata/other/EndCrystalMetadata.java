@@ -1,6 +1,6 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

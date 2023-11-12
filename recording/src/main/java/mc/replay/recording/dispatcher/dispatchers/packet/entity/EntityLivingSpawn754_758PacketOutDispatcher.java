@@ -7,7 +7,6 @@ import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundLiv
 import mc.replay.recording.RecordingSession;
 import mc.replay.recording.dispatcher.dispatchers.DispatcherPacketOut;
 import mc.replay.recording.dispatcher.helpers.DispatcherHelpers;
-import mc.replay.wrapper.entity.EntityTypeWrapper;
 import org.bukkit.util.Vector;
 
 import java.util.List;

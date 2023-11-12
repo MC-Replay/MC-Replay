@@ -6,11 +6,11 @@ import mc.replay.common.recordables.types.entity.metadata.player.RecPlayerDispla
 import mc.replay.common.recordables.types.entity.metadata.player.RecPlayerMainHand;
 import mc.replay.common.recordables.types.entity.metadata.player.RecPlayerShoulderData;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.wrapper.entity.metadata.PlayerMetadata;
+import mc.replay.nms.entity.metadata.PlayerMetadata;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.PlayerMetadata.*;
+import static mc.replay.nms.entity.metadata.PlayerMetadata.*;
 
 public final class PlayerMetadataReader implements MetadataReader<PlayerMetadata> {
 

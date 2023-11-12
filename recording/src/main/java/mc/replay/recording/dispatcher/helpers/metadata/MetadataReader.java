@@ -1,9 +1,9 @@
 package mc.replay.recording.dispatcher.helpers.metadata;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
 
 import java.util.Collection;
 import java.util.List;

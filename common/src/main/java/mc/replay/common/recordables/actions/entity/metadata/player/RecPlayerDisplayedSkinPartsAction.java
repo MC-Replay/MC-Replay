@@ -1,9 +1,9 @@
 package mc.replay.common.recordables.actions.entity.metadata.player;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.player.RecPlayerDisplayedSkinParts;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.PlayerMetadata;
+import mc.replay.nms.entity.metadata.PlayerMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecPlayerDisplayedSkinPartsAction implements InternalEntityMetadataRecordableAction<RecPlayerDisplayedSkinParts> {

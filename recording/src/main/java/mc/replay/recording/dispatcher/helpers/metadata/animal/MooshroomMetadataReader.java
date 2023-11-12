@@ -5,13 +5,13 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.MooshroomMetadata;
+import mc.replay.nms.entity.metadata.animal.MooshroomMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.MooshroomMetadata.VARIANT_INDEX;
+import static mc.replay.nms.entity.metadata.animal.MooshroomMetadata.VARIANT_INDEX;
 
 public final class MooshroomMetadataReader implements MetadataReader<MooshroomMetadata> {
 

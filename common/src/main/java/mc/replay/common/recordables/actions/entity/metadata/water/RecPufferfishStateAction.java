@@ -1,9 +1,9 @@
 package mc.replay.common.recordables.actions.entity.metadata.water;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.water.RecPufferfishState;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.water.fish.PufferfishMetadata;
+import mc.replay.nms.entity.metadata.water.fish.PufferfishMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecPufferfishStateAction implements InternalEntityMetadataRecordableAction<RecPufferfishState> {
