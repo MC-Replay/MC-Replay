@@ -7,6 +7,8 @@ import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_17_R1;
 import mc.replay.nms.inventory.RItemStack;
 import mc.replay.nms.inventory.RItemStack_v1_17_R1;
+import mc.replay.nms.player.PlayerProfile;
+import mc.replay.nms.player.PlayerProfile_v1_17_R1;
 import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
@@ -63,6 +65,12 @@ public final class MCReplayNMS_v1_17_R1 implements MCReplayNMS {
     @Override
     public Object getBukkitEntity(Object entity) {
         return ((CraftEntity) entity).getHandle();
+    }
+
+    @Override
+    public PlayerProfile getPlayerProfile(Player player) {
+        ServerPlayer serverPlayer = (ServerPlayer) this.getBukkitEntity(player);
+        return serverPlayer == null ? null : new PlayerProfile_v1_17_R1(serverPlayer.getGameProfile());
     }
 
     @Override
