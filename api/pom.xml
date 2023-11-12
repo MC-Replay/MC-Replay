@@ -17,17 +17,6 @@
             <artifactId>PacketLib</artifactId>
             <version>48acb3e654</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.MC-Replay</groupId>
-            <artifactId>Minecraft-Object-Wrapper</artifactId>
-            <version>fb8ee400e5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>mc.replay</groupId>
-                    <artifactId>packetlib</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <build>

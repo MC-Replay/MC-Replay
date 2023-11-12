@@ -2,6 +2,7 @@ package mc.replay.nms.player;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.packetlib.data.PlayerProfileProperty;
 
 import java.util.HashMap;

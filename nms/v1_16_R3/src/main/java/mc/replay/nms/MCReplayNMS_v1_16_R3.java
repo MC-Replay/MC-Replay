@@ -1,15 +1,18 @@
 package mc.replay.nms;
 
 import io.netty.buffer.Unpooled;
+import mc.replay.api.utils.JavaReflections;
+import mc.replay.nms.entity.DataWatcherReader_v1_16_R3;
 import mc.replay.nms.fakeplayer.FakePlayerFilterList;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_16_R3;
 import mc.replay.nms.inventory.RItemStack;
 import mc.replay.nms.inventory.RItemStack_v1_16_R3;
-import mc.replay.nms.player.PlayerProfile;
+import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.nms.player.PlayerProfile_v1_16_R3;
 import mc.replay.packetlib.PacketLib;
+import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.utils.ReflectionUtils;
@@ -23,9 +26,22 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MCReplayNMS_v1_16_R3 implements MCReplayNMS {
+
+    private static final JavaReflections.FieldAccessor<AtomicInteger> ENTITY_ID_COUNTER;
+
+    static {
+        ENTITY_ID_COUNTER = JavaReflections.getField(Entity.class, "entityCount", AtomicInteger.class);
+    }
+
+    private final DataWatcherReader_v1_16_R3 dataWatcherReader;
+
+    public MCReplayNMS_v1_16_R3() {
+        this.dataWatcherReader = new DataWatcherReader_v1_16_R3(this);
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -56,8 +72,18 @@ public final class MCReplayNMS_v1_16_R3 implements MCReplayNMS {
     }
 
     @Override
+    public int getNewEntityId() {
+        return ENTITY_ID_COUNTER.get(null).incrementAndGet();
+    }
+
+    @Override
     public Object getBukkitEntity(Object entity) {
         return ((CraftEntity) entity).getHandle();
+    }
+
+    @Override
+    public Map<Integer, Metadata.Entry<?>> readDataWatcher(org.bukkit.entity.Entity bukkitEntity) {
+        return this.dataWatcherReader.readDataWatcher(bukkitEntity);
     }
 
     @Override

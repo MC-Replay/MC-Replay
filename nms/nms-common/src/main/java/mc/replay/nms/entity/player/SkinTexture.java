@@ -1,4 +1,4 @@
-package mc.replay.nms.player;
+package mc.replay.nms.entity.player;
 
 import mc.replay.packetlib.data.PlayerProfileProperty;
 import mc.replay.wrapper.data.PlayerProfile;
