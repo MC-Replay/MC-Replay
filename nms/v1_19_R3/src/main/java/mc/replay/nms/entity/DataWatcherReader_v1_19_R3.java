@@ -24,7 +24,7 @@ public final class DataWatcherReader_v1_19_R3 {
     public Map<Integer, Metadata.Entry<?>> readDataWatcher(Entity bukkitEntity) {
         Map<Integer, Metadata.Entry<?>> entries = new HashMap<>();
 
-        net.minecraft.world.entity.Entity entity = (net.minecraft.world.entity.Entity) this.nms.getBukkitEntity(bukkitEntity);
+        net.minecraft.world.entity.Entity entity = (net.minecraft.world.entity.Entity) this.nms.getNMSEntity(bukkitEntity);
         if (entity == null) return entries;
 
         SynchedEntityData entityData = entity.getEntityData();

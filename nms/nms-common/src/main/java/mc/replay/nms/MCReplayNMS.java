@@ -27,7 +27,9 @@ public interface MCReplayNMS {
 
     int getNewEntityId();
 
-    Object getBukkitEntity(Object entity);
+    Entity getBukkitEntity(Object entity);
+
+    Object getNMSEntity(Object entity);
 
     Map<Integer, Metadata.Entry<?>> readDataWatcher(Entity entity);
 

@@ -66,7 +66,8 @@ public final class FakePlayerFilterList extends AbstractList<Object> implements 
                     Object bukkitEntity = this.nms.getBukkitEntity(object);
                     list.add(bukkitEntity);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
 

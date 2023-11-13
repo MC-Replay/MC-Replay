@@ -1,6 +1,5 @@
 package mc.replay.nms.entity;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import mc.replay.nms.MCReplayNMS_v1_16_R3;
 import mc.replay.packetlib.data.entity.Metadata;
@@ -22,7 +21,7 @@ public final class DataWatcherReader_v1_16_R3 {
     public Map<Integer, Metadata.Entry<?>> readDataWatcher(Entity bukkitEntity) {
         Map<Integer, Metadata.Entry<?>> entries = new HashMap<>();
 
-        net.minecraft.server.v1_16_R3.Entity entity = (net.minecraft.server.v1_16_R3.Entity) this.nms.getBukkitEntity(bukkitEntity);
+        net.minecraft.server.v1_16_R3.Entity entity = (net.minecraft.server.v1_16_R3.Entity) this.nms.getNMSEntity(bukkitEntity);
         if (entity == null) return entries;
 
         DataWatcher dataWatcher = entity.getDataWatcher();
