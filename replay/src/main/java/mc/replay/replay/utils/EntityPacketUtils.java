@@ -155,7 +155,7 @@ public final class EntityPacketUtils {
             spawnPacket = new ClientboundEntitySpawnPacket(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),
-                    entityWrapper.getType().getMapping().id(),
+                    entityWrapper.getMappedType().id(),
                     entityWrapper.getPosition(),
                     entityWrapper.getPosition().yaw(),
                     data,
@@ -167,7 +167,7 @@ public final class EntityPacketUtils {
             spawnPacket = new ClientboundLivingEntitySpawn754_758Packet(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),
-                    entityWrapper.getType().getMapping().id(),
+                    entityWrapper.getMappedType().id(),
                     entityWrapper.getPosition(),
                     entityWrapper.getPosition().yaw(),
                     velocityX,

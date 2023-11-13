@@ -5,23 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>mc.replay</groupId>
-        <artifactId>nms</artifactId>
+        <artifactId>MCReplay</artifactId>
         <version>Dev-1.0</version>
     </parent>
 
-    <groupId>mc.replay.nms</groupId>
-    <artifactId>nms-common</artifactId>
+    <artifactId>mappings</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>mc.replay</groupId>
             <artifactId>api</artifactId>
-            <version>Dev-1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>mc.replay</groupId>
-            <artifactId>mappings</artifactId>
             <version>Dev-1.0</version>
             <scope>provided</scope>
         </dependency>

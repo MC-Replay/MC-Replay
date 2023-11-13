@@ -1,8 +1,10 @@
 package mc.replay.nms.entity;
 
-import mc.replay.api.data.entity.IREntity;
-import mc.replay.nms.MCReplayNMS;
 import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.IREntity;
+import mc.replay.mappings.mapped.MappedEntityType;
+import mc.replay.mappings.objects.EntityTypeMapping;
+import mc.replay.nms.MCReplayNMS;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.entity.Entity;
@@ -18,7 +20,7 @@ public class REntity implements IREntity {
     protected int id;
     protected final UUID uuid;
 
-    protected final EntityType entityType;
+    protected final MappedEntityType entityType;
 
     protected Metadata metadata = new Metadata();
     protected EntityMetadata entityMetadata;
@@ -30,7 +32,7 @@ public class REntity implements IREntity {
     public REntity(@NotNull EntityType entityType, int entityId, @NotNull UUID uuid) {
         this.id = entityId;
         this.uuid = uuid;
-        this.entityType = entityType;
+        this.entityType = new MappedEntityType(entityType);
 
         this.position = new Pos(0, 0, 0, 0, 0);
         this.velocity = new Vector(0, 0, 0);
@@ -63,7 +65,11 @@ public class REntity implements IREntity {
 
     @Override
     public @NotNull EntityType getType() {
-        return this.entityType;
+        return this.entityType.bukkit();
+    }
+
+    public @NotNull EntityTypeMapping getMappedType() {
+        return this.entityType.mapping();
     }
 
     @Override

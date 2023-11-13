@@ -10,6 +10,7 @@ import mc.replay.common.MCReplayInternal;
 import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.common.utils.reflection.JavaReflections;
+import mc.replay.mappings.MappingsLoader;
 import mc.replay.nms.*;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.packetlib.PacketLib;
@@ -44,6 +45,8 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
     @Override
     public void onLoad() {
         instance = this;
+
+        MappingsLoader.initialize(this);
 
         JavaReflections.getField(MCReplayAPI.class, MCReplay.class, "mcReplay").set(null, this);
     }

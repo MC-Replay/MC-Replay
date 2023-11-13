@@ -12,10 +12,11 @@
     <modules>
         <module>api</module>
         <module>common</module>
+        <module>mappings</module>
+        <module>nms</module>
+        <module>plugin</module>
         <module>recording</module>
         <module>replay</module>
-        <module>plugin</module>
-        <module>nms</module>
     </modules>
 
     <properties>
