@@ -1,7 +1,9 @@
 package mc.replay.nms.inventory;
 
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
+import mc.replay.mappings.mapped.MappedMaterial;
 import mc.replay.packetlib.data.Item;
+import mc.replay.packetlib.utils.ProtocolVersion;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,30 +19,33 @@ public final class RItem extends Item {
         this(item.materialId(), item.amount(), item.meta());
     }
 
-    public RItem(ItemStack itemStack) {
-        this(of(itemStack));
+    public RItem(ProtocolVersion protocolVersion, ItemStack itemStack) {
+        this(of(protocolVersion, itemStack));
         this.itemStack = itemStack;
     }
 
-    public @NotNull ItemStack toItemStack() {
-        if (this.itemStack != null) return this.itemStack;
-
-        return null;
-
-//        ItemStack itemStack = new ItemStack(this.materialId(), this.amount());
-//
-//        CompoundTag meta = this.meta();
-//        if (meta != null) {
-//            ItemSerializer.writeDisplay(itemMeta, meta);
-//            ItemSerializer.writeHideFlags(itemMeta, meta);
-//            ItemSerializer.writeEnchantments(itemMeta, meta);
-//            ItemSerializer.writeItemMeta(itemMeta, meta);
-//        }
-//
-//        return itemStack;
+    public RItem(ItemStack itemStack) {
+        this(ProtocolVersion.getServerVersion(), itemStack);
     }
 
-    private static Item of(ItemStack itemStack) {
-        return null;
+    public @NotNull ItemStack toItemStack(@NotNull ProtocolVersion protocolVersion) {
+        if (this.itemStack != null) return this.itemStack;
+
+        MappedMaterial mappedMaterial = new MappedMaterial(protocolVersion, this.materialId());
+        ItemStack itemStack = new ItemStack(mappedMaterial.bukkit(), this.amount());
+
+        // TODO write meta
+
+        return this.itemStack = itemStack;
+    }
+
+    public @NotNull ItemStack toItemStack() {
+        return this.toItemStack(ProtocolVersion.getServerVersion());
+    }
+
+    private static Item of(ProtocolVersion protocolVersion, ItemStack itemStack) {
+        MappedMaterial mappedMaterial = new MappedMaterial(protocolVersion, itemStack.getType());
+        // TODO read meta
+        return new Item(mappedMaterial.mapping().id(), (byte) itemStack.getAmount(), null);
     }
 }
