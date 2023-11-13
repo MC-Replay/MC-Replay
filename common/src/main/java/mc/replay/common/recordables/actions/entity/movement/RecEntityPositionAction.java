@@ -55,7 +55,7 @@ public final class RecEntityPositionAction implements EntityRecordableAction<Rec
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        EntityWrapper entity = data.entity();
+        IREntity entity = data.entity();
 
         Pos oldPosition = entity.getPosition();
         Pos newPosition = recordable.position()
