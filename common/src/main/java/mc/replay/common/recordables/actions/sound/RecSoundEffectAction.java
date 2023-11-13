@@ -16,6 +16,8 @@ public final class RecSoundEffectAction implements EmptyRecordableAction<RecSoun
         return List.of(
                 new ClientboundSoundEffectPacket(
                         recordable.soundId(),
+                        recordable.soundName(),
+                        recordable.range(),
                         recordable.sourceId(),
                         recordable.x(),
                         recordable.y(),

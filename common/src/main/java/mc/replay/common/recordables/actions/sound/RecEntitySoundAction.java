@@ -16,10 +16,13 @@ public final class RecEntitySoundAction implements EmptyRecordableAction<RecEnti
         return List.of(
                 new ClientboundEntitySoundEffectPacket(
                         recordable.soundId(),
+                        recordable.soundName(),
+                        recordable.range(),
                         recordable.sourceId(),
                         recordable.entityId(),
                         recordable.volume(),
-                        recordable.pitch()
+                        recordable.pitch(),
+                        recordable.seed()
                 )
         );
     }

@@ -20,10 +20,13 @@ public final class EntitySoundPacketOutDispatcher extends DispatcherPacketOut<Cl
         return List.of(
                 new RecEntitySound(
                         packet.soundId(),
+                        packet.soundName(),
+                        packet.range(),
                         packet.sourceId(),
                         packet.entityId(),
                         packet.volume(),
-                        packet.pitch()
+                        packet.pitch(),
+                        packet.seed()
                 )
         );
     }

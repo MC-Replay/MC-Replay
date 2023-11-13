@@ -20,6 +20,8 @@ public final class SoundEffectPacketOutDispatcher extends DispatcherPacketOut<Cl
         return List.of(
                 new RecSoundEffect(
                         packet.soundId(),
+                        packet.soundName(),
+                        packet.range(),
                         packet.sourceId(),
                         packet.x(),
                         packet.y(),

@@ -4,28 +4,33 @@ import mc.replay.api.recordables.Recordable;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import org.jetbrains.annotations.NotNull;
 
-import static mc.replay.packetlib.network.ReplayByteBuffer.FLOAT;
-import static mc.replay.packetlib.network.ReplayByteBuffer.INT;
+import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
-public record RecEntitySound(int soundId, int sourceId, int entityId, float volume,
-                             float pitch) implements Recordable {
+public record RecEntitySound(Integer soundId, String soundName, Float range, int sourceId, int entityId, float volume,
+                             float pitch, Long seed) implements Recordable {
 
     public RecEntitySound(@NotNull ReplayByteBuffer reader) {
         this(
-                reader.read(INT),
+                reader.readOptional(INT),
+                reader.readOptional(STRING),
+                reader.readOptional(FLOAT),
                 reader.read(INT),
                 reader.read(INT),
                 reader.read(FLOAT),
-                reader.read(FLOAT)
+                reader.read(FLOAT),
+                reader.read(LONG)
         );
     }
 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
-        writer.write(INT, this.soundId);
+        writer.writeOptional(INT, this.soundId);
+        writer.writeOptional(STRING, this.soundName);
+        writer.writeOptional(FLOAT, this.range);
         writer.write(INT, this.sourceId);
         writer.write(INT, this.entityId);
         writer.write(FLOAT, this.volume);
         writer.write(FLOAT, this.pitch);
+        writer.write(LONG, (this.seed == null) ? 0 : this.seed);
     }
 }

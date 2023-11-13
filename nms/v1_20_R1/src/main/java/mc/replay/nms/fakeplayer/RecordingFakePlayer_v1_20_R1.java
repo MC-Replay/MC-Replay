@@ -1,6 +1,7 @@
 package mc.replay.nms.fakeplayer;
 
 import com.mojang.authlib.GameProfile;
+import mc.replay.packetlib.utils.ReflectionUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -9,8 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -61,12 +62,30 @@ public final class RecordingFakePlayer_v1_20_R1 extends ServerPlayer implements 
     public void spawn() {
         this.fakePlayerHandler.addFakePlayer(this);
 
+        // Set location
         Location location = this.target.getLocation().clone();
         super.absMoveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 
-        super.server.getPlayerList().players.add(this);
-        super.serverLevel().addFreshEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        // Set isRealPlayer to true so that the tracking works on Paper servers as well
+        try {
+            Field isRealPlayerField = ReflectionUtils.getField(ServerPlayer.class, "isRealPlayer");
+            if (isRealPlayerField != null) {
+                isRealPlayerField.set(this, true);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
 
+        super.valid = true;
+
+        // Add to server list and world player list
+        super.server.getPlayerList().players.add(this);
+        super.serverLevel().players().add(this);
+
+        // Start tracker
+        super.serverLevel().getChunkSource().addEntity(this);
+
+        // Set gamemode and camera
         super.setGameMode(GameType.SPECTATOR);
         super.setCamera(((CraftPlayer) this.target).getHandle());
     }

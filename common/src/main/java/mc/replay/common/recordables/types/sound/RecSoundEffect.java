@@ -7,12 +7,14 @@ import org.jetbrains.annotations.Nullable;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
-public record RecSoundEffect(int soundId, int sourceId, int x, int y, int z, float volume,
+public record RecSoundEffect(Integer soundId, String soundName, Float range, int sourceId, int x, int y, int z, float volume,
                              float pitch, @Nullable Long seed) implements Recordable {
 
     public RecSoundEffect(@NotNull ReplayByteBuffer reader) {
         this(
-                reader.read(INT),
+                reader.readOptional(INT),
+                reader.readOptional(STRING),
+                reader.readOptional(FLOAT),
                 reader.read(INT),
                 reader.read(INT),
                 reader.read(INT),
@@ -25,7 +27,9 @@ public record RecSoundEffect(int soundId, int sourceId, int x, int y, int z, flo
 
     @Override
     public void write(@NotNull ReplayByteBuffer writer) {
-        writer.write(INT, this.soundId);
+        writer.writeOptional(INT, this.soundId);
+        writer.writeOptional(STRING, this.soundName);
+        writer.writeOptional(FLOAT, this.range);
         writer.write(INT, this.sourceId);
         writer.write(INT, this.x);
         writer.write(INT, this.y);
