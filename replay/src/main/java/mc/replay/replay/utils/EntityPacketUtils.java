@@ -4,6 +4,15 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.api.replay.session.IReplayPlayer;
+import mc.replay.nms.entity.REntity;
+import mc.replay.nms.entity.RLivingEntity;
+import mc.replay.nms.entity.metadata.ObjectDataProvider;
+import mc.replay.nms.entity.metadata.PlayerMetadata;
+import mc.replay.nms.entity.metadata.ShooterProvider;
+import mc.replay.nms.entity.player.PlayerProfile;
+import mc.replay.nms.entity.player.RPlayer;
+import mc.replay.nms.entity.player.SkinTexture;
+import mc.replay.nms.scoreboard.RScoreboardTeam;
 import mc.replay.packetlib.data.PlayerProfileProperty;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.EntityAnimation;
@@ -16,15 +25,6 @@ import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.*;
 import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundLivingEntitySpawn754_758Packet;
 import mc.replay.packetlib.utils.ProtocolVersion;
-import mc.replay.wrapper.data.PlayerProfile;
-import mc.replay.wrapper.data.SkinTexture;
-import mc.replay.wrapper.entity.EntityWrapper;
-import mc.replay.wrapper.entity.LivingEntityWrapper;
-import mc.replay.wrapper.entity.PlayerWrapper;
-import mc.replay.wrapper.entity.metadata.ObjectDataProvider;
-import mc.replay.wrapper.entity.metadata.PlayerMetadata;
-import mc.replay.wrapper.entity.metadata.ShooterProvider;
-import mc.replay.wrapper.team.TeamWrapper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
@@ -40,11 +40,11 @@ public final class EntityPacketUtils {
     private EntityPacketUtils() {
     }
 
-    private static final TeamWrapper REPLAY_SUSPECTS_TEAM = new TeamWrapper("ReplaySuspects")
-            .withColor(NamedTextColor.RED)
-            .withCollisionRule(CollisionRule.NEVER);
+    private static final RScoreboardTeam REPLAY_SUSPECTS_TEAM = new RScoreboardTeam("ReplaySuspects")
+            .color(NamedTextColor.RED)
+            .collisionRule(CollisionRule.NEVER);
 
-    public static PlayerWrapper spawnNPC(Collection<IReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
+    public static RPlayer spawnNPC(Collection<IReplayPlayer> viewers, Pos position, String name, SkinTexture skinTexture, Map<Integer, Metadata.Entry<?>> originMetadata) {
         if (viewers == null || viewers.isEmpty()) return null;
 
         Map<String, PlayerProfileProperty> properties = new HashMap<>();
@@ -53,9 +53,9 @@ public final class EntityPacketUtils {
                     SkinTexture.TEXTURES_KEY, new PlayerProfileProperty(SkinTexture.TEXTURES_KEY, skinTexture.value(), skinTexture.signature())
             );
         }
-        PlayerProfile playerProfile = new PlayerProfile(UUID.randomUUID(), name, properties);
+        PlayerProfile playerProfile = new PlayerProfile.PlayerProfileImpl(UUID.randomUUID(), name, properties);
 
-        PlayerWrapper playerWrapper = new PlayerWrapper(playerProfile);
+        RPlayer playerWrapper = new RPlayer(playerProfile);
         playerWrapper.setPosition(position);
         playerWrapper.addMetadata(originMetadata);
 
@@ -75,20 +75,20 @@ public final class EntityPacketUtils {
         );
 
         TeamAction.CreateTeamAction createTeamAction = new TeamAction.CreateTeamAction(
-                REPLAY_SUSPECTS_TEAM.getDisplayName(),
+                REPLAY_SUSPECTS_TEAM.displayName(),
                 (byte) 0,
-                REPLAY_SUSPECTS_TEAM.getVisibility(),
-                REPLAY_SUSPECTS_TEAM.getCollisionRule(),
-                REPLAY_SUSPECTS_TEAM.getColor(),
-                REPLAY_SUSPECTS_TEAM.getPrefix(),
-                REPLAY_SUSPECTS_TEAM.getSuffix(),
-                REPLAY_SUSPECTS_TEAM.getEntries()
+                REPLAY_SUSPECTS_TEAM.visibility(),
+                REPLAY_SUSPECTS_TEAM.collisionRule(),
+                REPLAY_SUSPECTS_TEAM.color(),
+                REPLAY_SUSPECTS_TEAM.prefix(),
+                REPLAY_SUSPECTS_TEAM.suffix(),
+                REPLAY_SUSPECTS_TEAM.entries()
         );
 
         ClientboundPlayerInfoPacket infoPacket = new ClientboundPlayerInfoPacket(PlayerInfoAction.ADD_PLAYER, addPlayer);
         ClientboundPlayerSpawnPacket spawnPacket = new ClientboundPlayerSpawnPacket(playerWrapper.getEntityId(), playerWrapper.getUniqueId(), playerWrapper.getPosition());
         ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(playerWrapper.getEntityId(), metadata.getEntries());
-        ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_SUSPECTS_TEAM.getName(), createTeamAction);
+        ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_SUSPECTS_TEAM.name(), createTeamAction);
 
         for (IReplayPlayer viewerReplayPlayer : viewers) {
             Player viewer = viewerReplayPlayer.player();
@@ -117,15 +117,15 @@ public final class EntityPacketUtils {
         return playerWrapper;
     }
 
-    public static EntityWrapper spawnEntity(IEntityProvider entityProvider, Collection<IReplayPlayer> viewers, Pos position, EntityType entityType, int data, Vector velocity) {
+    public static REntity spawnEntity(IEntityProvider entityProvider, Collection<IReplayPlayer> viewers, Pos position, EntityType entityType, int data, Vector velocity) {
         if (viewers == null || viewers.isEmpty() || entityType == EntityType.PLAYER)
             return null;
 
-        EntityWrapper entityWrapper;
+        REntity entityWrapper;
         if (entityType.isAlive()) {
-            entityWrapper = new LivingEntityWrapper(entityType, UUID.randomUUID());
+            entityWrapper = new RLivingEntity(entityType, UUID.randomUUID());
         } else {
-            entityWrapper = new EntityWrapper(entityType, UUID.randomUUID());
+            entityWrapper = new REntity(entityType, UUID.randomUUID());
         }
 
         entityWrapper.setPosition(position);
@@ -155,7 +155,7 @@ public final class EntityPacketUtils {
             spawnPacket = new ClientboundEntitySpawnPacket(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),
-                    entityWrapper.getType().getMapping().id(),
+                    entityWrapper.getMappedType().id(),
                     entityWrapper.getPosition(),
                     entityWrapper.getPosition().yaw(),
                     data,
@@ -167,7 +167,7 @@ public final class EntityPacketUtils {
             spawnPacket = new ClientboundLivingEntitySpawn754_758Packet(
                     entityWrapper.getEntityId(),
                     entityWrapper.getUniqueId(),
-                    entityWrapper.getType().getMapping().id(),
+                    entityWrapper.getMappedType().id(),
                     entityWrapper.getPosition(),
                     entityWrapper.getPosition().yaw(),
                     velocityX,
@@ -192,11 +192,11 @@ public final class EntityPacketUtils {
         return entityWrapper;
     }
 
-    public static void updateRotation(Player viewer, float yaw, float pitch, EntityWrapper entityWrapper) {
+    public static void updateRotation(Player viewer, float yaw, float pitch, REntity entityWrapper) {
         updateRotation(viewer, yaw, pitch, entityWrapper, false);
     }
 
-    public static void updateRotation(Player viewer, float yaw, float pitch, EntityWrapper entityWrapper, boolean spawn) {
+    public static void updateRotation(Player viewer, float yaw, float pitch, REntity entityWrapper, boolean spawn) {
         ClientboundEntityRotationPacket rotationPacket = new ClientboundEntityRotationPacket(entityWrapper.getEntityId(), yaw, pitch, false);
         ClientboundEntityHeadRotationPacket headRotationPacket = new ClientboundEntityHeadRotationPacket(entityWrapper.getEntityId(), yaw);
 
@@ -209,7 +209,7 @@ public final class EntityPacketUtils {
         }
     }
 
-    public static void destroy(Collection<IReplayPlayer> viewers, EntityWrapper entityWrapper) {
+    public static void destroy(Collection<IReplayPlayer> viewers, REntity entityWrapper) {
         ClientboundEntityDestroyPacket destroyPacket = new ClientboundEntityDestroyPacket(entityWrapper.getEntityId());
 
         for (IReplayPlayer replayPlayer : viewers) {

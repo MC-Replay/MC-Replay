@@ -1,9 +1,9 @@
 package mc.replay.common.recordables.actions.entity.metadata.villager;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.villager.RecVillagerHeadShakeTimer;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.villager.AbstractVillagerMetadata;
+import mc.replay.nms.entity.metadata.villager.AbstractVillagerMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecVillagerHeadShakeTimerAction implements InternalEntityMetadataRecordableAction<RecVillagerHeadShakeTimer> {

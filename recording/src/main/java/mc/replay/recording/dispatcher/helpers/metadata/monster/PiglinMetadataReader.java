@@ -7,13 +7,13 @@ import mc.replay.common.recordables.types.entity.metadata.monster.RecPiglinCharg
 import mc.replay.common.recordables.types.entity.metadata.monster.RecPiglinDancing;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.monster.PiglinMetadata;
+import mc.replay.nms.entity.metadata.monster.PiglinMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.monster.PiglinMetadata.*;
+import static mc.replay.nms.entity.metadata.monster.PiglinMetadata.*;
 
 public final class PiglinMetadataReader implements MetadataReader<PiglinMetadata> {
 

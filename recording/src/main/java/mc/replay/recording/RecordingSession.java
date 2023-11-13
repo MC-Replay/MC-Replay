@@ -5,7 +5,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recording.IRecording;
 import mc.replay.api.recording.IRecordingSession;
-import mc.replay.wrapper.entity.EntityTracker;
+import mc.replay.nms.entity.EntityTracker;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 

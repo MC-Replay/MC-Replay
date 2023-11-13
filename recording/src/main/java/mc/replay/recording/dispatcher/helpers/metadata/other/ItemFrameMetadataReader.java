@@ -6,14 +6,14 @@ import mc.replay.common.recordables.types.entity.metadata.other.RecItemFrameItem
 import mc.replay.common.recordables.types.entity.metadata.other.RecItemFrameRotation;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.other.ItemFrameMetadata;
+import mc.replay.nms.entity.metadata.other.ItemFrameMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.other.ItemFrameMetadata.ITEM_INDEX;
-import static mc.replay.wrapper.entity.metadata.other.ItemFrameMetadata.ROTATION_INDEX;
+import static mc.replay.nms.entity.metadata.other.ItemFrameMetadata.ITEM_INDEX;
+import static mc.replay.nms.entity.metadata.other.ItemFrameMetadata.ROTATION_INDEX;
 
 public final class ItemFrameMetadataReader implements MetadataReader<ItemFrameMetadata> {
 

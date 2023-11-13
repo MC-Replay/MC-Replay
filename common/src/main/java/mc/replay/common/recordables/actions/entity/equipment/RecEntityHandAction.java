@@ -4,10 +4,9 @@ import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.equipment.RecEntityHand;
+import mc.replay.nms.entity.RLivingEntity;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityEquipmentPacket;
-import mc.replay.wrapper.entity.LivingEntityWrapper;
-import mc.replay.wrapper.item.ItemWrapper;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
@@ -22,7 +21,7 @@ public final class RecEntityHandAction implements EntityRecordableAction<RecEnti
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        if (data.entity() instanceof LivingEntityWrapper livingEntityWrapper) {
+        if (data.entity() instanceof RLivingEntity livingEntityWrapper) {
             livingEntityWrapper.setEquipment(EquipmentSlot.HAND, recordable.item());
         }
 

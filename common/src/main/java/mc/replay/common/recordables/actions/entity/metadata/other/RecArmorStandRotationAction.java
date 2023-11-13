@@ -1,9 +1,9 @@
 package mc.replay.common.recordables.actions.entity.metadata.other;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.other.RecArmorStandRotation;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.other.ArmorStandMetadata;
+import mc.replay.nms.entity.metadata.other.ArmorStandMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecArmorStandRotationAction implements InternalEntityMetadataRecordableAction<RecArmorStandRotation> {

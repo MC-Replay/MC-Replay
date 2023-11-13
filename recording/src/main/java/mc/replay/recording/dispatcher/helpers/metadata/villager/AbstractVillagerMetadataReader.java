@@ -5,13 +5,13 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.villager.RecVillagerHeadShakeTimer;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.villager.AbstractVillagerMetadata;
+import mc.replay.nms.entity.metadata.villager.AbstractVillagerMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.villager.AbstractVillagerMetadata.HEAD_SHAKE_TIMER_INDEX;
+import static mc.replay.nms.entity.metadata.villager.AbstractVillagerMetadata.HEAD_SHAKE_TIMER_INDEX;
 
 public final class AbstractVillagerMetadataReader implements MetadataReader<AbstractVillagerMetadata> {
 

@@ -5,7 +5,7 @@ import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
-import mc.replay.wrapper.entity.PlayerWrapper;
+import mc.replay.nms.entity.player.RPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ final class RecordingSessionBuilderImpl implements RecordingSessionBuilder {
 
         // TODO move somewhere else
         for (Player player : Bukkit.getOnlinePlayers()) {
-            PlayerWrapper playerWrapper = new PlayerWrapper(player);
+            RPlayer playerWrapper = new RPlayer(player);
             EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
 
             recordingSession.addRecordables(List.of(new RecPlayerSpawn(entityId, playerWrapper)));

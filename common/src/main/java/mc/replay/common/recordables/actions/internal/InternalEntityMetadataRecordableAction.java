@@ -1,12 +1,12 @@
 package mc.replay.common.recordables.actions.internal;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.common.replay.IReplayEntityProvider;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 

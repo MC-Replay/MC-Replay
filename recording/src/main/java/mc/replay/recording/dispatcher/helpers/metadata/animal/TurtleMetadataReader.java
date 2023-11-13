@@ -6,11 +6,11 @@ import mc.replay.common.recordables.types.entity.metadata.animal.RecTurtleEgg;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecTurtleLayingEgg;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.TurtleMetadata;
+import mc.replay.nms.entity.metadata.animal.TurtleMetadata;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.animal.TurtleMetadata.*;
+import static mc.replay.nms.entity.metadata.animal.TurtleMetadata.*;
 
 public final class TurtleMetadataReader implements MetadataReader<TurtleMetadata> {
 

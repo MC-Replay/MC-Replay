@@ -1,6 +1,6 @@
 package mc.replay.api.recordables.data;
 
-import mc.replay.wrapper.entity.EntityWrapper;
+import mc.replay.api.data.entity.IREntity;
 
-public record RecordableEntityData(int entityId, EntityWrapper entity) {
+public record RecordableEntityData(int entityId, IREntity entity) {
 }

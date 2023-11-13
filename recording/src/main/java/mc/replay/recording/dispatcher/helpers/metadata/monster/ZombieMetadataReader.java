@@ -6,14 +6,14 @@ import mc.replay.common.recordables.types.entity.metadata.mob.RecMobBaby;
 import mc.replay.common.recordables.types.entity.metadata.monster.RecZombieBecomingDrowned;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.monster.zombie.ZombieMetadata;
+import mc.replay.nms.entity.metadata.monster.zombie.ZombieMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.monster.zombie.ZombieMetadata.BABY_INDEX;
-import static mc.replay.wrapper.entity.metadata.monster.zombie.ZombieMetadata.BECOMING_DROWNED_INDEX;
+import static mc.replay.nms.entity.metadata.monster.zombie.ZombieMetadata.BABY_INDEX;
+import static mc.replay.nms.entity.metadata.monster.zombie.ZombieMetadata.BECOMING_DROWNED_INDEX;
 
 public final class ZombieMetadataReader implements MetadataReader<ZombieMetadata> {
 

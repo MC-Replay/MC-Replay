@@ -8,13 +8,13 @@ import mc.replay.common.recordables.types.entity.metadata.animal.RecAbstractHors
 import mc.replay.common.recordables.types.entity.metadata.animal.RecAbstractHorseSaddled;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.AbstractHorseMetadata;
+import mc.replay.nms.entity.metadata.animal.AbstractHorseMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.AbstractHorseMetadata.MASK_INDEX;
+import static mc.replay.nms.entity.metadata.animal.AbstractHorseMetadata.MASK_INDEX;
 
 public final class AbstractHorseMetadataReader implements MetadataReader<AbstractHorseMetadata> {
 

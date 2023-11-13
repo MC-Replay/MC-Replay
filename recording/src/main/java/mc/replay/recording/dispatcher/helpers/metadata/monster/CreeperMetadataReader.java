@@ -6,14 +6,14 @@ import mc.replay.common.recordables.types.entity.metadata.monster.RecCreeperChar
 import mc.replay.common.recordables.types.entity.metadata.monster.RecCreeperState;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.monster.CreeperMetadata;
+import mc.replay.nms.entity.metadata.monster.CreeperMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.monster.CreeperMetadata.CHARGED_INDEX;
-import static mc.replay.wrapper.entity.metadata.monster.CreeperMetadata.STATE_INDEX;
+import static mc.replay.nms.entity.metadata.monster.CreeperMetadata.CHARGED_INDEX;
+import static mc.replay.nms.entity.metadata.monster.CreeperMetadata.STATE_INDEX;
 
 public final class CreeperMetadataReader implements MetadataReader<CreeperMetadata> {
 

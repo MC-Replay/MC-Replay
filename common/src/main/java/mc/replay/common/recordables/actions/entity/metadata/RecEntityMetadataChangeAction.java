@@ -4,10 +4,10 @@ import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityMetadataChange;
+import mc.replay.nms.entity.metadata.ShooterProvider;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.network.packet.clientbound.play.ClientboundEntityMetadataPacket;
-import mc.replay.wrapper.entity.metadata.ShooterProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 

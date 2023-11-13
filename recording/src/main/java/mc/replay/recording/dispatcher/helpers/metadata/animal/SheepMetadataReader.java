@@ -4,15 +4,15 @@ import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecSheepColor;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecSheepSheared;
+import mc.replay.nms.entity.metadata.animal.SheepMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.SheepMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.SheepMetadata.MASK_INDEX;
+import static mc.replay.nms.entity.metadata.animal.SheepMetadata.MASK_INDEX;
 
 public final class SheepMetadataReader implements MetadataReader<SheepMetadata> {
 

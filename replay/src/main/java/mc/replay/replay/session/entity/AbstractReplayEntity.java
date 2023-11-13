@@ -3,7 +3,7 @@ package mc.replay.replay.session.entity;
 import lombok.Getter;
 import mc.replay.api.recordables.data.IEntityProvider;
 import mc.replay.api.replay.session.IReplayPlayer;
-import mc.replay.wrapper.entity.EntityWrapper;
+import mc.replay.nms.entity.REntity;
 
 import java.util.Collection;
 
@@ -11,7 +11,7 @@ import java.util.Collection;
 public abstract class AbstractReplayEntity<T extends AbstractReplayEntity<T>> {
 
     protected final int originalEntityId;
-    protected EntityWrapper entity;
+    protected REntity entity;
 
     public AbstractReplayEntity(int originalEntityId) {
         this.originalEntityId = originalEntityId;

@@ -1,9 +1,9 @@
 package mc.replay.common.recordables.actions.entity.metadata.animal;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecAbstractHorseEating;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.animal.AbstractHorseMetadata;
+import mc.replay.nms.entity.metadata.animal.AbstractHorseMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecAbstractHorseEatingAction implements InternalEntityMetadataRecordableAction<RecAbstractHorseEating> {

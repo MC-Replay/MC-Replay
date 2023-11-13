@@ -5,11 +5,11 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.water.AxolotlMetadata;
+import mc.replay.nms.entity.metadata.water.AxolotlMetadata;
 
 import java.util.*;
 
-import static mc.replay.wrapper.entity.metadata.water.AxolotlMetadata.*;
+import static mc.replay.nms.entity.metadata.water.AxolotlMetadata.*;
 
 public final class AxolotlMetadataReader implements MetadataReader<AxolotlMetadata> {
 

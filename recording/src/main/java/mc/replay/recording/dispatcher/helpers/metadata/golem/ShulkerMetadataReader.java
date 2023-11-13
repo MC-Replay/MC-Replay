@@ -5,13 +5,13 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.golem.RecShulkerShieldHeight;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.golem.ShulkerMetadata;
+import mc.replay.nms.entity.metadata.golem.ShulkerMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.golem.ShulkerMetadata.SHIELD_HEIGHT_INDEX;
+import static mc.replay.nms.entity.metadata.golem.ShulkerMetadata.SHIELD_HEIGHT_INDEX;
 
 public final class ShulkerMetadataReader implements MetadataReader<ShulkerMetadata> {
 

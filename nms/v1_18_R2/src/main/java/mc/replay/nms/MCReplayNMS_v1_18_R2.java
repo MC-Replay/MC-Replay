@@ -1,13 +1,18 @@
 package mc.replay.nms;
 
 import io.netty.buffer.Unpooled;
+import mc.replay.api.utils.JavaReflections;
+import mc.replay.nms.entity.DataWatcherReader_v1_18_R2;
+import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.nms.fakeplayer.FakePlayerFilterList;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_18_R2;
 import mc.replay.nms.inventory.RItemStack;
 import mc.replay.nms.inventory.RItemStack_v1_18_R2;
+import mc.replay.nms.entity.player.PlayerProfile_v1_18_R2;
 import mc.replay.packetlib.PacketLib;
+import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.utils.ReflectionUtils;
@@ -18,6 +23,7 @@ import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftEntity;
@@ -29,8 +35,22 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MCReplayNMS_v1_18_R2 implements MCReplayNMS {
+
+    private static final JavaReflections.FieldAccessor<AtomicInteger> ENTITY_ID_COUNTER;
+
+    static {
+        ENTITY_ID_COUNTER = JavaReflections.getField(Entity.class, "c", AtomicInteger.class);
+    }
+
+    private final DataWatcherReader_v1_18_R2 dataWatcherReader;
+
+    public MCReplayNMS_v1_18_R2() {
+        this.dataWatcherReader = new DataWatcherReader_v1_18_R2(this);
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -61,8 +81,24 @@ public final class MCReplayNMS_v1_18_R2 implements MCReplayNMS {
     }
 
     @Override
+    public int getNewEntityId() {
+        return ENTITY_ID_COUNTER.get(null).incrementAndGet();
+    }
+
+    @Override
     public Object getBukkitEntity(Object entity) {
         return ((CraftEntity) entity).getHandle();
+    }
+
+    @Override
+    public Map<Integer, Metadata.Entry<?>> readDataWatcher(org.bukkit.entity.Entity entity) {
+        return this.dataWatcherReader.readDataWatcher(entity);
+    }
+
+    @Override
+    public PlayerProfile getPlayerProfile(Player player) {
+        ServerPlayer serverPlayer = (ServerPlayer) this.getBukkitEntity(player);
+        return serverPlayer == null ? null : new PlayerProfile_v1_18_R2(serverPlayer.getGameProfile());
     }
 
     @Override

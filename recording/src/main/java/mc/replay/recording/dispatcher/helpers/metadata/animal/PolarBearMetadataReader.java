@@ -5,13 +5,13 @@ import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecPolarBearStandingUp;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.recording.dispatcher.helpers.metadata.MetadataReader;
-import mc.replay.wrapper.entity.metadata.animal.PolarBearMetadata;
+import mc.replay.nms.entity.metadata.animal.PolarBearMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static mc.replay.wrapper.entity.metadata.animal.PolarBearMetadata.STANDING_UP_INDEX;
+import static mc.replay.nms.entity.metadata.animal.PolarBearMetadata.STANDING_UP_INDEX;
 
 public final class PolarBearMetadataReader implements MetadataReader<PolarBearMetadata> {
 

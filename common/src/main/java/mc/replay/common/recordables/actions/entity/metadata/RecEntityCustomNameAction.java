@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.actions.entity.metadata;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityCustomName;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 

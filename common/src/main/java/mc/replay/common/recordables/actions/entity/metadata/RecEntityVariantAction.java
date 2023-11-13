@@ -1,14 +1,14 @@
 package mc.replay.common.recordables.actions.entity.metadata;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
-import mc.replay.wrapper.entity.metadata.EntityMetadata;
-import mc.replay.wrapper.entity.metadata.animal.*;
-import mc.replay.wrapper.entity.metadata.animal.tameable.CatMetadata;
-import mc.replay.wrapper.entity.metadata.animal.tameable.ParrotMetadata;
-import mc.replay.wrapper.entity.metadata.other.BoatMetadata;
-import mc.replay.wrapper.entity.metadata.water.AxolotlMetadata;
-import mc.replay.wrapper.entity.metadata.water.fish.TropicalFishMetadata;
+import mc.replay.nms.entity.metadata.animal.*;
+import mc.replay.nms.entity.metadata.animal.tameable.CatMetadata;
+import mc.replay.nms.entity.metadata.animal.tameable.ParrotMetadata;
+import mc.replay.nms.entity.metadata.other.BoatMetadata;
+import mc.replay.nms.entity.metadata.water.AxolotlMetadata;
+import mc.replay.nms.entity.metadata.water.fish.TropicalFishMetadata;
 import org.jetbrains.annotations.NotNull;
 
 public final class RecEntityVariantAction implements InternalEntityMetadataRecordableAction<RecEntityVariant> {
