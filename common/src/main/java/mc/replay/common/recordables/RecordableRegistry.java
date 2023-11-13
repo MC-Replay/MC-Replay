@@ -38,7 +38,6 @@ import mc.replay.common.recordables.actions.entity.metadata.water.RecPufferfishS
 import mc.replay.common.recordables.actions.entity.miscellaneous.*;
 import mc.replay.common.recordables.actions.entity.movement.RecEntityHeadRotationAction;
 import mc.replay.common.recordables.actions.entity.movement.RecEntityPositionAction;
-import mc.replay.common.recordables.actions.particle.RecParticleAction;
 import mc.replay.common.recordables.actions.sound.RecCustomSoundEffectAction;
 import mc.replay.common.recordables.actions.sound.RecEntitySoundAction;
 import mc.replay.common.recordables.actions.sound.RecSoundEffectAction;
@@ -78,7 +77,6 @@ import mc.replay.common.recordables.types.entity.metadata.water.RecPufferfishSta
 import mc.replay.common.recordables.types.entity.miscellaneous.*;
 import mc.replay.common.recordables.types.entity.movement.RecEntityHeadRotation;
 import mc.replay.common.recordables.types.entity.movement.RecEntityPosition;
-import mc.replay.common.recordables.types.particle.RecParticle;
 import mc.replay.common.recordables.types.sound.RecCustomSoundEffect;
 import mc.replay.common.recordables.types.sound.RecEntitySound;
 import mc.replay.common.recordables.types.sound.RecSoundEffect;
@@ -222,8 +220,6 @@ public final class RecordableRegistry implements IRecordableRegistry {
         this.registerRecordable(RecEntitySpawn.class, RecEntitySpawn::new, new RecEntitySpawnAction());
         this.registerRecordable(RecPlayerDestroy.class, RecPlayerDestroy::new, new RecPlayerDestroyAction());
         this.registerRecordable(RecPlayerSpawn.class, RecPlayerSpawn::new, new RecPlayerSpawnAction());
-
-        this.registerRecordable(RecParticle.class, RecParticle::new, new RecParticleAction());
 
         this.registerRecordable(RecCustomSoundEffect.class, RecCustomSoundEffect::new, new RecCustomSoundEffectAction());
         this.registerRecordable(RecEntitySound.class, RecEntitySound::new, new RecEntitySoundAction());
