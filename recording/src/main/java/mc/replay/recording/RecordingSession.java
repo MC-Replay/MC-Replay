@@ -5,7 +5,7 @@ import mc.replay.api.MCReplayAPI;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recording.IRecording;
 import mc.replay.api.recording.IRecordingSession;
-import mc.replay.nms.entity.EntityTracker;
+import mc.replay.recording.helper.EntityTracker;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public final class RecordingSession implements IRecordingSession {
 
     @Override
     public @NotNull IRecording stopRecording() {
-        this.entityTracker.entityCache.clear();
+        this.entityTracker.pruneCache();
         return MCReplayAPI.getRecordingHandler().stopRecording(this.sessionUuid);
     }
 

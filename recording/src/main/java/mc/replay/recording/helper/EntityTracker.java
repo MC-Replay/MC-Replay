@@ -1,5 +1,6 @@
-package mc.replay.nms.entity;
+package mc.replay.recording.helper;
 
+import mc.replay.nms.entity.REntity;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -11,10 +12,14 @@ import java.util.Set;
 
 public final class EntityTracker {
 
-    public final Map<Integer, REntity> entityCache = new HashMap<>();
+    private final Map<Integer, REntity> entityCache = new HashMap<>();
+
+    public void pruneCache() {
+        this.entityCache.clear();
+    }
 
     public @Nullable REntity getEntityWrapper(int entityId) {
-        return entityCache.get(entityId);
+        return this.entityCache.get(entityId);
     }
 
     public @Nullable REntity getOrFindEntityWrapper(@Nullable World bukkitWorld, int entityId, boolean shouldCache) {
@@ -30,10 +35,7 @@ public final class EntityTracker {
 
         REntity entityWrapper = new REntity(entity);
         if (shouldCache) {
-            try {
-                entityCache.put(entityId, entityWrapper);
-            } catch (Exception ignored) {
-            }
+            this.entityCache.put(entityId, entityWrapper);
         }
 
         return entityWrapper;
