@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.minecart;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class FurnaceMinecartMetadata extends AbstractMinecartMetadata {
     }
 
     public void setHasFuel(boolean value) {
-        super.metadata.setIndex(FUEL_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(FUEL_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean hasFuel() {

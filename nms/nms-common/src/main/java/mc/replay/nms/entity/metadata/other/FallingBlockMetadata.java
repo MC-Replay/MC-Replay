@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.Material;
@@ -22,7 +23,7 @@ public class FallingBlockMetadata extends EntityMetadata implements ObjectDataPr
     }
 
     public void setSpawnPosition(@NotNull Vector value) {
-        super.metadata.setIndex(SPAWN_POSITION_INDEX, Metadata.Position(value));
+        super.metadata.setIndex(SPAWN_POSITION_INDEX, MetadataTypes.Position(value));
     }
 
     public @NotNull Vector getSpawnPosition() {

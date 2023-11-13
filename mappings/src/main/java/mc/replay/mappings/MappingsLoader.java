@@ -3,6 +3,7 @@ package mc.replay.mappings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mc.replay.api.utils.Pair;
+import mc.replay.mappings.objects.EntityMetadataSerializerMapping;
 import mc.replay.mappings.objects.EntityTypeMapping;
 import mc.replay.mappings.objects.Mapping;
 import mc.replay.mappings.objects.MaterialMapping;
@@ -38,7 +39,7 @@ public final class MappingsLoader {
             String directory = "mappings/mappings_" + versionString + "/";
 
             for (MappingType mappingType : MappingType.values()) {
-                String fileName = versionString + "_" + mappingType.getFilePrefix() + ".json";
+                String fileName = versionString + "_" + mappingType.getFileSuffix() + ".json";
 
                 try (InputStream inputStream = classLoader.getResourceAsStream(directory + fileName)) {
                     if (inputStream == null) continue;
@@ -65,6 +66,14 @@ public final class MappingsLoader {
                 }
             }
         }
+    }
+
+    public static @NotNull Map<MappingKey, EntityMetadataSerializerMapping> getEntityMetadataSerializerMappingsByKey(@NotNull ProtocolVersion version) {
+        return getMappingsByKey(MappingType.ENTITY_METADATA_SERIALIZER, version);
+    }
+
+    public static @NotNull Map<MappingId, EntityMetadataSerializerMapping> getEntityMetadataSerializerMappingsById(@NotNull ProtocolVersion version) {
+        return getMappingsById(MappingType.ENTITY_METADATA_SERIALIZER, version);
     }
 
     public static @NotNull Map<MappingKey, EntityTypeMapping> getEntityMappingsByKey(@NotNull ProtocolVersion version) {

@@ -1,7 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
 import com.google.common.base.Preconditions;
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;

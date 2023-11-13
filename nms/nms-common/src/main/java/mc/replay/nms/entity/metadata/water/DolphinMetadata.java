@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.water;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -18,15 +19,15 @@ public class DolphinMetadata extends WaterAnimalMetadata {
     }
 
     public void setTreasurePosition(@NotNull Vector value) {
-        super.metadata.setIndex(TREASURE_POSITION_INDEX, Metadata.Position(value));
+        super.metadata.setIndex(TREASURE_POSITION_INDEX, MetadataTypes.Position(value));
     }
 
     public void setCanFindTreasure(boolean value) {
-        super.metadata.setIndex(CAN_FIND_TREASURE_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(CAN_FIND_TREASURE_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setHasFish(boolean value) {
-        super.metadata.setIndex(HAS_FISH_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(HAS_FISH_INDEX, MetadataTypes.Boolean(value));
     }
 
     public @NotNull Vector getTreasurePosition() {

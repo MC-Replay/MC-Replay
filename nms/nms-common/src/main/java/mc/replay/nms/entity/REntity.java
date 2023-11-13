@@ -1,6 +1,6 @@
 package mc.replay.nms.entity;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.RMetadata;
 import mc.replay.api.data.entity.IREntity;
 import mc.replay.mappings.mapped.MappedEntityType;
 import mc.replay.mappings.objects.EntityTypeMapping;
@@ -23,7 +23,7 @@ public class REntity implements IREntity {
     protected final MappedEntityType entityType;
 
     protected Metadata metadata = new Metadata();
-    protected EntityMetadata entityMetadata;
+    protected RMetadata entityMetadata;
 
     protected Pos position;
 
@@ -73,7 +73,7 @@ public class REntity implements IREntity {
     }
 
     @Override
-    public EntityMetadata getMetadata() {
+    public @NotNull RMetadata getMetadata() {
         return this.entityMetadata;
     }
 
@@ -107,7 +107,7 @@ public class REntity implements IREntity {
         this.velocity = velocity;
     }
 
-    public final <T extends EntityMetadata> @NotNull T getMetaData(@NotNull Class<T> clazz) {
+    public final <T extends RMetadata> @NotNull T getMetaData(@NotNull Class<T> clazz) {
         if (clazz.isAssignableFrom(this.entityMetadata.getClass())) {
             return clazz.cast(this.entityMetadata);
         }

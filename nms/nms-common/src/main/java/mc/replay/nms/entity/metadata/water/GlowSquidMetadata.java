@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.water;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class GlowSquidMetadata extends WaterAnimalMetadata {
     }
 
     public void setDarkTicksRemaining(int value) {
-        super.metadata.setIndex(DARK_TICKS_REMAINING_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(DARK_TICKS_REMAINING_INDEX, MetadataTypes.VarInt(value));
     }
 
     public int getDarkTicksRemaining() {

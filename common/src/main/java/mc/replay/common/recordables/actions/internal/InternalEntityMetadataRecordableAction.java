@@ -1,6 +1,6 @@
 package mc.replay.common.recordables.actions.internal;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.RMetadata;
 import mc.replay.api.recordables.data.RecordableEntityData;
 import mc.replay.common.recordables.types.internal.EntityStateRecordable;
 import mc.replay.common.replay.IReplayEntityProvider;
@@ -21,7 +21,7 @@ public interface InternalEntityMetadataRecordableAction<R extends EntityStateRec
         RecordableEntityData data = provider.getEntity(recordable.entityId().entityId());
         if (data == null) return List.of();
 
-        EntityMetadata entityMetadata = data.entity().getMetadata();
+        RMetadata entityMetadata = data.entity().getMetadata();
         Metadata metadata = entityMetadata.getMetadata();
         metadata.detectChanges(true);
 
@@ -40,5 +40,5 @@ public interface InternalEntityMetadataRecordableAction<R extends EntityStateRec
         );
     }
 
-    void writeMetadata(@NotNull R recordable, @NotNull EntityMetadata entityMetadata);
+    void writeMetadata(@NotNull R recordable, @NotNull RMetadata entityMetadata);
 }

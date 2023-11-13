@@ -1,7 +1,8 @@
 package mc.replay.nms.entity.metadata.other;
 
 import mc.replay.nms.entity.REntity;
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.nms.entity.metadata.ProjectileMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
@@ -22,7 +23,7 @@ public class WitherSkullMetadata extends EntityMetadata implements ObjectDataPro
     }
 
     public void setInvulnerable(boolean value) {
-        super.metadata.setIndex(INVULNERABLE_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(INVULNERABLE_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isInvulnerable() {

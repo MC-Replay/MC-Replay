@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,15 +18,15 @@ public class CreeperMetadata extends MonsterMetadata {
     }
 
     public void setState(@NotNull State value) {
-        super.metadata.setIndex(STATE_INDEX, Metadata.VarInt((value == State.IDLE) ? -1 : 1));
+        super.metadata.setIndex(STATE_INDEX, MetadataTypes.VarInt((value == State.IDLE) ? -1 : 1));
     }
 
     public void setCharged(boolean value) {
-        super.metadata.setIndex(CHARGED_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(CHARGED_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setIgnited(boolean value) {
-        super.metadata.setIndex(IGNITED_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(IGNITED_INDEX, MetadataTypes.Boolean(value));
     }
 
     public @NotNull State getState() {

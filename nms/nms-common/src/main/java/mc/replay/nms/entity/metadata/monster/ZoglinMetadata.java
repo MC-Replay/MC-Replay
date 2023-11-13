@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public class ZoglinMetadata extends MonsterMetadata {
 
     public void setBaby(boolean value) {
         if (this.isBaby() == value) return;
-        super.metadata.setIndex(BABY_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(BABY_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isBaby() {

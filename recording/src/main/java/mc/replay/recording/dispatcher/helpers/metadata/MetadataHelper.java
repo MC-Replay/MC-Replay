@@ -1,12 +1,9 @@
 package mc.replay.recording.dispatcher.helpers.metadata;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.RMetadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
-import mc.replay.nms.entity.metadata.AgeableMobMetadata;
-import mc.replay.nms.entity.metadata.LivingEntityMetadata;
-import mc.replay.nms.entity.metadata.MobMetadata;
-import mc.replay.nms.entity.metadata.PlayerMetadata;
+import mc.replay.nms.entity.metadata.*;
 import mc.replay.nms.entity.metadata.ambient.BatMetadata;
 import mc.replay.nms.entity.metadata.animal.*;
 import mc.replay.nms.entity.metadata.animal.tameable.CatMetadata;
@@ -124,7 +121,7 @@ public final class MetadataHelper {
     }
 
     @SuppressWarnings("unchecked, rawtypes")
-    public List<Recordable> read(@NotNull EntityMetadata before, @NotNull EntityMetadata metadata, @NotNull Map<Integer, Metadata.Entry<?>> entries, @NotNull EntityId entityId) {
+    public List<Recordable> read(@NotNull RMetadata before, @NotNull RMetadata metadata, @NotNull Map<Integer, Metadata.Entry<?>> entries, @NotNull EntityId entityId) {
         for (Map.Entry<Class<?>, Collection<Integer>> entry : this.skippedIndexes.entrySet()) {
             if (entry.getKey().isAssignableFrom(metadata.getClass())) {
                 entries.keySet().removeAll(entry.getValue());
@@ -143,12 +140,12 @@ public final class MetadataHelper {
         return recordables;
     }
 
-    private <M extends EntityMetadata> void registerReader(@NotNull Class<M> clazz, @NotNull MetadataReader<M> reader) {
+    private <M extends RMetadata> void registerReader(@NotNull Class<M> clazz, @NotNull MetadataReader<M> reader) {
         this.readers.put(clazz, reader);
         this.skippedIndexes.put(clazz, reader.skippedIndexes());
     }
 
-    private <M extends EntityMetadata> void registerSkippedIndexes(@NotNull Class<M> clazz, int... indexes) {
+    private <M extends RMetadata> void registerSkippedIndexes(@NotNull Class<M> clazz, int... indexes) {
         this.skippedIndexes.put(clazz, Arrays.stream(indexes).boxed().toList());
     }
 }

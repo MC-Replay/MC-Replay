@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal.tameable;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,19 +19,19 @@ public class CatMetadata extends TameableAnimalMetadata {
     }
 
     public void setColor(@NotNull Color value) {
-        super.metadata.setIndex(COLOR_INDEX, Metadata.VarInt(value.ordinal()));
+        super.metadata.setIndex(COLOR_INDEX, MetadataTypes.CatVariant(value.ordinal()));
     }
 
     public void setLying(boolean value) {
-        super.metadata.setIndex(LYING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(LYING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setRelaxed(boolean value) {
-        super.metadata.setIndex(RELAXED_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(RELAXED_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setCollarColor(int value) {
-        super.metadata.setIndex(COLLAR_COLOR_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(COLLAR_COLOR_INDEX, MetadataTypes.VarInt(value));
     }
 
     public @NotNull Color getColor() {

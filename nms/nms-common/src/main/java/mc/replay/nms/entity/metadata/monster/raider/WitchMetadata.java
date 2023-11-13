@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster.raider;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class WitchMetadata extends RaiderMetadata {
     }
 
     public void setDrinkingPotion(boolean value) {
-        super.metadata.setIndex(DRINKING_POTION_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(DRINKING_POTION_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isDrinkingPotion(boolean value) {

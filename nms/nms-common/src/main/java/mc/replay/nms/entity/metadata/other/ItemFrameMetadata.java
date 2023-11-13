@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.nms.inventory.RItem;
 import mc.replay.packetlib.data.Item;
@@ -23,11 +24,11 @@ public class ItemFrameMetadata extends EntityMetadata implements ObjectDataProvi
     }
 
     public void setItem(@NotNull RItem value) {
-        super.metadata.setIndex(ITEM_INDEX, Metadata.Slot(value));
+        super.metadata.setIndex(ITEM_INDEX, MetadataTypes.Slot(value));
     }
 
     public void setRotation(@NotNull Rotation value) {
-        super.metadata.setIndex(ROTATION_INDEX, Metadata.VarInt(value.ordinal()));
+        super.metadata.setIndex(ROTATION_INDEX, MetadataTypes.VarInt(value.ordinal()));
     }
 
     public void setOrientation(@NotNull Orientation value) {

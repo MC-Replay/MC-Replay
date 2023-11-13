@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.arrow;
 
 import mc.replay.nms.entity.REntity;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.nms.entity.metadata.ProjectileMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
@@ -21,7 +22,7 @@ public class ArrowMetadata extends AbstractArrowMetadata implements ObjectDataPr
     }
 
     public void setColor(int value) {
-        super.metadata.setIndex(COLOR_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(COLOR_INDEX, MetadataTypes.VarInt(value));
     }
 
     public int getColor() {

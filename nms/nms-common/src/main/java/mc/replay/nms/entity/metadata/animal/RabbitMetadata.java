@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public class RabbitMetadata extends AnimalMetadata {
 
     public void setType(@NotNull Type value) {
         int id = value == Type.KILLER_BUNNY ? 99 : value.ordinal();
-        super.metadata.setIndex(TYPE_INDEX, Metadata.VarInt(id));
+        super.metadata.setIndex(TYPE_INDEX, MetadataTypes.VarInt(id));
     }
 
     public @NotNull Type getType() {

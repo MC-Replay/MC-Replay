@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.flying;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class PhantomMetadata extends FlyingMetadata {
     }
 
     public void setSize(int value) {
-        super.metadata.setIndex(SIZE_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(SIZE_INDEX, MetadataTypes.VarInt(value));
     }
 
     public int getSize() {

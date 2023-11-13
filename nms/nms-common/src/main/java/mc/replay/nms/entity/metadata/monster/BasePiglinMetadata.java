@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class BasePiglinMetadata extends MonsterMetadata {
     }
 
     public void setImmuneToZombification(boolean value) {
-        super.metadata.setIndex(IMMUNE_TO_ZOMBIFICATION, Metadata.Boolean(value));
+        super.metadata.setIndex(IMMUNE_TO_ZOMBIFICATION, MetadataTypes.Boolean(value));
     }
 
     public boolean isImmuneToZombification() {

@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,23 +26,23 @@ public class PandaMetadata extends AnimalMetadata {
     }
 
     public void setBreedTimer(int value) {
-        super.metadata.setIndex(BREED_TIMER_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(BREED_TIMER_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setSneezeTimer(int value) {
-        super.metadata.setIndex(SNEEZE_TIMER_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(SNEEZE_TIMER_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setEatTimer(int value) {
-        super.metadata.setIndex(EAT_TIMER_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(EAT_TIMER_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setMainGene(@NotNull Gene value) {
-        super.metadata.setIndex(MAIN_GENE_INDEX, Metadata.Byte((byte) value.ordinal()));
+        super.metadata.setIndex(MAIN_GENE_INDEX, MetadataTypes.Byte((byte) value.ordinal()));
     }
 
     public void setHiddenGene(@NotNull Gene value) {
-        super.metadata.setIndex(HIDDEN_GENE_INDEX, Metadata.Byte((byte) value.ordinal()));
+        super.metadata.setIndex(HIDDEN_GENE_INDEX, MetadataTypes.Byte((byte) value.ordinal()));
     }
 
     public void setSneezing(boolean value) {

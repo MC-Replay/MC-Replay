@@ -1,8 +1,8 @@
 package mc.replay.recording.file;
 
 import mc.replay.api.MCReplayAPI;
-import mc.replay.api.recording.IRecording;
 import mc.replay.api.recordables.Recordable;
+import mc.replay.api.recording.IRecording;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.recording.Recording;
@@ -12,7 +12,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.time.Duration;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 

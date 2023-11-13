@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,20 +14,20 @@ public class EndermanMetadata extends MonsterMetadata {
     public static final int SCREAMING_INDEX = OFFSET + 1;
     public static final int STARING_INDEX = OFFSET + 2;
 
-    public EndermanMetadata( @NotNull Metadata metadata) {
-        super( metadata);
+    public EndermanMetadata(@NotNull Metadata metadata) {
+        super(metadata);
     }
 
     public void setCarriedBlockId(@Nullable Integer value) {
-        super.metadata.setIndex(CARRIED_BLOCK_ID_INDEX, Metadata.OptBlockID(value));
+        super.metadata.setIndex(CARRIED_BLOCK_ID_INDEX, MetadataTypes.OptBlockState(value));
     }
 
     public void setScreaming(boolean value) {
-        super.metadata.setIndex(SCREAMING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(SCREAMING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setStaring(boolean value) {
-        super.metadata.setIndex(STARING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(STARING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public @Nullable Integer getCarriedBlockId() {

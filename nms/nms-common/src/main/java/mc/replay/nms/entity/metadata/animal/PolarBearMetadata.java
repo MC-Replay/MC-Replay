@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class PolarBearMetadata extends AnimalMetadata {
     }
 
     public void setStandingUp(boolean value) {
-        super.metadata.setIndex(STANDING_UP_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(STANDING_UP_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isStandingUp() {

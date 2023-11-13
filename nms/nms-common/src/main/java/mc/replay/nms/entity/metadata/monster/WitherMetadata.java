@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.monster;
 
 import mc.replay.nms.entity.REntity;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,21 +26,21 @@ public class WitherMetadata extends MonsterMetadata {
 
     public void setCenterHead(@Nullable REntity value) {
         this.centerHead = value;
-        super.metadata.setIndex(CENTER_HEAD_INDEX, Metadata.VarInt((value == null) ? 0 : value.getEntityId()));
+        super.metadata.setIndex(CENTER_HEAD_INDEX, MetadataTypes.VarInt((value == null) ? 0 : value.getEntityId()));
     }
 
     public void setLeftHead(@Nullable REntity value) {
         this.leftHead = value;
-        super.metadata.setIndex(LEFT_HEAD_INDEX, Metadata.VarInt((value == null) ? 0 : value.getEntityId()));
+        super.metadata.setIndex(LEFT_HEAD_INDEX, MetadataTypes.VarInt((value == null) ? 0 : value.getEntityId()));
     }
 
     public void setRightHead(@Nullable REntity value) {
         this.rightHead = value;
-        super.metadata.setIndex(RIGHT_HEAD_INDEX, Metadata.VarInt((value == null) ? 0 : value.getEntityId()));
+        super.metadata.setIndex(RIGHT_HEAD_INDEX, MetadataTypes.VarInt((value == null) ? 0 : value.getEntityId()));
     }
 
     public void setInvulnerableTime(int value) {
-        super.metadata.setIndex(INVULNERABLE_TIME_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(INVULNERABLE_TIME_INDEX, MetadataTypes.VarInt(value));
     }
 
     public @Nullable REntity getCenterHead() {

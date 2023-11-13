@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.arrow;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,7 @@ public class AbstractArrowMetadata extends EntityMetadata {
     }
 
     public void setPiercingLevel(byte value) {
-        super.metadata.setIndex(PIERCING_LEVEL_INDEX, Metadata.Byte(value));
+        super.metadata.setIndex(PIERCING_LEVEL_INDEX, MetadataTypes.Byte(value));
     }
 
     public boolean isCritical() {

@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.minecart;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
@@ -21,23 +22,23 @@ public abstract class AbstractMinecartMetadata extends EntityMetadata implements
     }
 
     public void setShakingPower(int value) {
-        super.metadata.setIndex(SHAKING_POWER_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(SHAKING_POWER_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setShakingDirection(int value) {
-        super.metadata.setIndex(SHAKING_DIRECTION_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(SHAKING_DIRECTION_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setShakingMultiplier(float value) {
-        super.metadata.setIndex(SHAKING_MULTIPLIER_INDEX, Metadata.Float(value));
+        super.metadata.setIndex(SHAKING_MULTIPLIER_INDEX, MetadataTypes.Float(value));
     }
 
     public void setCustomBlockIdAndDamage(int value) {
-        super.metadata.setIndex(CUSTOM_BLOCK_ID_AND_DAMAGE_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(CUSTOM_BLOCK_ID_AND_DAMAGE_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setCustomBlockYPosition(int value) {
-        super.metadata.setIndex(CUSTOM_BLOCK_Y_POSITION_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(CUSTOM_BLOCK_Y_POSITION_INDEX, MetadataTypes.VarInt(value));
     }
 
     public int getShakingPower() {

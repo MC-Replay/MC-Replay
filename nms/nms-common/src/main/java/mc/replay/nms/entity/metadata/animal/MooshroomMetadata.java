@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class MooshroomMetadata extends CowMetadata {
     }
 
     public void setVariant(@NotNull Variant value) {
-        super.metadata.setIndex(VARIANT_INDEX, Metadata.String(value.name().toLowerCase()));
+        super.metadata.setIndex(VARIANT_INDEX, MetadataTypes.String(value.name().toLowerCase()));
     }
 
     public @NotNull Variant getVariant() {

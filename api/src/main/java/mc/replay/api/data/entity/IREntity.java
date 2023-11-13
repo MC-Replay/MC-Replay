@@ -17,7 +17,7 @@ public interface IREntity {
 
     @NotNull EntityType getType();
 
-    @NotNull EntityMetadata getMetadata();
+    @NotNull RMetadata getMetadata();
 
     @NotNull Pos getPosition();
 

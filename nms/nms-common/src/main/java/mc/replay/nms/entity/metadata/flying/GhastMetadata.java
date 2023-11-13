@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.flying;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class GhastMetadata extends FlyingMetadata {
     }
 
     public void setAttacking(boolean value) {
-        super.metadata.setIndex(ATTACKING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(ATTACKING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isAttacking() {

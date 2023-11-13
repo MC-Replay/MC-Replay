@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
 import mc.replay.nms.entity.metadata.LivingEntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -44,27 +45,27 @@ public class ArmorStandMetadata extends LivingEntityMetadata {
     }
 
     public void setHeadRotation(@NotNull Vector value) {
-        super.metadata.setIndex(HEAD_ROTATION_INDEX, Metadata.Rotation(value));
+        super.metadata.setIndex(HEAD_ROTATION_INDEX, MetadataTypes.Rotation(value));
     }
 
     public void setBodyRotation(@NotNull Vector value) {
-        super.metadata.setIndex(BODY_ROTATION_INDEX, Metadata.Rotation(value));
+        super.metadata.setIndex(BODY_ROTATION_INDEX, MetadataTypes.Rotation(value));
     }
 
     public void setLeftArmRotation(@NotNull Vector value) {
-        super.metadata.setIndex(LEFT_ARM_ROTATION_INDEX, Metadata.Rotation(value));
+        super.metadata.setIndex(LEFT_ARM_ROTATION_INDEX, MetadataTypes.Rotation(value));
     }
 
     public void setRightArmRotation(@NotNull Vector value) {
-        super.metadata.setIndex(RIGHT_ARM_ROTATION_INDEX, Metadata.Rotation(value));
+        super.metadata.setIndex(RIGHT_ARM_ROTATION_INDEX, MetadataTypes.Rotation(value));
     }
 
     public void setLeftLegRotation(@NotNull Vector value) {
-        super.metadata.setIndex(LEFT_LEG_ROTATION_INDEX, Metadata.Rotation(value));
+        super.metadata.setIndex(LEFT_LEG_ROTATION_INDEX, MetadataTypes.Rotation(value));
     }
 
     public void setRightLegRotation(@NotNull Vector value) {
-        super.metadata.setIndex(RIGHT_LEG_ROTATION_INDEX, Metadata.Rotation(value));
+        super.metadata.setIndex(RIGHT_LEG_ROTATION_INDEX, MetadataTypes.Rotation(value));
     }
 
     public boolean isSmall() {

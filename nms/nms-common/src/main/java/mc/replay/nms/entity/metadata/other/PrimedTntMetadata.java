@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public class PrimedTntMetadata extends EntityMetadata {
     }
 
     public void setFuseTime(int value) {
-        super.metadata.setIndex(FUSE_TIME_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(FUSE_TIME_INDEX, MetadataTypes.VarInt(value));
     }
 
     public int getFuseTime() {

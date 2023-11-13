@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class ChestedHorseMetadata extends AbstractHorseMetadata {
     }
 
     public void setHasChest(boolean value) {
-        super.metadata.setIndex(HAS_CHEST_OFFSET, Metadata.Boolean(value));
+        super.metadata.setIndex(HAS_CHEST_OFFSET, MetadataTypes.Boolean(value));
     }
 
     public boolean hasChest() {

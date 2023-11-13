@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.monster;
 
 import mc.replay.nms.entity.REntity;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,12 +21,12 @@ public class GuardianMetadata extends MonsterMetadata {
     }
 
     public void setRetractingSpikes(boolean value) {
-        super.metadata.setIndex(RETRACTING_SPIKES_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(RETRACTING_SPIKES_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setTarget(@Nullable REntity value) {
         this.target = value;
-        super.metadata.setIndex(TARGET_INDEX, Metadata.VarInt((value == null) ? 0 : value.getEntityId()));
+        super.metadata.setIndex(TARGET_INDEX, MetadataTypes.VarInt((value == null) ? 0 : value.getEntityId()));
     }
 
     public boolean isRetractingSpikes() {

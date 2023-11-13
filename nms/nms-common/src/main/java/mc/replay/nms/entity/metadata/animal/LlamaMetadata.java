@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,15 +18,15 @@ public class LlamaMetadata extends ChestedHorseMetadata {
     }
 
     public void setStrength(int value) {
-        super.metadata.setIndex(STRENGTH_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(STRENGTH_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setCarpetColor(int value) {
-        super.metadata.setIndex(CARPET_COLOR_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(CARPET_COLOR_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setVariant(@NotNull Variant value) {
-        super.metadata.setIndex(VARIANT_INDEX, Metadata.VarInt(value.ordinal()));
+        super.metadata.setIndex(VARIANT_INDEX, MetadataTypes.VarInt(value.ordinal()));
     }
 
     public int getStrength() {

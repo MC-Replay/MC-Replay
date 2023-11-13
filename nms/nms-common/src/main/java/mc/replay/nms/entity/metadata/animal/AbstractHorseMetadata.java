@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -50,7 +51,7 @@ public class AbstractHorseMetadata extends AnimalMetadata {
     }
 
     public void setOwner(@Nullable UUID value) {
-        super.metadata.setIndex(OWNER_INDEX, Metadata.OptUUID(value));
+        super.metadata.setIndex(OWNER_INDEX, MetadataTypes.OptUUID(value));
     }
 
     public boolean isTamed() {

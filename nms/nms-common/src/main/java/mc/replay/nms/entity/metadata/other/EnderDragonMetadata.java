@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.other;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.MobMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ public class EnderDragonMetadata extends MobMetadata {
     }
 
     public void setPhase(@NotNull Phase value) {
-        super.metadata.setIndex(PHASE_INDEX, Metadata.VarInt(value.ordinal()));
+        super.metadata.setIndex(PHASE_INDEX, MetadataTypes.VarInt(value.ordinal()));
     }
 
     public @NotNull Phase getPhase() {

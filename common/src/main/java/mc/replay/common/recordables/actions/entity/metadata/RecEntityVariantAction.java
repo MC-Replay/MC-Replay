@@ -1,6 +1,6 @@
 package mc.replay.common.recordables.actions.entity.metadata;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.RMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityVariant;
 import mc.replay.nms.entity.metadata.animal.*;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public final class RecEntityVariantAction implements InternalEntityMetadataRecordableAction<RecEntityVariant> {
 
     @Override
-    public void writeMetadata(@NotNull RecEntityVariant recordable, @NotNull EntityMetadata entityMetadata) {
+    public void writeMetadata(@NotNull RecEntityVariant recordable, @NotNull RMetadata entityMetadata) {
         if (entityMetadata instanceof AxolotlMetadata axolotlMetadata) {
             axolotlMetadata.setVariant(AxolotlMetadata.Variant.values()[recordable.variant()]);
         } else if (entityMetadata instanceof TropicalFishMetadata tropicalFishMetadata) {

@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster.zombie;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.villager.VillagerMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public class ZombieVillagerMetadata extends ZombieMetadata {
     }
 
     public void setConverting(boolean value) {
-        super.metadata.setIndex(CONVERTING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(CONVERTING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public VillagerMetadata.VillagerData getVillagerData() {
@@ -33,7 +34,7 @@ public class ZombieVillagerMetadata extends ZombieMetadata {
     }
 
     public void setVillagerData(VillagerMetadata.VillagerData value) {
-        super.metadata.setIndex(VILLAGER_DATA_INDEX, Metadata.VillagerData(
+        super.metadata.setIndex(VILLAGER_DATA_INDEX, MetadataTypes.VillagerData(
                 value.getType().ordinal(),
                 value.getProfession().ordinal(),
                 value.getLevel().ordinal() + 1

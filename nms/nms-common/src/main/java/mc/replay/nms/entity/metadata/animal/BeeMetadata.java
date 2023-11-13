@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +33,7 @@ public class BeeMetadata extends AnimalMetadata {
     }
 
     public void setAngerTicks(int value) {
-        super.metadata.setIndex(ANGER_TICKS_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(ANGER_TICKS_INDEX, MetadataTypes.VarInt(value));
     }
 
     public boolean isAngry() {

@@ -1,7 +1,8 @@
 package mc.replay.nms.entity.metadata.other;
 
 import mc.replay.nms.entity.REntity;
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ProjectileMetadata;
 import mc.replay.nms.entity.metadata.ShooterProvider;
 import mc.replay.nms.inventory.RItem;
@@ -26,7 +27,7 @@ public class FireworkRocketMetadata extends EntityMetadata implements ShooterPro
     }
 
     public void setFireworkInfo(@NotNull RItem value) {
-        super.metadata.setIndex(FIREWORK_INFO_INDEX, Metadata.Slot(value));
+        super.metadata.setIndex(FIREWORK_INFO_INDEX, MetadataTypes.Slot(value));
     }
 
     @Override
@@ -43,11 +44,11 @@ public class FireworkRocketMetadata extends EntityMetadata implements ShooterPro
 
     @Override
     public void setShooterId(@Nullable Integer shooterId) {
-        super.metadata.setIndex(SHOOTER_ID_INDEX, Metadata.OptVarInt(shooterId));
+        super.metadata.setIndex(SHOOTER_ID_INDEX, MetadataTypes.OptVarInt(shooterId));
     }
 
     public void setShotAtAngle(boolean value) {
-        super.metadata.setIndex(SHOT_AT_ANGLE_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(SHOT_AT_ANGLE_INDEX, MetadataTypes.Boolean(value));
     }
 
     public @NotNull RItem getFireworkInfo() {

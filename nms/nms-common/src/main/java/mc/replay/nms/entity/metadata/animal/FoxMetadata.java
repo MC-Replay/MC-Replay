@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,7 @@ public class FoxMetadata extends AnimalMetadata {
     }
 
     public void setType(@NotNull Type type) {
-        super.metadata.setIndex(TYPE_INDEX, Metadata.VarInt(type.ordinal()));
+        super.metadata.setIndex(TYPE_INDEX, MetadataTypes.VarInt(type.ordinal()));
     }
 
     public void setSitting(boolean value) {
@@ -61,11 +62,11 @@ public class FoxMetadata extends AnimalMetadata {
     }
 
     public void setFirstUuid(@Nullable UUID value) {
-        super.metadata.setIndex(FIRST_UUID_INDEX, Metadata.OptUUID(value));
+        super.metadata.setIndex(FIRST_UUID_INDEX, MetadataTypes.OptUUID(value));
     }
 
     public void setSecondUuid(@Nullable UUID value) {
-        super.metadata.setIndex(SECOND_UUID_INDEX, Metadata.OptUUID(value));
+        super.metadata.setIndex(SECOND_UUID_INDEX, MetadataTypes.OptUUID(value));
     }
 
     public @NotNull Type getType() {

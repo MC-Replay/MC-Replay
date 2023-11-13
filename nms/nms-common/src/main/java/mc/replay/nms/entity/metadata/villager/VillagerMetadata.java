@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.villager;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class VillagerMetadata extends AbstractVillagerMetadata {
     }
 
     public void setVillagerData(@NotNull VillagerData value) {
-        super.metadata.setIndex(VILLAGER_DATA_INDEX, Metadata.VillagerData(
+        super.metadata.setIndex(VILLAGER_DATA_INDEX, MetadataTypes.VillagerData(
                 value.type.ordinal(),
                 value.profession.ordinal(),
                 value.level.ordinal()

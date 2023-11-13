@@ -1,6 +1,6 @@
 package mc.replay.nms.entity;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.RMetadata;
 import mc.replay.nms.entity.metadata.PlayerMetadata;
 import mc.replay.nms.entity.metadata.ambient.BatMetadata;
 import mc.replay.nms.entity.metadata.animal.*;
@@ -44,15 +44,15 @@ import static java.util.Map.entry;
 
 public final class EntityTypes {
 
-    static final Map<String, Function<Metadata, EntityMetadata>> ENTITY_META_SUPPLIER = createMetadataMap();
+    static final Map<String, Function<Metadata, RMetadata>> ENTITY_META_SUPPLIER = createMetadataMap();
 
-    public static EntityMetadata createMetadata(EntityType entityType, Metadata metadata) {
+    public static RMetadata createMetadata(EntityType entityType, Metadata metadata) {
         return ENTITY_META_SUPPLIER.get(entityType.getKey().toString()).apply(metadata);
     }
 
-    private static Map<String, Function<Metadata, EntityMetadata>> createMetadataMap() {
-        return Map.<String, Function<Metadata, EntityMetadata>>ofEntries(
-                entry("minecraft:allay", EntityMetadata::new), // TODO dedicated metadata
+    private static Map<String, Function<Metadata, RMetadata>> createMetadataMap() {
+        return Map.<String, Function<Metadata, RMetadata>>ofEntries(
+                entry("minecraft:allay", RMetadata::new), // TODO dedicated metadata
                 entry("minecraft:area_effect_cloud", AreaEffectCloudMetadata::new),
                 entry("minecraft:armor_stand", ArmorStandMetadata::new),
                 entry("minecraft:arrow", ArrowMetadata::new),
@@ -61,7 +61,7 @@ public final class EntityTypes {
                 entry("minecraft:bee", BeeMetadata::new),
                 entry("minecraft:blaze", BlazeMetadata::new),
                 entry("minecraft:boat", BoatMetadata::new),
-                entry("minecraft:chest_boat", EntityMetadata::new), // TODO dedicated metadata
+                entry("minecraft:chest_boat", RMetadata::new), // TODO dedicated metadata
                 entry("minecraft:cat", CatMetadata::new),
                 entry("minecraft:cave_spider", CaveSpiderMetadata::new),
                 entry("minecraft:chicken", ChickenMetadata::new),
@@ -84,7 +84,7 @@ public final class EntityTypes {
                 entry("minecraft:falling_block", FallingBlockMetadata::new),
                 entry("minecraft:firework_rocket", FireworkRocketMetadata::new),
                 entry("minecraft:fox", FoxMetadata::new),
-                entry("minecraft:frog", EntityMetadata::new), // TODO dedicated metadata
+                entry("minecraft:frog", RMetadata::new), // TODO dedicated metadata
                 entry("minecraft:ghast", GhastMetadata::new),
                 entry("minecraft:giant", GiantMetadata::new),
                 entry("minecraft:glow_item_frame", GlowItemFrameMetadata::new),
@@ -144,7 +144,7 @@ public final class EntityTypes {
                 entry("minecraft:squid", SquidMetadata::new),
                 entry("minecraft:stray", StrayMetadata::new),
                 entry("minecraft:strider", StriderMetadata::new),
-                entry("minecraft:tadpole", EntityMetadata::new), // TODO dedicated metadata
+                entry("minecraft:tadpole", RMetadata::new), // TODO dedicated metadata
                 entry("minecraft:egg", ThrownEggMetadata::new),
                 entry("minecraft:ender_pearl", ThrownEnderPearlMetadata::new),
                 entry("minecraft:experience_bottle", ThrownExpierenceBottleMetadata::new),
@@ -157,7 +157,7 @@ public final class EntityTypes {
                 entry("minecraft:villager", VillagerMetadata::new),
                 entry("minecraft:vindicator", VindicatorMetadata::new),
                 entry("minecraft:wandering_trader", WanderingTraderMetadata::new),
-                entry("minecraft:warden", EntityMetadata::new), // TODO dedicated metadata
+                entry("minecraft:warden", RMetadata::new), // TODO dedicated metadata
                 entry("minecraft:witch", WitchMetadata::new),
                 entry("minecraft:wither", WitherMetadata::new),
                 entry("minecraft:wither_skeleton", WitherSkeletonMetadata::new),

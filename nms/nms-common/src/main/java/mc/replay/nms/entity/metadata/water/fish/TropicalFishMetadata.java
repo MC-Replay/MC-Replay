@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.water.fish;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +20,7 @@ public class TropicalFishMetadata extends AbstractFishMetadata {
     }
 
     public void setVariant(@NotNull Variant value) {
-        super.metadata.setIndex(VARIANT_INDEX, Metadata.VarInt(getVariantId(value)));
+        super.metadata.setIndex(VARIANT_INDEX, MetadataTypes.VarInt(getVariantId(value)));
     }
 
     public static int getVariantId(@NotNull Variant variant) {

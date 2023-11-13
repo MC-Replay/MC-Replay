@@ -16,7 +16,7 @@ public class AgeableMobMetadata extends MobMetadata {
 
     public void setBaby(boolean value) {
         if (this.isBaby() == value) return;
-        super.metadata.setIndex(BABY_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(BABY_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isBaby() {

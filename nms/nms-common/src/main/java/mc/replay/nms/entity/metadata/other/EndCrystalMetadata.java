@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -19,11 +20,11 @@ public class EndCrystalMetadata extends EntityMetadata {
     }
 
     public void setBeamTarget(@Nullable Vector value) {
-        super.metadata.setIndex(BEAM_TARGET_INDEX, Metadata.OptPosition(value));
+        super.metadata.setIndex(BEAM_TARGET_INDEX, MetadataTypes.OptPosition(value));
     }
 
     public void setShowingBottom(boolean value) {
-        super.metadata.setIndex(SHOWING_BOTTOM_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(SHOWING_BOTTOM_INDEX, MetadataTypes.Boolean(value));
     }
 
     public @Nullable Vector getBeamTarget() {

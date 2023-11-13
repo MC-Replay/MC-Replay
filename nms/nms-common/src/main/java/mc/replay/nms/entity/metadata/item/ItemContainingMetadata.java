@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.item;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.inventory.RItem;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.Material;
@@ -22,7 +23,7 @@ class ItemContainingMetadata extends EntityMetadata {
     }
 
     public void setItem(@NotNull RItem value) {
-        super.metadata.setIndex(ITEM_INDEX, Metadata.Slot(value));
+        super.metadata.setIndex(ITEM_INDEX, MetadataTypes.Slot(value));
     }
 
     public @NotNull RItem getItem() {

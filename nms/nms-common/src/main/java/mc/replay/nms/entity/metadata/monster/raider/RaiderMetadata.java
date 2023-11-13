@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster.raider;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.monster.MonsterMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ public class RaiderMetadata extends MonsterMetadata {
     }
 
     public void setCelebrating(boolean value) {
-        super.metadata.setIndex(CELEBRATING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(CELEBRATING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isCelebrating() {

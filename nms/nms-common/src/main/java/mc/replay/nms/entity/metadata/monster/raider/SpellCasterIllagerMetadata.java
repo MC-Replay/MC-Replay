@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster.raider;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class SpellCasterIllagerMetadata extends AbstractIllagerMetadata {
     }
 
     public void setSpell(@NotNull Spell spell) {
-        super.metadata.setIndex(SPELL_INDEX, Metadata.Byte((byte) spell.ordinal()));
+        super.metadata.setIndex(SPELL_INDEX, MetadataTypes.Byte((byte) spell.ordinal()));
     }
 
     public @NotNull Spell getSpell() {

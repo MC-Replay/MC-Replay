@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.minecart;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -17,11 +18,11 @@ public class CommandBlockMinecartMetadata extends AbstractMinecartMetadata {
     }
 
     public void setCommand(@NotNull String value) {
-        super.metadata.setIndex(COMMAND_INDEX, Metadata.String(value));
+        super.metadata.setIndex(COMMAND_INDEX, MetadataTypes.String(value));
     }
 
     public void setLastOutput(@NotNull Component value) {
-        super.metadata.setIndex(LAST_OUTPUT_INDEX, Metadata.Chat(value));
+        super.metadata.setIndex(LAST_OUTPUT_INDEX, MetadataTypes.Chat(value));
     }
 
     public @NotNull String getCommand() {

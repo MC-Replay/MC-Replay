@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.monster;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,15 +19,15 @@ public class PiglinMetadata extends BasePiglinMetadata {
 
     public void setBaby(boolean value) {
         if (this.isBaby() == value) return;
-        super.metadata.setIndex(BABY_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(BABY_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setChargingCrossbow(boolean value) {
-        super.metadata.setIndex(CHARGING_CROSSBOW_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(CHARGING_CROSSBOW_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setDancing(boolean value) {
-        super.metadata.setIndex(DANCING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(DANCING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isBaby() {

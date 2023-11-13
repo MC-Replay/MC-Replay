@@ -1,7 +1,8 @@
 package mc.replay.nms.entity.metadata.other;
 
 import mc.replay.nms.entity.REntity;
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.ObjectDataProvider;
 import mc.replay.nms.entity.metadata.ShooterProvider;
 import mc.replay.packetlib.data.entity.Metadata;
@@ -27,11 +28,11 @@ public class FishingHookMetadata extends EntityMetadata implements ShooterProvid
     public void setHookedEntity(@Nullable REntity value) {
         this.hooked = value;
         int entityId = (value == null) ? 0 : value.getEntityId() + 1;
-        super.metadata.setIndex(HOOKED_ENTITY_INDEX, Metadata.VarInt(entityId));
+        super.metadata.setIndex(HOOKED_ENTITY_INDEX, MetadataTypes.VarInt(entityId));
     }
 
     public void setCatchable(boolean value) {
-        super.metadata.setIndex(CATCHABLE_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(CATCHABLE_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setOwnerEntity(@Nullable REntity value) {

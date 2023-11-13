@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.golem;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +18,7 @@ public class SnowGolemMetadata extends AbstractGolemMetadata {
     }
 
     public void setHasPumpkinHat(boolean value) {
-        super.metadata.setIndex(PUMPKIN_HAT_INDEX, Metadata.Byte((value) ? (byte) 0x10 : (byte) 0x00));
+        super.metadata.setIndex(PUMPKIN_HAT_INDEX, MetadataTypes.Byte((value) ? (byte) 0x10 : (byte) 0x00));
     }
 
     public boolean hasPumpkinHat() {

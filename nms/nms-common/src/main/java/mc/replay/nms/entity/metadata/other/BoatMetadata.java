@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,31 +23,31 @@ public class BoatMetadata extends EntityMetadata {
     }
 
     public void setTimeSinceLastHit(int value) {
-        super.metadata.setIndex(TIME_SINCE_LAST_HIT_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(TIME_SINCE_LAST_HIT_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setForwardDirection(int value) {
-        super.metadata.setIndex(FORWARD_DIRECTION_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(FORWARD_DIRECTION_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setDamageTaken(float value) {
-        super.metadata.setIndex(DAMAGE_TAKEN_INDEX, Metadata.Float(value));
+        super.metadata.setIndex(DAMAGE_TAKEN_INDEX, MetadataTypes.Float(value));
     }
 
     public void setType(@NotNull Type value) {
-        super.metadata.setIndex(TYPE_INDEX, Metadata.VarInt(value.ordinal()));
+        super.metadata.setIndex(TYPE_INDEX, MetadataTypes.VarInt(value.ordinal()));
     }
 
     public void setLeftPaddleTurning(boolean value) {
-        super.metadata.setIndex(LEFT_PADDLE_TURNING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(LEFT_PADDLE_TURNING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setRightPaddleTurning(boolean value) {
-        super.metadata.setIndex(RIGHT_PADDLE_TURNING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(RIGHT_PADDLE_TURNING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setSplashTimer(int value) {
-        super.metadata.setIndex(SPLASH_TIMER_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(SPLASH_TIMER_INDEX, MetadataTypes.VarInt(value));
     }
 
     public int getTimeSinceLastHit() {

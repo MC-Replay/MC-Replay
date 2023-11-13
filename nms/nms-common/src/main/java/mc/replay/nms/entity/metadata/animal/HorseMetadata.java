@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class HorseMetadata extends AbstractHorseMetadata {
     }
 
     public void setVariant(@NotNull Variant variant) {
-        super.metadata.setIndex(VARIANT_INDEX, Metadata.VarInt(getVariantId(variant.marking, variant.color)));
+        super.metadata.setIndex(VARIANT_INDEX, MetadataTypes.VarInt(getVariantId(variant.marking, variant.color)));
     }
 
     public @NotNull Variant getVariant() {

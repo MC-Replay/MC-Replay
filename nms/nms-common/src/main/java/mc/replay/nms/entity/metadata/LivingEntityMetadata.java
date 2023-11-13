@@ -1,6 +1,5 @@
 package mc.replay.nms.entity.metadata;
 
-import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.data.entity.PlayerHand;
 import mc.replay.packetlib.utils.ProtocolVersion;
@@ -43,33 +42,33 @@ public class LivingEntityMetadata extends EntityMetadata {
     }
 
     public void setHealth(float value) {
-        super.metadata.setIndex(HEALTH_INDEX, Metadata.Float(value));
+        super.metadata.setIndex(HEALTH_INDEX, MetadataTypes.Float(value));
     }
 
     public void setPotionEffectColor(int value) {
-        super.metadata.setIndex(POTION_EFFECT_COLOR_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(POTION_EFFECT_COLOR_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setPotionEffectAmbient(boolean value) {
-        super.metadata.setIndex(POTION_EFFECT_AMBIENT_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(POTION_EFFECT_AMBIENT_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setArrowCount(int value) {
-        super.metadata.setIndex(ARROW_COUNT_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(ARROW_COUNT_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setAbsorptionHearts1165(int value) {
         if (!ProtocolVersion.getServerVersion().isEqual(ProtocolVersion.MINECRAFT_1_16_5)) return;
-        super.metadata.setIndex(ABSORPTION_HEARTS_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(ABSORPTION_HEARTS_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setBeeStingerCount(int value) {
         if (ProtocolVersion.getServerVersion().isEqual(ProtocolVersion.MINECRAFT_1_16_5)) return;
-        super.metadata.setIndex(BEE_STINGER_COUNT, Metadata.VarInt(value));
+        super.metadata.setIndex(BEE_STINGER_COUNT, MetadataTypes.VarInt(value));
     }
 
     public void setBedInWhichSleepingPosition(@Nullable Vector value) {
-        super.metadata.setIndex(BED_POSITION_INDEX, Metadata.OptPosition(value));
+        super.metadata.setIndex(BED_POSITION_INDEX, MetadataTypes.OptPosition(value));
     }
 
     public boolean isHandActive() {

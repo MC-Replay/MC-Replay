@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.water.fish;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.nms.entity.metadata.water.WaterAnimalMetadata;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ public class AbstractFishMetadata extends WaterAnimalMetadata {
     }
 
     public void setFromBucket(boolean fromBucket) {
-        super.metadata.setIndex(FROM_BUCKET_INDEX, Metadata.Boolean(fromBucket));
+        super.metadata.setIndex(FROM_BUCKET_INDEX, MetadataTypes.Boolean(fromBucket));
     }
 
     public boolean isFromBucket() {

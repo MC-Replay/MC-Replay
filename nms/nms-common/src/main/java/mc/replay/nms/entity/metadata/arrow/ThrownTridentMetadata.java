@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.arrow;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,11 +17,11 @@ public class ThrownTridentMetadata extends AbstractArrowMetadata {
     }
 
     public void setLoyaltyLevel(int value) {
-        super.metadata.setIndex(LOYALTY_LEVEL_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(LOYALTY_LEVEL_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setHasEnchantmentGlint(boolean value) {
-        super.metadata.setIndex(HAS_ENCHANTMENT_GLINT_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(HAS_ENCHANTMENT_GLINT_INDEX, MetadataTypes.Boolean(value));
     }
 
     public int getLoyaltyLevel() {

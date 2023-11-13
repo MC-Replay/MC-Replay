@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,11 +17,11 @@ public class PigMetadata extends AnimalMetadata {
     }
 
     public void setHasSaddle(boolean value) {
-        super.metadata.setIndex(HAS_SADDLE_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(HAS_SADDLE_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setTimeToBoost(int value) {
-        super.metadata.setIndex(TIME_TO_BOOST_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(TIME_TO_BOOST_INDEX, MetadataTypes.VarInt(value));
     }
 
     public boolean hasSaddle() {

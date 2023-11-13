@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.golem;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
@@ -21,19 +22,19 @@ public class ShulkerMetadata extends AbstractGolemMetadata {
     }
 
     public void setAttachFace(@NotNull BlockFace value) {
-        super.metadata.setIndex(ATTACH_FACE_INDEX, Metadata.BlockFace(value));
+        super.metadata.setIndex(ATTACH_FACE_INDEX, MetadataTypes.Direction(value));
     }
 
     public void setAttachmentPosition(Vector value) {
-        super.metadata.setIndex(ATTACHMENT_POSITION_INDEX, Metadata.OptPosition(value));
+        super.metadata.setIndex(ATTACHMENT_POSITION_INDEX, MetadataTypes.OptPosition(value));
     }
 
     public void setShieldHeight(byte value) {
-        super.metadata.setIndex(SHIELD_HEIGHT_INDEX, Metadata.Byte(value));
+        super.metadata.setIndex(SHIELD_HEIGHT_INDEX, MetadataTypes.Byte(value));
     }
 
     public void setColor(byte value) {
-        super.metadata.setIndex(COLOR_INDEX, Metadata.Byte(value));
+        super.metadata.setIndex(COLOR_INDEX, MetadataTypes.Byte(value));
     }
 
     public @NotNull BlockFace getAttachFace() {

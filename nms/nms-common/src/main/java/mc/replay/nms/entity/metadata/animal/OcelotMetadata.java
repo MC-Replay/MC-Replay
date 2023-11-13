@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class OcelotMetadata extends AnimalMetadata {
     }
 
     public void setTrusting(boolean value) {
-        super.metadata.setIndex(TRUSTING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(TRUSTING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public boolean isTrusting() {

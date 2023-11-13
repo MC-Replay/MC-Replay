@@ -1,6 +1,7 @@
 package mc.replay.nms.entity.metadata.other;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.nms.entity.metadata.EntityMetadata;
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,15 +19,15 @@ public class AreaEffectCloudMetadata extends EntityMetadata {
     }
 
     public void setRadius(float value) {
-        super.metadata.setIndex(RADIUS_INDEX, Metadata.Float(value));
+        super.metadata.setIndex(RADIUS_INDEX, MetadataTypes.Float(value));
     }
 
     public void setColor(int value) {
-        super.metadata.setIndex(COLOR_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(COLOR_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setSinglePoint(boolean value) {
-        super.metadata.setIndex(SINGLE_POINT_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(SINGLE_POINT_INDEX, MetadataTypes.Boolean(value));
     }
 
     public float getRadius() {

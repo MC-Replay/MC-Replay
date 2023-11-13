@@ -23,7 +23,6 @@
             <groupId>mc.replay</groupId>
             <artifactId>mappings</artifactId>
             <version>Dev-1.0</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

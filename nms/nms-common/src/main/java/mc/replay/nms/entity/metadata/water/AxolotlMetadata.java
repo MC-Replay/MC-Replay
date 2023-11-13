@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.water;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,15 +18,15 @@ public class AxolotlMetadata extends WaterAnimalMetadata {
     }
 
     public void setVariant(@NotNull Variant variant) {
-        super.metadata.setIndex(VARIANT_INDEX, Metadata.VarInt(variant.ordinal()));
+        super.metadata.setIndex(VARIANT_INDEX, MetadataTypes.VarInt(variant.ordinal()));
     }
 
     public void setPlayingDead(boolean playingDead) {
-        super.metadata.setIndex(PLAYING_DEAD_INDEX, Metadata.Boolean(playingDead));
+        super.metadata.setIndex(PLAYING_DEAD_INDEX, MetadataTypes.Boolean(playingDead));
     }
 
     public void setFromBucket(boolean fromBucket) {
-        super.metadata.setIndex(FROM_BUCKET_INDEX, Metadata.Boolean(fromBucket));
+        super.metadata.setIndex(FROM_BUCKET_INDEX, MetadataTypes.Boolean(fromBucket));
     }
 
     public @NotNull Variant getVariant() {

@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.water.fish;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class PufferfishMetadata extends AbstractFishMetadata {
     }
 
     public void setState(@NotNull State state) {
-        super.metadata.setIndex(STATE_INDEX, Metadata.VarInt(state.ordinal()));
+        super.metadata.setIndex(STATE_INDEX, MetadataTypes.VarInt(state.ordinal()));
     }
 
     public @NotNull State getState() {

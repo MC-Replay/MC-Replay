@@ -1,6 +1,8 @@
 package mc.replay.nms.entity;
 
 import io.netty.buffer.Unpooled;
+import mc.replay.mappings.mapped.MappedEntityMetadataSerializerType;
+import mc.replay.mappings.objects.EntityMetadataSerializerMapping;
 import mc.replay.nms.MCReplayNMS_v1_16_R3;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.ReplayByteBuffer;
@@ -10,6 +12,8 @@ import org.bukkit.entity.Entity;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import static mc.replay.mappings.objects.EntityMetadataSerializerMapping.Type.*;
+
 public final class DataWatcherReader_v1_16_R3 {
 
     private final MCReplayNMS_v1_16_R3 nms;
@@ -18,6 +22,7 @@ public final class DataWatcherReader_v1_16_R3 {
         this.nms = nms;
     }
 
+    @SuppressWarnings("unchecked")
     public Map<Integer, Metadata.Entry<?>> readDataWatcher(Entity bukkitEntity) {
         Map<Integer, Metadata.Entry<?>> entries = new HashMap<>();
 
@@ -37,12 +42,14 @@ public final class DataWatcherReader_v1_16_R3 {
             int type = DataWatcherRegistry.b(dataWatcherSerializer);
             Object value = item.b();
 
-            ReplayByteBuffer.Type<Object> serializer = Metadata.getSerializer(type);
+            MappedEntityMetadataSerializerType mappedSerializer = new MappedEntityMetadataSerializerType(type);
+            EntityMetadataSerializerMapping.Type serializerType = mappedSerializer.type();
+            ReplayByteBuffer.Type<Object> serializer = (ReplayByteBuffer.Type<Object>) mappedSerializer.getSerializer();
             if (serializer == null) continue;
 
             if (value instanceof Optional<?> optional && optional.isEmpty()) {
                 value = null;
-            } else if (type != Metadata.TYPE_BYTE && type != Metadata.TYPE_VAR_INT && type != Metadata.TYPE_FLOAT && type != Metadata.TYPE_STRING && type != Metadata.TYPE_BOOLEAN) {
+            } else if (serializerType != BYTE && serializerType != INT && serializerType != FLOAT && serializerType != STRING && serializerType != BOOLEAN) {
                 value = this.readSpecialValue(value, dataWatcherSerializer, serializer);
 
                 if (value == null) {

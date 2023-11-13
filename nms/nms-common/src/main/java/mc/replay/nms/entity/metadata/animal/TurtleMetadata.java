@@ -1,5 +1,6 @@
 package mc.replay.nms.entity.metadata.animal;
 
+import mc.replay.nms.entity.metadata.MetadataTypes;
 import mc.replay.packetlib.data.entity.Metadata;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -21,27 +22,27 @@ public class TurtleMetadata extends AnimalMetadata {
     }
 
     public void setHomePosition(@NotNull Vector value) {
-        super.metadata.setIndex(HOME_POSITION_INDEX, Metadata.Position(value));
+        super.metadata.setIndex(HOME_POSITION_INDEX, MetadataTypes.Position(value));
     }
 
     public void setHasEgg(boolean value) {
-        super.metadata.setIndex(HAS_EGG_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(HAS_EGG_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setLayingEgg(boolean value) {
-        super.metadata.setIndex(LAYING_EGG_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(LAYING_EGG_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setTravelPosition(@NotNull Vector value) {
-        super.metadata.setIndex(TRAVEL_POSITION_INDEX, Metadata.Position(value));
+        super.metadata.setIndex(TRAVEL_POSITION_INDEX, MetadataTypes.Position(value));
     }
 
     public void setGoingHome(boolean value) {
-        super.metadata.setIndex(GOING_HOME_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(GOING_HOME_INDEX, MetadataTypes.Boolean(value));
     }
 
     public void setTravelling(boolean value) {
-        super.metadata.setIndex(TRAVELLING_INDEX, Metadata.Boolean(value));
+        super.metadata.setIndex(TRAVELLING_INDEX, MetadataTypes.Boolean(value));
     }
 
     public @NotNull Vector getHomePosition() {

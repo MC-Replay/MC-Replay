@@ -11,9 +11,11 @@ import mc.replay.common.MCReplayInternal;
 import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.mappings.MappingsLoader;
+import mc.replay.mappings.mapped.MappedEntityMetadataSerializerType;
 import mc.replay.nms.*;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.packetlib.PacketLib;
+import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.recording.dispatcher.RecordingDispatcherManager;
@@ -47,6 +49,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
         instance = this;
 
         MappingsLoader.initialize(this);
+        Metadata.registerSerializerProvider((type) -> new MappedEntityMetadataSerializerType(type).getSerializer());
 
         JavaReflections.getField(MCReplayAPI.class, MCReplay.class, "mcReplay").set(null, this);
     }

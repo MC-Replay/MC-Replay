@@ -30,11 +30,11 @@ public class PlayerMetadata extends LivingEntityMetadata {
     }
 
     public void setAdditionalHearts(float value) {
-        super.metadata.setIndex(ADDITIONAL_HEARTS_INDEX, Metadata.Float(value));
+        super.metadata.setIndex(ADDITIONAL_HEARTS_INDEX, MetadataTypes.Float(value));
     }
 
     public void setScore(int value) {
-        super.metadata.setIndex(SCORE_INDEX, Metadata.VarInt(value));
+        super.metadata.setIndex(SCORE_INDEX, MetadataTypes.VarInt(value));
     }
 
     public void setCapeEnabled(boolean value) {
@@ -66,15 +66,15 @@ public class PlayerMetadata extends LivingEntityMetadata {
     }
 
     public void setRightMainHand(boolean value) {
-        super.metadata.setIndex(MAIN_HAND_INDEX, Metadata.Byte((value) ? (byte) 1 : (byte) 0));
+        super.metadata.setIndex(MAIN_HAND_INDEX, MetadataTypes.Byte((value) ? (byte) 1 : (byte) 0));
     }
 
     public void setLeftShouldEntityData(@Nullable Tag value) {
-        super.metadata.setIndex(LEFT_SHOULDER_INDEX, Metadata.NBT(value));
+        super.metadata.setIndex(LEFT_SHOULDER_INDEX, MetadataTypes.NBT(value));
     }
 
     public void setRightShouldEntityData(@Nullable Tag value) {
-        super.metadata.setIndex(RIGHT_SHOULDER_INDEX, Metadata.NBT(value));
+        super.metadata.setIndex(RIGHT_SHOULDER_INDEX, MetadataTypes.NBT(value));
     }
 
     public float getAdditionalHearts() {

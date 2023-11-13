@@ -1,6 +1,6 @@
 package mc.replay.recording.dispatcher.dispatchers.packet.entity.metadata;
 
-import mc.replay.api.data.entity.EntityMetadata;
+import mc.replay.api.data.entity.RMetadata;
 import mc.replay.api.recordables.Recordable;
 import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.metadata.RecEntityMetadataChange;
@@ -33,7 +33,7 @@ public final class EntityMetadataChangePacketOutDispatcher extends DispatcherPac
         REntity entityWrapper = session.getEntityTracker().getOrFindEntityWrapper(null, id, true);
         if (entityWrapper == null) return List.of();
 
-        EntityMetadata metadata = entityWrapper.getMetadata();
+        RMetadata metadata = entityWrapper.getMetadata();
         if (metadata instanceof AreaEffectCloudMetadata) return List.of();
 
         Metadata before = new Metadata();
@@ -44,7 +44,7 @@ public final class EntityMetadataChangePacketOutDispatcher extends DispatcherPac
         entityWrapper.addMetadata(entries);
 
         try {
-            EntityMetadata beforeMetadata = metadata.getClass().getDeclaredConstructor(Metadata.class).newInstance(before);
+            RMetadata beforeMetadata = metadata.getClass().getDeclaredConstructor(Metadata.class).newInstance(before);
             List<Recordable> recordables = new ArrayList<>(this.helpers.getMetadataHelper().read(beforeMetadata, metadata, entries, entityId));
 
             if (entries.isEmpty()) return recordables;

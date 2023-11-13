@@ -13,17 +13,18 @@ import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.nms.entity.player.RPlayer;
 import mc.replay.nms.entity.player.SkinTexture;
 import mc.replay.nms.scoreboard.RScoreboardTeam;
+import mc.replay.packetlib.PacketLib;
 import mc.replay.packetlib.data.PlayerProfileProperty;
 import mc.replay.packetlib.data.Pos;
 import mc.replay.packetlib.data.entity.EntityAnimation;
 import mc.replay.packetlib.data.entity.Metadata;
-import mc.replay.packetlib.data.entity.player.PlayerInfoAction;
-import mc.replay.packetlib.data.entity.player.PlayerInfoEntry;
 import mc.replay.packetlib.data.team.CollisionRule;
 import mc.replay.packetlib.data.team.TeamAction;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
+import mc.replay.packetlib.network.packet.clientbound.ClientboundPacketIdentifier;
 import mc.replay.packetlib.network.packet.clientbound.play.*;
 import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundLivingEntitySpawn754_758Packet;
+import mc.replay.packetlib.network.packet.clientbound.play.legacy.ClientboundPlayerInfo754_758Packet;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -65,15 +66,6 @@ public final class EntityPacketUtils {
 
         REPLAY_SUSPECTS_TEAM.addEntry(playerWrapper.getUsername());
 
-        PlayerInfoEntry.AddPlayer addPlayer = new PlayerInfoEntry.AddPlayer(
-                playerWrapper.getUniqueId(),
-                playerWrapper.getUsername(),
-                List.copyOf(playerProfile.properties().values()),
-                GameMode.SURVIVAL,
-                0,
-                (Component) null
-        );
-
         TeamAction.CreateTeamAction createTeamAction = new TeamAction.CreateTeamAction(
                 REPLAY_SUSPECTS_TEAM.displayName(),
                 (byte) 0,
@@ -85,7 +77,30 @@ public final class EntityPacketUtils {
                 REPLAY_SUSPECTS_TEAM.entries()
         );
 
-        ClientboundPlayerInfoPacket infoPacket = new ClientboundPlayerInfoPacket(PlayerInfoAction.ADD_PLAYER, addPlayer);
+        ClientboundPacket infoPacket;
+        if (PacketLib.getPacketRegistry().isClientboundRegistered(ClientboundPacketIdentifier.PLAYER_INFO)) {
+            infoPacket = new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, new ClientboundPlayerInfoPacket.Entry(
+                    playerWrapper.getUniqueId(),
+                    playerWrapper.getUsername(),
+                    List.copyOf(playerProfile.properties().values()),
+                    false,
+                    0,
+                    GameMode.SURVIVAL,
+                    null
+            ));
+        } else {
+            ClientboundPlayerInfo754_758Packet.PlayerInfoEntry.AddPlayer addPlayer = new ClientboundPlayerInfo754_758Packet.PlayerInfoEntry.AddPlayer(
+                    playerWrapper.getUniqueId(),
+                    playerWrapper.getUsername(),
+                    List.copyOf(playerProfile.properties().values()),
+                    GameMode.SURVIVAL,
+                    0,
+                    (Component) null
+            );
+
+            infoPacket = new ClientboundPlayerInfo754_758Packet(ClientboundPlayerInfo754_758Packet.PlayerInfoAction.ADD_PLAYER, addPlayer);
+        }
+
         ClientboundPlayerSpawnPacket spawnPacket = new ClientboundPlayerSpawnPacket(playerWrapper.getEntityId(), playerWrapper.getUniqueId(), playerWrapper.getPosition());
         ClientboundEntityMetadataPacket metadataPacket = new ClientboundEntityMetadataPacket(playerWrapper.getEntityId(), metadata.getEntries());
         ClientboundTeamsPacket teamsPacket = new ClientboundTeamsPacket(REPLAY_SUSPECTS_TEAM.name(), createTeamAction);
@@ -101,18 +116,21 @@ public final class EntityPacketUtils {
             updateRotation(viewer, position.yaw(), position.pitch(), playerWrapper, true);
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                PlayerInfoEntry.RemovePlayer removePlayer = new PlayerInfoEntry.RemovePlayer(playerWrapper.getUniqueId());
+        // If the server doesn't support the PlayerInfoRemovePacket, we have to remove the player after 1 second
+        if (!PacketLib.getPacketRegistry().isClientboundRegistered(ClientboundPacketIdentifier.PLAYER_INFO_REMOVE)) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    ClientboundPlayerInfo754_758Packet.PlayerInfoEntry.RemovePlayer removePlayer = new ClientboundPlayerInfo754_758Packet.PlayerInfoEntry.RemovePlayer(playerWrapper.getUniqueId());
 
-                for (IReplayPlayer viewerReplayPlayer : viewers) {
-                    Player viewer = viewerReplayPlayer.player();
+                    for (IReplayPlayer viewerReplayPlayer : viewers) {
+                        Player viewer = viewerReplayPlayer.player();
 
-                    MCReplayAPI.getPacketLib().sendPacket(viewer, new ClientboundPlayerInfoPacket(PlayerInfoAction.REMOVE_PLAYER, removePlayer));
+                        MCReplayAPI.getPacketLib().sendPacket(viewer, new ClientboundPlayerInfo754_758Packet(ClientboundPlayerInfo754_758Packet.PlayerInfoAction.REMOVE_PLAYER, removePlayer));
+                    }
                 }
-            }
-        }.runTaskLaterAsynchronously(MCReplayAPI.getJavaPlugin(), 20L);
+            }.runTaskLaterAsynchronously(MCReplayAPI.getJavaPlugin(), 20L);
+        }
 
         return playerWrapper;
     }
