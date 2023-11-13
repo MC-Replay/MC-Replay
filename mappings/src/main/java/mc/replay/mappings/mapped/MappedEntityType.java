@@ -23,8 +23,8 @@ public final class MappedEntityType {
     }
 
     public MappedEntityType(@NotNull ProtocolVersion protocolVersion, int typeId) {
-        this.mapping = MappingsLoader.getEntityMappingsById(protocolVersion).get(MappingId.from(typeId));
-        this.entityType = EntityType.fromName(this.mapping.key());
+        this.mapping = MappingsLoader.getEntityMappingsById(protocolVersion).getOrDefault(MappingId.from(typeId), new EntityTypeMapping(null, -1, null));
+        this.entityType = this.mapping.key() == null ? EntityType.UNKNOWN : EntityType.fromName(this.mapping.key());
     }
 
     public MappedEntityType(int typeId) {

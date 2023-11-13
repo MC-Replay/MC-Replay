@@ -23,8 +23,8 @@ public final class MappedMaterial {
     }
 
     public MappedMaterial(@NotNull ProtocolVersion protocolVersion, int typeId) {
-        this.mapping = MappingsLoader.getMaterialMappingsById(protocolVersion).get(MappingId.from(typeId));
-        this.material = Material.matchMaterial(this.mapping.key());
+        this.mapping = MappingsLoader.getMaterialMappingsById(protocolVersion).getOrDefault(MappingId.from(typeId), new MaterialMapping(null, -1));
+        this.material = this.mapping.key() == null ? Material.AIR : Material.matchMaterial(this.mapping.key());
     }
 
     public MappedMaterial(int typeId) {
