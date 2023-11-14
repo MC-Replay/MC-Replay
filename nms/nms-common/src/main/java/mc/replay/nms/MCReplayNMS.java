@@ -1,5 +1,6 @@
 package mc.replay.nms;
 
+import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.inventory.RItemStack;
@@ -10,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Map;
 
@@ -40,4 +42,8 @@ public interface MCReplayNMS {
     void movePlayerSync(Player player, Location to, Runnable callback);
 
     ClientboundPacket readPacket(Object packet);
+
+    CompoundTag itemMetaToNBT(ItemStack itemStack);
+
+    ItemMeta itemMetaFromNBT(CompoundTag compoundTag);
 }

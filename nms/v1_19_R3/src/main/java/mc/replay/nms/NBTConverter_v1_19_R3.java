@@ -83,7 +83,7 @@ public final class NBTConverter_v1_19_R3 {
         } else if (tag instanceof ByteArrayTag byteArrayTag) {
             return new net.minecraft.nbt.ByteArrayTag(byteArrayTag.getValue());
         } else if (tag instanceof CompoundTag compoundTag) {
-            return convertTagToNMS(compoundTag);
+            return convertToNMS(compoundTag);
         } else if (tag instanceof DoubleTag doubleTag) {
             return net.minecraft.nbt.DoubleTag.valueOf(doubleTag.getValue());
         } else if (tag instanceof FloatTag floatTag) {

@@ -1,5 +1,6 @@
 package mc.replay.nms;
 
+import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import io.netty.buffer.Unpooled;
 import mc.replay.api.utils.JavaReflections;
 import mc.replay.nms.entity.DataWatcherReader_v1_16_R3;
@@ -9,6 +10,7 @@ import mc.replay.nms.fakeplayer.FakePlayerFilterList;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.fakeplayer.RecordingFakePlayer_v1_16_R3;
+import mc.replay.nms.inventory.ItemNBTTags;
 import mc.replay.nms.inventory.RItemStack;
 import mc.replay.nms.inventory.RItemStack_v1_16_R3;
 import mc.replay.packetlib.PacketLib;
@@ -23,6 +25,7 @@ import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -135,6 +138,27 @@ public final class MCReplayNMS_v1_16_R3 implements MCReplayNMS {
         }
 
         return null;
+    }
+
+    @Override
+    public CompoundTag itemMetaToNBT(org.bukkit.inventory.ItemStack itemStack) {
+        ItemStack nmsCopy = CraftItemStack.asNMSCopy(itemStack);
+        NBTTagCompound nmsCompoundTag = nmsCopy.getTag();
+        if (nmsCompoundTag == null || nmsCompoundTag.isEmpty()) return null;
+
+        CompoundTag compoundTag = NBTConverter_v1_16_R3.convertFromNMS("", nmsCompoundTag.clone());
+        ItemNBTTags.cleanCompoundTag(compoundTag);
+        return compoundTag;
+    }
+
+    @Override
+    public ItemMeta itemMetaFromNBT(CompoundTag compoundTag) {
+        if (compoundTag == null || compoundTag.isEmpty()) return null;
+
+        NBTTagCompound nmsCompoundTag = NBTConverter_v1_16_R3.convertToNMS(compoundTag);
+        ItemStack nmsItemStack = ItemStack.b;
+        nmsItemStack.setTag(nmsCompoundTag);
+        return CraftItemStack.asBukkitCopy(nmsItemStack).getItemMeta();
     }
 
     private @NotNull ByteBuffer serializePacket(Packet<?> packet) throws IOException {

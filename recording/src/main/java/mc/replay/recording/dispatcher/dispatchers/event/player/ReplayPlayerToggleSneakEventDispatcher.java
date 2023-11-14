@@ -26,6 +26,7 @@ public final class ReplayPlayerToggleSneakEventDispatcher extends DispatcherEven
     @Override
     public List<Recordable> getRecordables(RecordingSession session, PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
+        if (player.getVehicle() != null) return List.of();
 
         EntityId entityId = EntityId.of(player.getUniqueId(), player.getEntityId());
         return List.of(

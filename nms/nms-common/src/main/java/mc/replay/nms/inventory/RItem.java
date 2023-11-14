@@ -2,9 +2,11 @@ package mc.replay.nms.inventory;
 
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import mc.replay.mappings.mapped.MappedMaterial;
+import mc.replay.nms.MCReplayNMS;
 import mc.replay.packetlib.data.Item;
 import mc.replay.packetlib.utils.ProtocolVersion;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public final class RItem extends Item {
@@ -34,7 +36,9 @@ public final class RItem extends Item {
         MappedMaterial mappedMaterial = new MappedMaterial(protocolVersion, this.materialId());
         ItemStack itemStack = new ItemStack(mappedMaterial.bukkit(), this.amount());
 
-        // TODO write meta
+        CompoundTag meta = this.meta();
+        ItemMeta itemMeta = MCReplayNMS.getInstance().itemMetaFromNBT(meta);
+        itemStack.setItemMeta(itemMeta);
 
         return this.itemStack = itemStack;
     }
@@ -45,7 +49,8 @@ public final class RItem extends Item {
 
     private static Item of(ProtocolVersion protocolVersion, ItemStack itemStack) {
         MappedMaterial mappedMaterial = new MappedMaterial(protocolVersion, itemStack.getType());
-        // TODO read meta
-        return new Item(mappedMaterial.mapping().id(), (byte) itemStack.getAmount(), null);
+
+        CompoundTag meta = MCReplayNMS.getInstance().itemMetaToNBT(itemStack);
+        return new Item(mappedMaterial.mapping().id(), (byte) itemStack.getAmount(), meta);
     }
 }

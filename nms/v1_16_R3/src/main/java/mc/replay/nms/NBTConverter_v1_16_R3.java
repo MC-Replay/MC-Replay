@@ -85,7 +85,7 @@ public final class NBTConverter_v1_16_R3 {
         } else if (tag instanceof ByteArrayTag byteArrayTag) {
             return new NBTTagByteArray(byteArrayTag.getValue());
         } else if (tag instanceof CompoundTag compoundTag) {
-            return convertTagToNMS(compoundTag);
+            return convertToNMS(compoundTag);
         } else if (tag instanceof DoubleTag doubleTag) {
             return NBTTagDouble.a(doubleTag.getValue());
         } else if (tag instanceof FloatTag floatTag) {

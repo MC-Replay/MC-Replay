@@ -36,7 +36,7 @@ public class ItemFrameMetadata extends EntityMetadata implements ObjectDataProvi
     }
 
     public @NotNull RItem getItem() {
-        return super.metadata.getIndex(ITEM_INDEX, new RItem(Item.AIR));
+        return new RItem(super.metadata.getIndex(ITEM_INDEX, Item.AIR));
     }
 
     public @NotNull Rotation getRotation() {
