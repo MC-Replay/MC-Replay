@@ -22,6 +22,26 @@ public final class RecordingFakePlayerNetworkManager_v1_19_R3 extends Connection
     }
 
     @Override
+    public boolean isConnected() {
+        return true;
+    }
+
+    @Override
+    public boolean isConnecting() {
+        return false;
+    }
+
+    @Override
+    public boolean isMemoryConnection() {
+        return false;
+    }
+
+    @Override
+    public void tick() {
+        this.fakePlayer.tick();
+    }
+
+    @Override
     public void send(Packet<?> packet, @Nullable PacketSendListener packetsendlistener) {
         if (!this.fakePlayer.isRecording()) return;
 

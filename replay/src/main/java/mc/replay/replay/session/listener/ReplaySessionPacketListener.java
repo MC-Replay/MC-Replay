@@ -104,7 +104,6 @@ public final class ReplaySessionPacketListener {
         });
     }
 
-    // TODO test reflection on all server versions
     private void handleMovementPacket(Player player, Location to) {
         Location from = player.getLocation().clone();
         if (from.getX() == to.getX() && from.getY() == to.getY() && from.getZ() == to.getZ() && from.getYaw() == to.getYaw() && from.getPitch() == to.getPitch()) {

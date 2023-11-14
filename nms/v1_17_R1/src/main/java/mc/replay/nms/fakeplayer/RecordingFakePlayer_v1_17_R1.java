@@ -1,9 +1,11 @@
 package mc.replay.nms.fakeplayer;
 
 import com.mojang.authlib.GameProfile;
+import mc.replay.api.utils.JavaReflections;
 import mc.replay.packetlib.utils.ReflectionUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerConnectionListener;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.GameType;
 import org.bukkit.Location;
@@ -12,10 +14,18 @@ import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RecordingFakePlayer_v1_17_R1 extends ServerPlayer implements IRecordingFakePlayer {
+
+    @SuppressWarnings("rawtypes")
+    private static final JavaReflections.FieldAccessor<List> PLAYER_CONNECTION_LIST_FIELD;
+
+    static {
+        PLAYER_CONNECTION_LIST_FIELD = JavaReflections.getField(ServerConnectionListener.class, "connections", List.class);
+    }
 
     private static final AtomicInteger FAKE_PLAYER_COUNT = new AtomicInteger();
 
@@ -58,6 +68,7 @@ public final class RecordingFakePlayer_v1_17_R1 extends ServerPlayer implements 
         return this.fakeNetworkManager;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void spawn() {
         this.fakePlayerHandler.addFakePlayer(this);
@@ -88,6 +99,9 @@ public final class RecordingFakePlayer_v1_17_R1 extends ServerPlayer implements 
         // Set gamemode and camera
         super.setGameMode(GameType.SPECTATOR);
         super.setCamera(((CraftPlayer) this.target).getHandle());
+
+        // Add our network manager to the server connections list
+        PLAYER_CONNECTION_LIST_FIELD.get(super.server.getConnection()).add(this.fakeNetworkManager);
     }
 
     @Override
@@ -97,6 +111,9 @@ public final class RecordingFakePlayer_v1_17_R1 extends ServerPlayer implements 
         super.server.getPlayerList().players.remove(this);
 
         this.fakePlayerHandler.removeFakePlayer(this);
+
+        // Remove our network manager from the server connections list
+        PLAYER_CONNECTION_LIST_FIELD.get(super.server.getConnection()).remove(this.fakeNetworkManager);
     }
 
     @Override

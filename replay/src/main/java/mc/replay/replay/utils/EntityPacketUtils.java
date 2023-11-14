@@ -210,10 +210,6 @@ public final class EntityPacketUtils {
         return entityWrapper;
     }
 
-    public static void updateRotation(Player viewer, float yaw, float pitch, REntity entityWrapper) {
-        updateRotation(viewer, yaw, pitch, entityWrapper, false);
-    }
-
     public static void updateRotation(Player viewer, float yaw, float pitch, REntity entityWrapper, boolean spawn) {
         ClientboundEntityRotationPacket rotationPacket = new ClientboundEntityRotationPacket(entityWrapper.getEntityId(), yaw, pitch, false);
         ClientboundEntityHeadRotationPacket headRotationPacket = new ClientboundEntityHeadRotationPacket(entityWrapper.getEntityId(), yaw);

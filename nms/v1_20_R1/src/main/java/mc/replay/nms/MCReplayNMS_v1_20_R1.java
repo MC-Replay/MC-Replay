@@ -89,7 +89,7 @@ public final class MCReplayNMS_v1_20_R1 implements MCReplayNMS {
 
     @Override
     public int getNewEntityId() {
-        return ENTITY_ID_COUNTER.get(null).getAndIncrement();
+        return ENTITY_ID_COUNTER.get(null).incrementAndGet();
     }
 
     @Override

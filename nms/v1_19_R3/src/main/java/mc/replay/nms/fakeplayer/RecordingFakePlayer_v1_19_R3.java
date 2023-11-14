@@ -88,6 +88,9 @@ public final class RecordingFakePlayer_v1_19_R3 extends ServerPlayer implements 
         // Set gamemode and camera
         super.setGameMode(GameType.SPECTATOR);
         super.setCamera(((CraftPlayer) this.target).getHandle());
+
+        // Add our network manager to the server connections list
+        super.server.getConnection().getConnections().add(this.fakeNetworkManager);
     }
 
     @Override
@@ -97,6 +100,9 @@ public final class RecordingFakePlayer_v1_19_R3 extends ServerPlayer implements 
         super.server.getPlayerList().players.remove(this);
 
         this.fakePlayerHandler.removeFakePlayer(this);
+
+        // Remove our network manager from the server connections list
+        super.server.getConnection().getConnections().remove(this.fakeNetworkManager);
     }
 
     @Override
