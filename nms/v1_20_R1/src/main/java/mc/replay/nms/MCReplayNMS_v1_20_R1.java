@@ -3,6 +3,7 @@ package mc.replay.nms;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import io.netty.buffer.Unpooled;
 import mc.replay.api.utils.JavaReflections;
+import mc.replay.nms.block.BlockData;
 import mc.replay.nms.entity.DataWatcherReader_v1_20_R1;
 import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.nms.entity.player.PlayerProfile_v1_20_R1;
@@ -18,22 +19,29 @@ import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.ReplayByteBuffer;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.packetlib.utils.ReflectionUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_20_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -167,6 +175,25 @@ public final class MCReplayNMS_v1_20_R1 implements MCReplayNMS {
         ItemStack nmsItemStack = ItemStack.EMPTY;
         nmsItemStack.setTag(nmsCompoundTag);
         return CraftItemStack.asBukkitCopy(nmsItemStack).getItemMeta();
+    }
+
+    @Override
+    public BlockData getBlockData(World world, Vector position) {
+        BlockPos blockPos = new BlockPos(position.getBlockX(), position.getBlockY(), position.getBlockZ());
+
+        ServerLevel serverLevel = ((CraftWorld) world).getHandle();
+        int blockStateId = Block.BLOCK_STATE_REGISTRY.getId(serverLevel.getBlockState(blockPos));
+
+        CompoundTag blockEntityTag = null;
+        BlockEntity blockEntity = serverLevel.getBlockEntity(blockPos);
+        if (blockEntity != null) {
+            net.minecraft.nbt.CompoundTag nmsCompoundTag = blockEntity.getUpdateTag();
+            if (!nmsCompoundTag.isEmpty()) {
+                blockEntityTag = NBTConverter_v1_20_R1.convertFromNMS("", nmsCompoundTag);
+            }
+        }
+
+        return new BlockData(blockStateId, blockEntityTag);
     }
 
     private @NotNull ByteBuffer serializePacket(Packet<?> packet) throws IOException {

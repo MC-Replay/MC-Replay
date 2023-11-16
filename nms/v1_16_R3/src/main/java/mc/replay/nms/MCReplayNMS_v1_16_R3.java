@@ -3,6 +3,7 @@ package mc.replay.nms;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import io.netty.buffer.Unpooled;
 import mc.replay.api.utils.JavaReflections;
+import mc.replay.nms.block.BlockData;
 import mc.replay.nms.entity.DataWatcherReader_v1_16_R3;
 import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.nms.entity.player.PlayerProfile_v1_16_R3;
@@ -21,11 +22,13 @@ import mc.replay.packetlib.utils.ReflectionUtils;
 import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -159,6 +162,11 @@ public final class MCReplayNMS_v1_16_R3 implements MCReplayNMS {
         ItemStack nmsItemStack = ItemStack.b;
         nmsItemStack.setTag(nmsCompoundTag);
         return CraftItemStack.asBukkitCopy(nmsItemStack).getItemMeta();
+    }
+
+    @Override
+    public BlockData getBlockData(World world, Vector position) {
+        return null;
     }
 
     private @NotNull ByteBuffer serializePacket(Packet<?> packet) throws IOException {

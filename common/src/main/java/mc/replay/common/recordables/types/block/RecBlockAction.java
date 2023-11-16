@@ -26,4 +26,9 @@ public record RecBlockAction(Vector blockPosition, int blockId, byte actionId,
         writer.write(BYTE, this.actionId);
         writer.write(BYTE, this.actionParam);
     }
+
+    @Override
+    public Object identifier() {
+        return this.blockPosition;
+    }
 }

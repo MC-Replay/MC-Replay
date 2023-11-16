@@ -29,9 +29,9 @@ final class JumpTimeForwardsHandler extends AbstractJumpTimeHandler {
     void jumpTime(@NotNull ReplaySession session, int until, @NotNull NavigableMap<Integer, List<Recordable>> recordablesBetween) {
         NavigableMap<Integer, List<Recordable>> recordables = session.getRecording().recordables();
 
-        List<Recordable> blockChangeRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof BlockRelatedRecordable);
         List<Recordable> spawnRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof RecPlayerSpawn || recordable instanceof RecEntitySpawn);
         List<Recordable> destroyRecordables = super.findRecordables(recordablesBetween, (recordable) -> recordable instanceof RecPlayerDestroy || recordable instanceof RecEntityDestroy);
+        List<Recordable> blockChangeRecordables = super.findLatestRecordables(recordablesBetween, BlockRelatedRecordable.class, BlockRelatedRecordable::identifier);
 
         this.filterSpawnAndDestroyRecordables(spawnRecordables, destroyRecordables); // Filter out entities that are spawned and destroyed in the skipped time range
 

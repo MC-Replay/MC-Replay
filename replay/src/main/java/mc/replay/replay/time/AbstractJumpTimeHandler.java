@@ -8,6 +8,7 @@ import mc.replay.api.recordables.action.EmptyRecordableAction;
 import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.action.RecordableAction;
 import mc.replay.common.MCReplayInternal;
+import mc.replay.common.recordables.actions.internal.InternalBlockRecordableAction;
 import mc.replay.common.recordables.actions.internal.InternalEntityRecordableAction;
 import mc.replay.common.recordables.types.entity.RecEntityDestroy;
 import mc.replay.common.recordables.types.entity.RecEntitySpawn;
@@ -18,6 +19,7 @@ import mc.replay.replay.ReplaySession;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -77,6 +79,28 @@ abstract class AbstractJumpTimeHandler {
         return recordablesFound;
     }
 
+    protected <R extends Recordable> List<Recordable> findLatestRecordables(NavigableMap<Integer, List<Recordable>> recordables, Class<R> clazz, Function<R, Object> function) {
+        Map<Class<? extends Recordable>, Set<Object>> objects = new HashMap<>();
+
+        List<Recordable> recordablesFound = new ArrayList<>();
+        for (Map.Entry<Integer, List<Recordable>> entry : recordables.entrySet()) {
+            for (Recordable recordable : entry.getValue()) {
+                if (!clazz.isInstance(recordable)) continue;
+
+                Object object = function.apply(clazz.cast(recordable));
+                Set<Object> cache = objects.get(recordable.getClass());
+                if (cache != null && cache.contains(object)) continue;
+
+                objects.putIfAbsent(recordable.getClass(), new HashSet<>());
+                objects.get(recordable.getClass()).add(object);
+
+                recordablesFound.add(recordable);
+            }
+        }
+
+        return recordablesFound;
+    }
+
     protected void filterSpawnAndDestroyRecordables(List<Recordable> spawnRecordables, List<Recordable> destroyRecordables) {
         spawnRecordables.removeIf((recordable) -> {
             if (recordable instanceof RecPlayerSpawn recPlayerSpawn) {
@@ -113,6 +137,10 @@ abstract class AbstractJumpTimeHandler {
 
         if (action instanceof EntityRecordableAction entityRecordableAction) {
             return entityRecordableAction.createPacketsTimeJump(recordable, session.getEntityCache());
+        }
+
+        if (action instanceof InternalBlockRecordableAction internalBlockRecordableAction) {
+            return internalBlockRecordableAction.createPacketsTimeJump(recordable, session.getBlockCache());
         }
 
         if (action instanceof EmptyRecordableAction emptyRecordableAction) {

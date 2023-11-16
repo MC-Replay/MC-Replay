@@ -10,6 +10,7 @@ import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.MCReplayInternal;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import mc.replay.replay.session.ReplayPlayer;
+import mc.replay.replay.session.block.ReplaySessionBlockHandler;
 import mc.replay.replay.session.entity.ReplaySessionEntityHandler;
 import mc.replay.replay.session.task.ReplaySessionInformTask;
 import mc.replay.replay.session.task.ReplaySessionPlayTask;
@@ -35,6 +36,7 @@ public final class ReplaySession implements IReplaySession {
     private boolean paused = true;
     private double speed = 1.0;
 
+    private final ReplaySessionBlockHandler blockCache;
     private final ReplaySessionEntityHandler entityCache;
 
     private final ReplaySessionPlayTask playTask;
@@ -58,6 +60,7 @@ public final class ReplaySession implements IReplaySession {
             this.watchers.add(new ReplayPlayer(watcher, this));
         }
 
+        this.blockCache = new ReplaySessionBlockHandler(this);
         this.entityCache = new ReplaySessionEntityHandler(this);
 
         this.playTask = new ReplaySessionPlayTask(instance, this);

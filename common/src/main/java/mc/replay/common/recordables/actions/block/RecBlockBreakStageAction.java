@@ -14,7 +14,7 @@ public final class RecBlockBreakStageAction implements EmptyRecordableAction<Rec
     public @NotNull List<@NotNull ClientboundPacket> createPackets(@NotNull RecBlockBreakStage recordable, @NotNull Void data) {
         return List.of(
                 new ClientboundBlockBreakAnimationPacket(
-                        -1,
+                        -recordable.entityId(),
                         recordable.blockPosition(),
                         recordable.stage()
                 )

@@ -9,6 +9,7 @@ import mc.replay.api.recordables.RecordableDefinition;
 import mc.replay.api.recordables.action.EmptyRecordableAction;
 import mc.replay.api.recordables.action.EntityRecordableAction;
 import mc.replay.api.recordables.action.RecordableAction;
+import mc.replay.common.recordables.actions.internal.InternalBlockRecordableAction;
 import mc.replay.common.recordables.actions.internal.InternalEntityRecordableAction;
 import mc.replay.replay.ReplaySession;
 
@@ -63,6 +64,11 @@ public final class ReplaySessionPlayTask implements Runnable {
 
             if (action instanceof EntityRecordableAction entityRecordableAction) {
                 this.replaySession.sendPackets(entityRecordableAction.createPackets(recordable, this.replaySession.getEntityCache()));
+                continue;
+            }
+
+            if (action instanceof InternalBlockRecordableAction internalBlockRecordableAction) {
+                this.replaySession.sendPackets(internalBlockRecordableAction.createPackets(recordable, this.replaySession.getBlockCache()));
                 continue;
             }
 

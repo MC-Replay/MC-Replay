@@ -19,6 +19,7 @@ public final class BlockBreakAnimationPacketOutDispatcher extends DispatcherPack
     public List<Recordable> getRecordables(RecordingSession session, ClientboundBlockBreakAnimationPacket packet) {
         return List.of(
                 new RecBlockBreakStage(
+                        packet.entityId(),
                         packet.blockPosition(),
                         packet.stage()
                 )

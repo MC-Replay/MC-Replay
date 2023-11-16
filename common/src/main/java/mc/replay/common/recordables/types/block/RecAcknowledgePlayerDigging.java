@@ -26,4 +26,9 @@ public record RecAcknowledgePlayerDigging(Vector blockPosition, int blockStateId
         writer.write(INT, this.stateId);
         writer.write(BOOLEAN, this.successful);
     }
+
+    @Override
+    public Object identifier() {
+        return this.blockPosition;
+    }
 }

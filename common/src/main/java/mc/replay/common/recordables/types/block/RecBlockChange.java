@@ -22,4 +22,9 @@ public record RecBlockChange(Vector blockPosition, int blockStateId) implements 
         writer.write(BLOCK_POSITION, this.blockPosition);
         writer.write(INT, this.blockStateId);
     }
+
+    @Override
+    public Object identifier() {
+        return this.blockPosition;
+    }
 }

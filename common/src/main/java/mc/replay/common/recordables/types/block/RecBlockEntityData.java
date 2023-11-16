@@ -24,4 +24,9 @@ public record RecBlockEntityData(Vector blockPosition, int action, CompoundTag d
         writer.write(INT, this.action);
         writer.write(NBT, this.data);
     }
+
+    @Override
+    public Object identifier() {
+        return this.blockPosition;
+    }
 }
