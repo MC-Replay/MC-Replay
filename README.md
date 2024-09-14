@@ -1,4 +1,5 @@
-[![](https://jitpack.io/v/MC-Replay/MC-Replay.svg)](https://jitpack.io/#MC-Replay/MC-Replay)
+[![looking for contributors](https://img.shields.io/badge/looking%20for%20contributors!-f8815a?style=for-the-badge&label=discussion)](https://github.com/MC-Replay/MC-Replay/discussions/5)
+
 # MC-Replay
 Created and maintained by [@Tom18314](https://github.com/Tom18314) and [@ItzKiwiSap](https://github.com/ItzKiwiSap).
 
