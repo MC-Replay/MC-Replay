@@ -2,7 +2,7 @@ package mc.replay.api;
 
 import mc.replay.api.recordables.IRecordableRegistry;
 import mc.replay.api.recording.IRecordingHandler;
-import mc.replay.api.replay.IReplayHandler;
+import mc.replay.api.replay.IReplayController;
 import mc.replay.api.utils.config.IReplayConfigProcessor;
 import mc.replay.api.utils.config.templates.ReplayMessages;
 import mc.replay.api.utils.config.templates.ReplaySettings;
@@ -15,7 +15,7 @@ public interface MCReplay {
 
     IRecordableRegistry getRecordableRegistry();
 
-    IReplayHandler getReplayHandler();
+    IReplayController getReplayHandler();
 
     IReplayConfigProcessor<ReplayMessages> getMessagesProcessor();
 

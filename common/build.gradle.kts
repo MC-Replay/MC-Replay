@@ -8,4 +8,5 @@ dependencies {
     api(projects.nmsCommon)
 
     compileOnlyApi(libs.odalitamenus)
+    compileOnlyApi(libs.tritejection)
 }

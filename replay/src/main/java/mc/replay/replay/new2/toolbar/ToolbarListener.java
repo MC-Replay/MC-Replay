@@ -1,6 +1,7 @@
-package mc.replay.replay.session.toolbar;
+package mc.replay.replay.new2.toolbar;
 
-import mc.replay.replay.ReplayHandler;
+import mc.replay.api.replay.session.IReplayPlayer;
+import mc.replay.replay.new2.ReplayController;
 import mc.replay.replay.session.ReplayPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,19 +14,27 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 
-record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handler) implements Listener {
+final class ToolbarListener implements Listener {
+
+    private final ReplayController replayController;
+    private final ToolbarService service;
+
+    ToolbarListener(ReplayController replayController, ToolbarService service) {
+        this.replayController = replayController;
+        this.service = service;
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction().equals(Action.PHYSICAL)) return;
 
         Player player = event.getPlayer();
-        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(player);
+        ReplayPlayer replayPlayer = (ReplayPlayer) this.replayController.getReplayPlayer(player);
         if (replayPlayer == null) return;
 
         ItemStack stack = player.getInventory().getItemInMainHand();
 
-        ToolbarItem toolbarItem = this.handler.getItem(stack);
+        ToolbarItem toolbarItem = this.service.getItem(stack);
         if (toolbarItem != null) {
             event.setCancelled(true);
             toolbarItem.getOnClick().accept(replayPlayer);
@@ -33,12 +42,12 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onSwapHandItem(PlayerSwapHandItemsEvent event) {
-        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(event.getPlayer());
+    public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
+        IReplayPlayer replayPlayer = this.replayController.getReplayPlayer(event.getPlayer());
         if (replayPlayer == null) return;
 
-        ToolbarItem toolbarItemMain = this.handler.getItem(event.getMainHandItem());
-        ToolbarItem toolbarItemOffhand = this.handler.getItem(event.getOffHandItem());
+        ToolbarItem toolbarItemMain = this.service.getItem(event.getMainHandItem());
+        ToolbarItem toolbarItemOffhand = this.service.getItem(event.getOffHandItem());
 
         if (toolbarItemMain != null || toolbarItemOffhand != null) {
             event.setCancelled(true);
@@ -47,12 +56,12 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
-        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(event.getWhoClicked().getUniqueId());
+        ReplayPlayer replayPlayer = (ReplayPlayer) this.replayController.getReplayPlayer(event.getWhoClicked().getUniqueId());
         if (replayPlayer == null) return;
 
         ItemStack stack = event.getCurrentItem();
 
-        ToolbarItem toolbarItem = this.handler.getItem(stack);
+        ToolbarItem toolbarItem = this.service.getItem(stack);
         if (toolbarItem != null) {
             event.setCancelled(true);
             event.getView().setCursor(null);
@@ -62,13 +71,13 @@ record ToolbarItemListener(ReplayHandler replayHandler, ToolbarItemHandler handl
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onItemDrop(PlayerDropItemEvent event) {
-        ReplayPlayer replayPlayer = this.replayHandler.getReplayPlayer(event.getPlayer());
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        IReplayPlayer replayPlayer = this.replayController.getReplayPlayer(event.getPlayer());
         if (replayPlayer == null) return;
 
         ItemStack stack = event.getItemDrop().getItemStack();
 
-        ToolbarItem toolbarItem = this.handler.getItem(stack);
+        ToolbarItem toolbarItem = this.service.getItem(stack);
         if (toolbarItem != null) {
             event.setCancelled(true);
         }

@@ -1,4 +1,4 @@
-package mc.replay.replay.session.toolbar;
+package mc.replay.replay.new2.toolbar;
 
 import com.github.steveice10.opennbt.tag.builtin.StringTag;
 import lombok.Getter;

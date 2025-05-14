@@ -1,4 +1,4 @@
-package mc.replay.replay.session.toolbar.types;
+package mc.replay.replay.new2.toolbar.type;
 
 final class ToolbarItemTextures {
 

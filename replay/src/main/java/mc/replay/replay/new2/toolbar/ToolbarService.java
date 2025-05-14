@@ -1,27 +1,23 @@
-package mc.replay.replay.session.toolbar;
+package mc.replay.replay.new2.toolbar;
 
 import mc.replay.api.replay.session.IReplayPlayer;
-import mc.replay.api.replay.session.toolbar.IToolbarItemHandler;
 import mc.replay.nms.MCReplayNMS;
-import mc.replay.replay.ReplayHandler;
+import mc.replay.replay.new2.ReplayController;
+import mc.replay.replay.new2.toolbar.type.*;
 import mc.replay.replay.session.ReplayPlayer;
-import mc.replay.replay.session.toolbar.types.*;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
+final class ToolbarService {
 
     private final Map<String, ToolbarItem> toolbarItems = new HashMap<>();
 
-    public ToolbarItemHandler(ReplayHandler replayHandler, JavaPlugin plugin) {
-        Bukkit.getServer().getPluginManager().registerEvents(new ToolbarItemListener(replayHandler, this), plugin);
+    ToolbarService(JavaPlugin plugin, ReplayController replayController) {
+        plugin.getServer().getPluginManager().registerEvents(new ToolbarListener(replayController, this), plugin);
 
         this.register(new TeleportToolbarItem(0));
         this.register(new DecreaseSpeedToolbarItem(2));
@@ -32,8 +28,7 @@ public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
         this.register(new LeaveToolbarItem(8));
     }
 
-    @Override
-    public void giveItems(@NotNull IReplayPlayer replayPlayer) {
+    void giveItems(IReplayPlayer replayPlayer) {
         if (replayPlayer.replaySession().isInvalid()) return;
 
         Player player = replayPlayer.player();
@@ -48,16 +43,19 @@ public final class ToolbarItemHandler implements IToolbarItemHandler, Listener {
         }
     }
 
-    private void register(ToolbarItem item) {
-        this.toolbarItems.put(item.getId(), item);
-    }
-
     ToolbarItem getItem(String id) {
-        return (id == null) ? null : this.toolbarItems.get(id);
+        return this.toolbarItems.get(id);
     }
 
-    ToolbarItem getItem(ItemStack stack) {
-        String id = MCReplayNMS.getInstance().modifyItemStack(stack).getTagValue("TOOLBAR_ITEM");
-        return this.getItem(id);
+    ToolbarItem getItem(ItemStack itemStack) {
+        String id = MCReplayNMS.getInstance().modifyItemStack(itemStack).getTagValue("TOOLBAR_ITEM");
+        return id == null ? null : this.toolbarItems.get(id);
+    }
+
+    private void register(ToolbarItem item) {
+        ToolbarItem oldItem = this.toolbarItems.putIfAbsent(item.getId(), item);
+        if (oldItem != null) {
+            throw new IllegalStateException("Toolbar item with id " + item.getId() + " already registered");
+        }
     }
 }

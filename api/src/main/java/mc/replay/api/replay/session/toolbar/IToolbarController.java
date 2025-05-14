@@ -3,7 +3,7 @@ package mc.replay.api.replay.session.toolbar;
 import mc.replay.api.replay.session.IReplayPlayer;
 import org.jetbrains.annotations.NotNull;
 
-public interface IToolbarItemHandler {
+public interface IToolbarController {
 
     void giveItems(@NotNull IReplayPlayer replayPlayer);
 }

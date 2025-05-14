@@ -18,14 +18,13 @@ import mc.replay.recording.RecordingHandler;
 import mc.replay.recording.dispatcher.RecordingDispatcherManager;
 import mc.replay.replay.ReplayHandler;
 import nl.odalitadevelopments.menus.OdalitaMenus;
+import nl.tritewolf.tritejection.TriteJection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal {
 
-    @Getter
-    private static MCReplayPlugin instance;
+    private final TriteJection injector = TriteJection.createTriteJection();
 
     private PacketLib packetLib;
     private OdalitaMenus menuHandler;
@@ -43,8 +42,6 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
 
     @Override
     public void onLoad() {
-        instance = this;
-
         MappingsLoader.initialize(this);
 
         JavaReflections.getField(MCReplayAPI.class, MCReplay.class, "mcReplay").set(null, this);
@@ -52,6 +49,8 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
 
     @Override
     public void onEnable() {
+        this.injector.addModule(new MCReplayModule(this));
+
         this.packetLib = PacketLib.builder()
                 .player()
                 .listenServerbound(true)
@@ -102,6 +101,9 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
         this.dispatchManager = new RecordingDispatcherManager(this);
 
         this.enable();
+
+        ClassLoader classLoader = this.injector.getModules().get(0).getClass().getClassLoader();
+        this.injector.process(classLoader, classLoader.getDefinedPackages());
     }
 
     public void enable() {

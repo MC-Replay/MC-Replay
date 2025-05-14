@@ -2,7 +2,7 @@ package mc.replay.replay;
 
 import lombok.Getter;
 import mc.replay.api.recording.IRecording;
-import mc.replay.api.replay.IReplayHandler;
+import mc.replay.api.replay.IReplayController;
 import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.MCReplayInternal;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
-public final class ReplayHandler implements IReplayHandler {
+public final class ReplayHandler implements IReplayController {
 
     private final MCReplayInternal instance;
     private final Map<UUID, IReplayPlayer> replayPlayers = new HashMap<>();

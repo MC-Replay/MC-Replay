@@ -14,6 +14,7 @@ minecraft-v121R1 = "1.21.1-R0.1-SNAPSHOT"
 # External libraries
 odalitamenus = "0.6.2"
 packetlib = "48acb3e654"
+tritejection = "v1.2.8"
 
 [libraries]
 # General
@@ -30,3 +31,4 @@ paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "min
 # External libraries
 odalitamenus = { group = "io.github.odalita-developments.odalitamenus", name = "core", version.ref = "odalitamenus" }
 packetlib = { group = "com.github.mc-replay", name = "packetlib", version.ref = "packetlib" }
+tritejection = { group = "com.github.trydev07", name = "tritejection", version.ref = "tritejection" }

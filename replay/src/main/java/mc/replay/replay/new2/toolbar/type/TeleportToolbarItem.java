@@ -1,9 +1,9 @@
-package mc.replay.replay.session.toolbar.types;
+package mc.replay.replay.new2.toolbar.type;
 
 import mc.replay.common.MCReplayInternal;
 import mc.replay.common.utils.item.ItemBuilder;
 import mc.replay.replay.session.menu.ReplayTeleportMenu;
-import mc.replay.replay.session.toolbar.ToolbarItem;
+import mc.replay.replay.new2.toolbar.ToolbarItem;
 import org.bukkit.Material;
 
 public final class TeleportToolbarItem extends ToolbarItem {
