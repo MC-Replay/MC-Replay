@@ -83,11 +83,6 @@ public final class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder data(byte data) {
-        this.stack.getData().setData(data);
-        return this;
-    }
-
     public ItemBuilder lore(@NotNull List<String> lore) {
         return this.meta((meta) -> {
             List<String> loreList = new ArrayList<>();
@@ -153,11 +148,11 @@ public final class ItemBuilder {
     public ItemBuilder glow(boolean glow) {
         return this.meta((meta) -> {
             if (glow) {
-                if (this.stack.getType() == Material.BOW) {
-                    meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
-                } else {
-                    meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-                }
+//                if (this.stack.getType() == Material.BOW) {
+//                    meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+//                } else {
+//                    meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+//                }
 
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             }

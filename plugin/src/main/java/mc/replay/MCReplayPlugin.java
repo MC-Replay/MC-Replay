@@ -11,10 +11,9 @@ import mc.replay.common.recordables.RecordableRegistry;
 import mc.replay.common.utils.config.ReplayConfigProcessor;
 import mc.replay.common.utils.reflection.JavaReflections;
 import mc.replay.mappings.MappingsLoader;
-import mc.replay.nms.*;
+import mc.replay.nms.MCReplayNMS;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.packetlib.PacketLib;
-import mc.replay.packetlib.utils.ProtocolVersion;
 import mc.replay.recording.RecordingHandler;
 import mc.replay.recording.dispatcher.RecordingDispatcherManager;
 import mc.replay.replay.ReplayHandler;
@@ -63,15 +62,16 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
         try {
             Class<?> nmsInstanceClass = JavaReflections.getClass("mc.replay.nms.MCReplayNMSInstance");
 
-            MCReplayNMS instance = switch (ProtocolVersion.getServerVersion()) {
-                case MINECRAFT_1_16_5 -> new MCReplayNMS_v1_16_R3();
-                case MINECRAFT_1_17_1 -> new MCReplayNMS_v1_17_R1();
-                case MINECRAFT_1_18_2 -> new MCReplayNMS_v1_18_R2();
-                case MINECRAFT_1_19_4 -> new MCReplayNMS_v1_19_R3();
-                case MINECRAFT_1_20_1 -> new MCReplayNMS_v1_20_R1();
-                default ->
-                        throw new IllegalStateException("Unsupported server version " + ProtocolVersion.getServerVersion());
-            };
+            //            MCReplayNMS instance = switch (ProtocolVersion.getServerVersion()) {
+            //                case MINECRAFT_1_16_5 -> new MCReplayNMS_v1_16_R3();
+            //                case MINECRAFT_1_17_1 -> new MCReplayNMS_v1_17_R1();
+            //                case MINECRAFT_1_18_2 -> new MCReplayNMS_v1_18_R2();
+            //                case MINECRAFT_1_19_4 -> new MCReplayNMS_v1_19_R3();
+            //                case MINECRAFT_1_20_1 -> new MCReplayNMS_v1_20_R1();
+            //                case MINECRAFT_1_21_1 -> new MCReplayNMS_v1_21_R1();
+            //                default ->
+            //                        throw new IllegalStateException("Unsupported server version " + ProtocolVersion.getServerVersion());
+            //            };
 
             JavaReflections.getMethod(nmsInstanceClass, "init", MCReplayNMS.class).invoke(null, instance);
         } catch (Exception exception) {

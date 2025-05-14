@@ -9,7 +9,7 @@ import static mc.replay.packetlib.network.ReplayByteBuffer.*;
 
 public final class RecordableBufferTypes {
 
-    public static final ReplayByteBuffer.Type<Pos> ENTITY_POSITION = new TypeImpl<>(Pos.class,
+    public static final Type<Pos> ENTITY_POSITION = new TypeImpl<>(Pos.class,
             (buffer, pos) -> {
                 double[] values = new double[]{pos.x(), pos.y(), pos.z()};
                 for (double value : values) {
@@ -38,7 +38,7 @@ public final class RecordableBufferTypes {
             }
     );
 
-    public static final ReplayByteBuffer.Type<Float> ENTITY_ROTATION = new TypeImpl<>(Float.class,
+    public static final Type<Float> ENTITY_ROTATION = new TypeImpl<>(Float.class,
             (buffer, boxed) -> {
                 float value = boxed;
                 if (value < 0) value += 360;
@@ -62,7 +62,7 @@ public final class RecordableBufferTypes {
             }
     );
 
-    public static final ReplayByteBuffer.Type<Vector> ENTITY_VECTOR_ROTATION = new TypeImpl<>(Vector.class,
+    public static final Type<Vector> ENTITY_VECTOR_ROTATION = new TypeImpl<>(Vector.class,
             (buffer, vector) -> {
                 buffer.write(ENTITY_ROTATION, (float) vector.getX());
                 buffer.write(ENTITY_ROTATION, (float) vector.getY());
@@ -79,6 +79,6 @@ public final class RecordableBufferTypes {
 
     record TypeImpl<T>(@NotNull Class<T> type,
                        @NotNull ReplayByteBuffer.TypeWriter<T> writer,
-                       @NotNull ReplayByteBuffer.TypeReader<T> reader) implements ReplayByteBuffer.Type<T> {
+                       @NotNull ReplayByteBuffer.TypeReader<T> reader) implements Type<T> {
     }
 }

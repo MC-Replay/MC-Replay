@@ -1,9 +1,9 @@
 package mc.replay.recording;
 
 import lombok.RequiredArgsConstructor;
+import mc.replay.api.recordables.data.EntityId;
 import mc.replay.api.recording.IRecordingSession;
 import mc.replay.api.recording.RecordingSessionBuilder;
-import mc.replay.api.recordables.data.EntityId;
 import mc.replay.common.recordables.types.entity.RecPlayerSpawn;
 import mc.replay.nms.entity.player.RPlayer;
 import org.bukkit.Bukkit;

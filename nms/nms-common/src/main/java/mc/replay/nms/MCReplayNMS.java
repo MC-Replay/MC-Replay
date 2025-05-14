@@ -1,9 +1,9 @@
 package mc.replay.nms;
 
+import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.nms.fakeplayer.FakePlayerHandler;
 import mc.replay.nms.fakeplayer.IRecordingFakePlayer;
 import mc.replay.nms.inventory.RItemStack;
-import mc.replay.nms.entity.player.PlayerProfile;
 import mc.replay.packetlib.data.entity.Metadata;
 import mc.replay.packetlib.network.packet.clientbound.ClientboundPacket;
 import org.bukkit.Location;

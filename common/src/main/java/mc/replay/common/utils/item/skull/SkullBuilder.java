@@ -1,7 +1,5 @@
 package mc.replay.common.utils.item.skull;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import mc.replay.common.utils.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -88,14 +86,14 @@ public final class SkullBuilder {
 
     public static SkullMeta applyTextureToMeta(@NotNull ItemMeta meta, @NotNull UUID uuid, @NotNull String texture) {
         SkullMeta skullMeta = (SkullMeta) meta;
-        GameProfile profile = new GameProfile(uuid, "custom");
-        profile.getProperties().put("textures", new Property("textures", texture));
+//        GameProfile profile = new GameProfile(uuid, "custom");
+//        profile.getProperties().put("textures", new Property("textures", texture));
 
         try {
             Field fieldProfileItem = skullMeta.getClass().getDeclaredField("profile");
             fieldProfileItem.setAccessible(true);
-            fieldProfileItem.set(skullMeta, profile);
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+//            fieldProfileItem.set(skullMeta, profile);
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException e) {
             e.printStackTrace();
         }
 

@@ -1,8 +1,8 @@
 package mc.replay.common.recordables.actions.entity.metadata.animal;
 
+import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.common.recordables.actions.internal.InternalEntityMetadataRecordableAction;
 import mc.replay.common.recordables.types.entity.metadata.animal.RecPandaHiddenGene;
-import mc.replay.api.data.entity.EntityMetadata;
 import mc.replay.nms.entity.metadata.animal.PandaMetadata;
 import org.jetbrains.annotations.NotNull;
 
