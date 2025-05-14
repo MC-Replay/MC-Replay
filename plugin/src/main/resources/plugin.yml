@@ -1,9 +1,6 @@
 main: mc.replay.MCReplayPlugin
-name: MCReplay
-version: ${project.version}
-authors:
-  - ItzCodex
-  - Itz_KiwiSap_
-api-version: 1.16
+name: MC-Replay
+version: ${version}
+author: ${author}
 commands:
   replaytest:

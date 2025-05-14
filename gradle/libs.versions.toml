@@ -1,0 +1,32 @@
+[versions]
+# General
+jetbrains-annotations = "24.1.0"
+
+# Gradle plugins
+lombok = "8.4"
+paperweight = "1.7.2"
+shadow = "8.1.1"
+
+# Minecraft
+minecraft-main = "1.21.1-R0.1-SNAPSHOT"
+minecraft-v121R1 = "1.21.1-R0.1-SNAPSHOT"
+
+# External libraries
+odalitamenus = "0.6.2"
+packetlib = "48acb3e654"
+
+[libraries]
+# General
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
+
+# Gradle plugins
+lombok = { group = "io.freefair.gradle", name = "lombok-plugin", version.ref = "lombok" }
+paperweight-plugin = { group = "io.papermc.paperweight", name = "paperweight-userdev", version.ref = "paperweight" }
+shadow = { group = "com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
+
+# Minecraft
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "minecraft-main" }
+
+# External libraries
+odalitamenus = { group = "io.github.odalita-developments.odalitamenus", name = "core", version.ref = "odalitamenus" }
+packetlib = { group = "com.github.mc-replay", name = "packetlib", version.ref = "packetlib" }
