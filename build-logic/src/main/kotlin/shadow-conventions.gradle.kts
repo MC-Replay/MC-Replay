@@ -6,9 +6,11 @@ plugins {
 }
 
 tasks {
+    val jarFilesDir = rootDir.resolve(".jarfiles")
     val shadowJar = named<ShadowJar>("shadowJar") {
         archiveVersion.set(rootProject.version.toString())
         archiveClassifier.set("")
+        destinationDirectory = jarFilesDir
 
         val sJar: ShadowJar = this
 
@@ -20,5 +22,10 @@ tasks {
     }
     named("build") {
         dependsOn(shadowJar)
+    }
+    named("clean") {
+        doLast {
+            jarFilesDir.deleteRecursively()
+        }
     }
 }

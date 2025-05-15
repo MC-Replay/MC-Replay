@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("config-conventions")
     id("minecraft-conventions")
@@ -10,4 +12,8 @@ dependencies {
     api(projects.replay)
 
     api(projects.nmsV121R1)
+}
+
+tasks.withType<ShadowJar> {
+    archiveBaseName.set("MC-Replay")
 }
