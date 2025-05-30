@@ -6,10 +6,10 @@ import mc.replay.api.replay.IReplayController;
 import mc.replay.api.replay.IReplaySession;
 import mc.replay.api.replay.session.IReplayPlayer;
 import mc.replay.common.MCReplayInternal;
+import mc.replay.replay.new2.toolbar.ToolbarController;
 import mc.replay.replay.preparation.ReplayPlayerPreparationHandler;
 import mc.replay.replay.session.ReplayPlayer;
 import mc.replay.replay.session.listener.ReplaySessionPacketListener;
-import mc.replay.replay.session.toolbar.ToolbarItemHandler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,13 +29,13 @@ public final class ReplayHandler implements IReplayController {
     private final ReplayPlayerPreparationHandler preparationHandler;
 
     private final ReplaySessionPacketListener packetListener;
-    private final ToolbarItemHandler toolbarItemHandler;
+    private final ToolbarController toolbarItemHandler;
 
     public ReplayHandler(MCReplayInternal instance) {
         this.instance = instance;
         this.preparationHandler = new ReplayPlayerPreparationHandler(this, instance);
         this.packetListener = new ReplaySessionPacketListener(this, instance);
-        this.toolbarItemHandler = new ToolbarItemHandler(this, instance.getJavaPlugin());
+        this.toolbarItemHandler = null;
     }
 
     @Override

@@ -22,6 +22,7 @@ import nl.tritewolf.tritejection.TriteJection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal {
 
     private final TriteJection injector = TriteJection.createTriteJection();
@@ -72,7 +73,7 @@ public final class MCReplayPlugin extends JavaPlugin implements MCReplayInternal
             //                        throw new IllegalStateException("Unsupported server version " + ProtocolVersion.getServerVersion());
             //            };
 
-            JavaReflections.getMethod(nmsInstanceClass, "init", MCReplayNMS.class).invoke(null, instance);
+            JavaReflections.getMethod(nmsInstanceClass, "init", MCReplayNMS.class).invoke(null, null);
         } catch (Exception exception) {
             System.out.println("Failed to initialize MCReplayNMS");
             Bukkit.shutdown();

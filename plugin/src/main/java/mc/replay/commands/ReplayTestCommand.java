@@ -29,7 +29,7 @@ public class ReplayTestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false;
 
-        IReplayConfigProcessor<ReplayMessages> messagesProcessor = MCReplayPlugin.getInstance().getMessagesProcessor();
+        IReplayConfigProcessor<ReplayMessages> messagesProcessor = null;
 
         if (!player.hasPermission("mc.replay.test")) {
             TextFormatter.of(messagesProcessor.getString(ReplayMessages.REPLAY_COMMAND_NO_PERMISSION)).send(player);
@@ -48,7 +48,7 @@ public class ReplayTestCommand implements CommandExecutor {
             }
 
             if (this.fakePlayer == null) {
-                this.fakePlayer = MCReplayNMS.getInstance().createFakePlayer(MCReplayPlugin.getInstance().getFakePlayerHandler(), player);
+                this.fakePlayer = MCReplayNMS.getInstance().createFakePlayer(null, player);
                 this.fakePlayer.spawn();
             }
 
@@ -100,7 +100,7 @@ public class ReplayTestCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("load")) {
             if (args.length == 2) {
-                this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", args[1] + ".mcrr"));
+//                this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", args[1] + ".mcrr"));
                 TextFormatter.of("%prefix% &aLoaded recording.").send(player);
                 return true;
             }
@@ -110,7 +110,7 @@ public class ReplayTestCommand implements CommandExecutor {
                 return true;
             }
 
-            this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", this.recording.id() + ".mcrr"));
+//            this.recording = MCReplayPlugin.getInstance().getRecordingHandler().getFileProcessor().loadRecording(new File(MCReplayPlugin.getInstance().getDataFolder() + "/recordings", this.recording.id() + ".mcrr"));
             TextFormatter.of("%prefix% &aLoaded recording.").send(player);
             return true;
         }
